@@ -246,10 +246,14 @@ class InsightService
             $totalConstructingLand += (int)$row->amount;
         });
 
-        $this->queueService->getSabotageQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
-            $buildingKey = str_replace('building_', '', $row->resource);
-            $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
-            $totalConstructingLand += (int)$row->amount;
+        $this->queueService->getRepairQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
+            # Units returning from sabotage should not count as land. Unsure why it's strpos() and not !strpos().
+            if(strpos('military_unit', $row->resource))
+            {
+                $buildingKey = str_replace('building_', '', $row->resource);
+                $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
+                $totalConstructingLand += (int)$row->amount;
+            }
         });
 
         $data['barren_land'] = $this->landCalculator->getTotalBarrenLand($target);

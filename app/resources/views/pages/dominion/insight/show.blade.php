@@ -648,7 +648,7 @@
             @slot('title', 'Incoming buildings')
             @slot('titleIconClass', 'fa fa-clock-o')
             @slot('titleExtra')
-                <span class="pull-right">Incoming Buildings: <strong>{{ number_format($queueService->getConstructionQueueTotal($dominion)) }}</strong> ({{ number_format((($queueService->getConstructionQueueTotal($dominion) / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
+                <span class="pull-right">Incoming Buildings: <strong>{{ number_format($queueService->getConstructionQueueTotal($dominion) + $queueService->getRepairQueueTotal($dominion)) }}</strong> ({{ number_format(((($queueService->getConstructionQueueTotal($dominion) + $queueService->getRepairQueueTotal($dominion)) / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
             @endslot
             @slot('noPadding', true)
 
@@ -680,6 +680,7 @@
                             @for ($i = 1; $i <= 12; $i++)
                                 @php
                                     $amount = $queueService->getConstructionQueueAmount($dominion, "building_{$building->key}", $i);
+                                    $amount =+ $queueService->getRepairQueueAmount($dominion, "building_{$building->key}", $i);
                                 @endphp
                                 <td class="text-center">
                                     @if ($amount === 0)
@@ -689,7 +690,7 @@
                                     @endif
                                 </td>
                             @endfor
-                            <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}")) }}</td>
+                            <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}") + $queueService->getRepairQueueTotalByResource($dominion, "building_{$building->key}")) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

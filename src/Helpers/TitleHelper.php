@@ -228,7 +228,7 @@ class TitleHelper
         {
             $rulerTitlePerksString .= '<li>' . $perk . '&nbsp;' . $value . '%</li>';
         }
-        $rulerTitlePerksString .= '<ul>';
+        $rulerTitlePerksString .= '</ul>';
 
         return $rulerTitlePerksString;
 

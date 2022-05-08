@@ -16,6 +16,8 @@ use OpenDominion\Models\Unit;
 
 use OpenDominion\Helpers\UnitHelper;
 
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
@@ -33,6 +35,8 @@ class SabotageActionService
 
     public function __construct()
     {
+        $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
@@ -179,7 +183,7 @@ class SabotageActionService
 
             if($spyStrengthCost > $saboteur->spy_strength)
             {
-                throw new GameException('You do not have enough spy strength to send that many units. You have ' . $saboteur->spy_strength . '% and would need ' . ($this->sabotageCalculator->getSpyStrengthCost($saboteur, $units)) . '% to send that many units.');
+                throw new GameException('You do not have enough spy strength to send that many units. You have ' . $saboteur->spy_strength . '% and would need ' . $spyStrengthCost . '% to send that many units.');
             }
 
             # END VALIDATION
@@ -324,6 +328,8 @@ class SabotageActionService
 
                 if($perk->key === 'sabotage_construction')
                 {
+                    $constructionBuildings = [];
+                    $sabotagedConstruction = [];
                     $baseDamage = (float)$spyopPerkValues;
                     $attribute = 'construction';
 
@@ -343,51 +349,129 @@ class SabotageActionService
                         $constructionBuildings[$buildingKey] = [$hours => $amount];
                     }
 
-                    $damageRemaining = $damage;
-                    foreach($constructionBuildings as $buildingKey => $construction)
+                    if(!empty($constructionBuildings))
                     {
-                        if($damageRemaining <= 0)
-                        {
-                            break;
-                        }
+                          $damageRemaining = $damage;
+                          foreach($constructionBuildings as $buildingKey => $construction)
+                          {
+                              if($damageRemaining <= 0)
+                              {
+                                  break;
+                              }
 
-                        $hours = key($construction);
-                        $newHours = min(12, $hours + 2);
+                              $hours = key($construction);
+                              $newHours = min(12, $hours + 2);
 
-                        $amount = $construction[$hours];
-                        $amountSabotaged = (int)min($amount, $damageRemaining);
+                              $amount = $construction[$hours];
+                              $amountSabotaged = (int)min($amount, $damageRemaining);
 
-                        $buildingResourceKey = 'building_' . $buildingKey;
+                              $buildingResourceKey = 'building_' . $buildingKey;
 
-                        $this->queueService->dequeueResourceForHour('construction', $target, $buildingResourceKey, $amountSabotaged, $hours);
-                        $this->queueService->queueResources('construction', $target, [$buildingResourceKey => $amountSabotaged], $newHours);
+                              $this->queueService->dequeueResourceForHour('construction', $target, $buildingResourceKey, $amountSabotaged, $hours);
+                              $this->queueService->queueResources('construction', $target, [$buildingResourceKey => $amountSabotaged], $newHours);
 
-                        $building = Building::where('key', $buildingKey)->first();
+                              $building = Building::where('key', $buildingKey)->first();
 
-                        $sabotagedConstruction[$buildingKey] = [
-                            'name' => $building->name,
-                            'amount_construction' => $amount,
-                            'amount_sabotaged' => $amountSabotaged,
-                            'hours_before' => $hours,
-                            'hours_after' => $newHours
-                            ];
+                              $sabotagedConstruction[$buildingKey] = [
+                                  'name' => $building->name,
+                                  'amount_construction' => $amount,
+                                  'amount_sabotaged' => $amountSabotaged,
+                                  'hours_before' => $hours,
+                                  'hours_after' => $newHours
+                                  ];
 
-                        $damageRemaining -= $amountSabotaged;
-                    }
+                              $damageRemaining -= $amountSabotaged;
+                          }
+                      }
 
-                    $this->queueService->setForTick(true); # ON
+                      $this->queueService->setForTick(true); # ON
 
+                      $this->statsService->updateStat($saboteur, 'sabotage_damage_construction', $damage);
 
-                    $this->statsService->updateStat($saboteur, 'sabotage_damage_construction', $damage);
-
-                    $this->sabotage['damage'][$perk->key] = [
-                        'ratio_multiplier' => $ratioMultiplier,
-                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
-                        'target_damage_multiplier' => $targetDamageMultiplier,
-                        'damage' => $damage,
-                        'damage_dealt' => $sabotagedConstruction
-                    ];
+                      $this->sabotage['damage'][$perk->key] = [
+                          'ratio_multiplier' => $ratioMultiplier,
+                          'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                          'target_damage_multiplier' => $targetDamageMultiplier,
+                          'damage' => $damage,
+                          'damage_dealt' => $sabotagedConstruction
+                      ];
                 }
+            }
+
+            if($perk->key == 'sabotage_building')
+            {
+                $attribute = 'building';
+                $buildingKey = (string)$spyopPerkValues[0];
+                $ratio = (float)$spyopPerkValues[1] / 100;
+                $this->sabotage['saboteur']['spy_strength_spent'];
+
+                $building = Building::where('key',$buildingKey)->first();
+
+                $targetBuildingsOwned = $this->buildingCalculator->getBuildingAmountOwned($target, $building);
+
+                $baseDamage = (float)$spyopPerkValues;
+
+                $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+                $damage = floor($damage);
+
+                $damageDealt = min($damage, $targetBuildingsOwned);
+
+                $this->buildingCalculator->removeBuildings($target, [$buildingKey => ['builtBuildingsToDestroy' => $damageDealt]]);
+                $this->queueService->queueResources('repair', $target, [('building_' . $buildingKey) => $damageDealt], 6);
+
+                $this->statsService->updateStat($saboteur, 'sabotage_buildings_damage_dealt', $damageDealt);
+                $this->statsService->updateStat($target, 'sabotage_buildings_damage_suffered', $damageDealt);
+
+                $this->sabotage['damage'][$perk->key] = [
+                    'ratio_multiplier' => $ratioMultiplier,
+                    'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                    'target_damage_multiplier' => $targetDamageMultiplier,
+                    'damage' => $damage,
+                    'damage_dealt' => $damageDealt,
+                    'building_key' => $building->key,
+                    'building_name' => $building->name
+                ];
+            }
+
+            if($perk->key == 'sabotage_improvement')
+            {
+                $attribute = 'improvement';
+                $improvementKey = (string)$spyopPerkValues[0];
+                $baseDamage = (float)$spyopPerkValues[1] / 100;
+                $this->sabotage['saboteur']['spy_strength_spent'];
+
+                $improvement = Improvement::where('key', $improvementKey)->first();
+
+                $targetImprovementPoints = $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement);
+
+                $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+                $damage = floor($damage);
+
+                $damageDealt = min($damage, $targetImprovementPoints);
+
+                $this->improvementCalculator->decreaseImprovements($target, [$improvementKey => $damage]);
+                $this->queueService->queueResources('restore', $target, ['improvement_' . $improvementKey => $damage], 6);
+
+                $this->statsService->updateStat($saboteur, 'sabotage_improvements_damage_dealt', $damageDealt);
+                $this->statsService->updateStat($target, 'sabotage_improvements_damage_suffered', $damageDealt);
+
+                $this->sabotage['damage'][$perk->key] = [
+                    'ratio_multiplier' => $ratioMultiplier,
+                    'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                    'target_damage_multiplier' => $targetDamageMultiplier,
+                    'damage' => $damage,
+                    'damage_dealt' => $damageDealt,
+                    'improvement_key' => $improvement->key,
+                    'improvements_name' => $improvement->name
+                ];
             }
 
             # Calculate spy units
@@ -457,15 +541,13 @@ class SabotageActionService
             $this->notificationService->queueNotification('sabotage', [
                 '_routeParams' => [(string)$this->sabotageEvent->id],
                 'saboteur_dominion_id' => $saboteur->id,
-                'unitsKilled' => $this->sabotage['killed_units'],
-                'spyop' => $spyop->key,
-                'damage' => $this->sabotage['damage']
+                'data' => $this->sabotage
             ]);
 
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->sabotage);
+            #    dd($this->sabotage);
             }
 
             $target->save(['event' => HistoryService::EVENT_ACTION_SABOTAGE]);
@@ -475,15 +557,11 @@ class SabotageActionService
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
 
-        $saboteur->most_recent_sabotage_resource = $resource->key;
-
         $message = sprintf(
-            'Your %s infiltrate %s (#%s), sabotageing %s %s.',
+            'Your %s sabotage %s (#%s).',
             (isset($units['spies']) and array_sum($units) < $units['spies']) ? 'spies' : 'units',
             $target->name,
-            $target->realm->number,
-            number_format($this->sabotage['amount_stolen']),
-            $this->sabotage['resource']['name']
+            $target->realm->number
         );
 
         $alertType = 'success';

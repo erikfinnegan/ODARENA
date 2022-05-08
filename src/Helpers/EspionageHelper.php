@@ -28,9 +28,9 @@ class EspionageHelper
         $spyopEffects = [
             'kill_draftees' => 'Assassinate draftees (base %s per spy unit).',
             'kill_peasants' => 'Assassinate peasants (base %s per spy unit).',
-            'reduce_wizard_strength' => 'Reduce wizard strength (base %s damage).',
+            'reduce_wizard_strength' => 'Reduce wizard strength (base damage %s).',
 
-            'sabotage_building' => 'Sabotage %1$s buildings (base %2$s per spy unit).',
+            'sabotage_building' => 'Sabotage %1$s buildings (base damage %2$s per spy unit).',
             'sabotage_construction' => 'Sabotage buildings under construction (base %1$s per spy unit).',
             'sabotage_improvement' => 'Sabotage %1$s improvements (base %2$s%%).',
 

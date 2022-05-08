@@ -85,13 +85,9 @@
                                       <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementTotalAmountInvested($selectedDominion)) }}</td>
                                   </tr>
 
-                              @php
-                                  $totalSabotaged = 0;
-                              @endphp
-                              @foreach($queueService->getSabotageQueue($selectedDominion) as $sabotage)
-                                  @php
-                                  $totalSabotaged += $sabotage->amount;
-                                  @endphp
+                              {{ $totalSabotaged = 0 }}
+                              @foreach($queueService->getRestoreQueue($selectedDominion) as $restore)
+                                  {{ $totalSabotaged += $restore->amount }}
                               @endforeach
                               @if($totalSabotaged > 0)
                                   <tr>

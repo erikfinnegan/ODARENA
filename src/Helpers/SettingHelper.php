@@ -89,14 +89,26 @@ class SettingHelper
             'sabotage_completed' => [
                 'label' => 'Sabotage restored',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.improvements'),
-                'iconClass' => 'fa fa-arrow-up fa-fw text-green',
+                'route' => route('dominion.sabotage'),
+                'iconClass' => 'fa fa-user-secret fa-fw text-green',
             ],
             'returning_completed' => [
                 'label' => 'Units returned from battle',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.military'),
                 'iconClass' => 'ra ra-boot-stomp text-green',
+            ],
+            'repair_completed' => [
+                'label' => 'Repair completed',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.buildings'),
+                'iconClass' => 'ra ra-repair ra-fw text-green',
+            ],
+            'restore_completed' => [
+                'label' => 'Restoration completed',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.buildings'),
+                'iconClass' => 'ra ra-gear-hammer ra-fw text-green',
             ],
             'beneficial_magic_dissipated' => [
                 'label' => 'Beneficial magic effect dissipated',
@@ -324,11 +336,21 @@ class SettingHelper
                 );
 
             case 'hourly_dominion.sabotage_completed':
-                $improvements = array_sum($data);
-
                 return sprintf(
-                    'Sabotage of %s improvements has been restored',
-                    number_format($improvements)
+                    '%s units have returned home from sabotage',
+                    number_format(array_sum($data))
+                );
+
+            case 'hourly_dominion.repair_completed':
+                return sprintf(
+                    '%s sabotaged buildings have been repaired',
+                    number_format(array_sum($data))
+                );
+
+            case 'hourly_dominion.restore_completed':
+                return sprintf(
+                    '%s sabotaged improvements have been restored',
+                    number_format(array_sum($data))
                 );
 
             case 'hourly_dominion.returning_completed':

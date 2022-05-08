@@ -692,6 +692,8 @@ class TickService
         $incomingQueue = DB::table('dominion_queue')
             ->where('dominion_id', $dominion->id)
             ->where('source', '!=', 'construction')
+            ->where('source', '!=', 'repair')
+            ->where('source', '!=', 'restore')
             ->where('hours', '=', 1)
             ->get();
 

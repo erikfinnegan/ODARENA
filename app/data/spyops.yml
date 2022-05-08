@@ -30,7 +30,7 @@ sabotage_construction:
     - Reptilians
     - Myconid
   perks:
-    sabotage_construction: 0.001 #
+    sabotage_construction: 0.001
 
 sabotage_building_temples:
   name: Sabotage Temples
@@ -39,7 +39,7 @@ sabotage_building_temples:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_building: temple,2 # resource, rate, max per spy
+    sabotage_building: temple,0.04 # resource, rate, max per spy
 
 sabotage_improvement_defense:
   name: Sabotage Defense
@@ -47,7 +47,7 @@ sabotage_improvement_defense:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: defense,3 # resource, rate, max per spy
+    sabotage_improvement: defense,200 # resource, rate, max per spy
 
 sabotage_improvement_offense:
   name: Sabotage Offense
@@ -55,7 +55,7 @@ sabotage_improvement_offense:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: offense,3 # resource, rate, max per spy
+    sabotage_improvement: offense,200 # resource, rate, max per spy
 
 sabotage_improvement_farming:
   name: Sabotage Farming
@@ -63,7 +63,7 @@ sabotage_improvement_farming:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: farming,5 # resource, rate, max per spy
+    sabotage_improvement: farming,500 # resource, rate, max per spy
 
 propaganda:
   name: Propaganda

@@ -849,6 +849,16 @@ sabotage_draftees_lost:
 sabotage_units_lost:
   name: Units lost to sabotage
 
+sabotage_buildings_damage_dealt:
+  name: Sabotage damage dealt to buildings
+sabotage_buildings_damage_suffered:
+  name: Sabotage damage suffered to buildings
+
+sabotage_improvements_damage_dealt:
+  name: Sabotage damage dealt to improvements
+sabotage_improvements_damage_suffered:
+  name: Sabotage damage suffered to improvements
+
 # Round stats
 day01_top_op:
   name: Day 1 Highest Offensive Power Seen

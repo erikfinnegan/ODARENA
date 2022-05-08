@@ -69,7 +69,7 @@ kelp:
   buy: 2.5
   sell: 2
   exclusive_races:
-    - Glimj
+    - Glimjir
 
 lumber:
   name: Lumber
@@ -125,7 +125,7 @@ pearls:
   buy: null
   sell: 3
   exclusive_races:
-    - Glimj
+    - Glimjir
 
 prisoner:
   name: Prisoner

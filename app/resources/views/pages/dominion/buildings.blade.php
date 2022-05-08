@@ -428,14 +428,14 @@
                               </td>
                               @for ($i = 1; $i <= 12; $i++)
                                   <td class="text-center">
-                                      @if ($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i) === 0)
+                                      @if (($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i) + $queueService->getRepairQueueAmount($selectedDominion, "building_{$building->key}", $i)) === 0)
                                           -
                                       @else
-                                          {{ number_format($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i)) }}
+                                          {{ number_format(($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i) + $queueService->getRepairQueueAmount($selectedDominion, "building_{$building->key}", $i))) }}
                                       @endif
                                   </td>
                               @endfor
-                              <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }}</td>
+                              <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}") + $queueService->getRepairQueueTotalByResource($selectedDominion, "building_{$building->key}")) }}</td>
                           </tr>
                       @endforeach
                   </tbody>

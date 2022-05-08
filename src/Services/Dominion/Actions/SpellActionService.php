@@ -386,6 +386,24 @@ class SpellActionService
                     $this->resourceService->updateResources($caster, [$targetResourceKey => $amountAdded]);
                 }
 
+                # Resource conversion capped
+                if($perk->key === 'resource_conversion_capped')
+                {
+                    $sourceResourceKey = $spellPerkValues[0];
+                    $targetResourceKey = $spellPerkValues[1];
+                    $ratio = $spellPerkValues[2] / 100;
+                    $exchangeRate = $spellPerkValues[3];
+                    $sourceMax = $spellPerkValues[4];
+
+                    $amountRemoved = ceil(min($this->resourceCalculator->getAmount($caster, $sourceResourceKey) * $ratio, $sourceMax));
+                    $amountAdded = floor($amountRemoved / $exchangeRate);
+
+                    dd($amountRemoved, $amountAdded);
+
+                    $this->resourceService->updateResources($caster, [$sourceResourceKey => $amountRemoved*-1]);
+                    $this->resourceService->updateResources($caster, [$targetResourceKey => $amountAdded]);
+                }
+
                 # Resource conversion
                 if($perk->key === 'peasant_to_resources_conversion')
                 {

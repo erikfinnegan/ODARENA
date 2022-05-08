@@ -1237,7 +1237,7 @@ blast_furnace:
     - Firewalker
   land_type: mountain
   perks:
-    extra_units_trained: 1,1,20 # Every 1% gives 1% extra units, max +20%
+    extra_units_trained: 2,1,20 # Every 1% gives 1% extra units, max +20%
 
 # END FIREWALKER
 
