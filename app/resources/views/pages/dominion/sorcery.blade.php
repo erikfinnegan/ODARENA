@@ -189,6 +189,72 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Active Spells</h3>
+                    </div>
+                    <div class="box-body">
+                      <h4>Hostile Spells You Have Cast</h4>
+                      <table class="table table-condensed">
+                          <colgroup>
+                              <col>
+                              <col>
+                              <col width="100">
+                          </colgroup>
+                          <tr>
+                              <th>Cast On</th>
+                              <th>Spell</th>
+                              <th>Duration</th>
+                          </tr>
+                          @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                                  <tr>
+                                      <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                      <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                      <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                                  </tr>
+                          @endforeach
+                          </table>
+                        <h4>Hostile Spells Cast On You</h4>
+                        <table class="table table-condensed">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col width="100">
+                                <col width="50">
+                            </colgroup>
+                            <tr>
+                                <th>Spell</th>
+                                <th>Duration</th>
+                                <th></th>
+                            </tr>
+                            @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                                <tr>
+                                    <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                    <td>{{ $activePassiveSpellCast->duration . ' ' . str_plural('tick', $activePassiveSpellCast->duration)}}</td>
+                                    <td>
+                                        @if($activePassiveSpellCast->spell->class !== 'invasion')
+                                            <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
+                                                @csrf
+                                                <input type="hidden" name="type" value="break_spell">
+                                                <input type="hidden" name="operation" value="{{ $activePassiveSpellCast->spell->key }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $activePassiveSpellCast->spell->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
+                                                    <button type="submit" class="btn btn-danger btn-block">
+                                                        <i class="ra ra-explosive-materials"></i>
+                                                    </button>
+                                                </span>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-sm-12 col-md-3">
