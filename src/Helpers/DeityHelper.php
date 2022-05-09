@@ -143,7 +143,7 @@ class DeityHelper
             }
 
             $perkValue = str_replace('_', ' ',ucwords($perkValue));
-            $effectStrings[] = sprintf($deityEffects[$perk->key], $perkValue);
+            $effectStrings[] = sprintf($deityEffects[$perk->key], display_number_format($perkValue, 4));
         }
 
         return $effectStrings;

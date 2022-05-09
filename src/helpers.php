@@ -67,6 +67,21 @@ if (!function_exists('generate_sentence_from_array')) {
     }
 }
 
+if (!function_exists('display_number_format')) {
+    /**
+     * Generates a string with conjunction from an array of strings.
+     *
+     * @param array $stringParts
+     * @param string $delimiter
+     * @param string $lastDelimiter
+     * @return string
+     */
+    function display_number_format(float $number, int $decimals = 2): string
+    {
+        return (strpos($number, '.') !== false) ? number_format($number, $decimals) : number_format($number);
+    }
+}
+
 if (!function_exists('dominion_attr_display')) {
     /**
      * Returns a string suitable for display with prefix removed.
