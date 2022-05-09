@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "Scribes | Factions")
 
 @section('content')
 @include('partials.scribes.nav')
