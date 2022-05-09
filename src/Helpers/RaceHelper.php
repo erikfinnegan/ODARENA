@@ -45,6 +45,11 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Rezoning cost';
                 break;
+            case 'barren_housing_only_on_water':
+                $negativeBenefit = true;
+                $description = 'No housing from land other than water';
+                $booleanValue = true;
+                break;
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
                 $description = 'Extra housing from barren land';
@@ -222,7 +227,7 @@ class RaceHelper
                 break;
           case 'cannot_train_archmages':
                 $negativeBenefit = true;
-                $description = 'Cannot train Arch Mages';
+                $description = 'Cannot train Archmages';
                 $booleanValue = true;
                 break;
           case 'explore_cost':

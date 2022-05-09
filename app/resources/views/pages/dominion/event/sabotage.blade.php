@@ -74,6 +74,7 @@
                                 @endforeach
 
                                 @if($canViewSource)
+                                    <tr>
                                         <td class="text-right">Spy strength:</td>
                                         <td>{{ number_format($event['data']['saboteur']['spy_strength_spent']) }}%</td>
                                     </tr>

@@ -859,6 +859,16 @@ sabotage_improvements_damage_dealt:
 sabotage_improvements_damage_suffered:
   name: Sabotage damage suffered to improvements
 
+sabotage_wizard_strength_damage_dealt:
+  name: Sabotage damage dealt to wizard strength
+sabotage_wizard_strength_damage_suffered:
+  name: Sabotage damage suffered to wizard strength
+
+sabotage_morale_damage_dealt:
+  name: Sabotage damage dealt to morale
+sabotage_morale_damage_suffered:
+  name: Sabotage damage suffered to morale
+
 # Round stats
 day01_top_op:
   name: Day 1 Highest Offensive Power Seen

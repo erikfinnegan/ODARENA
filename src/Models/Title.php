@@ -59,6 +59,7 @@ class Title extends AbstractModel
         $bonus += $dominion->getImprovementPerkMultiplier('title_bonus');
         $bonus += $dominion->getBuildingPerkMultiplier('title_bonus');
         $bonus += $dominion->race->getPerkMultiplier('title_bonus');
+
         return $bonus;
     }
 

@@ -4,6 +4,7 @@ description:
 home_land_type: water
 playable: 1
 skill_level: 1
+experimental: 1
 
 peasants_alias: serf
 draftees_alias: draftee

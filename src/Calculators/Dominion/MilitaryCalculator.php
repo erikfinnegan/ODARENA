@@ -1854,6 +1854,12 @@ class MilitaryCalculator
         // Land improvements
         $multiplier += $dominion->getLandImprovementPerkMultiplier('wizard_strength');
 
+        // Title
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('wizard_strength') * $dominion->title->getPerkBonus($dominion);
+        }
+
         return (1 + $multiplier);
     }
 

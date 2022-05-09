@@ -100,7 +100,7 @@ class TrainActionService
         }
         if ($dominion->race->getPerkValue('cannot_train_archmages') == 1 and isset($data['archmages']) and $data['archmages'] > 0)
         {
-            throw new GameException($dominion->race->name . ' cannot train Arch Mages.');
+            throw new GameException($dominion->race->name . ' Cannot train Archmages.');
         }
 
         # Non-resource costs

@@ -156,7 +156,14 @@ class PopulationCalculator
 
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
-            $population += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($housingPerBarrenAcre + $dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population'));
+            if($dominion->race->getPerkValue('barren_housing_only_on_water') and $landType !== 'water')
+            {
+                $population += 0;
+            }
+            else
+            {
+                $population += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($housingPerBarrenAcre + $dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population'));
+            }
         }
 
         return $population;

@@ -293,7 +293,40 @@ class SabotageActionService
                     ];
                 }
 
-                if($perk->key === 'reduce_wizard_strength')
+                if($perk->key === 'decrease_morale')
+                {
+                    $baseDamage = (float)$spyopPerkValues;
+                    $attribute = 'morale';
+
+                    $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                    $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                    $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                    $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+
+                    $damage = floor($damage);
+
+                    $damageDealt = min($damage, $target->morale);
+
+                    $moraleBefore = $target->morale;
+                    $target->morale -= $damageDealt;
+                    $moraleAfter = $wizardStrengthBefore - $damageDealt;
+
+                    $this->statsService->updateStat($saboteur, 'sabotage_morale_damage_dealt', $damageDealt);
+                    $this->statsService->updateStat($target, 'sabotage_morale_damage_suffered', $damageDealt);
+
+                    $this->sabotage['damage'][$perk->key] = [
+                        'ratio_multiplier' => $ratioMultiplier,
+                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                        'target_damage_multiplier' => $targetDamageMultiplier,
+                        'damage' => $damage,
+                        'damage_dealt' => $damageDealt,
+                        'morale_before' => (int)$moraleBefore,
+                        'morale_after' => (int)$moraleAfter,
+                    ];
+                }
+
+                if($perk->key === 'decrease_wizard_strength')
                 {
                     $baseDamage = (float)$spyopPerkValues;
                     $attribute = 'wizard_strength';
@@ -312,8 +345,8 @@ class SabotageActionService
                     $target->wizard_strength -= $damageDealt;
                     $wizardStrengthAfter = $wizardStrengthBefore - $damageDealt;
 
-                    $this->statsService->updateStat($saboteur, 'sabotage_draftees_killed', $damageDealt);
-                    $this->statsService->updateStat($target, 'sabotage_draftees_lost', $damageDealt);
+                    $this->statsService->updateStat($saboteur, 'sabotage_wizard_strength_damage_dealt', $damageDealt);
+                    $this->statsService->updateStat($target, 'sabotage_wizard_strength_damage_suffered', $damageDealt);
 
                     $this->sabotage['damage'][$perk->key] = [
                         'ratio_multiplier' => $ratioMultiplier,

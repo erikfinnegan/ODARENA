@@ -16,7 +16,7 @@ magic_snare:
   name: Magic Snare
   scope: hostile
   perks:
-    reduce_wizard_strength: 0.01
+    decrease_wizard_strength: 0.02
 
 sabotage_construction:
   name: Sabotage Construction
@@ -39,7 +39,7 @@ sabotage_building_temples:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_building: temple,0.04 # resource, rate, max per spy
+    sabotage_building: temple,0.04
 
 sabotage_improvement_defense:
   name: Sabotage Defense
@@ -47,7 +47,7 @@ sabotage_improvement_defense:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: defense,200 # resource, rate, max per spy
+    sabotage_improvement: defense,2000
 
 sabotage_improvement_offense:
   name: Sabotage Offense
@@ -55,7 +55,7 @@ sabotage_improvement_offense:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: offense,200 # resource, rate, max per spy
+    sabotage_improvement: offense,2000
 
 sabotage_improvement_farming:
   name: Sabotage Farming
@@ -63,7 +63,7 @@ sabotage_improvement_farming:
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: farming,500 # resource, rate, max per spy
+    sabotage_improvement: irrigation,5000
 
 propaganda:
   name: Propaganda
@@ -72,4 +72,4 @@ propaganda:
   exclusive_races:
     - Cult
   perks:
-    decrease_morale: 0.01 # resource, rate, max per spy
+    decrease_morale: 0.008
