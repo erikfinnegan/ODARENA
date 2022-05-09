@@ -334,7 +334,7 @@ class TrainingCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->getTitlePerkMultiplier();
         }
 
         if(in_array($resourceType, $discountableResourceTypesByTechFood))

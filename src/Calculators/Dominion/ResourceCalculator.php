@@ -124,7 +124,7 @@ class ResourceCalculator
 
         if(isset($dominion->title))
         {
-            $production += $dominion->title->getPerkValue($resourceKey . '_production_raw') * $dominion->title->getPerkBonus($dominion);;
+            $production += $dominion->title->getPerkValue($resourceKey . '_production_raw') * $dominion->getTitlePerkMultiplier();;
         }
 
         if(isset($dominion->race->peasants_production[$resourceKey]))
@@ -300,7 +300,7 @@ class ResourceCalculator
 
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod') * $dominion->getTitlePerkMultiplier();
         }
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
 
@@ -544,7 +544,7 @@ class ResourceCalculator
         $perk += $dominion->realm->getArtefactPerkMultiplier('exchange_rate');
 
         // Ruler Title: Merchant
-        $perk += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);
+        $perk += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->getTitlePerkMultiplier();
 
         $perk = min($perk, 2);
 

@@ -64,7 +64,7 @@ class ProductionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('xp_generation_mod') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('xp_generation_mod') * $dominion->getTitlePerkMultiplier();
         }
 
         // Spell

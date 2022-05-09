@@ -91,7 +91,7 @@ class ImprovementCalculator
             # Title: improvements (Engineer)
             if(isset($dominion->title) and $dominion->title->getPerkMultiplier('improvements'))
             {
-                $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkBonus($dominion);
+                $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->getTitlePerkMultiplier();
             }
 
             # Check units

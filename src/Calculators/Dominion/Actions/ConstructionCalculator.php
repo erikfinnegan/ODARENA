@@ -209,7 +209,7 @@ class ConstructionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('construction_cost') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('construction_cost') * $dominion->getTitlePerkMultiplier();
         }
 
         // Improvements
@@ -226,7 +226,7 @@ class ConstructionCalculator
         $ticks = 12;
 
         $ticks -= $dominion->race->getPerkValue('increased_construction_speed');
-        $ticks -= $dominion->title->getPerkValue('increased_construction_speed') * $dominion->title->getPerkBonus($dominion);;
+        $ticks -= $dominion->title->getPerkValue('increased_construction_speed') * $dominion->getTitlePerkMultiplier();;
 
         $ticks *= (1 + $dominion->getImprovementPerkMultiplier('construction_time'));
 

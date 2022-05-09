@@ -67,7 +67,7 @@ class ExplorationCalculator
         // Title (returns negative value)
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('explore_cost') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('explore_cost') * $dominion->getTitlePerkMultiplier();
         }
 
         // Racial bonus
@@ -178,7 +178,7 @@ class ExplorationCalculator
         $ticks = 12;
 
         # Title: Pathfinder
-        $ticks += $dominion->title->getPerkValue('explore_time') * $dominion->title->getPerkBonus($dominion);
+        $ticks += $dominion->title->getPerkValue('explore_time') * $dominion->getTitlePerkMultiplier();
 
         # Ugly, doesn't show up in land advisor if greater than 12
         $ticks += $dominion->race->getPerkValue('explore_time');

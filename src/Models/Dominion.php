@@ -1166,6 +1166,18 @@ class Dominion extends AbstractModel
         return ($this->getSpellPerkValue($key) / 100);
     }
 
+    # TITLE
+    public function getTitlePerkMultiplier(): float
+    {
+        $multiplier = 1;
+        $multiplier += (1 - exp(-pi()*$this->xp / 100000));
+        #$multiplier += $this->getImprovementPerkMultiplier('title_bonus'); # Breaks
+        $multiplier += $this->getBuildingPerkMultiplier('title_bonus');
+        $multiplier += $this->race->getPerkMultiplier('title_bonus');
+
+        return $multiplier;
+    }
+
     # IMPROVEMENTS
 
     protected function getImprovementPerks()
@@ -1334,7 +1346,7 @@ class Dominion extends AbstractModel
         $multiplier += min($this->devotion->duration * 0.1 / 100, 1);
         $multiplier += $this->getBuildingPerkMultiplier('deity_power');
         $multiplier += $this->race->getPerkMultiplier('deity_power');
-        $multiplier += $this->title->getPerkMultiplier('deity_power'); # Breaks the game: * $this->title->getPerkBonus($this);
+        $multiplier += $this->title->getPerkMultiplier('deity_power') * $this->getTitlePerkMultiplier();
 
         return (float)$this->deity->getPerkValue($perkKey) * $multiplier;
     }

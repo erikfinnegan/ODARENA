@@ -220,7 +220,7 @@ class TitleHelper
             $perkDescription = $perkDescription['description'];
             $value = $dominion->title->getPerkMultiplier($perk->key);
 
-            $rulerTitlePerks[$perkDescription] = round(($value * $dominion->title->getPerkBonus($dominion))*100,2);
+            $rulerTitlePerks[$perkDescription] = round(($value * $dominion->getTitlePerkMultiplier())*100,2);
         }
 
         $rulerTitlePerksString = '<ul>';

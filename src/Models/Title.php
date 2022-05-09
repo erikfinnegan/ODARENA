@@ -47,23 +47,6 @@ class Title extends AbstractModel
     }
 
     /**
-     * Gets a Title's perk XP Bonus.
-     *
-     * @param string $key
-     * @return float
-     */
-    public function getPerkBonus(Dominion $dominion): float
-    {
-        $bonus = 1;
-        $bonus += (1 - exp(-pi()*$dominion->xp / 100000));
-        $bonus += $dominion->getImprovementPerkMultiplier('title_bonus');
-        $bonus += $dominion->getBuildingPerkMultiplier('title_bonus');
-        $bonus += $dominion->race->getPerkMultiplier('title_bonus');
-
-        return $bonus;
-    }
-
-    /**
      * @param string $key
      * @return float
      */

@@ -136,7 +136,7 @@ class RezoningCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('rezone_cost') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('rezone_cost') * $dominion->getTitlePerkMultiplier();
         }
 
         $multiplier = max($multiplier, $maxReduction);

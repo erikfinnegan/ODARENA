@@ -60,7 +60,7 @@ class SpellCalculator
 
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->getTitlePerkMultiplier();
         }
 
         return max(0.1, $multiplier);
@@ -369,7 +369,7 @@ class SpellCalculator
         $amount += $dominion->getBuildingPerkValue('wizard_strength_recovery');
         $amount += $dominion->getTechPerkValue('wizard_strength_recovery');
         $amount += $dominion->getSpellPerkValue('wizard_strength_recovery');
-        $amount += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+        $amount += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->getTitlePerkMultiplier();
 
         $amount = floor($amount);
 

@@ -600,7 +600,7 @@ class ArtefactActionService
         $attackerPrestigeChangeMultiplier += $attacker->getSpellPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getDeityPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->realm->getArtefactPerkMultiplier('prestige_gains');
-        $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
+        $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->getTitlePerkMultiplier();
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
@@ -1001,7 +1001,7 @@ class ArtefactActionService
             $attackerMoraleChangeMultiplier = 1;
             $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
             $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
-            $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
+            $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->getTitlePerkMultiplier();
 
             # Look for lowers_target_morale_on_successful_invasion
             for ($slot = 1; $slot <= 4; $slot++)

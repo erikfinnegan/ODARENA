@@ -90,7 +90,7 @@ class EspionageCalculator
         $amount += $dominion->getBuildingPerkValue('spy_strength_recovery');
         $amount += $dominion->getTechPerkValue('spy_strength_recovery');
         $amount += $dominion->getSpellPerkValue('spy_strength_recovery');
-        $amount += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+        $amount += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->getTitlePerkMultiplier();
 
         $amount = floor($amount);
 

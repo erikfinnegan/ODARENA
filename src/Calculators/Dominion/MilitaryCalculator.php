@@ -1721,7 +1721,7 @@ class MilitaryCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->getTitlePerkMultiplier();
         }
 
         return (1 + $multiplier);
@@ -1857,7 +1857,7 @@ class MilitaryCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('wizard_strength') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('wizard_strength') * $dominion->getTitlePerkMultiplier();
         }
 
         return (1 + $multiplier);
