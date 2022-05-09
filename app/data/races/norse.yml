@@ -37,7 +37,7 @@ units:
       defense: 6
     perks:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
-      casualties_on_defense: 50 # +50% casualties
+      casualties_on_offense: 50 # +50% casualties
       increases_enemy_casualties_on_defense: 1
       faster_return_if_paired_multiple: 2,2,120 # slot, ticks, amount
 
