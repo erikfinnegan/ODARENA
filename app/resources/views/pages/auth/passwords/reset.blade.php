@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "ODARENA | Reset Password")
 
 @section('content')
     <div class="row">

@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', 'ODARENA | Free browser and text based strategy fantasy game')
 
 @section('content')
     <div class="row">

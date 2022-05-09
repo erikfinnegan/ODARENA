@@ -1,28 +1,27 @@
 @extends('layouts.master')
 
 @section('page-header', 'Terms and Conditions')
+@section('title', "Terms and Conditions")
 
 @section('content')
 
 <style>
+    ol.tc
+    {
+      counter-reset: item;
+    }
 
-ol.tc
-{
-  counter-reset: item;
-}
+    ol.tc li
+    {
+      display: block;
+      line-height: 1.5;
+    }
 
-ol.tc li
-{
-  display: block;
-  line-height: 1.5;
-}
-
-ol.tc li:before
-{
-  content: counters(item, ".") " ";
-  counter-increment: item;
-}
-
+    ol.tc li:before
+    {
+      content: counters(item, ".") " ";
+      counter-increment: item;
+    }
 </style>
 
 <div class="box box-primary">

@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "Chronicles | Round {$dominion->round->number} | {$dominion->name}")
 
 @section('content')
 

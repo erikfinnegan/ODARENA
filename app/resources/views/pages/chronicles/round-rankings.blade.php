@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "Chronicles | Round {$round->number} Rankings")
 
 @section('content')
 <div class="box box-primary">

@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', 'ODARENA | Register Account')
 
 @section('content')
     <div class="row">

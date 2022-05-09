@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('page-header', 'Settings')
+@section('title', 'Settings')
 
 @section('content')
     @php

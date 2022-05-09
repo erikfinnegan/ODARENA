@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "Chronicles | Ruler | {$user->display_name}")
 
 @section('content')
 

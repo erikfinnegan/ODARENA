@@ -60,7 +60,7 @@
                                 <tbody>
                                 @foreach($event->data['damage'] as $perkKey => $perkDamageData)
                                     <tr>
-                                        <td class="text-right">{{ $sorceryHelper->getPerkKeyHeader($perkKey) }}:</td>
+                                        <td class="text-right">{{ $sabotageHelper->getPerkKeyHeader($perkKey) }}:</td>
                                         <td>
                                             <span class="text-{{ $class }}">
                                                 {{ number_format($perkDamageData['damage_dealt']) }}

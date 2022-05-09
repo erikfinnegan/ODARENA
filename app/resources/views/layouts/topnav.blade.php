@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>@yield('title', 'ODARENA')</title>
+    <title>ODARENA | @yield('title')</title>
 
     <link rel="author" href="{{ asset('humans.txt') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">

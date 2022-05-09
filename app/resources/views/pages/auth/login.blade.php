@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', 'ODARENA | Login')
 
 @section('content')
 

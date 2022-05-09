@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('page-header', "Round {$round->number} of ODARENA")
+@section('title', "Round {$round->number} Registration")
 
 @section('content')
-
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>

@@ -1,4 +1,5 @@
 @extends('layouts.topnav')
+@section('title', "Chronicles | Stat | {$statsHelper->getStatName($statKey)}")
 
 @section('content')
 <div class="box box-primary">

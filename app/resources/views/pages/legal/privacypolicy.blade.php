@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('page-header', 'Privacy Policy')
+@section('title', "Privacy Policy")
 
 @section('content')
 <div class="box box-primary">
