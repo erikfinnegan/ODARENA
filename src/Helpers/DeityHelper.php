@@ -115,6 +115,7 @@ class DeityHelper
             // Improvements
             'improvements' => '%s%% improvements',
             'improvement_points' => '%s%% improvement points',
+            'improvements_interest' => '%s%% improvements interest',
 
             // Land and Construction
             'land_discovered' => '%s%% land discovered on successful invasions',

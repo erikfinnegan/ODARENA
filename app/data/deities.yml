@@ -1,3 +1,5 @@
+# Refrain from giving deities direct improvement bonuses (like Schools, Strongholds). Creates circular reference/infinite loop.
+
 azk_hurum:
   name: Azk'Hurum
   range_multiplier: 0.60
@@ -84,7 +86,7 @@ ib_tham:
   perks:
     amount_stolen: 20
     offensive_power_on_retaliation: 10
-    improvements: -25
+    xp_generation_mod: -2.5
 
 ix:
     name: Ix
@@ -196,7 +198,7 @@ voiddeity2:
   exclusive_races:
     - Void
   perks:
-    improvements: 10
+    improvements_interest: 10
     rezone_cost: -20
     unit_mana_costs: 5
     cannot_explore: 1

@@ -1171,7 +1171,7 @@ class Dominion extends AbstractModel
     {
         $multiplier = 1;
         $multiplier += (1 - exp(-pi()*$this->xp / 100000));
-        #$multiplier += $this->getImprovementPerkMultiplier('title_bonus'); # Breaks
+        $multiplier += $this->getImprovementPerkMultiplier('title_bonus');
         $multiplier += $this->getBuildingPerkMultiplier('title_bonus');
         $multiplier += $this->race->getPerkMultiplier('title_bonus');
 
@@ -1226,7 +1226,7 @@ class Dominion extends AbstractModel
         $multiplier += $this->getBuildingPerkMultiplier('improvements_capped');
         $multiplier += $this->getSpellPerkMultiplier('improvements');
         $multiplier += $this->getTechPerkMultiplier('improvements');
-        $multiplier += $this->getDeityPerkMultiplier('improvements');
+        #$multiplier += $this->getDeityPerkMultiplier('improvements'); # Breaks
         $multiplier += $this->race->getPerkMultiplier('improvements_max');
         $multiplier += $this->realm->getArtefactPerkMultiplier('improvements');
 

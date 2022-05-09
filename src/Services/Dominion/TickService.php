@@ -1383,6 +1383,7 @@ class TickService
             $multiplier += $dominion->getSpellPerkMultiplier('improvements_interest');
             $multiplier += $dominion->getImprovementPerkMultiplier('improvements_interest');
             $multiplier += $dominion->getTechPerkMultiplier('improvements_interest');
+            $multiplier += $dominion->getDeityPerkMultiplier('improvements_interest');
 
             $improvementInterestPerk *= $multiplier;
 
