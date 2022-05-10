@@ -1805,7 +1805,15 @@ class MilitaryCalculator
                 $landType = (string)$landPerkData[2];
 
                 $wizards += $dominion->{"military_unit{$unit->slot}"} * (((($dominion->{'land_' . $landType} / $this->landCalculator->getTotalLand($dominion)) * 100) / $ratio) * $power);
+            }
 
+            if ($landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_wizard_on_" . $type ."_from_land"), null))
+            {
+                $power = (float)$landPerkData[0];
+                $ratio = (float)$landPerkData[1];
+                $landType = (string)$landPerkData[2];
+
+                $wizards += $dominion->{"military_unit{$unit->slot}"} * (((($dominion->{'land_' . $landType} / $this->landCalculator->getTotalLand($dominion)) * 100) / $ratio) * $power);
             }
 
             # Check for wizard_from_title

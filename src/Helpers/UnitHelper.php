@@ -66,7 +66,12 @@ class UnitHelper
 
     public function isUnitOffensiveWizard(Unit $unit): bool
     {
-        return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense') or $unit->getPerkValue('counts_as_wizard_from_land'));
+        return (
+                $unit->getPerkValue('counts_as_wizard') or 
+                $unit->getPerkValue('counts_as_wizard_offense') or 
+                $unit->getPerkValue('counts_as_wizard_on_offense_from_land') or 
+                $unit->getPerkValue('counts_as_wizard_from_land')
+            );
     }
 
     public function getUnitHelpString(string $unitType, Race $race, array $unitPowerWithPerk = null): ?string
@@ -137,11 +142,11 @@ class UnitHelper
             'offense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (offensive), (max +%2$s).',
             'defense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (defensive), (max +%2$s).',
 
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recently invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recently invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
 
-            'offense_if_recently_victorious' => 'Offense increased by %1$s if recenty victorious (in the last %2$s ticks).',
-            'defense_if_recently_victorious' => 'Defense increased by %1$s if recenty victorious (in the last %2$s ticks).',
+            'offense_if_recently_victorious' => 'Offense increased by %1$s if recently victorious (in the last %2$s ticks).',
+            'defense_if_recently_victorious' => 'Defense increased by %1$s if recently victorious (in the last %2$s ticks).',
 
             'offense_if_target_recently_invaded' => 'Offense increased by %1$s if target was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_target_recently_invaded' => 'Defense increased by %1$s if invader was invaded (in the last six hours, includes non-overwhelmed failed invasions).',

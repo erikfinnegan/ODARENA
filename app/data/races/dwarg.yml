@@ -24,7 +24,6 @@ improvement_resources:
 
 perks:
   salvaging: 50
-  max_population: 15
 
 units:
   - name: Miner
