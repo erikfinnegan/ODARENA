@@ -28,6 +28,7 @@ class ImprovementHelper
             'marshling_production_mod' => 'marshling spawning',
             'miasma_production_mod' => 'miasma extraction',
             'sapling_production_mod' => 'sapling growth',
+            'thunderstone_production_mod' => 'thunderstone discovery',
 
             'xp_generation_mod' => 'XP generation',
 
