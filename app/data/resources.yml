@@ -66,8 +66,8 @@ horse:
 kelp:
   name: Kelp
   description: A superior form of rugged seaweed, used by Glimjir to build and popular in broth with some land dwellers.
-  buy: 2.5
-  sell: 2
+  buy: null
+  sell: 0.65
   exclusive_races:
     - Glimjir
 
