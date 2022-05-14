@@ -490,7 +490,7 @@ class SpellActionService
                 {
 
                     $ratioPerWpa = (float)$spellPerkValues[0] / 100;
-                    $maxRatio = (float)$spellPerkValues[1];
+                    $maxRatio = (float)$spellPerkValues[1] / 100;
                     $resourceKey = (string)$spellPerkValues[2];
                     $unitSlots = (array)$spellPerkValues[3];
 
