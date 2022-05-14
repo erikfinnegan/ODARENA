@@ -240,6 +240,7 @@
 @endpush
 
 @push('page-scripts')
+{{--
 <script>
     $(document).ready(function()
     {
@@ -254,6 +255,7 @@
         });
     });
 </script>
+--}}
 @endpush
 
 @push('inline-scripts')
