@@ -146,12 +146,22 @@ class ConversionCalculator
             $conversions['attacker'][$slot] += $vampiricConversionsOnOffense[$slot];
         }
 
+        if($attacker->getSpellPerkValue('no_conversions'))
+        {
+            $conversions['attacker'] = array_fill(1, 4, 0);
+        }
+
         foreach($conversions['defender'] as $slot => $amount)
         {
             $conversions['defender'][$slot] += $valueConversionsOnDefense[$slot];
             $conversions['defender'][$slot] += $casualtiesBasedConversionsOnDefense[$slot];
             $conversions['defender'][$slot] += $strengthBasedConversionsOnDefense[$slot];
             $conversions['defender'][$slot] += $vampiricConversionsOnDefense[$slot];
+        }
+
+        if($defender->getSpellPerkValue('no_conversions'))
+        {
+            $conversions['attacker'] = array_fill(1, 4, 0);
         }
 
         return $conversions;

@@ -188,7 +188,7 @@ class SpellHelper
             'conversions' => '%s%% conversions',
             'converts_crypt_bodies' => 'Every %1$s %2$ss raise dead a body from the crypt into one %3$s per tick.',
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
-            'no_conversions' => 'No enemy units are converted.',
+            'no_conversions' => 'No enemy units or peasants are converted.',
 
             'cannot_be_converted' => 'Units cannot be converted by the enemy.',
 
