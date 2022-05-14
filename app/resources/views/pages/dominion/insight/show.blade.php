@@ -680,7 +680,7 @@
                             @for ($i = 1; $i <= 12; $i++)
                                 @php
                                     $amount = $queueService->getConstructionQueueAmount($dominion, "building_{$building->key}", $i);
-                                    $amount =+ $queueService->getRepairQueueAmount($dominion, "building_{$building->key}", $i);
+                                    $amount += $queueService->getRepairQueueAmount($dominion, "building_{$building->key}", $i);
                                 @endphp
                                 <td class="text-center">
                                     @if ($amount === 0)

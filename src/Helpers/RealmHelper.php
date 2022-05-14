@@ -48,7 +48,28 @@ class RealmHelper
         {
             return $this->getAlignmentNoun($alignment);
         }
+    }
 
+    public function getAlignmentCouncilTerm(string $alignment)
+    {
+        if($alignment === 'good')
+        {
+            return 'Parliament';
+        }
+        elseif($alignment === 'evil')
+        {
+            return 'Senate';
+        }
+        elseif($alignment === 'independent')
+        {
+            return 'Assembly';
+        }
+        elseif($alignment === 'npc')
+        {
+            return 'Gathering';
+        }
+        
+        return 'Council';
     }
 
     public function getDominionHelpString(Dominion $dominion, Dominion $viewer): string
