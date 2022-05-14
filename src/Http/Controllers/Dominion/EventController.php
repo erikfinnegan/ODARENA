@@ -8,6 +8,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\EventHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\SabotageHelper;
 use OpenDominion\Helpers\SorceryHelper;
 use OpenDominion\Helpers\UnitHelper;
 
@@ -53,6 +54,7 @@ class EventController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class), // todo: same thing here
             'landHelper' => app(LandHelper::class), // todo: same thing here
             'raceHelper' => app(RaceHelper::class), // todo: same thing here
+            'sabotageHelper' => app(SorceryHelper::class), // todo: same thing here
             'sorceryHelper' => app(SorceryHelper::class), // todo: same thing here
             'canViewSource' => $eventHelper->canViewEventDetails($event, $viewer, 'source'),
             'canViewTarget' => $eventHelper->canViewEventDetails($event, $viewer, 'target'),
