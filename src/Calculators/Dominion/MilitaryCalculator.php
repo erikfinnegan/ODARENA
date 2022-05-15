@@ -928,7 +928,7 @@ class MilitaryCalculator
 
         $recentlyVictoriousPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_if_recently_victorious", null);
 
-        if(!$recentlyInvadedPerkData)
+        if(!$recentlyVictoriousPerkData)
         {
             return 0;
         }

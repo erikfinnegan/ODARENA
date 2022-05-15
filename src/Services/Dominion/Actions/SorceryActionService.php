@@ -246,8 +246,6 @@ class SorceryActionService
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
                         $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
 
-                        #dump('$sorcerySpellDamageMultiplier: ' . $sorcerySpellDamageMultiplier);
-                        #dump('$spellDamageMultiplier: ' . $spellDamageMultiplier);
 
                         $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
 
@@ -257,7 +255,6 @@ class SorceryActionService
                         $peasantsBefore = $target->peasants;
                         $target->peasants -= $damageDealt;
                         $peasantsAfter = $peasantsBefore - $damageDealt;
-                        #$result[] = sprintf('%s %s', number_format($damageDealt), str_plural($this->raceHelper->getPeasantsTerm($target->race), $damage));
 
                         $this->statsService->updateStat($caster, 'sorcery_peasants_killed', $damageDealt);
                         $this->statsService->updateStat($target, 'sorcery_peasants_lost', $damageDealt);
