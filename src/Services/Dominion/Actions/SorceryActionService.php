@@ -428,7 +428,7 @@ class SorceryActionService
                     # Decrease morale
                     if($perk->key === 'decrease_morale')
                     {
-                        $baseDamage = (int)$spellPerkValues / 100;
+                        $baseDamage = (float)$spellPerkValues / 100;
 
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
                         $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'morale');
