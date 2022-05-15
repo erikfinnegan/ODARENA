@@ -487,6 +487,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromSpyStrengthPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromRecentlyVictoriousPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTicksPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
@@ -933,14 +934,15 @@ class MilitaryCalculator
             return 0;
         }
 
-        $power = (int)$recentlyVictoriousPerkData[0];
-        $ticks = (int)$recentlyVictoriousPerkData[1];
+        $power = (float)$recentlyVictoriousPerkData[0];
+        $ticks = (float)$recentlyVictoriousPerkData[1];
 
         if($this->getRecentlyVictoriousCount($dominion, $ticks) > 0)
         {
             $amount += $power;
         }
 
+    
         return $amount;
     }
 
@@ -2149,7 +2151,6 @@ class MilitaryCalculator
      */
     public function getRecentlyVictoriousCount(Dominion $dominion, int $ticks = 24): int
     {
-        // todo: this touches the db. should probably be in invasion or military service instead
         $invasionEvents = GameEvent::query()
             ->where('tick', '>=', ($dominion->round->ticks - $ticks))
             ->where([
