@@ -437,11 +437,21 @@ class SorceryActionService
 
                         $damageDealt = min($target->morale * $damage, $target->morale);
                         $damageDealt = floor($damageDealt);
-
+                        $moraleBefore = $target->morale;
                         $target->morale -= $damageDealt;
-                        #$result[] = sprintf('%s%%', $damage);
+                        $moraleAfter = $target->morale;
 
                         $this->statsService->updateStat($caster, 'sorcery_damage_morale', $damage);
+
+                        $this->sorcery['damage'][$perk->key] = [
+                            'sorcery_spell_damage_multiplier' => $sorcerySpellDamageMultiplier,
+                            'spell_damage_multiplier' => $spellDamageMultiplier,
+                            'damage' => $damage,
+                            'damage_dealt' => $damageDealt,
+                            'target_morale_before' => $moraleBefore,
+                            'target_morale_after' => $moraleAfter,
+                        ];
+
                         $verb = 'weakens morale by';
                     }
 

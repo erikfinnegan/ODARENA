@@ -5,13 +5,16 @@
 namespace OpenDominion\Factories;
 
 use Auth;
+use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\Pack;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Title;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
+use OpenDominion\Models\Spell;
 use OpenDominion\Models\User;
 use OpenDominion\Models\Deity;
 
@@ -296,6 +299,26 @@ class DominionFactory
             $deity = Deity::where('key','glimj')->first();
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
+        
+        # Starting spells on cooldown
+        DB::transaction(function () use ($dominion)
+        {
+            DominionSpell::create([
+                'dominion_id' => $dominion->id,
+                'caster_id' => $dominion->id,
+                'spell_id' => Spell::where('key','sazals_charge')->first()->id,
+                'duration' => 0,
+                'cooldown' => 192,
+            ]);
+
+            DominionSpell::create([
+                'dominion_id' => $dominion->id,
+                'caster_id' => $dominion->id,
+                'spell_id' => Spell::where('key','sazals_fog')->first()->id,
+                'duration' => 0,
+                'cooldown' => 192,
+            ]);
+        });
 
         return $dominion;
 
@@ -328,7 +351,8 @@ class DominionFactory
             ])
             ->count();
 
-        if ($dominionCount > 0) {
+        if ($dominionCount > 0)
+        {
             throw new GameException('User already has a dominion in this round');
         }
     }
@@ -417,13 +441,13 @@ class DominionFactory
         elseif($race->name == 'Glimjir')
         {
           return [
-              'plain' => 200,
+              'plain' => 0,
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
-              'water' => ($acresBase - 200),
+              'water' => $acresBase,
           ];
         }
         elseif($race->name == 'Icekin')

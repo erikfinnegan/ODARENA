@@ -161,7 +161,7 @@ class ConversionCalculator
 
         if($defender->getSpellPerkValue('no_conversions'))
         {
-            $conversions['attacker'] = array_fill(1, 4, 0);
+            $conversions['defender'] = array_fill(1, 4, 0);
         }
 
         return $conversions;
@@ -505,10 +505,6 @@ class ConversionCalculator
 
         if($mode === 'offense')
         {
-            if($attacker->getSpellPerkValue('no_conversions'))
-            {
-                return $convertedUnits;
-            }
 
             $availableCasualties =
                 [
@@ -624,10 +620,6 @@ class ConversionCalculator
 
         if($mode === 'defense')
         {
-            if($defender->getSpellPerkValue('no_conversions'))
-            {
-                return $convertedUnits;
-            }
 
             $availableCasualties =
                 [
