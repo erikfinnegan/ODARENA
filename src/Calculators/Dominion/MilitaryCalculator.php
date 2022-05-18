@@ -205,6 +205,9 @@ class MilitaryCalculator
         // Spell
         $multiplier += $attacker->getSpellPerkMultiplier('offensive_power');
 
+        // Other Spells
+        $multiplier += $this->getSpellMultiplier($attacker, $defender, 'offense');
+
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
 
@@ -2209,7 +2212,7 @@ class MilitaryCalculator
     /**
      * Checks if $defender recently invaded $attacker's realm.
      *
-     * 'Recent' refers to the past 6 hours.
+     * 'Recent' refers to the past 24 ticks.
      *
      * @param Dominion $dominion
      * @param Dominion $attacker
@@ -2239,10 +2242,9 @@ class MilitaryCalculator
               return false;
             }
         }
-        else
-        {
-            return false;
-        }
+        
+
+        return false;
     }
 
     /**
@@ -2305,6 +2307,8 @@ class MilitaryCalculator
           {
               $multiplier += $dominion->getSpellPerkMultiplier('offensive_power_on_retaliation');
           }
+
+          #dump($dominion->getSpellPerkValue('offensive_power_on_retaliation'), $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target));
 
       }
       elseif($power == 'defense')
