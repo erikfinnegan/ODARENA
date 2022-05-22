@@ -1049,11 +1049,11 @@ class DataSyncCommand extends Command implements CommandInterface
                     'defensive_power' => object_get($data, 'defensive_power', 0),
                     
                     'draft_rate' => object_get($data, 'draft_rate', 50),
-                    'devotion_ticks' => isset($deity) ? object_get($data, 'devotion_ticks', 0) : 0,
+                    'devotion_ticks' => isset($deity) ? max(min(object_get($data, 'devotion_ticks', 0), 96),0) : 0,
                     'morale' => object_get($data, 'morale', 100),
                     'peasants' => object_get($data, 'peasants', 2000),
                     'prestige' => object_get($data, 'prestige', 400),
-                    'protection_ticks' => object_get($data, 'protection_ticks', 0),
+                    'protection_ticks' => max(min(object_get($data, 'devotion_ticks', 0), 96),0),
                     'spy_strength' => object_get($data, 'spy_strength', 100),
                     'xp' => object_get($data, 'xp', 0),
                     'wizard_strength' => object_get($data, 'wizard_strength', 100),
