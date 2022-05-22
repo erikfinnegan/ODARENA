@@ -1,0 +1,55 @@
+name: Halfling Attacker
+description: 
+race: Halfling
+offensive_power: 22000
+defensive_power: 50000
+enabled: 1
+
+draft_rate: 50
+prestige: 400
+peasants: 8000
+protection_ticks: 0
+devotion_ticks: 0
+xp: 0
+
+buildings:
+  dock: 50
+  dwelling: 200
+  farm: 50
+  gem_mine: 400
+  lumberyard: 25
+  smithy: 200
+  tower: 25
+  watermill: 50
+
+land:
+  forest: 25
+  hill: 200
+  mountain: 400
+  plain: 250
+  swamp: 25
+  water: 100
+
+improvements:
+  espionage: 100000
+
+resources:
+  lumber: 250000
+  mana: 2000
+
+spells:
+  druvas_call: 24
+
+cooldown:
+  sazals_fog: 96
+  sazals_charge: 96
+
+units:
+  draftees: 0
+  unit1: 0
+  unit2: 10000
+  unit3: 4000
+  unit4: 3000
+  spies: 50
+  wizards: 50
+  archmages: 0

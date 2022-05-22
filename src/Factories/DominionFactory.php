@@ -10,11 +10,12 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\Pack;
+use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
-use OpenDominion\Models\Title;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Title;
 use OpenDominion\Models\User;
 use OpenDominion\Models\Deity;
 
@@ -59,8 +60,7 @@ class DominionFactory
         Race $race,
         Title $title,
         string $rulerName,
-        string $dominionName,
-        ?Pack $pack = null
+        string $dominionName
     ): Dominion {
         $this->guardAgainstCrossRoundRegistration($user, $realm->round);
         $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
@@ -616,4 +616,117 @@ class DominionFactory
 
         return $startingLand;
     }
+
+    /**
+     * Creates and returns a new Dominion instance.
+     *
+     * @param User $user
+     * @param Realm $realm
+     * @param Race $race
+     * @param Title $title
+     * @param string $rulerName
+     * @param string $dominionName
+     * @param Quickstart $quickstart
+     * @return Dominion
+     * @throws GameException
+     */
+    public function createFromQuickstart(
+        User $user,
+        Realm $realm,
+        Race $race,
+        Title $title,
+        string $rulerName,
+        string $dominionName,
+        Quickstart $quickstart
+    ): Dominion {
+        $this->guardAgainstCrossRoundRegistration($user, $realm->round);
+        $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
+        $this->guardAgainstMismatchedAlignments($race, $realm, $realm->round);
+
+        dd($quickstart);
+
+        $dominion = Dominion::create([
+            'user_id' => $user->id,
+            'round_id' => $realm->round->id,
+            'realm_id' => $realm->id,
+            'race_id' => $race->id,
+            'title_id' => $title->id,
+            'pack_id' => null,
+
+            'ruler_name' => $rulerName,
+            'name' => $dominionName,
+            'prestige' => $quickstart->prestige,
+            'xp' => $quickstart->xp,
+
+            'peasants' => $quickstart->peasants,
+            'peasants_last_hour' => 0,
+
+            'draft_rate' => $quickstart->draft_rate,
+            'morale' => $quickstart->morale,
+            'spy_strength' => $quickstart->spy_strength,
+            'wizard_strength' => $quickstart->wizard_strength,
+
+            'military_draftees' => $quickstart->units['draftees'],
+            'military_unit1' => $quickstart->units['unit1'],
+            'military_unit2' => $quickstart->units['unit2'],
+            'military_unit3' => $quickstart->units['unit3'],
+            'military_unit4' => $quickstart->units['unit4'],
+            'military_spies' => $quickstart->units['spies'],
+            'military_wizards' => $quickstart->units['wizards'],
+            'military_archmages' => $quickstart->units['archmages'],
+
+            'land_plain' => isset($quickstart->land['plain']) ? $quickstart->land['plain'] : 0,
+            'land_mountain' => isset($quickstart->land['mountain']) ? $quickstart->land['mountain'] : 0,
+            'land_swamp' => isset($quickstart->land['swamp']) ? $quickstart->land['swamp'] : 0,
+            'land_cavern' => 0,
+            'land_forest' => isset($quickstart->land['forest']) ? $quickstart->land['forest'] : 0,
+            'land_hill' => isset($quickstart->land['hill']) ? $quickstart->land['hill'] : 0,
+            'land_water' => isset($quickstart->land['water']) ? $quickstart->land['water'] : 0,
+
+            'npc_modifier' => 0,
+            'protection_ticks' => $quickstart->protection_ticks,
+        ]);
+
+        $this->buildingCalculator->createOrIncrementBuildings($dominion, $quickstart->buildings);
+        $this->resourceService->updateResources($dominion, $quickstart->resources);
+
+        if(isset($quickstart->deity))
+        {
+            $this->deityService->completeSubmissionToDeity($dominion, $quickstart->deity);
+        }
+
+        # Starting spells active
+        foreach($quickstart->spells as $spellKey => $duration)
+        {
+            DB::transaction(function () use ($dominion, $spellKey, $duration)
+            {
+                DominionSpell::create([
+                    'dominion_id' => $dominion->id,
+                    'caster_id' => $dominion->id,
+                    'spell_id' => Spell::where('key', $spellKey)->first()->id,
+                    'duration' => $duration,
+                    'cooldown' => 0,
+                ]);
+            });
+        }
+
+        # Starting spells on cooldown
+        foreach($quickstart->cooldown as $spellKey => $cooldown)
+        {
+            DB::transaction(function () use ($dominion, $spellKey, $cooldown)
+            {
+                DominionSpell::create([
+                    'dominion_id' => $dominion->id,
+                    'caster_id' => $dominion->id,
+                    'spell_id' => Spell::where('key', $spellKey)->first()->id,
+                    'duration' => 0,
+                    'cooldown' => $cooldown,
+                ]);
+            });
+        }
+
+        return $dominion;
+
+    }
+
 }

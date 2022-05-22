@@ -246,6 +246,11 @@ class TrainingCalculator
                         dd("Undefined cost parameter for \$type $type with \$value $value", $costs);
                     }
                 }
+                else
+                {
+                    $trainableByCost[$type] = 0;
+                }
+
             }
 
             $trainable[$unitType] = min($trainableByCost);

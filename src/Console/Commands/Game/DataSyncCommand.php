@@ -21,6 +21,7 @@ use OpenDominion\Models\DeityPerkType;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\ImprovementPerk;
 use OpenDominion\Models\ImprovementPerkType;
+use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\RacePerk;
 use OpenDominion\Models\RacePerkType;
@@ -78,6 +79,7 @@ class DataSyncCommand extends Command implements CommandInterface
     {
         DB::transaction(function () {
 
+            $this->syncQuickstarts();
             $this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
@@ -1014,6 +1016,89 @@ class DataSyncCommand extends Command implements CommandInterface
               }
           }
 
+    /**
+     * Syncs race, unit and perk data from .yml files to the database.
+     */
+    protected function syncQuickstarts()
+    {
+        $files = $this->filesystem->files(base_path('app/data/quickstarts'));
+
+        foreach ($files as $file) {
+            $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
+
+            $race = Race::where('name', $data->race)->first();
+
+            if(isset($data->deity))
+            {
+                $deity = Deity::where('key', $data->deity)->first();
+            }
+            else
+            {
+                $deity = null;
+            }
+
+            // Quickstart
+            $quickstart = Quickstart::firstOrNew(['name' => $data->name])
+                ->fill([
+                    'name' => $data->name ?: ($race->name . ' Quickstart'),
+                    'description' => object_get($data, 'description'),
+                    'race_id' => $race->id,
+                    'deity_id' => isset($deity) ? $deity->id : null,
+                    'enabled' => object_get($data, 'enabled', 1),
+                    'offensive_power' => object_get($data, 'offensive_power', 0),
+                    'defensive_power' => object_get($data, 'defensive_power', 0),
+                    
+                    'draft_rate' => object_get($data, 'draft_rate', 50),
+                    'devotion_ticks' => isset($deity) ? object_get($data, 'devotion_ticks', 0) : 0,
+                    'morale' => object_get($data, 'morale', 100),
+                    'peasants' => object_get($data, 'peasants', 2000),
+                    'prestige' => object_get($data, 'prestige', 400),
+                    'protection_ticks' => object_get($data, 'protection_ticks', 0),
+                    'spy_strength' => object_get($data, 'spy_strength', 100),
+                    'xp' => object_get($data, 'xp', 0),
+                    'wizard_strength' => object_get($data, 'wizard_strength', 100),
+
+                    'buildings' => object_get($data, 'buildings', []),
+                    'cooldown' => object_get($data, 'cooldown', []),
+                    'improvements' => object_get($data, 'improvements', []),
+                    'land' => object_get($data, 'land', []),
+                    'resources' => object_get($data, 'resources', []),
+                    'spells' => object_get($data, 'spells', []),
+                    'units' => object_get($data, 'units', []),
+                    
+                ]);
+
+            if (!$quickstart->exists) {
+                $this->info("Adding quickstart {$data->name}");
+            } else {
+                $this->info("Processing quickstart {$data->name}");
+
+                $newValues = $race->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $race->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                    #    $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $quickstart->save();
+            $quickstart->refresh();
+
+        }
+    }
+
+          
         /**
          * Syncs race, unit and perk data from .yml files to the database.
          */

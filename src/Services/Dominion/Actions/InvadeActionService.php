@@ -525,7 +525,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -537,7 +537,7 @@ class InvadeActionService
         if ($this->invasionResult['result']['success'])
         {
             $message = sprintf(
-                'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
+                'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! After the invasion, your troops also discovered %s acres of land.',
                 $target->name,
                 $target->realm->number,
                 number_format(array_sum($this->invasionResult['attacker']['landConquered'])),
@@ -545,10 +545,20 @@ class InvadeActionService
             );
             $alertType = 'success';
         }
+        elseif($this->invasionResult['result']['overwhelmed'])
+        {
+            $message = sprintf(
+                'Your army failed miserably against the forces of %s (#%s).',
+                $target->name,
+                $target->realm->number
+            );
+            $alertType = 'danger';
+
+        }
         else
         {
             $message = sprintf(
-                'Your army fails to defeat the forces of %s (#%s).',
+                'Your army fights hard but is unable to defeat the forces of %s (#%s).',
                 $target->name,
                 $target->realm->number
             );

@@ -134,17 +134,18 @@ class ConversionCalculator
         $strengthBasedConversionsOnOffense = $this->getStrengthBasedConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'offense');
         $strengthBasedConversionsOnDefense = $this->getStrengthBasedConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'defense');
 
-        $vampiricConversionsOnOffense = $this->getVampiricConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'offense');
-        $vampiricConversionsOnDefense = $this->getVampiricConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'defense');
+        #$vampiricConversionsOnOffense = $this->getVampiricConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'offense');
+        #$vampiricConversionsOnDefense = $this->getVampiricConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'defense');
 
         foreach($conversions['attacker'] as $slot => $amount)
         {
             $conversions['attacker'][$slot] += $displacedPeasantsConversions[$slot];
+            $conversions['attacker'][$slot] += $displacedPeasantsRandomSplitConversions[$slot];
 
             $conversions['attacker'][$slot] += $valueConversionsOnOffense[$slot];
             $conversions['attacker'][$slot] += $casualtiesBasedConversionsOnOffense[$slot];
             $conversions['attacker'][$slot] += $strengthBasedConversionsOnOffense[$slot];
-            $conversions['attacker'][$slot] += $vampiricConversionsOnOffense[$slot];
+            #$conversions['attacker'][$slot] += $vampiricConversionsOnOffense[$slot];
         }
 
         if($attacker->getSpellPerkValue('no_conversions'))
@@ -157,7 +158,7 @@ class ConversionCalculator
             $conversions['defender'][$slot] += $valueConversionsOnDefense[$slot];
             $conversions['defender'][$slot] += $casualtiesBasedConversionsOnDefense[$slot];
             $conversions['defender'][$slot] += $strengthBasedConversionsOnDefense[$slot];
-            $conversions['defender'][$slot] += $vampiricConversionsOnDefense[$slot];
+            #$conversions['defender'][$slot] += $vampiricConversionsOnDefense[$slot];
         }
 
         if($defender->getSpellPerkValue('no_conversions'))
@@ -193,14 +194,6 @@ class ConversionCalculator
             if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_conversion'))
             {
                 $convertingUnits[$slot] += $amount;
-
-                # Deduct lost units.
-                /*
-                if(isset($invasion['attacker']['unitsLost'][$slot]))
-                {
-                    $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
-                }
-                */
             }
         }
 
@@ -250,7 +243,7 @@ class ConversionCalculator
         # Check that unitsSent contains displaced_peasants_random_split_conversion perk
         foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
         {
-            if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_random_split_conversion'))
+            if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_random_split_conversion'))
             {
                 $convertingUnits[$slot] += $amount;
             }
@@ -280,11 +273,15 @@ class ConversionCalculator
 
                 $primarySlotRatio = mt_rand($rangeMin, $rangeMax) / 100;
                 $fallbackSlotRatio = 1 - $primarySlotRatio;
+
+                $convertedDisplacedPeasants = $displacedPeasants * $ratio;
                 
-                $convertedUnits[$primarySlotTo] += round($displacedPeasants * $primarySlotRatio);
-                $convertedUnits[$fallbackSlotTo] += round($displacedPeasants * $fallbackSlotRatio);
+                $convertedUnits[$primarySlotTo] += round($convertedDisplacedPeasants * $primarySlotRatio);
+                $convertedUnits[$fallbackSlotTo] += round($convertedDisplacedPeasants * $fallbackSlotRatio);
             }
          }
+
+         dump($displacedPeasants, $convertedUnits);
 
          return $convertedUnits;
     }
@@ -572,7 +569,7 @@ class ConversionCalculator
             # Check that unitsSent contains strength_conversion perk
             foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
             {
-                if($strengthBasedConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
+                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
                 {
                     $convertingUnits[$slot] += $amount;
                 }
@@ -609,14 +606,8 @@ class ConversionCalculator
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
 
-                    if($defender->race->getPerkValue('draftee_dp'))
-                    {
-                        $availableCasualties[$slot]['dp'] = $defender->race->getPerkValue('draftee_dp');
-                    }
-                    else
-                    {
-                        $availableCasualties[$slot]['dp'] = 1;
-                    }
+                    $availableCasualties[$slot]['dp'] = $defender->race->getPerkValue('draftee_dp') ?: 1;
+
                 }
                 else
                 {

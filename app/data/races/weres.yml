@@ -55,7 +55,7 @@ units:
       food: 0
     power:
       offense: 0
-      defense: 5
+      defense: 4
     perks:
       no_draftee: 1
       housing_count: 0.10
@@ -91,5 +91,5 @@ units:
       offense: 8
       defense: 4
     perks:
-      split_conversion: 5,4,3 # threshold,under,over
+      strength_conversion: 5,4,3 # threshold,under,over
       displaced_peasants_random_split_conversion: 40,60,4,3

@@ -60,6 +60,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
     $router->get('round/{round}/register')->uses('RoundController@getRegister')->name('round.register');
     $router->post('round/{round}/register')->uses('RoundController@postRegister');
 
+
+    $router->get('round/{round}/quickstart')->uses('RoundController@getQuickstart')->name('round.quickstart');
+    $router->post('round/{round}/quickstart')->uses('RoundController@postQuickstart');
+
     $router->group(['prefix' => 'dominion', 'as' => 'dominion.'], static function (Router $router) {
 
         // Dominion Select
