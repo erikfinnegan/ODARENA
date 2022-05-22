@@ -255,6 +255,9 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
     $router->get('resources')->uses('ScribesController@getResources')->name('resources');
 
+    $router->get('quickstarts')->uses('ScribesController@getQuickstarts')->name('quickstarts');
+    $router->get('quickstarts/{quickstart}')->uses('ScribesController@getQuickstart')->name('quickstart');
+
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });
 

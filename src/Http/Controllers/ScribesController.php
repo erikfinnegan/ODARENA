@@ -6,31 +6,33 @@ use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\DeityCalculator;
+
 use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
+use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\ResourceHelper;
+use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\DeityHelper;
+
+use OpenDominion\Models\Artefact;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Title;
-use OpenDominion\Models\Artefact;
-use OpenDominion\Models\Deity;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
-use OpenDominion\Models\Improvement;
 
-use OpenDominion\Helpers\ImprovementHelper;
-use OpenDominion\Helpers\ResourceHelper;
-use OpenDominion\Helpers\TitleHelper;
-use OpenDominion\Helpers\TechHelper;
 
 
 class ScribesController extends AbstractController
@@ -43,6 +45,13 @@ class ScribesController extends AbstractController
             'evilRaces' => $races['evil'],
             'npcRaces' => $races['npc'],
             'independentRaces' => $races['independent'],
+        ]);
+    }
+
+    public function getQuickstarts()
+    {
+        return view('pages.scribes.quickstarts', [
+            'quickstarts' => Quickstart::where('enabled', true)->get(),
         ]);
     }
 

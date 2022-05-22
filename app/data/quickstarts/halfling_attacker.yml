@@ -10,7 +10,7 @@ prestige: 400
 peasants: 8000
 protection_ticks: 0
 devotion_ticks: 0
-xp: 16000
+xp: 200
 
 buildings:
   dock: 50
@@ -38,11 +38,21 @@ resources:
   mana: 2000
 
 spells:
-  druvas_call: 24
+  gaias_watch: 24
 
 cooldown:
   sazals_fog: 96
   sazals_charge: 96
+
+techs:
+  - anvils_level1
+  - anvils_level2
+  - anvils_level3
+  - anvils_level4
+  - minting_level1
+  - minting_level2
+  - minting_level3
+  - minting_level4
 
 units:
   draftees: 0

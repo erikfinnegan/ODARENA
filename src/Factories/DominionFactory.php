@@ -9,12 +9,14 @@ use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
+use OpenDominion\Models\DominionTech;
 use OpenDominion\Models\Pack;
 use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Tech;
 use OpenDominion\Models\Title;
 use OpenDominion\Models\User;
 use OpenDominion\Models\Deity;
@@ -643,8 +645,6 @@ class DominionFactory
         $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
         $this->guardAgainstMismatchedAlignments($race, $realm, $realm->round);
 
-        dd($quickstart);
-
         $dominion = Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
@@ -721,6 +721,18 @@ class DominionFactory
                     'spell_id' => Spell::where('key', $spellKey)->first()->id,
                     'duration' => 0,
                     'cooldown' => $cooldown,
+                ]);
+            });
+        }
+
+        # Starting spells on cooldown
+        foreach($quickstart->techs as $techKey)
+        {
+            DB::transaction(function () use ($dominion, $techKey)
+            {
+                DominionTech::create([
+                    'dominion_id' => $dominion->id,
+                    'tech_id' => Tech::where('key',$techKey)->first()->id,
                 ]);
             });
         }

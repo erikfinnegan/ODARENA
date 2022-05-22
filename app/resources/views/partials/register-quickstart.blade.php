@@ -170,6 +170,22 @@
                             </tr>
                         @endif
 
+                        @if(!empty($quickstart->techs))
+                            <tr>
+                                <td class="text-left">Techs</td>
+                                <td class="text-left">
+                                    <ul>
+                                    @foreach($quickstart->techs as $techKey)
+                                        @php
+                                            $tech = OpenDominion\Models\Tech::where('key', $techKey)->first();
+                                        @endphp
+                                        <li>{{ $tech->name }}: level {{ $tech->level }}</li>
+                                    @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endif
+
                         @if(!empty($quickstart->units))
                             <tr>
                                 <td class="text-left">Units</td>

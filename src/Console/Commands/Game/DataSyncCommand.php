@@ -1055,8 +1055,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     'prestige' => object_get($data, 'prestige', 400),
                     'protection_ticks' => max(min(object_get($data, 'devotion_ticks', 0), 96),0),
                     'spy_strength' => object_get($data, 'spy_strength', 100),
-                    'xp' => object_get($data, 'xp', 0),
                     'wizard_strength' => object_get($data, 'wizard_strength', 100),
+                    'xp' => object_get($data, 'xp', 0),
 
                     'buildings' => object_get($data, 'buildings', []),
                     'cooldown' => object_get($data, 'cooldown', []),
@@ -1064,8 +1064,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     'land' => object_get($data, 'land', []),
                     'resources' => object_get($data, 'resources', []),
                     'spells' => object_get($data, 'spells', []),
+                    'techs' => object_get($data, 'techs', []),
                     'units' => object_get($data, 'units', []),
-                    
                 ]);
 
             if (!$quickstart->exists) {

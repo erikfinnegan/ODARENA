@@ -39,6 +39,7 @@ class CreateQuickstarts extends Migration
             $table->text('land')->nullable();
             $table->text('resources')->nullable();
             $table->text('spells')->nullable();
+            $table->text('techs')->nullable();
             $table->text('units')->nullable();
 
             $table->timestamps();
