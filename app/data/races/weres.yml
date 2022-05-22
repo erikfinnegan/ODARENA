@@ -23,8 +23,6 @@ perks:
 improvement_resources:
   lumber: 3.5
 
-# Note after round 68: unless other big changes, consider turning Bears to 5 or 6 DP and Werebear to 12 DP.
-
 units:
   - name: Wolf
     training_time: 0
@@ -33,8 +31,8 @@ units:
       - sentient
       - wild
     cost:
-      gold: 400
-      food: 20
+      gold: 0
+      food: 0
     power:
       offense: 4
       defense: 0
@@ -44,7 +42,7 @@ units:
       increases_enemy_casualties_on_offense: 1
       cannot_be_trained: 1
       conversion: 4
-      displaced_peasants_conversion: 1
+      displaced_peasants_random_split_conversion: 80,90,1,4
 
   - name: Bear
     training_time: 0
@@ -53,8 +51,8 @@ units:
       - sentient
       - wild
     cost:
-      gold: 300
-      food: 20
+      gold: 0
+      food: 0
     power:
       offense: 0
       defense: 5
@@ -93,5 +91,5 @@ units:
       offense: 8
       defense: 4
     perks:
-      strength_conversion: 5,4,3 # threshold,under,over
-      displaced_peasants_conversion: 4
+      split_conversion: 5,4,3 # threshold,under,over
+      displaced_peasants_random_split_conversion: 40,60,4,3

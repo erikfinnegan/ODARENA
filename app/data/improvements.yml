@@ -209,6 +209,7 @@ mobilisation:
     - Sylvan
     - Swarm
     - Troll
+    - Yeti
     - Void
     - Wood Elf
   perks:
@@ -1044,6 +1045,19 @@ venom:
     population_growth: -40,8000
 
 # END SWARM #
+
+# BEGIN YETI #
+
+mustering:
+  name: Mustering
+  exclusive_races:
+    - Yeti
+  perks:
+    unit_lumber_costs: -15,6000
+    unit_ore_costs: -25,4000
+    food_consumption: 10,6000
+
+# END YETI #
 
 tribalism:
   name: Tribalism

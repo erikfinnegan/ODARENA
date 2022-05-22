@@ -94,15 +94,17 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
             'vampiric_conversion' => 'Spreads vampirism.',
+            
 
-            'displaced_peasants_conversion' => 'Converts enemy peasants formerly living on land conquered on invasion into %s.',
+            'displaced_peasants_conversion' => 'Converts enemy displaced enemy peasants into %s.',
+            'displaced_peasants_random_split_conversion' => 'Converts %1$s%% to %2$s%% of displaced enemy peasants into %3$s, the rest to %4$s.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s and stronger enemies into %3$s.',
             'value_conversion' => 'Fuses %1$sx of killed enemy raw OP or DP into %2$s.',
             'casualties_conversion' => 'Converts enemy casualties into %s.',
 
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
-            'captures_displaced_peasants' => 'Captures enemy peasants formerly living on land conquered on invasion.',
+            'captures_displaced_peasants' => 'Captures enemy displaced enemy peasants.',
             'kills_displaced_peasants' => 'Kills own displaced peasants.',
 
             // OP/DP related
@@ -592,6 +594,25 @@ class UnitHelper
                     }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
+                }
+
+                // Special case for displaced_peasants_random_split_conversion
+                if ($perk->key === 'displaced_peasants_random_split_conversion')
+                {
+                    $rangeMin = (int)$perkValue[0];
+                    $rangeMax = (int)$perkValue[1];
+                    $primarySlotTo = (int)$perkValue[2];
+                    $fallbackSlotTo = (int)$perkValue[3];
+
+                    $primaryUnitTo = $race->units->filter(static function ($unit) use ($primarySlotTo) {
+                        return ($unit->slot === $primarySlotTo);
+                    })->first();
+
+                    $fallbackUnitTo = $race->units->filter(static function ($unit) use ($fallbackSlotTo) {
+                        return ($unit->slot === $fallbackSlotTo);
+                    })->first();
+
+                    $perkValue = [$rangeMin, $rangeMax, str_plural($primaryUnitTo->name), str_plural($fallbackUnitTo->name)];
                 }
                 if($perk->key === 'strength_conversion')
                 {

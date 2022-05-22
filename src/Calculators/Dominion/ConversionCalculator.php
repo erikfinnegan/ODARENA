@@ -123,6 +123,7 @@ class ConversionCalculator
         }
 
         $displacedPeasantsConversions = $this->getDisplacedPeasantsConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio);
+        $displacedPeasantsRandomSplitConversions = $this->getDisplacedPeasantsRandomSplitConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio);
 
         $valueConversionsOnOffense = $this->getValueBasedConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'offense', $rawDpLost, 0);
         $valueConversionsOnDefense = $this->getValueBasedConversions($attacker, $defender, $invasion, $rawOp, $rawDp, $landRatio, 'defense', 0, $rawOpLost);
@@ -227,6 +228,67 @@ class ConversionCalculator
          return $convertedUnits;
     }
 
+    /*
+    *   Calculate how many peasants were displaced.
+    */
+    public function getDisplacedPeasantsRandomSplitConversions(Dominion $attacker, Dominion $defender, array $invasion, int $rawOp, int $rawDp, float $landRatio): array
+    {
+        $convertedUnits = array_fill(1, 4, 0);
+        $convertingUnits = array_fill(1, 4, 0);
+
+        if(!$invasion['result']['success'])
+        {
+            return $convertedUnits;
+        }
+
+        $landConquered = array_sum($invasion['attacker']['landConquered']);
+        $displacedPeasants = intval(($defender->peasants / $invasion['defender']['landSize']) * $landConquered);
+
+        # Apply reduced conversions
+        $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
+
+        # Check that unitsSent contains displaced_peasants_random_split_conversion perk
+        foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+        {
+            if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_random_split_conversion'))
+            {
+                $convertingUnits[$slot] += $amount;
+            }
+        }
+
+        # Calculate contribution (unit raw OP / total raw OP)
+        foreach($convertingUnits as $slot => $amount)
+        {
+            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot === $slot);
+            })->first();
+
+            $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
+
+            $sentUnitsOpRatio[$slot] = ($unitRawOp * $amount) / $rawOp;
+         }
+
+         # Populate $convertedUnits
+         foreach($sentUnitsOpRatio as $slot => $ratio)
+         {
+            if($displacedPeasantsConversionRandomSplitPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_random_split_conversion'))
+            {
+                $rangeMin = (int)$displacedPeasantsConversionRandomSplitPerk[0];
+                $rangeMax = (int)$displacedPeasantsConversionRandomSplitPerk[1];
+                $primarySlotTo = (int)$displacedPeasantsConversionRandomSplitPerk[2];
+                $fallbackSlotTo = (int)$displacedPeasantsConversionRandomSplitPerk[3];
+
+                $primarySlotRatio = mt_rand($rangeMin, $rangeMax) / 100;
+                $fallbackSlotRatio = 1 - $primarySlotRatio;
+                
+                $convertedUnits[$primarySlotTo] += round($displacedPeasants * $primarySlotRatio);
+                $convertedUnits[$fallbackSlotTo] += round($displacedPeasants * $fallbackSlotRatio);
+            }
+         }
+
+         return $convertedUnits;
+    }
+
     public function getValueBasedConversions(Dominion $attacker, Dominion $defender, array $invasion, int $rawOp, int $rawDp, float $landRatio, string $mode, int $rawDpLost, int $rawOpLost): array
     {
         $convertedUnits = array_fill(1, 4, 0);
@@ -240,14 +302,6 @@ class ConversionCalculator
                 if($valueConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'value_conversion'))
                 {
                     $convertingUnits[$slot] += $amount;
-
-                    # Deduct lost units.
-                    /*
-                    if(isset($invasion['attacker']['unitsLost'][$slot]))
-                    {
-                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
-                    }
-                    */
                 }
             }
 

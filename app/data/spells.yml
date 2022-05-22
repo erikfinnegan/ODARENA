@@ -432,16 +432,15 @@ lightfoots:
 
 howling:
   name: Howling
-  enabled: 0
   scope: self
-  class: passive
+  class: active
   cost: 8
-  duration: 48
+  duration: 0
   cooldown: 0
   exclusive_races:
     - Kobold
   perks:
-    offensive_power: 10
+    increase_morale_from_net_victories: 1
 
 retribution:
   name: Retribution
@@ -474,7 +473,7 @@ regeneration:
   scope: self
   class: passive
   cost: 10
-  duration: 48
+  duration: 24
   cooldown: 72
   exclusive_races:
     - Reptilians
@@ -711,17 +710,17 @@ spiral_architecture:
 
 fimbulwinter:
   name: Fimbulwinter
-  enabled: 0
   scope: self
   class: passive
   cost: 8
-  duration: 48
-  cooldown: 0
+  duration: 24
+  cooldown: 96
   exclusive_races:
     - Norse
   perks:
     defensive_power: 10
-    casualties_on_offense: 20
+    food_production: -10
+    lumber_production: -10
 
 ragnarok:
   name: Ragnarök
@@ -755,17 +754,17 @@ desecration:
 
 infernal_fury:
   name: Infernal Fury
-  enabled: 0
   scope: self
   class: passive
   cost: 7
-  duration: 24
-  cooldown: 0
+  duration: 12
+  cooldown: 96
   exclusive_races:
     - Demon
   perks:
     increases_enemy_casualties_on_offense: 25
     increases_enemy_casualties_on_defense: 25
+    food_consumption_mod: 20
 
 sacrifice_to_azk_hurum:
   name: Sacrifice to Azk'Hurum
@@ -855,7 +854,6 @@ chitin:
   class: passive
   cost: 10
   duration: 48
-  cooldown: 0
   exclusive_races:
     - Swarm
   perks:
@@ -1027,18 +1025,17 @@ imperial_duty:
     drafting: 100
 
 fine_arts:
-  name: Mirnon's Delights
-  enabled: 0
+  name: Fine Arts
   scope: self
   class: passive
   cost: 10
-  duration: 48
+  duration: 24
   cooldown: 0
   exclusive_races:
     - Vampires
   perks:
-    gold_production_mod: 5
-    gems_production_mod: 5
+    invest_bonus: 10
+    unit_gold_costs: 5
 
 # BEGIN UNDEAD
 
@@ -1087,12 +1084,13 @@ furnace_maws:
   scope: self
   class: passive
   cost: 6
-  duration: 2
-  cooldown: 0
+  duration: 18
+  cooldown: 72
   exclusive_races:
     - Dragon
   perks:
-    burns_extra_buildings: 1
+    offensive_power: 5
+    gem_production: -10
 
 stasis:
   name: Stasis

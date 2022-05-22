@@ -117,6 +117,7 @@ class SpellHelper
 
             'increase_morale' => 'Restores target morale by %s%% (up to maximum of 100%%).',
             'decrease_morale' => 'Lowers target morale by %s%% (minimum 0%%).',
+            'increase_morale_from_net_victories' => 'Increases morale by %s%% per net victory (minimum +0%%).',
 
             'kill_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 
@@ -241,8 +242,6 @@ class SpellHelper
 
             // Special
             'opens_portal' => 'Opens a portal required to teleport otherwordly units to enemy lands',
-
-            'burns_extra_buildings' => 'Destroy up to 10%% additional buildings when successfully invading someone, if buildings are built with lumber. Dragons must account for at least 90%% of the offensive power.',
 
             'stasis' => 'Freezes time. No production, cannot take actions, and cannot have actions taken against it. Units returning from battle continue to return but do not finish and arrive home until Stasis is over.',
 

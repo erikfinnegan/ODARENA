@@ -30,6 +30,8 @@ class ImprovementHelper
             'sapling_production_mod' => 'sapling growth',
             'thunderstone_production_mod' => 'thunderstone discovery',
 
+            'food_consumption_mod' => 'food consumption',
+
             'xp_generation_mod' => 'XP generation',
 
             'exchange_rate' => 'exchange rate',

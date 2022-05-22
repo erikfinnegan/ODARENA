@@ -48,7 +48,7 @@ units:
       offense: 0
       defense: 12
     perks:
-      counts_as_wizard_on_defense_from_land: 0.002,1,water # Counts as 0.002 wizard on defense per 1% water
+      counts_as_wizard_on_defense_from_land: 0.004,1,water # Counts as 0.004 wizard on defense per 1% water
       counts_as_wizard_on_offense_from_land: 0.001,1,water # Counts as 0.001 wizard on offense per 1% water
 
   - name: Follower
