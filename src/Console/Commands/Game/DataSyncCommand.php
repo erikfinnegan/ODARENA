@@ -1081,14 +1081,14 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     if(is_array($originalValue))
                     {
-                    #    $originalValue = implode(',', $originalValue);
+                        $originalValue = implode(',', $originalValue);
                     }
                     if(is_array($newValue))
                     {
                         $newValue = implode(',', $newValue);
                     }
 
-                    #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
             }
 
