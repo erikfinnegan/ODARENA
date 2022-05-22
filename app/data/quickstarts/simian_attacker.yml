@@ -11,7 +11,7 @@ prestige: 400
 peasants: 8000
 protection_ticks: 0
 devotion_ticks: 0
-xp: 0
+xp: 16000
 
 buildings:
   dock: 50
