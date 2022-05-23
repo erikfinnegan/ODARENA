@@ -436,7 +436,7 @@ howling:
   class: active
   cost: 8
   duration: 0
-  cooldown: 0
+  cooldown: 144
   exclusive_races:
     - Kobold
   perks:
