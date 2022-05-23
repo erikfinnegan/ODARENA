@@ -17,88 +17,42 @@
 
 </div>
 <div class="row">
-    <div class="col-md-12 col-md-4">
+    <div class="col-md-12 col-md-12">
         <div class="box box-warning">
             <div class="box-header with-border">
                 <h4 class="box-title">The Commonwealth</h4>
             </div>
             <table class="table table-striped" style="margin-bottom: 0">
+                <colgroup>
+                    <col>
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                    <col width="120">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Faction</th>
+                        <th>Title</th>
+                        <th>Deity</th>
+                        <th>Remaing Ticks</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    @foreach ($goodRaces as $race)
-                    @if($race['playable'] == 1)
+                    @foreach ($quickstarts as $quickstart)
                         <tr>
-                            <td>
-                                <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
-                            </td>
+                            <td><a href="{{ route('scribes.quickstart', $quickstart->id) }}">{{ $quickstart->name }}</a></td>
+                            <td>{{ $quickstart->race->name }}</td>
+                            <td>{{ $quickstart->title->name }}</td>
+                            <td>{{ isset($quickstart->deity) ? $quickstart->deity->name : 'None' }}</td>
+                            <td>{{ $quickstart->protection_ticks }}</td>
                         </tr>
-                    @endif
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-
-    <div class="col-md-12 col-md-4">
-        <div class="box box-danger">
-            <div class="box-header with-border">
-                <h4 class="box-title">The Empire</h4>
-            </div>
-            <table class="table table-striped" style="margin-bottom: 0">
-                <tbody>
-                    @foreach ($evilRaces as $race)
-                    @if($race['playable'] == 1)
-                        <tr>
-                            <td>
-                                <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
-                            </td>
-                        </tr>
-                    @endif
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="col-md-12 col-md-4">
-        <div class="row">
-            <div class="box box-success">
-                <div class="box-header with-border">
-                    <h4 class="box-title">The Independent</h4>
-                </div>
-                <table class="table table-striped" style="margin-bottom: 0">
-                    <tbody>
-                        @foreach ($independentRaces as $race)
-                        @if($race['playable'] == 1)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
-                                </td>
-                            </tr>
-                        @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="box">
-                <div class="box-header with-border">
-                    <h4 class="box-title">Barbarian Horde</h4>
-                </div>
-                <table class="table table-striped" style="margin-bottom: 0">
-                    <tbody>
-                        @foreach ($npcRaces as $race)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 </div>
 @endsection
