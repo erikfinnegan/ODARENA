@@ -157,7 +157,6 @@ class RoundController extends AbstractController
         $this->validate($request, [
             'dominion_name' => 'required|string|min:3|max:50',
             'ruler_name' => 'nullable|string|max:50',
-            'title' => 'required|exists:titles,id',
             'quickstart' => 'required|exists:quickstarts,id',
         ]);
 
@@ -199,7 +198,6 @@ class RoundController extends AbstractController
                         /** @var User $user */
                         $user = Auth::user();
                         $race = $quickstart->race;
-                        $title = Title::findOrFail($request->get('title'));
                         $pack = null;
         
                         if (!$race->playable and $race->alignment !== 'npc')

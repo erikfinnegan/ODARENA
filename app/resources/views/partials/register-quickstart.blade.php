@@ -18,9 +18,7 @@
                         </tr>
                         <tr>
                             <td class="text-left">Title</td>
-                            <td class="text-left"><input type="hidden" name="title" id="title" value="{{ $quickstart->title->id }}">
-                                {{ $quickstart->title->name }}
-                            </td>
+                            <td class="text-left">{{ $quickstart->title->name }}</td>
                         </tr>
                         <tr>
                             <td class="text-left">Offensive Power</td>
