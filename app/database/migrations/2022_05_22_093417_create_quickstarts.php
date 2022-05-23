@@ -19,6 +19,7 @@ class CreateQuickstarts extends Migration
             $table->string('name');
             $table->integer('race_id')->unsigned();
             $table->integer('deity_id')->unsigned()->nullable();
+            $table->integer('title_id')->unsigned();
             $table->integer('offensive_power')->default(0);
             $table->integer('defensive_power')->default(0);
             $table->integer('enabled');
@@ -27,7 +28,7 @@ class CreateQuickstarts extends Migration
             $table->integer('devotion_ticks')->default(0);
             $table->integer('morale')->default(100);
             $table->integer('peasants')->default(0);
-            $table->integer('prestige')->default(400);
+            $table->integer('prestige')->default(600);
             $table->integer('spy_strength')->default(100);
             $table->integer('protection_ticks')->default(0);
             $table->integer('wizard_strength')->default(100);
@@ -45,6 +46,7 @@ class CreateQuickstarts extends Migration
             $table->timestamps();
 
             $table->foreign('race_id')->references('id')->on('races');
+            $table->foreign('title_id')->references('id')->on('titles');
             $table->foreign('deity_id')->references('id')->on('deities');
         });
     }

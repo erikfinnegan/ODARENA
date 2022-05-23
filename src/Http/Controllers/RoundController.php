@@ -241,7 +241,6 @@ class RoundController extends AbstractController
                             $user,
                             $realm,
                             $race,
-                            $title,
                             ($request->get('ruler_name') ?: $user->display_name),
                             $dominionName,
                             $quickstart

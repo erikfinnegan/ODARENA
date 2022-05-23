@@ -1030,11 +1030,20 @@ class DataSyncCommand extends Command implements CommandInterface
 
             if(isset($data->deity))
             {
-                $deity = Deity::where('key', $data->deity)->first();
+                $deity = Deity::where('name', $data->deity)->first();
             }
             else
             {
                 $deity = null;
+            }
+
+            if(isset($data->title))
+            {
+                $title = Title::where('name', $data->title)->first();
+            }
+            else
+            {
+                $title = null;
             }
 
             // Quickstart
@@ -1044,6 +1053,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'description' => object_get($data, 'description'),
                     'race_id' => $race->id,
                     'deity_id' => isset($deity) ? $deity->id : null,
+                    'title_id' => isset($title) ? $title->id : null,
                     'enabled' => object_get($data, 'enabled', 1),
                     'offensive_power' => object_get($data, 'offensive_power', 0),
                     'defensive_power' => object_get($data, 'defensive_power', 0),
@@ -1059,7 +1069,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'xp' => object_get($data, 'xp', 0),
 
                     'buildings' => object_get($data, 'buildings', []),
-                    'cooldown' => object_get($data, 'cooldown', []),
                     'improvements' => object_get($data, 'improvements', []),
                     'land' => object_get($data, 'land', []),
                     'resources' => object_get($data, 'resources', []),

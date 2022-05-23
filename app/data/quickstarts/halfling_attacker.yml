@@ -1,6 +1,7 @@
 name: Halfling Attacker
 description: 
 race: Halfling
+title: Engineer
 offensive_power: 22000
 defensive_power: 50000
 enabled: 1
@@ -38,11 +39,7 @@ resources:
   mana: 2000
 
 spells:
-  gaias_watch: 24
-
-cooldown:
-  sazals_fog: 96
-  sazals_charge: 96
+  gaias_watch: 24,0
 
 techs:
   - anvils_level1

@@ -47,6 +47,11 @@ class Quickstart extends AbstractModel
         return $this->belongsTo(Race::class);
     }
 
+    public function title()
+    {
+        return $this->belongsTo(Title::class);
+    }
+
     public function deity()
     {
         return $this->belongsTo(Deity::class);

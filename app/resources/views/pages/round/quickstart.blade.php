@@ -49,28 +49,6 @@
                     </div>
                 </div>
 
-                <!-- Title -->
-                <div class="form-group">
-                    <label for="title" class="col-sm-3 control-label">Ruler Title</label>
-                    <div class="col-sm-6">
-                        <select name="title" id="title" class="form-control select2" data-placeholder="Select a title" required>
-                          <option></option>
-                            @foreach ($titles as $title)
-
-                            <option value="{{ $title->id }}">
-                                  {{ $title->name }}
-                                  (@foreach ($title->perks as $perk)
-                                      @php
-                                          $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
-                                      @endphp
-                                          {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
-                                  @endforeach)
-                            </option>
-                        @endforeach
-                      </select>
-                        <p class="help-block">This is the title you will go by. Select one that complements your intended strategy.</p>
-                    </div>
-                </div>
 
                 <!-- Ruler Name -->
                 <div class="form-group">

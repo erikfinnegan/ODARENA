@@ -17,6 +17,12 @@
                             <td class="text-left">{{ $quickstart->race->name }} <a href="{{ route('scribes.faction', $quickstart->race->name) }}"><i class="ra ra-scroll-unfurled"></i></a></td>
                         </tr>
                         <tr>
+                            <td class="text-left">Title</td>
+                            <td class="text-left"><input type="hidden" name="title" id="title" value="{{ $quickstart->title->id }}">
+                                {{ $quickstart->title->name }}
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="text-left">Offensive Power</td>
                             <td class="text-left">{{ number_format($quickstart->offensive_power) }} <em>(est.)</em></td>
                         </tr>
@@ -140,30 +146,17 @@
 
                         @if(!empty($quickstart->spells))
                             <tr>
-                                <td class="text-left">Spells (active)</td>
+                                <td class="text-left">Spells</td>
                                 <td class="text-left">
                                     <ul>
-                                    @foreach($quickstart->spells as $spellKey => $amount)
+                                    @foreach($quickstart->spells as $spellKey => $durationData)
                                         @php
                                             $spell = OpenDominion\Models\Spell::where('key', $spellKey)->first();
+                                            $durationData = explode(',', $durationData);
+                                            $duration = $durationData[0];
+                                            $cooldown = $durationData[1];
                                         @endphp
-                                        <li>{{ $spell->name }}: {{ number_format($amount) . ' ' . str_plural('tick', $amount) }}</li>
-                                    @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->cooldown))
-                            <tr>
-                                <td class="text-left">Spells (cooldown)</td>
-                                <td class="text-left">
-                                    <ul>
-                                    @foreach($quickstart->cooldown as $spellKey => $amount)
-                                        @php
-                                            $spell = OpenDominion\Models\Spell::where('key', $spellKey)->first();
-                                        @endphp
-                                        <li>{{ $spell->name }}: {{ number_format($amount) . ' ' . str_plural('tick', $amount) }} cooldown</li>
+                                        <li>{{ $spell->name }}: {{ $duration . str_plural(' tick', $duration) }} duration, {{ $cooldown . str_plural(' tick', $cooldown) }} cooldown</li>
                                     @endforeach
                                     </ul>
                                 </td>

@@ -25,6 +25,7 @@ use Illuminate\Support\Carbon;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Services\Dominion\ResourceService;
 
@@ -39,6 +40,7 @@ class DominionFactory
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
         $this->deityService = app(DeityService::class);
         $this->resourceService = app(ResourceService::class);
     }
@@ -636,7 +638,6 @@ class DominionFactory
         User $user,
         Realm $realm,
         Race $race,
-        Title $title,
         string $rulerName,
         string $dominionName,
         Quickstart $quickstart
@@ -650,7 +651,7 @@ class DominionFactory
             'round_id' => $realm->round->id,
             'realm_id' => $realm->id,
             'race_id' => $race->id,
-            'title_id' => $title->id,
+            'title_id' => $quickstart->title->id,
             'pack_id' => null,
 
             'ruler_name' => $rulerName,
@@ -696,36 +697,24 @@ class DominionFactory
         }
 
         # Starting spells active
-        foreach($quickstart->spells as $spellKey => $duration)
+        foreach($quickstart->spells as $spellKey => $durationData)
         {
-            DB::transaction(function () use ($dominion, $spellKey, $duration)
+            $durationData = explode(',', $durationData);
+            $duration = $durationData[0];
+            $cooldown = $durationData[1];
+
+            DB::transaction(function () use ($dominion, $spellKey, $duration, $cooldown)
             {
                 DominionSpell::create([
                     'dominion_id' => $dominion->id,
                     'caster_id' => $dominion->id,
                     'spell_id' => Spell::where('key', $spellKey)->first()->id,
                     'duration' => $duration,
-                    'cooldown' => 0,
-                ]);
-            });
-        }
-
-        # Starting spells on cooldown
-        foreach($quickstart->cooldown as $spellKey => $cooldown)
-        {
-            DB::transaction(function () use ($dominion, $spellKey, $cooldown)
-            {
-                DominionSpell::create([
-                    'dominion_id' => $dominion->id,
-                    'caster_id' => $dominion->id,
-                    'spell_id' => Spell::where('key', $spellKey)->first()->id,
-                    'duration' => 0,
                     'cooldown' => $cooldown,
                 ]);
             });
         }
 
-        # Starting spells on cooldown
         foreach($quickstart->techs as $techKey)
         {
             DB::transaction(function () use ($dominion, $techKey)
@@ -738,7 +727,6 @@ class DominionFactory
         }
 
         return $dominion;
-
     }
 
 }

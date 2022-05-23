@@ -209,6 +209,9 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('notes')->uses('Dominion\NotesController@getNotes')->name('notes');
             $router->post('notes')->uses('Dominion\NotesController@postNotes');
 
+            // Notes
+            $router->get('quickstart')->uses('Dominion\QuickstartController@getQuickstart')->name('quickstart');
+
             // Misc
             $router->post('misc/clear-notifications')->uses('Dominion\MiscController@postClearNotifications')->name('misc.clear-notifications');
             $router->post('misc/close-pack')->uses('Dominion\MiscController@postClosePack')->name('misc.close-pack');

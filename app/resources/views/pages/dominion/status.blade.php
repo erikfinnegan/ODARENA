@@ -326,7 +326,7 @@
         @endif
 
         @if ($dominionProtectionService->canTick($selectedDominion) or $dominionProtectionService->canDelete($selectedDominion))
-        <div class="col-sm-12 col-md-9">
+        <div class="col-sm-12 col-md-6">
             @if ($dominionProtectionService->canTick($selectedDominion))
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -380,6 +380,22 @@
                 </div>
             @endif
         </div>
+
+        <div class="col-sm-12 col-md-3">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fas fa-fast-forward fa-fw text-orange"></i> Quickstart</h3>
+                </div>
+                    <div class="box-body">
+                        <p>Click the button below to generate a quickstart based on the current state of your dominion.</p>
+                        <p class="text-red"><strong>Note that anything in queue (units in training, unfinished buildings) will not be included in the quickstart.</strong></p>
+                        <a href="{{ route('dominion.quickstart') }}" class="btn btn-warning">
+                            <i class="fas fa-fast-forward fa-fw"></i> Generate Quickstart
+                        </a>
+                    </div>
+            </div>
+        </div>      
+
         @endif
 
         <div class="col-sm-12 col-md-9">
