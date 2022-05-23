@@ -55,6 +55,15 @@ class ScribesController extends AbstractController
         ]);
     }
 
+    public function getQuickstart(int $quickstartId)
+    {
+        return view('pages.scribes.quickstart', [
+            'quickstart' => Quickstart::findOrFail($quickstartId),
+            'raceHelper' => app(RaceHelper::class),
+            'unitHelper' => app(UnitHelper::class),
+        ]);
+    }
+
     public function getRace(string $raceName)
     {
         $raceName = ucwords(str_replace('-', ' ', $raceName));

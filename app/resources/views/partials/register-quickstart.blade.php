@@ -8,169 +8,64 @@
             <div class="box-body table-responsive no-padding">
                 <table class="table">
                     <colgroup>
-                        <col width="25%">
-                        <col width="75%">
+                        <col width="50%">
+                        <col width="50%">
                     </colgroup>
                     <tbody>
                         <tr>
-                            <td class="text-left">Faction</td>
-                            <td class="text-left">{{ $quickstart->race->name }} <a href="{{ route('scribes.faction', $quickstart->race->name) }}"><i class="ra ra-scroll-unfurled"></i></a></td>
+                            <th>Faction</th>
+                            <th>Title</th>
                         </tr>
                         <tr>
-                            <td class="text-left">Title</td>
+                            <td class="text-left">{{ $quickstart->race->name }} <a href="{{ route('scribes.faction', $quickstart->race->name) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i></a></td>
                             <td class="text-left">{{ $quickstart->title->name }}</td>
                         </tr>
+
                         <tr>
-                            <td class="text-left">Offensive Power</td>
-                            <td class="text-left">{{ number_format($quickstart->offensive_power) }} <em>(est.)</em></td>
+                            <th>Offensive Power</th>
+                            <th>Defensive power</th>
                         </tr>
                         <tr>
-                            <td class="text-left">Defensive Power</td>
+                            <td class="text-left">{{ number_format($quickstart->offensive_power) }} <em>(est.)</em></td>
                             <td class="text-left">{{ number_format($quickstart->defensive_power) }} <em>(est.)</em></td>
                         </tr>
+
                         <tr>
-                            <td class="text-left">Deity</td>
-                            <td class="text-left">{{ isset($quickstart->deity) ? ($quickstart->deity->name . ' (' . number_format($quickstart->devotion_ticks) . ' ' . str_plural('tick', $quickstart->devotion_ticks) . ' devotion)' ): 'none' }}</td>
+                            <th>Ticks Left</th>
+                            <th>Land</th>
                         </tr>
                         <tr>
-                            <td class="text-left">Ticks</td>
-                            <td class="text-left">{{ number_format($quickstart->protection_ticks) . ' (protection ' . str_plural('tick', $quickstart->protection_ticks) . ' remaining)'  }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Land</td>
+                            <td class="text-left">{{ number_format($quickstart->protection_ticks) }}</td>
                             <td class="text-left">{{ number_format(array_sum($quickstart->land)) }}</td>
                         </tr>
-                        <tr>
-                            <td class="text-left">Peasants</td>
-                            <td class="text-left">{{ number_format($quickstart->peasants) }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">Prestige</td>
-                            <td class="text-left">{{ number_format($quickstart->prestige) }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">XP</td>
-                            <td class="text-left">{{ number_format($quickstart->xp) }}</td>
-                        </tr>
-                        @if($quickstart->draft_rate != 50)
-                            <tr>
-                                <td class="text-left">Draft rate</td>
-                                <td class="text-left">{{ number_format($quickstart->draft_rate) }}%</td>
-                            </tr>
-                        @endif
-
-                        @if($quickstart->morale != 100)
-                            <tr>
-                                <td class="text-left">Morale</td>
-                                <td class="text-left">{{ number_format($quickstart->morale) }}%</td>
-                            </tr>
-                        @endif
-
-                        @if($quickstart->spy_strength != 100)
-                            <tr>
-                                <td class="text-left">Spy strength</td>
-                                <td class="text-left">{{ number_format($quickstart->spy_strength) }}%</td>
-                            </tr>
-                        @endif
-
-                        @if($quickstart->wizard_strength != 100)
-                            <tr>
-                                <td class="text-left">Wizard strength</td>
-                                <td class="text-left">{{ number_format($quickstart->wizard_strength) }}%</td>
-                            </tr>
-                        @endif
-
 
                         @if(!empty($quickstart->buildings))
                             <tr>
-                                <td class="text-left">Buildings</td>
+                                <th>Buildings</th>
+                                <th>Resources</th>
+                            </tr>
+                            <tr>
                                 <td class="text-left">
                                     <ul>
                                     @foreach($quickstart->buildings as $buildingKey => $amount)
-                                        @php
-                                            $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
-                                        @endphp
-                                        <li>{{ $building->name }}: {{ number_format($amount) }}</li>
+                                        @if($amount > 0)
+                                            @php
+                                                $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
+                                            @endphp
+                                            <li>{{ $building->name }}: {{ number_format($amount) }}</li>
+                                        @endif
                                     @endforeach
                                     </ul>
                                 </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->improvements))
-                            <tr>
-                                <td class="text-left">Improvements</td>
-                                <td class="text-left">
-                                    <ul>
-                                    @foreach($quickstart->improvements as $improvementKey => $amount)
-                                        @php
-                                            $improvement = OpenDominion\Models\Improvement::where('key', $improvementKey)->first();
-                                        @endphp
-                                        <li>{{ $improvement->name }}: {{ number_format($amount) }} points</li>
-                                    @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->land))
-                            <tr>
-                                <td class="text-left">Land</td>
-                                <td class="text-left">
-                                    <ul>
-                                    @foreach($quickstart->land as $landType => $amount)
-                                        <li>{{ ucwords($landType) }}: {{ number_format($amount) }}</li>
-                                    @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->resources))
-                            <tr>
-                                <td class="text-left">Resources</td>
                                 <td class="text-left">
                                     <ul>
                                     @foreach($quickstart->resources as $resourceKey => $amount)
-                                        @php
-                                            $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
-                                        @endphp
-                                        <li>{{ $resource->name }}: {{ number_format($amount) }}</li>
-                                    @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->spells))
-                            <tr>
-                                <td class="text-left">Spells</td>
-                                <td class="text-left">
-                                    <ul>
-                                    @foreach($quickstart->spells as $spellKey => $durationData)
-                                        @php
-                                            $spell = OpenDominion\Models\Spell::where('key', $spellKey)->first();
-                                            $durationData = explode(',', $durationData);
-                                            $duration = $durationData[0];
-                                            $cooldown = $durationData[1];
-                                        @endphp
-                                        <li>{{ $spell->name }}: {{ $duration . str_plural(' tick', $duration) }} duration, {{ $cooldown . str_plural(' tick', $cooldown) }} cooldown</li>
-                                    @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                        @endif
-
-                        @if(!empty($quickstart->techs))
-                            <tr>
-                                <td class="text-left">Techs</td>
-                                <td class="text-left">
-                                    <ul>
-                                    @foreach($quickstart->techs as $techKey)
-                                        @php
-                                            $tech = OpenDominion\Models\Tech::where('key', $techKey)->first();
-                                        @endphp
-                                        <li>{{ $tech->name }}: level {{ $tech->level }}</li>
+                                        @if($amount > 0)
+                                            @php
+                                                $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                            @endphp
+                                            <li>{{ $resource->name }}: {{ number_format($amount) }}</li>
+                                        @endif
                                     @endforeach
                                     </ul>
                                 </td>
@@ -179,7 +74,10 @@
 
                         @if(!empty($quickstart->units))
                             <tr>
-                                <td class="text-left">Units</td>
+                                <th>Units</th>
+                                <th>Full Details</th>
+                            </tr>
+                            <tr>
                                 <td class="text-left">
                                     <ul>
                                     @foreach($quickstart->units as $unitKey => $amount)
@@ -207,6 +105,9 @@
                                         @endif
                                     @endforeach
                                     </ul>
+                                </td>
+                                <td class="text-left">
+                                    <a href="{{ route('scribes.quickstart', $quickstart->id) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i> Scribes</a>
                                 </td>
                             </tr>
                         @endif

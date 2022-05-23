@@ -17,6 +17,7 @@ class CreateQuickstarts extends Migration
             $table->id();
             
             $table->string('name');
+            $table->text('description')->nullable();
             $table->integer('race_id')->unsigned();
             $table->integer('deity_id')->unsigned()->nullable();
             $table->integer('title_id')->unsigned();
