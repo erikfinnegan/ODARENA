@@ -77,6 +77,21 @@
         </div>
     </div>
 
+
+    @if($quickstart->description)
+
+        <div class="col-md-12 col-md-6">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Description</h4>
+                </div>
+                <div class="box-body">
+                    {!! $quickstart->description !!}
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="col-md-12 col-md-6">
         <div class="box">
             <div class="box-header with-border">
