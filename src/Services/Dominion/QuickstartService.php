@@ -91,7 +91,7 @@ xp: %s\n",
             $dominion->prestige,
             $dominion->peasants,
             $dominion->protection_ticks,
-            $dominion->devotion->duration,
+            $dominion->hasDeity() ? $dominion->devotion->duration : 0,
             $dominion->spy_strength,
             $dominion->wizard_strength,
             $dominion->xp
