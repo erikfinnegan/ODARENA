@@ -4,7 +4,6 @@
 @section('content')
 @include('partials.scribes.nav')
 
-
 <div class="row">
 
     <div class="col-sm-12 col-md-12">
@@ -20,7 +19,7 @@
     <div class="col-md-12 col-md-12">
         <div class="box box-warning">
             <div class="box-header with-border">
-                <h4 class="box-title">The Commonwealth</h4>
+                <h4 class="box-title">Quickstarts</h4>
             </div>
             <table class="table table-striped" style="margin-bottom: 0">
                 <colgroup>

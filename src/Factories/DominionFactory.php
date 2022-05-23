@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionDeity;
 use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\DominionTech;
 use OpenDominion\Models\Pack;
@@ -693,7 +694,17 @@ class DominionFactory
 
         if(isset($quickstart->deity))
         {
-            $this->deityService->completeSubmissionToDeity($dominion, $quickstart->deity);
+            $deity = $quickstart->deity;
+            $devotion = $quickstart->devotion_ticks;
+
+            DB::transaction(function () use ($dominion, $deity, $devotion)
+            {
+                DominionDeity::create([
+                    'dominion_id' => $dominion->id,
+                    'deity_id' => $deity->id,
+                    'duration' => $devotion
+                ]);
+            });
         }
 
         # Starting spells active
