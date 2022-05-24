@@ -4,19 +4,19 @@ assassinate_draftees:
   name: Assassinate Draftees
   scope: hostile
   perks:
-    kill_draftees: 0.01
+    kill_draftees: 0.10
 
 assassinate_peasants:
   name: Assassinate Peasants
   scope: hostile
   perks:
-    kill_peasants: 0.01
+    kill_peasants: 0.10
 
 magic_snare:
   name: Magic Snare
   scope: hostile
   perks:
-    decrease_wizard_strength: 0.02
+    decrease_wizard_strength: 0.20
 
 sabotage_construction:
   name: Sabotage Construction
@@ -30,7 +30,7 @@ sabotage_construction:
     - Reptilians
     - Myconid
   perks:
-    sabotage_construction: 0.001
+    sabotage_construction: 0.010
 
 sabotage_building_temples:
   name: Sabotage Temples

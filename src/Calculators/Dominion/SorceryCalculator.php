@@ -43,15 +43,9 @@ class SorceryCalculator
 
     public function getSorcerySpellManaCost(Dominion $caster, Spell $spell, int $wizardStrength): int
     {
-        $manaCost = $this->spellCalculator->getManaCost($caster, $spell->key);
+        $manaCost = $this->getManaCost($caster, $spell->key);
 
         return $manaCost * $wizardStrength;
-    }
-
-    public function getSorcerySpellDamage(Dominion $caster, Dominion $target, Spell $spell, string $perkKey, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): float
-    {
-        $damage = 0;
-
     }
 
     public function getSorcerySpellDuration(Dominion $caster, Dominion $target, Spell $spell, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): int
@@ -117,6 +111,40 @@ class SorceryCalculator
         $multiplier += clamp((($casterWpa - $targetWpa) / $casterWpa), 0, 1.5);
 
         return $multiplier;
+    }
+
+    public function getManaCost(Dominion $dominion, string $spellKey, bool $isInvasionSpell = false): int
+    {
+        if($isInvasionSpell)
+        {
+            return 0;
+        }
+
+        $spell = Spell::where('key',$spellKey)->first();
+
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+        $baseCost = $totalLand * $spell->cost;
+
+        return round($baseCost * $this->getManaCostMultiplier($dominion));
+    }
+
+    public function getManaCostMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 1;
+
+        $multiplier += $dominion->getBuildingPerkMultiplier('sorcery_cost');
+        $multiplier += $dominion->getTechPerkMultiplier('sorcery_cost');
+        $multiplier += $dominion->getImprovementPerkMultiplier('sorcery_cost');
+        $multiplier += $dominion->getDeityPerkMultiplier('sorcery_cost');
+        $multiplier += $dominion->getSpellPerkMultiplier('sorcery_cost');
+
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('sorcery_cost') * $dominion->getTitlePerkMultiplier();
+        }
+
+        return max(0.1, $multiplier);
     }
 
 }
