@@ -7,7 +7,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
             <span class="pull-right">
-                <a href="{{ route('round.quickstart', $round) }}" class="btn btn-warning"><i class="fas fa-fast-forward fa-fw text-orange"></i> Quickstart</a>
+                <a href="{{ route('round.quickstart', $round) }}" class="btn btn-warning"><i class="fas fa-fast-forward fa-fw"></i> Quickstart</a>
             </span>
         </div>
         <form action="{{ route('round.register', $round) }}" method="post" class="form-horizontal" role="form">
