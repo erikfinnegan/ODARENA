@@ -3,8 +3,8 @@ description:
 race: Qur
 title: Excavator
 deity: Mirnon
-offensive_power: variable
-defensive_power: 71.9
+offensive_power: 20000
+defensive_power: 71900
 draft_rate: 90
 morale: 100
 prestige: 600
