@@ -12,16 +12,16 @@
         <form action="{{ route('round.quickstart', $round) }}" method="post" class="form-horizontal" role="form">
             @csrf
 
-            <div class="box-body table-responsive" id="dominion-search">
-                <table class="table table-hover" id="dominions-table">
+            <div class="box box-body">
+                <table class="table table-striped table-hover" id="quickstarts-table">
                     <colgroup>
-                        <col width="2em">
-                        <col>
+                        <col width="60px">
+                        <col width="">
                         <col width="120px">
                         <col width="120px">
                         <col width="120px">
                     </colgroup>
-                    <tbody>
+                    <thead>
                         <tr>
                             <th>Select</th>
                             <th>Name</th>
@@ -29,11 +29,11 @@
                             <th>Land</th>
                             <th>Ticks</th>
                         </tr>
-                    </tbody>
+                    </thead>
                     <tbody>
                     @foreach($quickstarts as $quickstart)
                             <tr>
-                                <td><input type="radio" id="quickstart{{ $quickstart->id}}" name="quickstart" value="{{ $quickstart->id }}" required></td>
+                                <td class="text-center"><input type="radio" id="quickstart{{ $quickstart->id}}" name="quickstart" value="{{ $quickstart->id }}" required></td>
                                 <td class="text-left"><label style="font-weight: normal; display: block;" for="quickstart{{ $quickstart->id}}"><a href="{{ route('scribes.quickstart', $quickstart->id) }}" target="_blank">{{ $quickstart->name }}</a></label></td>
                                 <td>{{ $quickstart->race->name }}</td>
                                 <td>{{ number_format(array_sum($quickstart->land)) }}</td>
@@ -42,8 +42,6 @@
                     @endforeach
                     </tbody>
                 </table>
-
-
 
                 <!-- Dominion Name -->
                 <div class="form-group">
@@ -101,7 +99,7 @@
 @push('page-styles')
     <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
     <style>
-        #dominion-search #dominions-table_filter { display: none !important; }
+        #quickstarts-table_filter { display: none !important; }
     </style>
 @endpush
 
@@ -112,53 +110,12 @@
 
 @push('inline-scripts')
     <script type="text/javascript">
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                var race = $('select[name=race]').val();
-                if (race && race != data[2]) return false;
-
-                var landMin = parseInt($('input[name=landMin]').val());
-                var landMax = parseInt($('input[name=landMax]').val());
-                var land = parseFloat(data[3]) || 0;
-
-                if (!(isNaN(landMin) && isNaN(landMax)) &&
-                    !(isNaN(landMin) && land <= landMax) &&
-                    !(landMin <= land && isNaN(landMax)) &&
-                    !(landMin <= land && land <= landMax))
-                {
-                    return false;
-                }
-
-                var nwMin = parseInt($('input[name=networthMin]').val());
-                var nwMax = parseInt($('input[name=networthMax]').val());
-                var nw = parseFloat(data[4]) || 0;
-
-                if (!(isNaN(nwMin) && isNaN(nwMax)) &&
-                    !(isNaN(nwMin) && nw <= nwMax) &&
-                    !(nwMin <= nw && isNaN(nwMax)) &&
-                    !(nwMin <= nw && nw <= nwMax))
-                {
-                    return false;
-                }
-
-                var range = $('select[name=range]').val();
-                if (range && data[6] != "true") return false;
-
-                return true;
-            }
-        );
         (function ($) {
-            var table = $('#dominions-table').DataTable({
-                order: [[3, 'desc']],
-                paging: false,
+            var table = $('#quickstarts-table').DataTable({
+                order: [1, 'asc'],
+                paging: true,
+                pageLength: 10
             });
-            $('#dominion-search').click(function() {
-                table.draw();
-            });
-            $('.search-range').click(function() {
-                $('input[name=landMin]').val($(this).data('min'));
-                $('input[name=landMax]').val($(this).data('max'));
-            })
         })(jQuery);
     </script>
 @endpush
