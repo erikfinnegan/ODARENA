@@ -719,8 +719,8 @@ fimbulwinter:
     - Norse
   perks:
     defensive_power: 10
-    food_production: -10
-    lumber_production: -10
+    food_production_mod: -10
+    lumber_production_mod: -10
 
 ragnarok:
   name: Ragnarök
