@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Services\Dominion\ResourceService;
@@ -41,6 +42,7 @@ class DominionFactory
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->deityService = app(DeityService::class);
         $this->resourceService = app(ResourceService::class);
@@ -689,6 +691,7 @@ class DominionFactory
             'protection_ticks' => $quickstart->protection_ticks,
         ]);
 
+        $this->improvementCalculator->createOrIncrementImprovements($dominion, $quickstart->improvements);
         $this->buildingCalculator->createOrIncrementBuildings($dominion, $quickstart->buildings);
         $this->resourceService->updateResources($dominion, $quickstart->resources);
 

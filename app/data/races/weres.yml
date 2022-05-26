@@ -31,7 +31,7 @@ units:
       - sentient
       - wild
     cost:
-      gold: 0
+      gold: 300
       food: 0
     power:
       offense: 4
@@ -51,7 +51,7 @@ units:
       - sentient
       - wild
     cost:
-      gold: 0
+      gold: 300
       food: 0
     power:
       offense: 0

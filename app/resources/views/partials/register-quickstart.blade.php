@@ -12,6 +12,13 @@
                         <col width="50%">
                     </colgroup>
                     <tbody>
+                        @if(!empty($quickstart->description))
+                            <tr>
+                                <td>
+                                    <p>{{ $quickstart->description }}</p>
+                                </td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Faction</th>
                             <th>Title</th>

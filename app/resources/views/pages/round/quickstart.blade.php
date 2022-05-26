@@ -12,31 +12,36 @@
         <form action="{{ route('round.quickstart', $round) }}" method="post" class="form-horizontal" role="form">
             @csrf
 
-            <div class="box-body">
-
-                    {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
-                    @php
-                        $numOfCols = 3;
-                        $rowCount = 0;
-                        $bootstrapColWidth = 12 / $numOfCols;
-                    @endphp
-
-                    <div class="row">
-
+            <div class="box-body table-responsive" id="dominion-search">
+                <table class="table table-hover" id="dominions-table">
+                    <colgroup>
+                        <col width="2em">
+                        <col>
+                        <col width="120px">
+                        <col width="120px">
+                        <col width="120px">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>Select</th>
+                            <th>Name</th>
+                            <th>Faction</th>
+                            <th>Land</th>
+                            <th>Ticks</th>
+                        </tr>
+                    </tbody>
+                    <tbody>
                     @foreach($quickstarts as $quickstart)
-
-                        @include('partials.register-quickstart')
-
-                        @php
-                            $rowCount++;
-                        @endphp
-
-                        @if($rowCount % $numOfCols == 0)
-                            </div><div class="row">
-                        @endif
-
+                            <tr>
+                                <td><input type="radio" id="quickstart{{ $quickstart->id}}" name="quickstart" value="{{ $quickstart->id }}" required></td>
+                                <td class="text-left"><label style="font-weight: normal; display: block;" for="quickstart{{ $quickstart->id}}"><a href="{{ route('scribes.quickstart', $quickstart->id) }}" target="_blank">{{ $quickstart->name }}</a></label></td>
+                                <td>{{ $quickstart->race->name }}</td>
+                                <td>{{ number_format(array_sum($quickstart->land)) }}</td>
+                                <td>{{ number_format($quickstart->protection_ticks) }}</td>
+                            </tr>
                     @endforeach
-                    </div>
+                    </tbody>
+                </table>
 
 
 
@@ -94,90 +99,66 @@
 @endsection
 
 @push('page-styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+    <style>
+        #dominion-search #dominions-table_filter { display: none !important; }
+    </style>
 @endpush
 
 @push('page-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
 @endpush
 
 @push('inline-scripts')
     <script type="text/javascript">
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var race = $('select[name=race]').val();
+                if (race && race != data[2]) return false;
+
+                var landMin = parseInt($('input[name=landMin]').val());
+                var landMax = parseInt($('input[name=landMax]').val());
+                var land = parseFloat(data[3]) || 0;
+
+                if (!(isNaN(landMin) && isNaN(landMax)) &&
+                    !(isNaN(landMin) && land <= landMax) &&
+                    !(landMin <= land && isNaN(landMax)) &&
+                    !(landMin <= land && land <= landMax))
+                {
+                    return false;
+                }
+
+                var nwMin = parseInt($('input[name=networthMin]').val());
+                var nwMax = parseInt($('input[name=networthMax]').val());
+                var nw = parseFloat(data[4]) || 0;
+
+                if (!(isNaN(nwMin) && isNaN(nwMax)) &&
+                    !(isNaN(nwMin) && nw <= nwMax) &&
+                    !(nwMin <= nw && isNaN(nwMax)) &&
+                    !(nwMin <= nw && nw <= nwMax))
+                {
+                    return false;
+                }
+
+                var range = $('select[name=range]').val();
+                if (range && data[6] != "true") return false;
+
+                return true;
+            }
+        );
         (function ($) {
-            $('#title').select2({
-                templateResult: select2Template,
-                templateSelection: select2Template,
+            var table = $('#dominions-table').DataTable({
+                order: [[3, 'desc']],
+                paging: false,
             });
-            @if (session('title'))
-                $('#title').val('{{ session('title') }}').trigger('change.select2').trigger('change');
-            @endif
-        })(jQuery);
-
-
-        (function ($) {
-            $('#faction').select2({
-                templateResult: select2Template,
-                templateSelection: select2Template,
+            $('#dominion-search').click(function() {
+                table.draw();
             });
-            @if (session('faction'))
-                $('#faction').val('{{ session('faction') }}').trigger('change.select2').trigger('change');
-            @endif
+            $('.search-range').click(function() {
+                $('input[name=landMin]').val($(this).data('min'));
+                $('input[name=landMax]').val($(this).data('max'));
+            })
         })(jQuery);
-
-        function select2Template(state)
-        {
-            if (!state.id)
-            {
-                return state.text;
-            }
-
-            const current = state.element.dataset.current;
-            const experimental = state.element.dataset.experimental;
-            const maxPerRound = state.element.dataset.maxperround;
-
-            experimentalStatus = ''
-            if (experimental == 1) {
-                experimentalStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-danger">Experimental</span></div>';
-            }
-
-            maxPerRoundStatus = ''
-            if (maxPerRound == 1) {
-                maxPerRoundStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-warning">Max ' + maxPerRound + ' per round</span></div>';
-            }
-
-            var xId = state.id;
-
-            if(xId.startsWith("random") && state.id !== 'random_any')
-            {
-                const alignment = state.element.dataset.alignment;
-                return $(`
-                    <div class="pull-left">${state.text}</div>
-                    ${experimentalStatus}
-                    ${maxPerRoundStatus}
-                    <div class="pull-right">${current} total dominion(s) in the ${alignment} realm</div>
-                    <div style="clear: both;"></div>
-                `);
-            }
-
-            if(state.id == 'random_any')
-            {
-                const alignment = state.element.dataset.alignment;
-                return $(`
-                    <div class="pull-left">${state.text}</div>
-                    ${experimentalStatus}
-                    ${maxPerRoundStatus}
-                    <div class="pull-right">${current} total dominion(s) registered</div>
-                    <div style="clear: both;"></div>
-                `);
-            }
-
-            return $(`
-                <div class="pull-left">${state.text}</div>
-                ${experimentalStatus}
-                ${maxPerRoundStatus}
-                <div class="pull-right">${current} dominion(s)</div>
-                <div style="clear: both;"></div>
-            `);
-        }
     </script>
 @endpush
