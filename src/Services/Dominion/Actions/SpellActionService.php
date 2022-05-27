@@ -398,8 +398,6 @@ class SpellActionService
                     $amountRemoved = ceil(min($this->resourceCalculator->getAmount($caster, $sourceResourceKey) * $ratio, $sourceMax));
                     $amountAdded = floor($amountRemoved / $exchangeRate);
 
-                    dd($amountRemoved, $amountAdded);
-
                     $this->resourceService->updateResources($caster, [$sourceResourceKey => $amountRemoved*-1]);
                     $this->resourceService->updateResources($caster, [$targetResourceKey => $amountAdded]);
                 }
