@@ -486,7 +486,7 @@ elskas_vision:
   class: passive
   cost: 2
   duration: 12
-  cooldown: 0
+  cooldown: 24
   exclusive_races:
     - Reptilians
   perks:
@@ -1354,7 +1354,7 @@ elskas_blur:
   class: passive
   cost: 0.5
   duration: 0.5
-  cooldown: 0
+  cooldown: 36
   exclusive_races:
     - Reptilians
   perks:
