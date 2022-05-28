@@ -281,8 +281,6 @@ class ConversionCalculator
             }
          }
 
-         dump($displacedPeasants, $convertedUnits);
-
          return $convertedUnits;
     }
 
