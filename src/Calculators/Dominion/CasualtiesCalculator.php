@@ -174,6 +174,11 @@ class CasualtiesCalculator
         {
             $slot = (int)$unit->slot;
 
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
+            {
+                return false;
+            }
+
             # Lux does not kill anyone
             if($enemy->race->getPerkValue('does_not_kill'))
             {
