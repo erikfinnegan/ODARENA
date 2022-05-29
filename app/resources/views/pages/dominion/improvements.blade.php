@@ -12,9 +12,6 @@
 
               <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                   @csrf
-
-                  <input type="hidden" name="imps2" value=1 />
-
                   <div class="box-body table-responsive no-padding">
                       <table class="table">
                           <colgroup>
@@ -85,10 +82,15 @@
                                       <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementTotalAmountInvested($selectedDominion)) }}</td>
                                   </tr>
 
-                              {{ $totalSabotaged = 0 }}
-                              @foreach($queueService->getRestoreQueue($selectedDominion) as $restore)
-                                  {{ $totalSabotaged += $restore->amount }}
-                              @endforeach
+                                  @php
+                                    $totalSabotaged = 0;
+                                    foreach($queueService->getRestoreQueue($selectedDominion) as $restore)
+                                    {
+                                        $totalSabotaged += $restore->amount;
+                                    }
+
+                                  @endphp
+
                               @if($totalSabotaged > 0)
                                   <tr>
                                       <td colspan="4" class="text-right"><strong>Sabotaged</strong><br><small class="text-muted">Will be restored automatically</small></td>

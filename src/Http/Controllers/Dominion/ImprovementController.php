@@ -33,38 +33,18 @@ class ImprovementController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
         $improveActionService = app(ImproveActionService::class);
+       
+        try {
+            $result = $improveActionService->improve(
+                $dominion,
+                $request->get('resource'),
+                $request->get('improve')
+            );
 
-        if($request->get('imps2') == 1)
-        {
-          try {
-              $result = $improveActionService->improve(
-                  $dominion,
-                  $request->get('resource'),
-                  $request->get('improve')
-              );
-
-          } catch (GameException $e) {
-              return redirect()->back()
-                  ->withInput($request->all())
-                  ->withErrors([$e->getMessage()]);
-          }
-        }
-        else
-        {
-
-            try {
-                $result = $improveActionService->improve(
-                    $dominion,
-                    $request->get('resource'),
-                    $request->get('improve')
-                );
-
-            } catch (GameException $e) {
-                return redirect()->back()
-                    ->withInput($request->all())
-                    ->withErrors([$e->getMessage()]);
-            }
-
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
         }
 
         $request->session()->flash('alert-success', $result['message']);
