@@ -1003,9 +1003,8 @@
                                 </colgroup>
                                 <tbody>
                                 @if(isset($event->data['defender']['buildingsLost']))
-                                    @foreach($event->data['defender']['buildingsLost'] as $buildingType => $details)
+                                    @foreach($event->data['defender']['buildingsLost'] as $buildingKey => $details)
                                         @php
-                                            $buildingKey = str_replace('_',' ',$buildingType);
                                             $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
 
                                             $destroyed = array_sum($details);
