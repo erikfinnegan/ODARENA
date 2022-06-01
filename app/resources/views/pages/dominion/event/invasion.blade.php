@@ -1003,16 +1003,16 @@
                                 </colgroup>
                                 <tbody>
                                 @if(isset($event->data['defender']['buildingsLost']))
-                                    @foreach($event->data['defender']['buildingsLost'] as $building => $details)
+                                    @foreach($event->data['defender']['buildingsLost'] as $buildingType => $details)
                                         @php
-                                            $buildingName = str_replace('_',' ',$building);
-                                            $buildingName = ucwords($buildingName);
+                                            $buildingKey = str_replace('_',' ',$buildingType);
+                                            $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
 
                                             $destroyed = array_sum($details);
                                         @endphp
 
                                     <tr>
-                                        <td>{{ $buildingName }}</td>
+                                        <td>{{ $building->name }}</td>
                                         <td>{{ number_format($destroyed )}}</td>
                                     </tr>
                                     @endforeach
