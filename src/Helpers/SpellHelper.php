@@ -793,4 +793,18 @@ class SpellHelper
 
     }
 
+    public function getBreakSpellHelperString(Spell $spell): string
+    {
+        $breakSpellHelperString = '<br><small class="text-muted">';
+
+        if($spell->break_spell_helper)
+        {
+            $breakSpellHelperString .= '<br>' . $spell->break_spell_helper;
+        }
+
+        $breakSpellHelperString .= '</small>';
+
+        return $breakSpellHelperString;
+    }
+
 }

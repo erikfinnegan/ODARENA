@@ -77,7 +77,7 @@
         </div>
         --}}
 
-        <!-- RESOURCE -->
+        <!-- SPELL -->
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -136,7 +136,7 @@
             </div>
         </div>
 
-        <!-- WIZARD STRENGTH -->
+        <!-- WIZARD STRENGTH AND CAST BUTTON-->
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -186,77 +186,14 @@
                             </button>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Active Spells</h3>
-                    </div>
-                    <div class="box-body">
-                      <h4>Hostile Spells You Have Cast</h4>
-                      <table class="table table-condensed">
-                          <colgroup>
-                              <col>
-                              <col>
-                              <col width="100">
-                          </colgroup>
-                          <tr>
-                              <th>Cast On</th>
-                              <th>Spell</th>
-                              <th>Duration</th>
-                          </tr>
-                          @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
-                                  <tr>
-                                      <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
-                                      <td>{{ $activePassiveSpellCast->spell->name }}</td>
-                                      <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
-                                  </tr>
-                          @endforeach
-                          </table>
-                        <h4>Hostile Spells Cast On You</h4>
-                        <table class="table table-condensed">
-                            <colgroup>
-                                <col>
-                                <col>
-                                <col width="100">
-                                <col width="50">
-                            </colgroup>
-                            <tr>
-                                <th>Spell</th>
-                                <th>Duration</th>
-                                <th></th>
-                            </tr>
-                            @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
-                                <tr>
-                                    <td>{{ $activePassiveSpellCast->spell->name }}</td>
-                                    <td>{{ $activePassiveSpellCast->duration . ' ' . str_plural('tick', $activePassiveSpellCast->duration)}}</td>
-                                    <td>
-                                        @if($activePassiveSpellCast->spell->class !== 'invasion')
-                                            <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
-                                                @csrf
-                                                <input type="hidden" name="type" value="break_spell">
-                                                <input type="hidden" name="operation" value="{{ $activePassiveSpellCast->spell->key }}">
-                                                <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $activePassiveSpellCast->spell->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
-                                                    <button type="submit" class="btn btn-danger btn-block">
-                                                        <i class="ra ra-explosive-materials"></i>
-                                                    </button>
-                                                </span>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
-
+    <!-- INFORMATION -->
     <div class="col-sm-12 col-md-3">
         <div class="box">
             <div class="box-header with-border">
@@ -312,7 +249,87 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Active Spells</h3>
+            </div>
+            <div class="box-body">
+                <h4>Hostile Spells You Have Cast</h4>
+                <table class="table table-condensed">
+                    <colgroup>
+                        <col>
+                        <col width="200">
+                        <col width="200">
+                    </colgroup>
+                    <tr>
+                        <th>Cast On</th>
+                        <th>Spell</th>
+                        <th>Duration</th>
+                    </tr>
+                    @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                            <tr>
+                                <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                            </tr>
+                    @endforeach
+                    </table>
+                <h4>Hostile Spells Cast On You</h4>
+                <table class="table table-condensed">
+                    <colgroup>
+                        <col>
+                        <col width="200">
+                        <col width="200">
+                    </colgroup>
+                    <tr>
+                        <th>Spell</th>
+                        <th>Duration</th>
+                        <th>Break</th>
+                    </tr>
+                    @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                        <tr>
+                            <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                            <td>{{ $activePassiveSpellCast->duration . ' ' . str_plural('tick', $activePassiveSpellCast->duration)}}</td>
+                            <td>
+                                @if($activePassiveSpellCast->spell->class !== 'invasion')
+                                    <form action="{{ route('dominion.sorcery') }}" method="post" role="form" id="break_spell" name="break_spell">
+                                        @csrf
+                                        <input type="hidden" name="action" value="break_spell">
+                                        <input type="hidden" name="spell" value="{{ $activePassiveSpellCast->spell->id }}">
+                                        <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $activePassiveSpellCast->spell->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
+                                            <button type="submit" class="btn btn-warning btn-block">
+                                                <i class="ra ra-explosive-materials"></i>
+                                            </button>
+                                        </span>
+                                    </form>
+                                @else
+                                    &mdash;
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- INFORMATION -->
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                <p>These are the currently active sorcery spells you have cast on others or have been cast on you.</p>
+                <p>You can try to break spells cast on you.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 @push('page-styles')

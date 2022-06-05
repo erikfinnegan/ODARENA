@@ -760,14 +760,13 @@ class SpellActionService
         }
     }
 
-    public function breakSpell(Dominion $target, string $spellKey, bool $isLiberation = false): array
+    public function breakSpell(Dominion $breaker, Spell $spell, bool $isLiberation = false): array
     {
-        $spell = Spell::where('key', $spellKey)->first();
-        $dominionSpell = DominionSpell::where('spell_id', $spell->id)->where('dominion_id', $target->id)->first();
+        $dominionSpell = DominionSpell::where('spell_id', $spell->id)->where('dominion_id', $breaker->id)->first();
 
         $caster = Dominion::findOrFail($dominionSpell->caster_id);
 
-        if(!$this->spellCalculator->isSpellActive($target, $spellKey))
+        if(!$this->spellCalculator->isSpellActive($breaker, $spell->key))
         {
             throw new GameException($spell->name . ' is not active.');
         }
@@ -781,41 +780,41 @@ class SpellActionService
         {
             $wizardStrengthCost = 5;
 
-            if ($target->wizard_strength <= 0 or ($target->wizard_strength - $wizardStrengthCost) < 0)
+            if ($breaker->wizard_strength <= 0 or ($breaker->wizard_strength - $wizardStrengthCost) < 0)
             {
                 throw new GameException("Your wizards to not have enough strength to break {$spell->name}. You need {$wizardStrengthCost}% wizard strength to break this spell.");
             }
             else
             {
-                $target->wizard_strength -= $wizardStrengthCost;
+                $breaker->wizard_strength -= $wizardStrengthCost;
             }
 
-            $manaCost = $this->spellCalculator->getManaCost($target, $spell->key) * 2;
+            $manaCost = $this->spellCalculator->getManaCost($breaker, $spell->key) * 2;
 
-            if ($this->resourceCalculator->getAmount($target, 'mana') < $manaCost)
+            if ($this->resourceCalculator->getAmount($breaker, 'mana') < $manaCost)
             {
                 throw new GameException("You do not have enough mana to break {$spell->name}. You need {$manaCost} mana to break this spell.");
             }
             else
             {
-                $this->resourceService->updateResources($target, ['mana' => $manaCost*-1]);
+                $this->resourceService->updateResources($breaker, ['mana' => $manaCost*-1]);
             }
         }
 
         $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));
-        $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'offense'));
+        $breakerWpa = min(10,$this->militaryCalculator->getWizardRatio($breaker, 'offense'));
 
-        if ($casterWpa == 0.0 or $isLiberation or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
+        if ($casterWpa == 0.0 or $isLiberation or random_chance($this->opsHelper->blackOperationSuccessChance($breakerWpa, $casterWpa)))
         {
-              $this->statsService->updateStat($target, 'magic_broken', 1);
+              $this->statsService->updateStat($breaker, 'magic_broken', 1);
 
-              DB::transaction(function () use ($target, $spell)
+              DB::transaction(function () use ($breaker, $spell)
               {
-                  DominionSpell::where('dominion_id', $target->id)
+                  DominionSpell::where('dominion_id', $breaker->id)
                       ->where('spell_id', $spell->id)
                       ->delete();
 
-                  $target->save([
+                  $breaker->save([
                       'event' => HistoryService::EVENT_ACTION_BREAK_SPELL,
                       'action' => $spell->key
                   ]);
@@ -830,6 +829,8 @@ class SpellActionService
         }
         else
         {
+            $breaker->save();
+
             return [
                 'success' => false,
                 'message' => sprintf(

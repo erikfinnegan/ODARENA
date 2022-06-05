@@ -13,15 +13,13 @@ use OpenDominion\Helpers\SorceryHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 
-use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\OffensiveOpsRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\SorceryRequest;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Resource;
 
 use OpenDominion\Services\Dominion\Actions\SorceryActionService;
-use OpenDominion\Services\Dominion\Actions\EspionageActionService;
+use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
@@ -62,9 +60,29 @@ class SorceryController extends AbstractDominionController
     public function postSorcery(SorceryRequest $request)
     {
 
+        if($request->get('action') == 'break_spell')
+        {
+            $breaker = $this->getSelectedDominion();
+            $spellActionService = app(SpellActionService::class);
+            $spell = Spell::where('id', $request->get('spell'))->firstOrFail();
+
+            try
+            {
+                $result = $spellActionService->breakSpell($breaker, $spell, false);
+            }
+            catch (GameException $e)
+            {
+                return redirect()->back()
+                    ->withInput($request->all())
+                    ->withErrors([$e->getMessage()]);
+            }
+
+            $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+            return redirect()->to($result['redirect'] ?? route('dominion.sorcery'));
+        }
+
         $caster = $this->getSelectedDominion();
         $sorceryActionService = app(SorceryActionService::class);
-        $resourceCalculator = app(ResourceCalculator::class);
 
         $spell = Spell::where('id', $request->get('spell'))->firstOrFail();
         $enhancementResource = null;
@@ -100,6 +118,5 @@ class SorceryController extends AbstractDominionController
 
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
         return redirect()->to($result['redirect'] ?? route('dominion.sorcery'));
-
     }
 }
