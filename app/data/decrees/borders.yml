@@ -4,16 +4,16 @@ enabled: 1
 description: Choose whether to maintain an open or closed borders policy. No policy means your borders are guarded.
 exclusive_races:
   - Human
+  - Kerranad
   - Nomad
 states:
   - name: Open
     perks:
-      - exchange_rate: 5
-      - can_expand: 1
-      - population_growth: 20
-
+      exchange_rate: 5
+      can_expand: 1
+      population_growth: 20
   - name: Closed
     perks:
-      - exchange_rate: -10
-      - defensive_power: 1.25
-      - population_growth: -10
+      exchange_rate: -10
+      defensive_power: 1.25
+      population_growth: -10

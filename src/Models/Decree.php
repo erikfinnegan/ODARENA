@@ -22,34 +22,16 @@ class Decree extends AbstractModel
     protected $casts = [
         'enabled' => 'integer',
         'cooldown' => 'integer',
-        'states' => 'array',
+        #'states' => 'array',
         'default' => 'string',
         'excluded_races' => 'array',
         'exclusive_races' => 'array',
     ];
 
-    public function perks()
+    public function states()
     {
-        return $this->belongsToMany(
-            DecreePerkType::class,
-            'decree_perks',
-            'decree_id',
-            'decree_perk_type_id'
-        )
-            ->withTimestamps()
-            ->withPivot('value');
+        return $this->hasMany(DecreeState::class)
+            ->orderBy('name');
     }
 
-    public function getPerkValue(string $key)
-    {
-        $perks = $this->perks->filter(static function (DecreePerkType $decreePerkType) use ($key) {
-            return ($decreePerkType->key === $key);
-        });
-
-        if ($perks->isEmpty()) {
-            return 0; // todo: change to null instead, also add return type and docblock(s)
-        }
-
-        return $perks->first()->pivot->value;
-    }
 }

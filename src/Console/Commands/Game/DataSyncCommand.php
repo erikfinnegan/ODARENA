@@ -13,8 +13,9 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\BuildingPerk;
 use OpenDominion\Models\BuildingPerkType;
 use OpenDominion\Models\Decree;
-use OpenDominion\Models\DecreePerk;
-use OpenDominion\Models\DecreePerkType;
+use OpenDominion\Models\DecreeState;
+use OpenDominion\Models\DecreeStatePerk;
+use OpenDominion\Models\DecreeStatePerkType;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\DeityPerk;
 use OpenDominion\Models\DeityPerkType;
@@ -47,8 +48,6 @@ use OpenDominion\Models\Stat;
 use OpenDominion\Models\Resource;
 
 
-
-
 class DataSyncCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
@@ -79,7 +78,8 @@ class DataSyncCommand extends Command implements CommandInterface
     {
         DB::transaction(function () {
 
-            $this->syncQuickstarts();
+            $this->syncDecrees();
+            /*
             $this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
@@ -92,6 +92,8 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncDeities();
             $this->syncArtefacts();
             #$this->syncDecrees();
+            $this->syncQuickstarts();
+            */
         });
     }
 
@@ -358,90 +360,89 @@ class DataSyncCommand extends Command implements CommandInterface
         }
     }
 
+    /**
+     * Syncs building and perk data from .yml file to the database.
+     */
+    protected function syncBuildings()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/buildings.yml'));
 
-        /**
-         * Syncs building and perk data from .yml file to the database.
-         */
-        protected function syncBuildings()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/buildings.yml'));
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $buildingKey => $buildingData) {
-                // Building
-                $building = Building::firstOrNew(['key' => $buildingKey])
-                    ->fill([
-                        'name' => $buildingData->name,
-                        'land_type' => object_get($buildingData, 'land_type'),
-                        'excluded_races' => object_get($buildingData, 'excluded_races', []),
-                        'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
-                        'enabled' => (int)object_get($buildingData, 'enabled', 1),
-                    ]);
+        foreach ($data as $buildingKey => $buildingData) {
+            // Building
+            $building = Building::firstOrNew(['key' => $buildingKey])
+                ->fill([
+                    'name' => $buildingData->name,
+                    'land_type' => object_get($buildingData, 'land_type'),
+                    'excluded_races' => object_get($buildingData, 'excluded_races', []),
+                    'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
+                    'enabled' => (int)object_get($buildingData, 'enabled', 1),
+                ]);
 
 
-                if (!$building->exists) {
-                    $this->info("Adding building {$buildingData->name}");
-                } else {
-                    $this->info("Processing building {$buildingData->name}");
+            if (!$building->exists) {
+                $this->info("Adding building {$buildingData->name}");
+            } else {
+                $this->info("Processing building {$buildingData->name}");
 
-                    $newValues = $building->getDirty();
+                $newValues = $building->getDirty();
 
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $building->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $building->save();
-                $building->refresh();
-
-                // Building Perks
-                $buildingPerksToSync = [];
-
-                foreach (object_get($buildingData, 'perks', []) as $perk => $value)
+                foreach ($newValues as $key => $newValue)
                 {
-                    $value = (string)$value;
+                    $originalValue = $building->getOriginal($key);
 
-                    $buildingPerkType = BuildingPerkType::firstOrCreate(['key' => $perk]);
-
-                    $buildingPerksToSync[$buildingPerkType->id] = ['value' => $value];
-
-                    $buildingPerk = BuildingPerk::query()
-                        ->where('building_id', $building->id)
-                        ->where('building_perk_type_id', $buildingPerkType->id)
-                        ->first();
-
-                    if ($buildingPerk === null)
+                    if(is_array($originalValue))
                     {
-                        $this->info("[Add Building Perk] {$perk}: {$value}");
+                        $originalValue = implode(',', $originalValue);
                     }
-                    elseif ($buildingPerk->value != $value)
+                    if(is_array($newValue))
                     {
-                        $this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
+                        $newValue = implode(',', $newValue);
                     }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
-
-                $building->perks()->sync($buildingPerksToSync);
             }
-        }
 
-        /**
-         * Syncs titles and perk data from .yml file to the database.
-         */
-        protected function syncTitles()
-        {
+            $building->save();
+            $building->refresh();
+
+            // Building Perks
+            $buildingPerksToSync = [];
+
+            foreach (object_get($buildingData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $buildingPerkType = BuildingPerkType::firstOrCreate(['key' => $perk]);
+
+                $buildingPerksToSync[$buildingPerkType->id] = ['value' => $value];
+
+                $buildingPerk = BuildingPerk::query()
+                    ->where('building_id', $building->id)
+                    ->where('building_perk_type_id', $buildingPerkType->id)
+                    ->first();
+
+                if ($buildingPerk === null)
+                {
+                    $this->info("[Add Building Perk] {$perk}: {$value}");
+                }
+                elseif ($buildingPerk->value != $value)
+                {
+                    $this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
+                }
+            }
+
+            $building->perks()->sync($buildingPerksToSync);
+        }
+    }
+
+    /**
+     * Syncs titles and perk data from .yml file to the database.
+     */
+    protected function syncTitles()
+    {
             $fileContents = $this->filesystem->get(base_path('app/data/titles.yml'));
 
             $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
@@ -511,49 +512,464 @@ class DataSyncCommand extends Command implements CommandInterface
             }
         }
 
-        /**
-         * Syncs spells and perk data from .yml file to the database.
-         */
-        protected function syncSpells()
+    /**
+     * Syncs spells and perk data from .yml file to the database.
+     */
+    protected function syncSpells()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/spells.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $spellKey => $spellData) {
+
+            $deityId = null;
+            if($deityKey = object_get($spellData, 'deity'))
+            {
+                $deityId = Deity::where('key', $deityKey)->first()->id;
+            }
+
+            // Spell
+            $spell = Spell::firstOrNew(['key' => $spellKey])
+                ->fill([
+                    'name' => $spellData->name,
+                    'scope' => object_get($spellData, 'scope'),
+                    'class' => object_get($spellData, 'class'),
+                    'cost' => object_get($spellData, 'cost', 1),
+                    'duration' => (float)object_get($spellData, 'duration', 0),
+                    'cooldown' => object_get($spellData, 'cooldown', 0),
+                    'wizard_strength' => object_get($spellData, 'wizard_strength'),
+                    'deity_id' => $deityId,
+                    'enabled' => object_get($spellData, 'enabled', 1),
+                    'excluded_races' => object_get($spellData, 'excluded_races', []),
+                    'exclusive_races' => object_get($spellData, 'exclusive_races', []),
+                ]);
+
+            if (!$spell->exists) {
+                $this->info("Adding spell {$spellData->name}");
+            } else {
+                $this->info("Processing spell {$spellData->name}");
+
+                $newValues = $spell->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $spell->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $spell->save();
+            $spell->refresh();
+
+            // Spell Perks
+            $spellPerksToSync = [];
+
+            foreach (object_get($spellData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $spellPerkType = SpellPerkType::firstOrCreate(['key' => $perk]);
+
+                $spellPerksToSync[$spellPerkType->id] = ['value' => $value];
+
+                $spellPerk = SpellPerk::query()
+                    ->where('spell_id', $spell->id)
+                    ->where('spell_perk_type_id', $spellPerkType->id)
+                    ->first();
+
+                if ($spellPerk === null)
+                {
+                    $this->info("[Add Spell Perk] {$perk}: {$value}");
+                }
+                elseif ($spellPerk->value != $value)
+                {
+                    $this->info("[Change Spell Perk] {$perk}: {$spellPerk->value} -> {$value}");
+                }
+            }
+
+            $spell->perks()->sync($spellPerksToSync);
+        }
+    }
+
+    /**
+     * Syncs spells and perk data from .yml file to the database.
+     */
+    protected function syncSpyops()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/spyops.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $spyopKey => $spyopData) {
+            // Spell
+            $spyop = Spyop::firstOrNew(['key' => $spyopKey])
+                ->fill([
+                    'name' => $spyopData->name,
+                    'scope' => object_get($spyopData, 'scope'),
+                    'spy_strength' => object_get($spyopData, 'spy_strength'),
+                    'enabled' => object_get($spyopData, 'enabled', 1),
+                    'excluded_races' => object_get($spyopData, 'excluded_races', []),
+                    'exclusive_races' => object_get($spyopData, 'exclusive_races', []),
+                ]);
+
+            if (!$spyop->exists) {
+                $this->info("Adding spyop {$spyopData->name}");
+            } else {
+                $this->info("Processing spyop {$spyopData->name}");
+
+                $newValues = $spyop->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $spyop->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $spyop->save();
+            $spyop->refresh();
+
+            // Spyop Perks
+            $spyopPerksToSync = [];
+
+            foreach (object_get($spyopData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $spyopPerkType = SpyopPerkType::firstOrCreate(['key' => $perk]);
+
+                $spyopPerksToSync[$spyopPerkType->id] = ['value' => $value];
+
+                $spyopPerk = SpyopPerk::query()
+                    ->where('spyop_id', $spyop->id)
+                    ->where('spyop_perk_type_id', $spyopPerkType->id)
+                    ->first();
+
+                if ($spyopPerk === null)
+                {
+                    $this->info("[Add Spyop Perk] {$perk}: {$value}");
+                }
+                elseif ($spyopPerk->value != $value)
+                {
+                    $this->info("[Change Spyop Perk] {$perk}: {$spyopPerk->value} -> {$value}");
+                }
+            }
+
+            $spyop->perks()->sync($spyopPerksToSync);
+        }
+    }
+
+    /**
+     * Syncs improvements and perk data from .yml file to the database.
+     */
+    protected function syncImprovements()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/improvements.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $improvementKey => $improvementData) {
+            // Spell
+            $improvement = Improvement::firstOrNew(['key' => $improvementKey])
+                ->fill([
+                    'name' => $improvementData->name,
+                    'enabled' => object_get($improvementData, 'enabled', 1),
+                    'excluded_races' => object_get($improvementData, 'excluded_races', []),
+                    'exclusive_races' => object_get($improvementData, 'exclusive_races', []),
+                ]);
+
+            if (!$improvement->exists) {
+                $this->info("Adding improvement {$improvementData->name}");
+            } else {
+                $this->info("Processing improvement {$improvementData->name}");
+
+                $newValues = $improvement->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $improvement->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $improvement->save();
+            $improvement->refresh();
+
+            // Spell Perks
+            $improvementPerksToSync = [];
+
+            foreach (object_get($improvementData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $improvementPerkType = ImprovementPerkType::firstOrCreate(['key' => $perk]);
+
+                $improvementPerksToSync[$improvementPerkType->id] = ['value' => $value];
+
+                $improvementPerk = ImprovementPerk::query()
+                    ->where('improvement_id', $improvement->id)
+                    ->where('improvement_perk_type_id', $improvementPerkType->id)
+                    ->first();
+
+                if ($improvementPerk === null)
+                {
+                    $this->info("[Add Improvement Perk] {$perk}: {$value}");
+                }
+                elseif ($improvementPerk->value != $value)
+                {
+                    $this->info("[Change Improvement Perk] {$perk}: {$improvementPerk->value} -> {$value}");
+                }
+            }
+
+            $improvement->perks()->sync($improvementPerksToSync);
+        }
+    }
+
+    /**
+     * Syncs stats from .yml file to the database.
+     */
+    protected function syncStats()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/stats.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $statKey => $statData) {
+            // Spell
+            $stat = Stat::firstOrNew(['key' => $statKey])
+                ->fill([
+                    'name' => $statData->name,
+                    'enabled' => object_get($statData, 'enabled', 1)
+                ]);
+
+            if (!$stat->exists) {
+                $this->info("Adding stat {$statData->name}");
+            } else {
+                $this->info("Processing stat {$statData->name}");
+
+                $newValues = $stat->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $stat->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $stat->save();
+            $stat->refresh();
+        }
+    }
+
+    /**
+     * Syncs resources from .yml file to the database.
+     */
+    protected function syncResources()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/resources.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $resourceKey => $resourceData) {
+            // Resource
+            $resource = Resource::firstOrNew(['key' => $resourceKey])
+                ->fill([
+                    'name' => $resourceData->name,
+                    'enabled' => object_get($resourceData, 'enabled', 1),
+                    'buy' => object_get($resourceData, 'buy', null),
+                    'sell' => object_get($resourceData, 'sell', null),
+                    'description' => object_get($resourceData, 'description', 'No description'),
+                    'excluded_races' => object_get($resourceData, 'excluded_races', []),
+                    'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
+                ]);
+
+            if (!$resource->exists) {
+                $this->info("Adding resource {$resourceData->name}");
+            } else {
+                $this->info("Processing resource {$resourceData->name}");
+
+                $newValues = $resource->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $resource->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $resource->save();
+            $resource->refresh();
+
+        }
+    }
+
+    /**
+     * Syncs spells and perk data from .yml file to the database.
+     */
+    protected function syncDeities()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/deities.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $deityKey => $deityData) {
+            // Deity
+            $deity = Deity::firstOrNew(['key' => $deityKey])
+                ->fill([
+                    'name' => $deityData->name,
+                    'enabled' => object_get($deityData, 'enabled', 1),
+                    'range_multiplier' => object_get($deityData, 'range_multiplier', 0.75),
+                    'excluded_races' => object_get($deityData, 'excluded_races', []),
+                    'exclusive_races' => object_get($deityData, 'exclusive_races', []),
+                ]);
+
+            if (!$deity->exists) {
+                $this->info("Adding deity {$deityData->name}");
+            } else {
+                $this->info("Processing deity {$deityData->name}");
+
+                $newValues = $deity->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $deity->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $deity->save();
+            $deity->refresh();
+
+            // Deity Perks
+            $deityPerksToSync = [];
+
+            foreach (object_get($deityData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $deityPerkType = DeityPerkType::firstOrCreate(['key' => $perk]);
+
+                $deityPerksToSync[$deityPerkType->id] = ['value' => $value];
+
+                $deityPerk = DeityPerk::query()
+                    ->where('deity_id', $deity->id)
+                    ->where('deity_perk_type_id', $deityPerkType->id)
+                    ->first();
+
+                if ($deityPerk === null)
+                {
+                    $this->info("[Add Deity Perk] {$perk}: {$value}");
+                }
+                elseif ($deityPerk->value != $value)
+                {
+                    $this->info("[Change Deity Perk] {$perk}: {$deityPerk->value} -> {$value}");
+                }
+            }
+
+            $deity->perks()->sync($deityPerksToSync);
+        }
+    }
+
+    /**
+     * Syncs spells and perk data from .yml file to the database.
+     */
+        protected function syncArtefacts()
         {
-            $fileContents = $this->filesystem->get(base_path('app/data/spells.yml'));
+            $fileContents = $this->filesystem->get(base_path('app/data/artefacts.yml'));
 
             $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
-            foreach ($data as $spellKey => $spellData) {
+            foreach ($data as $artefactKey => $artefactData) {
 
                 $deityId = null;
-                if($deityKey = object_get($spellData, 'deity'))
+                if($deityKey = object_get($artefactData, 'deity'))
                 {
                     $deityId = Deity::where('key', $deityKey)->first()->id;
                 }
 
-                // Spell
-                $spell = Spell::firstOrNew(['key' => $spellKey])
+                // Artefact
+                $artefact = Artefact::firstOrNew(['key' => $artefactKey])
                     ->fill([
-                        'name' => $spellData->name,
-                        'scope' => object_get($spellData, 'scope'),
-                        'class' => object_get($spellData, 'class'),
-                        'cost' => object_get($spellData, 'cost', 1),
-                        'duration' => (float)object_get($spellData, 'duration', 0),
-                        'cooldown' => object_get($spellData, 'cooldown', 0),
-                        'wizard_strength' => object_get($spellData, 'wizard_strength'),
+                        'name' => $artefactData->name,
+                        'enabled' => object_get($artefactData, 'enabled', 1),
+                        'description' => object_get($artefactData, 'description', ''),
                         'deity_id' => $deityId,
-                        'enabled' => object_get($spellData, 'enabled', 1),
-                        'excluded_races' => object_get($spellData, 'excluded_races', []),
-                        'exclusive_races' => object_get($spellData, 'exclusive_races', []),
+                        'base_power' => object_get($artefactData, 'base_power', 100000),
+                        'excluded_races' => object_get($artefactData, 'excluded_races', []),
+                        'exclusive_races' => object_get($artefactData, 'exclusive_races', []),
                     ]);
 
-                if (!$spell->exists) {
-                    $this->info("Adding spell {$spellData->name}");
+                if (!$artefact->exists) {
+                    $this->info("Adding artefact {$artefactData->name}");
                 } else {
-                    $this->info("Processing spell {$spellData->name}");
+                    $this->info("Processing artefact {$artefactData->name}");
 
-                    $newValues = $spell->getDirty();
+                    $newValues = $artefact->getDirty();
 
                     foreach ($newValues as $key => $newValue)
                     {
-                        $originalValue = $spell->getOriginal($key);
+                        $originalValue = $artefact->getOriginal($key);
 
                         if(is_array($originalValue))
                         {
@@ -568,453 +984,38 @@ class DataSyncCommand extends Command implements CommandInterface
                     }
                 }
 
-                $spell->save();
-                $spell->refresh();
+                $artefact->save();
+                $artefact->refresh();
 
-                // Spell Perks
-                $spellPerksToSync = [];
+                // Artefact Perks
+                $artefactPerksToSync = [];
 
-                foreach (object_get($spellData, 'perks', []) as $perk => $value)
+                foreach (object_get($artefactData, 'perks', []) as $perk => $value)
                 {
                     $value = (string)$value;
 
-                    $spellPerkType = SpellPerkType::firstOrCreate(['key' => $perk]);
+                    $artefactPerkType = ArtefactPerkType::firstOrCreate(['key' => $perk]);
 
-                    $spellPerksToSync[$spellPerkType->id] = ['value' => $value];
+                    $artefactPerksToSync[$artefactPerkType->id] = ['value' => $value];
 
-                    $spellPerk = SpellPerk::query()
-                        ->where('spell_id', $spell->id)
-                        ->where('spell_perk_type_id', $spellPerkType->id)
+                    $artefactPerk = ArtefactPerk::query()
+                        ->where('artefact_id', $artefact->id)
+                        ->where('artefact_perk_type_id', $artefactPerkType->id)
                         ->first();
 
-                    if ($spellPerk === null)
+                    if ($artefactPerk === null)
                     {
-                        $this->info("[Add Spell Perk] {$perk}: {$value}");
+                        $this->info("[Add Artefact Perk] {$perk}: {$value}");
                     }
-                    elseif ($spellPerk->value != $value)
+                    elseif ($artefactPerk->value != $value)
                     {
-                        $this->info("[Change Spell Perk] {$perk}: {$spellPerk->value} -> {$value}");
+                        $this->info("[Change Artefact Perk] {$perk}: {$artefactPerk->value} -> {$value}");
                     }
                 }
 
-                $spell->perks()->sync($spellPerksToSync);
+                $artefact->perks()->sync($artefactPerksToSync);
             }
         }
-
-        /**
-         * Syncs spells and perk data from .yml file to the database.
-         */
-        protected function syncSpyops()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/spyops.yml'));
-
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $spyopKey => $spyopData) {
-                // Spell
-                $spyop = Spyop::firstOrNew(['key' => $spyopKey])
-                    ->fill([
-                        'name' => $spyopData->name,
-                        'scope' => object_get($spyopData, 'scope'),
-                        'spy_strength' => object_get($spyopData, 'spy_strength'),
-                        'enabled' => object_get($spyopData, 'enabled', 1),
-                        'excluded_races' => object_get($spyopData, 'excluded_races', []),
-                        'exclusive_races' => object_get($spyopData, 'exclusive_races', []),
-                    ]);
-
-                if (!$spyop->exists) {
-                    $this->info("Adding spyop {$spyopData->name}");
-                } else {
-                    $this->info("Processing spyop {$spyopData->name}");
-
-                    $newValues = $spyop->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $spyop->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $spyop->save();
-                $spyop->refresh();
-
-                // Spyop Perks
-                $spyopPerksToSync = [];
-
-                foreach (object_get($spyopData, 'perks', []) as $perk => $value)
-                {
-                    $value = (string)$value;
-
-                    $spyopPerkType = SpyopPerkType::firstOrCreate(['key' => $perk]);
-
-                    $spyopPerksToSync[$spyopPerkType->id] = ['value' => $value];
-
-                    $spyopPerk = SpyopPerk::query()
-                        ->where('spyop_id', $spyop->id)
-                        ->where('spyop_perk_type_id', $spyopPerkType->id)
-                        ->first();
-
-                    if ($spyopPerk === null)
-                    {
-                        $this->info("[Add Spyop Perk] {$perk}: {$value}");
-                    }
-                    elseif ($spyopPerk->value != $value)
-                    {
-                        $this->info("[Change Spyop Perk] {$perk}: {$spyopPerk->value} -> {$value}");
-                    }
-                }
-
-                $spyop->perks()->sync($spyopPerksToSync);
-            }
-        }
-
-        /**
-         * Syncs improvements and perk data from .yml file to the database.
-         */
-        protected function syncImprovements()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/improvements.yml'));
-
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $improvementKey => $improvementData) {
-                // Spell
-                $improvement = Improvement::firstOrNew(['key' => $improvementKey])
-                    ->fill([
-                        'name' => $improvementData->name,
-                        'enabled' => object_get($improvementData, 'enabled', 1),
-                        'excluded_races' => object_get($improvementData, 'excluded_races', []),
-                        'exclusive_races' => object_get($improvementData, 'exclusive_races', []),
-                    ]);
-
-                if (!$improvement->exists) {
-                    $this->info("Adding improvement {$improvementData->name}");
-                } else {
-                    $this->info("Processing improvement {$improvementData->name}");
-
-                    $newValues = $improvement->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $improvement->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $improvement->save();
-                $improvement->refresh();
-
-                // Spell Perks
-                $improvementPerksToSync = [];
-
-                foreach (object_get($improvementData, 'perks', []) as $perk => $value)
-                {
-                    $value = (string)$value;
-
-                    $improvementPerkType = ImprovementPerkType::firstOrCreate(['key' => $perk]);
-
-                    $improvementPerksToSync[$improvementPerkType->id] = ['value' => $value];
-
-                    $improvementPerk = ImprovementPerk::query()
-                        ->where('improvement_id', $improvement->id)
-                        ->where('improvement_perk_type_id', $improvementPerkType->id)
-                        ->first();
-
-                    if ($improvementPerk === null)
-                    {
-                        $this->info("[Add Improvement Perk] {$perk}: {$value}");
-                    }
-                    elseif ($improvementPerk->value != $value)
-                    {
-                        $this->info("[Change Improvement Perk] {$perk}: {$improvementPerk->value} -> {$value}");
-                    }
-                }
-
-                $improvement->perks()->sync($improvementPerksToSync);
-            }
-        }
-
-        /**
-         * Syncs stats from .yml file to the database.
-         */
-        protected function syncStats()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/stats.yml'));
-
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $statKey => $statData) {
-                // Spell
-                $stat = Stat::firstOrNew(['key' => $statKey])
-                    ->fill([
-                        'name' => $statData->name,
-                        'enabled' => object_get($statData, 'enabled', 1)
-                    ]);
-
-                if (!$stat->exists) {
-                    $this->info("Adding stat {$statData->name}");
-                } else {
-                    $this->info("Processing stat {$statData->name}");
-
-                    $newValues = $stat->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $stat->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $stat->save();
-                $stat->refresh();
-            }
-        }
-
-        /**
-         * Syncs resources from .yml file to the database.
-         */
-        protected function syncResources()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/resources.yml'));
-
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $resourceKey => $resourceData) {
-                // Resource
-                $resource = Resource::firstOrNew(['key' => $resourceKey])
-                    ->fill([
-                        'name' => $resourceData->name,
-                        'enabled' => object_get($resourceData, 'enabled', 1),
-                        'buy' => object_get($resourceData, 'buy', null),
-                        'sell' => object_get($resourceData, 'sell', null),
-                        'description' => object_get($resourceData, 'description', 'No description'),
-                        'excluded_races' => object_get($resourceData, 'excluded_races', []),
-                        'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
-                    ]);
-
-                if (!$resource->exists) {
-                    $this->info("Adding resource {$resourceData->name}");
-                } else {
-                    $this->info("Processing resource {$resourceData->name}");
-
-                    $newValues = $resource->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $resource->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $resource->save();
-                $resource->refresh();
-
-            }
-        }
-
-      /**
-       * Syncs spells and perk data from .yml file to the database.
-       */
-       protected function syncDeities()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/deities.yml'));
-
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-            foreach ($data as $deityKey => $deityData) {
-                // Deity
-                $deity = Deity::firstOrNew(['key' => $deityKey])
-                    ->fill([
-                        'name' => $deityData->name,
-                        'enabled' => object_get($deityData, 'enabled', 1),
-                        'range_multiplier' => object_get($deityData, 'range_multiplier', 0.75),
-                        'excluded_races' => object_get($deityData, 'excluded_races', []),
-                        'exclusive_races' => object_get($deityData, 'exclusive_races', []),
-                    ]);
-
-                if (!$deity->exists) {
-                    $this->info("Adding deity {$deityData->name}");
-                } else {
-                    $this->info("Processing deity {$deityData->name}");
-
-                    $newValues = $deity->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $deity->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $deity->save();
-                $deity->refresh();
-
-                // Deity Perks
-                $deityPerksToSync = [];
-
-                foreach (object_get($deityData, 'perks', []) as $perk => $value)
-                {
-                    $value = (string)$value;
-
-                    $deityPerkType = DeityPerkType::firstOrCreate(['key' => $perk]);
-
-                    $deityPerksToSync[$deityPerkType->id] = ['value' => $value];
-
-                    $deityPerk = DeityPerk::query()
-                        ->where('deity_id', $deity->id)
-                        ->where('deity_perk_type_id', $deityPerkType->id)
-                        ->first();
-
-                    if ($deityPerk === null)
-                    {
-                        $this->info("[Add Deity Perk] {$perk}: {$value}");
-                    }
-                    elseif ($deityPerk->value != $value)
-                    {
-                        $this->info("[Change Deity Perk] {$perk}: {$deityPerk->value} -> {$value}");
-                    }
-                }
-
-                $deity->perks()->sync($deityPerksToSync);
-            }
-        }
-
-        /**
-         * Syncs spells and perk data from .yml file to the database.
-         */
-         protected function syncArtefacts()
-          {
-              $fileContents = $this->filesystem->get(base_path('app/data/artefacts.yml'));
-
-              $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
-
-              foreach ($data as $artefactKey => $artefactData) {
-
-                  $deityId = null;
-                  if($deityKey = object_get($artefactData, 'deity'))
-                  {
-                      $deityId = Deity::where('key', $deityKey)->first()->id;
-                  }
-
-                  // Artefact
-                  $artefact = Artefact::firstOrNew(['key' => $artefactKey])
-                      ->fill([
-                          'name' => $artefactData->name,
-                          'enabled' => object_get($artefactData, 'enabled', 1),
-                          'description' => object_get($artefactData, 'description', ''),
-                          'deity_id' => $deityId,
-                          'base_power' => object_get($artefactData, 'base_power', 100000),
-                          'excluded_races' => object_get($artefactData, 'excluded_races', []),
-                          'exclusive_races' => object_get($artefactData, 'exclusive_races', []),
-                      ]);
-
-                  if (!$artefact->exists) {
-                      $this->info("Adding artefact {$artefactData->name}");
-                  } else {
-                      $this->info("Processing artefact {$artefactData->name}");
-
-                      $newValues = $artefact->getDirty();
-
-                      foreach ($newValues as $key => $newValue)
-                      {
-                          $originalValue = $artefact->getOriginal($key);
-
-                          if(is_array($originalValue))
-                          {
-                              $originalValue = implode(',', $originalValue);
-                          }
-                          if(is_array($newValue))
-                          {
-                              $newValue = implode(',', $newValue);
-                          }
-
-                          $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                      }
-                  }
-
-                  $artefact->save();
-                  $artefact->refresh();
-
-                  // Artefact Perks
-                  $artefactPerksToSync = [];
-
-                  foreach (object_get($artefactData, 'perks', []) as $perk => $value)
-                  {
-                      $value = (string)$value;
-
-                      $artefactPerkType = ArtefactPerkType::firstOrCreate(['key' => $perk]);
-
-                      $artefactPerksToSync[$artefactPerkType->id] = ['value' => $value];
-
-                      $artefactPerk = ArtefactPerk::query()
-                          ->where('artefact_id', $artefact->id)
-                          ->where('artefact_perk_type_id', $artefactPerkType->id)
-                          ->first();
-
-                      if ($artefactPerk === null)
-                      {
-                          $this->info("[Add Artefact Perk] {$perk}: {$value}");
-                      }
-                      elseif ($artefactPerk->value != $value)
-                      {
-                          $this->info("[Change Artefact Perk] {$perk}: {$artefactPerk->value} -> {$value}");
-                      }
-                  }
-
-                  $artefact->perks()->sync($artefactPerksToSync);
-              }
-          }
 
     /**
      * Syncs race, unit and perk data from .yml files to the database.
@@ -1103,36 +1104,92 @@ class DataSyncCommand extends Command implements CommandInterface
         }
     }
 
-          
-        /**
-         * Syncs race, unit and perk data from .yml files to the database.
-         */
-        protected function syncDecrees()
-        {
-            $files = $this->filesystem->files(base_path('app/data/decrees'));
 
-            foreach ($files as $file) {
-                $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
 
-                $decree = Decree::firstOrNew(['name' => $data->name])
-                    ->fill([
-                        'cooldown' => object_get($data, 'cooldown', 48),
-                        'enabled' => object_get($data, 'enabled', 1),
-                        'description' => object_get($data, 'description'),
-                        'excluded_races' => object_get($buildingData, 'excluded_races', []),
-                        'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
-                    ]);
+    /**
+     * Syncs race, unit and perk data from .yml files to the database.
+     */
+    protected function syncDecrees()
+    {
+        $files = $this->filesystem->files(base_path('app/data/decrees'));
 
-                if (!$decree->exists) {
-                    $this->info("Adding decree {$data->name}");
-                } else {
-                    $this->info("Processing decree {$data->name}");
+        foreach ($files as $file) {
+            $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
 
-                    $newValues = $decree->getDirty();
-                    /*
+            $deityId = null;
+            if($deityKey = object_get($data, 'deity'))
+            {
+                $deityId = Deity::where('key', $deityKey)->first()->id;
+            }
+
+            // Race
+            $decree = Decree::firstOrNew(['name' => $data->name])
+                ->fill([
+                    'name' => object_get($data, 'name'),
+                    'enabled' => object_get($data, 'enabled', 1),
+                    'cooldown' => object_get($data, 'cooldown', 48),
+                    'deity' => $deityId,
+                    'description' => object_get($data, 'description'),
+                    'excluded_races' => object_get($data, 'excluded_races', []),
+                    'exclusive_races' => object_get($data, 'exclusive_races', []),
+                ]);
+
+            if (!$decree->exists) {
+                $this->info("Adding decree {$data->name}");
+            } else {
+                $this->info("Processing decree {$data->name}");
+
+                $newValues = $decree->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $decree->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                    #    $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $decree->save();
+            $decree->refresh();
+
+            // States
+            foreach (object_get($data, 'states', []) as $state => $stateData)
+            {
+                $stateName = object_get($stateData, 'name');
+
+                $this->info("State {$state}: {$stateName}", OutputInterface::VERBOSITY_VERBOSE);
+
+                $where = [
+                    'decree_id' => $decree->id,
+                    'name' => $stateName,
+                ];
+
+                $decreeState = DecreeState::where($where)->first();
+
+                if ($decreeState === null) {
+                    $decreeState = DecreeState::make($where);
+                }
+
+                $decreeState->fill([
+                    'name' => $stateName
+                ]);
+
+                if ($decreeState->exists)
+                {
+                    $newValues = $decreeState->getDirty();
+                    
                     foreach ($newValues as $key => $newValue)
                     {
-                        $originalValue = $race->getOriginal($key);
+                        $originalValue = $decreeState->getOriginal($key);
 
                         if(is_array($originalValue))
                         {
@@ -1145,88 +1202,40 @@ class DataSyncCommand extends Command implements CommandInterface
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
-                    */
                 }
 
-                $decree->save();
-                $decree->refresh();
+                $decreeState->save();
+                $decreeState->refresh();
 
-                // States
-                foreach (object_get($data, 'state', []) as $key => $decreeStateData) {
+                // Decree state perks
+                $decreeStatePerksToSync = [];
 
-                    $decreeStateName = object_get($decreeStateData, 'name');
+                foreach (object_get($stateData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value; // Can have multiple values for a perk, comma separated. todo: Probably needs a refactor later to JSON
 
-                    $this->info("Unit {$key}: {$decreeStateName}", OutputInterface::VERBOSITY_VERBOSE);
+                    $decreeStatePerkType = DecreeStatePerkType::firstOrCreate(['key' => $perk]);
 
-                    $where = [
-                        'decree_id' => $decree->id,
-                        'slot' => $slot,
-                    ];
+                    $decreeStatePerksToSync[$decreeStatePerkType->id] = ['value' => $value];
 
-                    $decreeState = DecreeState::where($where)->first();
+                    $decreeStatePerk = DecreeStatePerk::query()
+                        ->where('decree_state_id', $decreeState->id)
+                        ->where('decree_state_perk_type_id', $decreeStatePerkType->id)
+                        ->first();
 
-                    if ($decreeState === null) {
-                        $decreeState = DecreeState::make($where);
-                    }
-
-                    $decreeState->fill([
-                        'name' => $decreeStateName,
-                    ]);
-
-                    if ($decreeState->exists) {
-                        $newValues = $unit->getDirty();
-                        /*
-                        foreach ($newValues as $key => $newValue)
-                        {
-                            $originalValue = $unit->getOriginal($key);
-
-                            if(is_array($originalValue))
-                            {
-                                $originalValue = implode(',', $originalValue);
-                            }
-                            if(is_array($newValue))
-                            {
-                                $newValue = implode(',', $newValue);
-                            }
-
-                            $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                        }
-                        */
-                    }
-
-                    $decreeState->save();
-                    $decreeState->refresh();
-
-                    // Unit perks
-                    $decreeStatePerksToSync = [];
-
-                    foreach (object_get($decreeStateData, 'perks', []) as $perk => $value)
+                    if ($decreeStatePerk === null)
                     {
-                        $value = (string)$value;
-
-                        $decreeStatePerkType = DecreeStatePerkType::firstOrCreate(['key' => $perk]);
-
-                        $decreeStatePerksToSync[$decreeStatePerkType->id] = ['value' => $value];
-
-                        $decreeStatePerk = DecreeStatePerkType::query()
-                            ->where('decree_state_id', $unit->id)
-                            ->where('decree_state_perk_type_id', $unitPerkType->id)
-                            ->first();
-
-                        if ($decreeState === null)
-                        {
-                            $this->info("[Add Decree Perk] {$perk}: {$value}");
-                        }
-                        elseif ($decreeState->value != $value)
-                        {
-                            $this->info("[Change Decree Perk] {$perk}: {$decreeState->value} -> {$value}");
-                        }
+                        $this->info("[Add Decree State Perk] {$perk}: {$value}");
                     }
-
-                    $unit->perks()->sync($decreeStatePerksToSync);
+                    elseif ($decreeStatePerk->value != $value)
+                    {
+                        $this->info("[Change Decree State Perk] {$perk}: {$decreeStatePerk->value} -> {$value}");
+                    }
                 }
+
+                $decreeState->perks()->sync($decreeStatePerksToSync);
             }
         }
-
+    }
 
 }

@@ -9,5 +9,5 @@ excluded_races:
 states:
   - name: Enabled
     perks:
-      - training_time_mod: -25
-      - unit_costs: 15
+      training_time_mod: -25
+      unit_costs: 15
