@@ -78,8 +78,6 @@ class DataSyncCommand extends Command implements CommandInterface
     {
         DB::transaction(function () {
 
-            $this->syncDecrees();
-            /*
             $this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
@@ -91,9 +89,8 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncResources();
             $this->syncDeities();
             $this->syncArtefacts();
-            #$this->syncDecrees();
+            $this->syncDecrees();
             $this->syncQuickstarts();
-            */
         });
     }
 
