@@ -1023,7 +1023,7 @@ plantation:
 
 spring:
   name: Spring
-  enabled: 1
+  enabled: 0
   exclusive_races:
     - Sylvan
   land_type: forest
