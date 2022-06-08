@@ -1,0 +1,12 @@
+name: Swamp
+cooldown: 12
+description: Dictate the growth on the swamps.
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: swamp_tissue
+  - name: Sac
+    perks:
+      generate_building: sac

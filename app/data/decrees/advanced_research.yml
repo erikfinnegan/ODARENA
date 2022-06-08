@@ -1,0 +1,16 @@
+name: Advanced Research
+cooldown: 48
+enabled: 0
+description: Dedicate your dominion's best and brightest to research.
+exclusive_races:
+  - Human
+  - Kerranad
+  - Nomad
+states:
+  - name: Enabled
+    perks:
+      xp_production_mod: 10
+      gold_production_mod: -2.5
+      gems_production_mod: -2.5
+      mana_production_mod: -2.5
+      wizard_cost: 50

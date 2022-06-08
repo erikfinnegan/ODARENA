@@ -44,24 +44,14 @@
                 </li>
 
                 <!-- Hide Construct Buildings from cannot_construct races -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}">
-                        <a href="{{ route('dominion.buildings') }}">
-                            <i class="fa fa-home fa-fw"></i>
-                            <span>Buildings</span>
-                        </a>
-                    </li>
+                @if ($selectedDominion->race->getPerkValue('cannot_construct'))
+                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i><span>Buildings</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
-                      <a href="{{ route('dominion.improvements') }}">
-                            <i class="fa fa-arrow-up fa-fw"></i>
-                            <span>Improvements</span>
-                      </a>
-                </li>
+                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i><span>Improvements</span></a></li>
 
                 <!-- TECHS -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
+                @if (!$selectedDominion->race->getPerkValue('cannot_tech'))
                     <li class="{{ Route::is('dominion.advancements') ? 'active' : null }}">
                         <a href="{{ route('dominion.advancements') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span>
 
@@ -79,26 +69,28 @@
                 @if (!$selectedDominion->race->getPerkValue('cannot_invade'))
                     <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
+
                 @if ($selectedDominion->round->mode == 'artefacts')
                     <li class="{{ Route::is('dominion.artefacts') ? 'active' : null }}"><a href="{{ route('dominion.artefacts') }}"><i class="ra ra-alien-fire"></i> <span>Artefacts</span></a></li>
                 @endif
+
                 @if (!$selectedDominion->race->getPerkValue('cannot_send_expeditions') and !$selectedDominion->getDeityPerkValue('cannot_send_expeditions'))
                     <li class="{{ Route::is('dominion.expedition') ? 'active' : null }}"><a href="{{ route('dominion.expedition') }}"><i class="fas fa-drafting-compass fa-fw"></i> <span>Expedition</span></a></li>
                 @endif
+
                 @if (!$selectedDominion->race->getPerkValue('cannot_steal'))
                     <li class="{{ Route::is('dominion.theft') ? 'active' : null }}"><a href="{{ route('dominion.theft') }}"><i class="fas fa-hand-lizard fa-fw"></i> <span>Theft</span></a></li>
                 @endif
 
                 <li class="{{ Route::is('dominion.sabotage') ? 'active' : null }}"><a href="{{ route('dominion.sabotage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Sabotage</span></a></li>
-
                 <li class="{{ Route::is('dominion.sorcery') ? 'active' : null }}"><a href="{{ route('dominion.sorcery') }}"><i class="fas fa-hat-wizard fa-fw"></i> <span>Sorcery</span></a></li>
-
-                {{--
-                <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
-                --}}
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
+                @if(request()->getHost() == 'odarena.local')
+                    <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
+                @endif
+                
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
 
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
@@ -112,17 +104,9 @@
                     </a>
                 </li>
                 <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fas fa-comments ra-fw"></i>
-                  <span>
-                    @if($selectedDominion->realm->alignment == 'evil')
-                        Senate
-                    @elseif($selectedDominion->realm->alignment == 'good')
-                        Parliament
-                    @elseif($selectedDominion->realm->alignment == 'independent')
-                        Assembly
-                    @else
-                        Council
-                    @endif
-                </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
+                    <span>{{ $realmHelper->getAlignmentCouncilTerm($selectedDominion->realm->alignment) }}</span>&nbsp;
+                    {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
+
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>
 
                 {{--

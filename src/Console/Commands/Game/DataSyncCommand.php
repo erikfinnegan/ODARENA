@@ -1122,6 +1122,12 @@ class DataSyncCommand extends Command implements CommandInterface
                 $deityId = Deity::where('key', $deityKey)->first()->id;
             }
 
+            $titleId = null;
+            if($titleKey = object_get($data, 'title'))
+            {
+                $titleId = Title::where('key', $titleKey)->first()->id;
+            }
+
             // Race
             $decree = Decree::firstOrNew(['name' => $data->name])
                 ->fill([
@@ -1129,6 +1135,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'enabled' => object_get($data, 'enabled', 1),
                     'cooldown' => object_get($data, 'cooldown', 48),
                     'deity' => $deityId,
+                    'title' => $titleId,
                     'description' => object_get($data, 'description'),
                     'excluded_races' => object_get($data, 'excluded_races', []),
                     'exclusive_races' => object_get($data, 'exclusive_races', []),

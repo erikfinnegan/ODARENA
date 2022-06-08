@@ -1,7 +1,6 @@
 name: Growth
 alignment: independent
-description: >-
-  <p>Unique improvement: Tissue - increases population and food production.</p>
+description: 
 home_land_type: swamp
 playable: 1
 skill_level: 2
@@ -74,7 +73,7 @@ units:
       offense: 0
       defense: 1
     perks:
-        mana_production_raw: 0.025
+        mana_production_raw: 0.015
         food_production_raw: 0.50
 
   - name: Ulcer

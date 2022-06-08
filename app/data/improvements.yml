@@ -559,8 +559,8 @@ tissue:
   exclusive_races:
     - Growth
   perks:
-    population: 100,75000
-    food_production_mod: 100,75000
+    population: 120,82000
+    food_production_mod: 120,82000
 # END GROWTH #
 
 # BEGIN SYLVAN #

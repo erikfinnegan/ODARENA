@@ -1,0 +1,12 @@
+name: Water
+cooldown: 12
+description: Grow the tissue or filter in water through gills to feeed the growth.
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: water_tissue
+  - name: Gills
+    perks:
+      generate_building: gill

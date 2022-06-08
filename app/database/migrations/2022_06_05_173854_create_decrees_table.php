@@ -17,13 +17,15 @@ class CreateDecreesTable extends Migration
             $table->increments('id');
 
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->integer('enabled')->default(1);
             $table->integer('deity_id')->nullable()->unsigned();
+            $table->integer('title_id')->nullable()->unsigned();
             $table->text('excluded_races')->nullable();
             $table->text('exclusive_races')->nullable();
 
             $table->foreign('deity_id')->references('id')->on('deities');
+            $table->foreign('title_id')->references('id')->on('titles');
 
             $table->timestamps();
         });

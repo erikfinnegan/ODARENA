@@ -1,0 +1,14 @@
+name: Advanced Research
+cooldown: 48
+enabled: 1
+description: Focus your dominion's best and brightest on achieving new technological advancements.
+excluded_races:
+  - Growth
+  - Myconid
+  - Void
+states:
+  - name: Enabled
+    perks:
+      xp_production_mod: 10
+      construction_cost: 5
+      rezone_cost: 5

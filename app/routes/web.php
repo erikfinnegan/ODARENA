@@ -198,6 +198,11 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('government/war/declare')->uses('Dominion\GovernmentController@postDeclareWar')->name('government.war.declare');
             $router->post('government/war/cancel')->uses('Dominion\GovernmentController@postCancelWar')->name('government.war.cancel');
 
+            // Decrees
+            $router->get('decrees')->uses('Dominion\DecreesController@getIndex')->name('decrees');
+            $router->post('decrees/issue')->uses('Dominion\DecreesController@postIssueDecree')->name('decrees.issue');
+            $router->post('decrees/revoke')->uses('Dominion\DecreesController@postRevokeDecree')->name('decrees.revoke');
+
             // Realm
             $router->get('realm/{realmNumber?}')->uses('Dominion\RealmController@getRealm')->name('realm');
             $router->post('realm/change-realm')->uses('Dominion\RealmController@postChangeRealm')->name('realm.change-realm');

@@ -34,4 +34,13 @@ class Decree extends AbstractModel
             ->orderBy('name');
     }
 
+    public function deity()
+    {
+        return $this->belongsTo(Deity::class);
+    }
+
+    public function title()
+    {
+        return $this->belongsTo(Title::class);
+    }
 }

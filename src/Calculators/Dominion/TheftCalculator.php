@@ -69,6 +69,10 @@ class TheftCalculator
 
         $theftAmount *= $targetModifier;
 
+        # Defensive SPA reduction
+        $targetSpa = min($this->militaryCalculator->getSpyRatio($target, 'defense'), 4);
+        $targetModifier *= max($targetSpa * -0.25, 0);
+
         $theftAmount = max(0, $theftAmount);
 
         return $theftAmount;

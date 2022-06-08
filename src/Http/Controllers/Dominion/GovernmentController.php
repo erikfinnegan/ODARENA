@@ -14,7 +14,8 @@ use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Calculators\RealmCalculator;
 
-
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Deity;
 
 
@@ -23,7 +24,7 @@ class GovernmentController extends AbstractDominionController
     public function getIndex()
     {
         $dominion = $this->getSelectedDominion();
-        $governmentService = app(GovernmentService::class);
+        #$governmentService = app(GovernmentService::class);
 
         $dominions = $dominion->realm->dominions()
             ->with([
@@ -85,27 +86,6 @@ class GovernmentController extends AbstractDominionController
         $request->session()->flash('alert-success', 'Your realm has been updated!');
         return redirect()->route('dominion.government');
     }
-
-    public function postContribution(GovernmentActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $governmentActionService = app(GovernmentActionService::class);
-
-        $realm_number = $request->get('realm_number');
-
-        try {
-            $governmentActionService->declareWar($dominion, $realm_number);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', "You have declared WAR on realm #{$realm_number}!");
-        return redirect()->route('dominion.government');
-    }
-
 
     public function postDeity(GovernmentActionRequest $request)
     {

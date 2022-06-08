@@ -1,0 +1,12 @@
+name: Plains
+cooldown: 12
+description: Steer your growth on the plains.
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: plain_tissue
+  - name: Sinew
+    perks:
+      generate_building: sinew

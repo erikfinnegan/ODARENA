@@ -1,0 +1,12 @@
+name: Hills
+cooldown: 12
+description: Spread over the hills...
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: hills_tissue
+  - name: Incisor
+    perks:
+      generate_building: incisor

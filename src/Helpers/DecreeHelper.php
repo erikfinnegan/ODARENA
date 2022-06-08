@@ -10,11 +10,6 @@ use OpenDominion\Models\Decree;
 class DecreeHelper
 {
 
-    public function getDecreeKeys(): Collection
-    {
-        return Decree::where('enabled',1)->pluck('key');
-    }
-
     public function getDecreeDescription(Decree $decree): ?string
     {
 
@@ -32,29 +27,6 @@ class DecreeHelper
 
             'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
             'spy_housing' => 'Houses %1$s spies and units that count as spies.',
-            'draftee_housing' => 'Houses %s draftees.',
-            'peasant_housing' => 'Houses %s peasants.',
-
-            'afflicted_unit1_housing' => 'Houses %s Abominations.',
-            'aurei_unit1_housing' => 'Houses %s Alchemists.',
-            'human_unit1_housing' => 'Houses %s Archers.',
-            'human_unit2_housing' => 'Houses %s Spearguards.',
-            'sacred_order_unit2_housing' => 'Houses %s Monks.',
-            'sacred_order_unit3_housing' => 'Houses %s Fanatics.',
-            'sacred_order_unit4_housing' => 'Houses %s Paladins.',
-            'snow_elf_unit1_housing' => 'Houses %s Arbalists.',
-            'troll_unit2_housing' => 'Houses %s Forest Trolls.',
-            'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
-
-            'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
-            'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
-            'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
-            'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
-
-            'dimensionalists_unit1_production_mod' => '%2$s%% Tl\'Tl summoning rate for every %1$s%% (max %3$s%%).',
-            'dimensionalists_unit2_production_mod' => '%2$s%% Sft\'Rm summoning rate for every %1$s%% (max %3$s%%).',
-            'dimensionalists_unit3_production_mod' => '%2$s%% Ze\'Tk summoning rate for every %1$s%% (max %3$s%%).',
-            'dimensionalists_unit4_production_mod' => '%2$s%% Frs\'Kl summoning rate for every %1$s%% (max %3$s%%).',
 
             'unit_production_from_wizard_ratio' => 'Summoning increased by (Wizard Ratio / %s)%%.',
 
@@ -280,7 +252,7 @@ class DecreeHelper
     */
     public function getDecreesByRace(Race $race): Collection
     {
-        $decrees = collect(Decree::all()->keyBy('key')->sortBy('name')->where('enabled',1));
+        $decrees = collect(Decree::all()->sortBy('name')->where('enabled',1));
 
         foreach($decrees as $decree)
         {

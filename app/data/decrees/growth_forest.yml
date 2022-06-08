@@ -1,0 +1,12 @@
+name: Forest
+cooldown: 12
+description: Spread across and under roots and leaves.
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: forest_tissue
+  - name: Tendon
+    perks:
+      generate_building: tendon

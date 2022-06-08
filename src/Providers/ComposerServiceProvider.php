@@ -20,6 +20,7 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use Carbon\Carbon;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\RealmHelper;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
@@ -38,10 +39,10 @@ class ComposerServiceProvider extends AbstractServiceProvider
 
         view()->composer('partials.main-sidebar', function (View $view) {
             $selectorService = app(SelectorService::class);
-            #$landCalculator = app(LandCalculator::class);
+            $realmHelper = app(RealmHelper::class);
             $techCalculator = app(TechCalculator::class);
             $resourceCalculator = app(ResourceCalculator::class);
-            $productionCalculator = app(ProductionCalculator::class);
+            #$productionCalculator = app(ProductionCalculator::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
                 return;
@@ -74,7 +75,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-            $newsUnreadCount = $gameEvents = GameEvent::query()
+            $newsUnreadCount = GameEvent::query()
                 ->select('id')
                 ->where('round_id', $dominion->round->id)
                 ->where('created_at', '>', $newsLastRead)
@@ -82,16 +83,16 @@ class ComposerServiceProvider extends AbstractServiceProvider
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('newsUnreadCount', $newsUnreadCount);
+            $view->with('realmHelper', $realmHelper);
             $view->with('resourceCalculator', $resourceCalculator);
             $view->with('techCalculator', $techCalculator);
-            $view->with('productionCalculator', $productionCalculator);
+            #$view->with('productionCalculator', $productionCalculator);
         });
 
         view()->composer('partials.main-footer', function (View $view)
         {
             $selectorService = app(SelectorService::class);
             $hoursUntilRoundStarts = 0;
-            $hoursUntilRoundEnds = 0;
 
             if($dominion = $selectorService->getUserSelectedDominion())
             {

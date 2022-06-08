@@ -1,0 +1,12 @@
+name: Mountain
+cooldown: 12
+description: What should grow on the mountains?
+exclusive_races:
+  - Growth
+states:
+  - name: Tissue
+    perks:
+      generate_building: mountain_tissue
+  - name: Cartilage
+    perks:
+      generate_building: cartilage
