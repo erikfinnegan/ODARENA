@@ -44,7 +44,7 @@
                 </li>
 
                 <!-- Hide Construct Buildings from cannot_construct races -->
-                @if ($selectedDominion->race->getPerkValue('cannot_construct'))
+                @if (!$selectedDominion->race->getPerkValue('cannot_construct'))
                     <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i><span>Buildings</span></a></li>
                 @endif
 
