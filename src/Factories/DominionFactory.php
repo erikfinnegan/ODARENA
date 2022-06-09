@@ -153,6 +153,11 @@ class DominionFactory
             {
                 $startingParameters['unit4'] = 1;
             }
+
+            if($race->name == 'Marshling')
+            {
+                $startingResources['marshling'] = 1500;
+            }
         }
         else
         {
