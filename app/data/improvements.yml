@@ -1055,7 +1055,7 @@ mustering:
   perks:
     unit_lumber_costs: -15,6000
     unit_ore_costs: -25,4000
-    food_consumption: 10,6000
+    food_consumption_mod: 10,6000
 
 # END YETI #
 

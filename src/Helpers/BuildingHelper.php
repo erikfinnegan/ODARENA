@@ -68,6 +68,8 @@ class BuildingHelper
             'unit_production_from_wizard_ratio' => 'Summoning increased by (Wizard Ratio / %s)%%.',
 
             'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
+            'snow_elf_unit4_production_raw_capped' => 'Summons %1$s Gryphons per tick (up to %2$s%% of your land).',
+            
             'snow_elf_unit4_production_mod' => '%2$s%% Gryphon arrival rate for every %1$s%% (max %3$s%%).',
 
             'jobs' => 'Provides %s jobs.',

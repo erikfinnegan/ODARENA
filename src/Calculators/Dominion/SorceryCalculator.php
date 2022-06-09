@@ -58,8 +58,6 @@ class SorceryCalculator
         $multiplier += $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 25;
         $multiplier += $caster->realm->getArtefactPerkMultiplier('sorcery_spell_duration');
 
-        #dump($multiplier);
-
         $duration *= $multiplier;
 
         $duration = floor($duration);
@@ -78,15 +76,10 @@ class SorceryCalculator
 
         # ENHANCEMENTS ???
 
-        #dump('getSorceryWizardStrengthMultiplier():' . $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength));
-        #dump('getSorceryWizardRatioMultiplier():' . $this->getSorceryWizardRatioMultiplier($caster, $target));
-
-        #dump('getSorcerySpellDamageMultiplier():' . $multiplier);
-
         return $multiplier;
     }
 
-    public function getSorceryWizardStrengthMultiplier(Dominion $caster, int $wizardStrength): float
+    public function getSorceryWizardStrengthMultiplier(int $wizardStrength): float
     {
         return max($wizardStrength, $wizardStrength * (exp($wizardStrength/120)-1));
     }
@@ -105,9 +98,6 @@ class SorceryCalculator
         {
             return 1.5;
         }
-
-        #$multiplier += (1 / exp($targetWpa / $casterWpa) * (($casterWpa - $targetWpa) / $casterWpa) / 2);
-        #$multiplier = min($casterWpa / $targetWpa, 1.5);
         $multiplier += clamp((($casterWpa - $targetWpa) / $casterWpa), 0, 1.5);
 
         return $multiplier;
