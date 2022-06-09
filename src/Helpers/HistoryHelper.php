@@ -29,7 +29,7 @@ class HistoryHelper
           'tick' => 'ra ra-hourglass ra-fw',
           'train' => 'ra ra-sword ra-fw',
           'update notes' => 'ra ra-quill-ink ra-fw',
-          'join warriors league' => 'ra ra-heavy-shield ra-fw',
+          'tech' => ''
         ];
 
         return $icons[$event] ? $icons[$event] : '';
