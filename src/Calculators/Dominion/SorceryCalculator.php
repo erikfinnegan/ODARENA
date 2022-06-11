@@ -33,7 +33,7 @@ class SorceryCalculator
 
     public function canPerformSorcery(Dominion $caster): bool
     {
-        if($caster->wizard_strength >= 4 and $this->militaryCalculator->getWizardRatio($caster, 'offense') >= 0.04)
+        if($caster->wizard_strength >= 4)
         {
             return true;
         }
