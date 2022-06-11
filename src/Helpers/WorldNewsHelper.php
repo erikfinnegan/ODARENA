@@ -545,7 +545,8 @@ class WorldNewsHelper
                     <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span><br>
                     <small class=\'text-muted\'>Faction:</small> %s<br>
                     <small class=\'text-muted\'>Status:</small> %s<br>
-                    <small class=\'text-muted\'>Units returning:</small> %s"
+                    <small class=\'text-muted\'>Units returning:</small> %s<br>
+                    <small class=\'text-muted\'>Ruler:</small> <em>%s</em> %s"
                 class="%s"> %s
                     <a href="%s">
                         (# %s)
@@ -558,6 +559,8 @@ class WorldNewsHelper
             $dominion->race->name,
             (($dominion->realm->id == $viewer->realm->id) or ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration')) ? "<span class='text-green'>Friendly</span>" : "<span class='text-red'>Hostile</span>",
             $this->militaryCalculator->hasReturningUnits($dominion) ? "<span class='text-green'>Yes</span>" : "<span class='text-red'>No</span>",
+            $dominion->title->name,
+            $dominion->ruler_name,
             $this->getSpanClass($mode),
             $dominion->name,
             route('dominion.realm', [$dominion->realm->number]),
