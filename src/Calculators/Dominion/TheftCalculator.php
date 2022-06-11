@@ -166,7 +166,15 @@ class TheftCalculator
 
         foreach($units as $slot => $amount)
         {
-            $killedUnits[$slot] = (int)min(ceil($amount * $casualties), $units[$slot]);
+            if($thief->race->getUnitPerkValueForUnitSlot($slot,'immortal_spy'))
+            {
+                $killedUnits[$slot] = 0;
+            }
+            else
+            {
+                $killedUnits[$slot] = (int)min(ceil($amount * $casualties), $units[$slot]);
+            }
+
         }
 
         return $killedUnits;
