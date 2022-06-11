@@ -71,7 +71,7 @@ class SorceryCalculator
     {
         $multiplier = 1;
 
-        $multiplier *= $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength);
+        $multiplier *= $this->getSorceryWizardStrengthMultiplier($wizardStrength);
         $multiplier *= $this->getSorceryWizardRatioMultiplier($caster, $target);
 
         # ENHANCEMENTS ???
