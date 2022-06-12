@@ -488,7 +488,8 @@ class InvadeActionService
             # LIBERATION
             elseif(isset($this->invasionResult['attacker']['liberation']) and $this->invasionResult['attacker']['liberation'])
             {
-                $this->spellActionService->breakSpell($target, 'annexation', $this->invasionResult['attacker']['liberation']);
+                $annexationSpell = Spell::where('key', 'annexation')->first();
+                $this->spellActionService->breakSpell($target, $annexationSpell, $this->invasionResult['attacker']['liberation']);
             }
 
             $this->invasionResult['log']['finished_at'] = time();
