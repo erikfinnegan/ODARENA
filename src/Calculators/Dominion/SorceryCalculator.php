@@ -74,8 +74,6 @@ class SorceryCalculator
         $multiplier *= $this->getSorceryWizardStrengthMultiplier($wizardStrength);
         $multiplier *= $this->getSorceryWizardRatioMultiplier($caster, $target);
 
-        # ENHANCEMENTS ???
-
         return $multiplier;
     }
 
@@ -99,6 +97,7 @@ class SorceryCalculator
             return 1.5;
         }
         $multiplier += clamp((($casterWpa - $targetWpa) / $casterWpa), 0, 1.5);
+        $multiplier *= 2;
 
         return $multiplier;
     }

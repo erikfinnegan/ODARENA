@@ -69,8 +69,6 @@ class SpellActionService
         $this->statsService = app(StatsService::class);
     }
 
-    public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
-
     /**
      * Casts a magic spell for a dominion, optionally aimed at another dominion.
      *
@@ -81,7 +79,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null): array
+    public function castSpell(Dominion $dominion, string $spellKey, Dominion $target = null, bool $isInvasionSpell = false): array
     {
         $this->guardLockedDominion($dominion);
 
@@ -203,7 +201,7 @@ class SpellActionService
         }
     }
 
-    protected function castPassiveSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): array
+    protected function castPassiveSpell(Dominion $caster, ?Dominion $target = null, Spell $spell): array
     {
 
         if ($spell->scope == 'hostile')
@@ -684,7 +682,7 @@ class SpellActionService
         }
     }
 
-    protected function castInvasionSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): void
+    protected function castInvasionSpell(Dominion $caster, ?Dominion $target = null, Spell $spell): void
     {
         # Self-spells self auras - Unused
         if($spell->scope == 'self')
@@ -725,10 +723,10 @@ class SpellActionService
             {
                 DB::transaction(function () use ($caster, $target, $spell)
                 {
-                    $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
-                    ->update(['duration' => $spell->duration]);
+                    DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
+                    ->update(['duration' => $spell->duration, 'caster' => $caster]);
 
-                    $target->save([
+                    $caster->save([
                         'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
                         'action' => $spell->key
                     ]);
