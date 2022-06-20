@@ -724,7 +724,7 @@ class SpellActionService
                 DB::transaction(function () use ($caster, $target, $spell)
                 {
                     DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
-                    ->update(['duration' => $spell->duration, 'caster' => $caster]);
+                    ->update(['duration' => $spell->duration, 'caster_id' => $caster->id]);
 
                     $caster->save([
                         'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
