@@ -45,6 +45,7 @@ units:
       defense: 1
     perks:
       attrition: 0.25 # 0.25% lost each tick.
+      no_draftee_on_release: 1
 
   - name: Pest Rat
     training_time: 9

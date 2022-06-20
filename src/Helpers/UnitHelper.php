@@ -378,6 +378,7 @@ class UnitHelper
             'instant_training' => 'Appears immediately.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
+            'no_draftee_on_release' => 'No draftee returned if released.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'attrition' => '%1$s%% attrition rate per tick.',

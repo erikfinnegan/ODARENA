@@ -114,11 +114,6 @@ class SpellActionService
             throw new LogicException("Spell {$spell->name} is not enabled.");
         }
 
-        if (!$this->spellCalculator->canCastSpell($dominion, $spell, $this->resourceCalculator->getAmount($dominion, 'mana')))
-        {
-            throw new GameException("You are not able to cast {$spell->name}.");
-        }
-
         $wizardStrengthCost = $this->spellCalculator->getWizardStrengthCost($spell);
 
         if ($dominion->wizard_strength <= 0 or ($dominion->wizard_strength - $wizardStrengthCost) < 0)
@@ -131,6 +126,11 @@ class SpellActionService
         if ($this->resourceCalculator->getAmount($dominion, 'mana') < $manaCost)
         {
             throw new GameException("You do not have enough mana to cast {$spell->name}. You need {$manaCost} mana to cast this spell.");
+        }
+
+        if (!$this->spellCalculator->canCastSpell($dominion, $spell, $this->resourceCalculator->getAmount($dominion, 'mana')))
+        {
+            throw new GameException("You are not able to cast {$spell->name}.");
         }
 
         if ($spell->scope == 'hostile' and $spell->class !== 'invasion')
@@ -201,7 +201,7 @@ class SpellActionService
         }
     }
 
-    protected function castPassiveSpell(Dominion $caster, ?Dominion $target = null, Spell $spell): array
+    protected function castPassiveSpell(Dominion $caster, Dominion $target = null, Spell $spell): array
     {
 
         if ($spell->scope == 'hostile')
