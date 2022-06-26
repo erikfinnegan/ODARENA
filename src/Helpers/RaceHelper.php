@@ -487,7 +487,7 @@ class RaceHelper
             case 'min_rounds_played':
                 $negativeBenefit = true;
                 $description = 'Mininum number of rounds played to play this faction';
-                $valueType = ' rounds';
+                $valueType = '';
                 $booleanValue = 'static';
                 break;
             case 'title_bonus':
