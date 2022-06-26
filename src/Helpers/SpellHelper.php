@@ -75,6 +75,7 @@ class SpellHelper
             'miasma_production_mod' => '%s%% miasma extraction',
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
+            'strength_gain_mod' => '%s%% strength gains',
 
             'food_consumption_mod' => '%s%% food consumption',
 
