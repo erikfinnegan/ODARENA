@@ -18,6 +18,7 @@ gaias_watch:
   excluded_races:
     - Afflicted
     - Demon
+    - Monster
     - Sylvan
     - Undead
     - Void
@@ -34,6 +35,7 @@ harmony:
   excluded_races:
     - Afflicted
     - Demon
+    - Monster
     - Void
   perks:
     population_growth: 50
@@ -54,6 +56,7 @@ druvas_granaries:
     - Gnome
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Spirit
@@ -86,6 +89,7 @@ mining_strength:
     - Lux
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Qur
@@ -113,6 +117,7 @@ fools_gold:
     - Afflicted
     - Elementals
     - Growth
+    - Monster
     - Sylvan
     - Void
   perks:
@@ -130,6 +135,7 @@ sazals_charge:
   cooldown: 480
   excluded_races:
     - Void
+    - Monster
   perks:
     reset_spell_cooldowns: 1
 
@@ -142,6 +148,8 @@ sazals_fog:
   cooldown: 96
   perks:
     fog_of_war: 1
+  excluded_races:
+    - Monster
 
 energy_mirror:
   name: Sazal's Mirror
@@ -152,6 +160,7 @@ energy_mirror:
   duration: 24
   cooldown: 0
   excluded_races:
+    - Monster
     - Void
   perks:
     chance_to_reflect_spells: 25
@@ -164,6 +173,7 @@ surreal_perception:
   duration: 24
   cooldown: 0
   excluded_races:
+    - Monster
     - Void
   perks:
     reveal_ops: 1
@@ -176,6 +186,7 @@ aura:
   duration: 24
   cooldown: 0
   excluded_races:
+    - Monster
     - Void
   perks:
     damage_from_spells: -20
@@ -207,6 +218,7 @@ transmogrify:
     - Lux
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Qur
@@ -942,18 +954,49 @@ spawning_pool:
   perks:
     additional_units_trained_from_land: 1,swamp,1 # slot,land_type,ratio = 1% more unit1 for every 1% swamp
 
+# BEGIN MONSTER
+
 primordial_wrath:
-  name: Primordial Wrath
+  name: Claws of Fury
   scope: self
   class: passive
-  cost: 20
-  duration: 4
-  cooldown: 0
+  cost: 10
+  duration: 12
+  cooldown: 240
   exclusive_races:
     - Monster
   perks:
-    offensive_power: 100
-    defensive_power: 50
+    offensive_power: 40
+    defensive_power: -20
+
+concentrated_effort:
+  name: Concentrated Effort
+  scope: self
+  class: passive
+  cost: 10
+  duration: 12
+  cooldown: 96
+  exclusive_races:
+    - Monster
+  perks:
+    increases_enemy_casualties_on_offense: 25
+    strength_gain_mod: 50
+    no_land_discovered: 1
+
+defensive_position:
+  name: Defensive Position
+  scope: self
+  class: passive
+  cost: 10
+  duration: 24
+  cooldown: 48
+  exclusive_races:
+    - Monster
+  perks:
+    defensive_power: 40
+    offensive_power: -60
+
+# END MONSTER
 
 # CULT
 
@@ -1310,6 +1353,7 @@ insect_swarm:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     food_production_mod: -10
 
@@ -1346,6 +1390,7 @@ earthquake:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     ore_production_mod: -5
     gems_production_mod: -5
@@ -1400,6 +1445,7 @@ great_flood:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     boat_production_mod: -25
 
@@ -1436,6 +1482,7 @@ plague:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     population_growth: -25
 
@@ -1487,6 +1534,7 @@ disband_spies:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     disband_spies: 0.25 # 1/4
 
@@ -1500,6 +1548,7 @@ fireball:
   excluded_races:
     - Dwarg
     - Firewalker
+    - Monster
   perks:
     kill_peasants: 0.25 # 1/4
     destroy_resource: food,0.25 # 1/4
@@ -1513,6 +1562,7 @@ lightning_bolt:
   cooldown: 0
   excluded_races:
     - Dwarg
+    - Monster
   perks:
     improvements_damage: 0.05 # 0.20/4
 

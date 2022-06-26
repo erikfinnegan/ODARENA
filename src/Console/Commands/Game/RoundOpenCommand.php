@@ -94,6 +94,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         // Prepopulate round with #1 Barbarian, #2 Commonwealth, #3 Empire, #4 Independent
         if($gameMode == 'standard' or $gameMode == 'standard-duration' or $gameMode == 'artefacts')
         {
+            $this->info("Creating realms...");
             $this->realmFactory->create($round, 'npc');
             $this->realmFactory->create($round, 'good');
             $this->realmFactory->create($round, 'evil');
@@ -101,6 +102,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         }
         elseif($gameMode == 'deathmatch' or $gameMode == 'deathmatch-duration')
         {
+            $this->info("Creating realms...");
             $this->realmFactory->create($round, 'npc');
             $this->realmFactory->create($round, 'players');
         }
@@ -108,6 +110,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         // Create 18 Barbarians.
         for ($slot = 1; $slot <= 18; $slot++)
         {
+            $this->info("Creating a Barbarian...");
             $this->barbarianService->createBarbarian($round);
         }
 

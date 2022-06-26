@@ -143,6 +143,11 @@ class SabotageActionService
                 throw new GameException($saboteur->race->name . ' cannot sabotage.');
             }
 
+            if ($saboteur->race->getPerkValue('cannot_sabotage'))
+            {
+                throw new GameException($saboteur->race->name . ' cannot sabotage.');
+            }
+
             // Spell: Rainy Season (cannot invade)
             if ($saboteur->getSpellPerkValue('cannot_sabotage'))
             {

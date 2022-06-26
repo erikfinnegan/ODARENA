@@ -72,6 +72,12 @@ class SorceryActionService
         DB::transaction(function () use ($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount)
         {
             # BEGIN VALIDATION
+
+            if ($caster->race->getPerkValue('cannot_perform_sorcery'))
+            {
+                throw new GameException($caster->race->name . ' cannot perform sorcery.');
+            }
+
             if(!$this->sorceryCalculator->canPerformSorcery($caster))
             {
                 throw new GameException('Your wizards are too weak to perform sorcery.');
@@ -81,10 +87,12 @@ class SorceryActionService
             {
                 throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your wizards to cast spells on them.');
             }
+            
             if($caster->getSpellPerkValue('stasis'))
             {
                 throw new GameException('You cannot cast spells while you are in stasis.');
             }
+
             if($caster->protection_ticks !== 0)
             {
                 throw new GameException('You cannot perform sorcery while in protection.');

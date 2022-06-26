@@ -2547,4 +2547,58 @@ class MilitaryCalculator
         return $reduction;
     }
 
+    public function getStrengthGain(Dominion $monster, Dominion $enemy, string $mode, array $invasionResult): int
+    {
+        $rawOp = $invasionResult['attacker']['op_raw'];
+        $rawDp = $invasionResult['defender']['dp_raw'];
+        $opDpRatio = $invasionResult['result']['opDpRatio'];
+
+        $strength = 0;
+
+        if($mode == 'offense')
+        {
+            # Successful invasion: 10% of own raw OP required to break the target and 10% of the target's raw DP.
+            if($invasionResult['result']['success'])
+            {
+                $strength += $rawOp * 0.10 * (1/$opDpRatio);
+                $strength += $rawDp * 0.10;
+            }
+            # Non-overwhelmed failed invasion: <code>7.5% * [OP:DP Ratio]</code> of own raw OP and <code>5% * [OP:DP Ratio]</code> of target's raw DP.
+            elseif(!$invasionResult['result']['success'] and !$invasionResult['result']['overwhelmed'])
+            {
+                $strength += $rawOp * 0.075 * $opDpRatio;
+                $strength += $rawDp * 0.05 * $opDpRatio;
+            }
+            # Overwhelmed failed invasion: <code>-20% * (1/[OP:DP Ratio])</code> of own raw OP and <code>-10% * [OP:DP Ratio]</code> of target's raw DP.
+            elseif(!$invasionResult['result']['success'] and $invasionResult['result']['overwhelmed'])
+            {
+                $strength += $rawOp * -0.20 * (1/$opDpRatio);
+                $strength += $rawDp * -0.10 * $opDpRatio;
+            }
+        }
+        elseif($mode == 'defense')
+        {
+            # Successfully fending off: 10% of own raw DP and 10% * of the invader's raw OP.
+            if(!$invasionResult['result']['success'])
+            {
+                $strength += $rawDp * 0.10;
+                $strength += $rawOp * 0.10 * (1/$opDpRatio);
+            }
+
+            # Failed fending off (successfully invaded): <code>-7.5% * [OP:DP Ratio]</code> of invader's raw OP.
+            if($invasionResult['result']['success'])
+            {
+                $strength += $rawOp * -0.10 * $opDpRatio;
+            }
+        }
+
+        $strengthGainMultiplier = 1;
+        $strengthGainMultiplier += $monster->getSpellPerkValue('strength_gain_mod');
+
+        $strength *= $strengthGainMultiplier;
+
+        return $strength;
+
+    }
+
 }

@@ -294,6 +294,7 @@
                                       </tr>
                                   @endif
                               @endif
+                              @if(!$race->getPerkValue('no_population'))
                               <tr>
                                   <td>
                                       <span data-toggle="tooltip" data-placement="top" title="What each worker produces">{{ $raceHelper->getPeasantsTerm($race) }} production:</span>
@@ -320,6 +321,7 @@
                                       @endforeach
                                   </td>
                               </tr>
+                              @endif
                               @foreach ($race->perks as $perk)
                                   @php
                                       $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);

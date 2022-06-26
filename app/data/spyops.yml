@@ -5,18 +5,24 @@ assassinate_draftees:
   scope: hostile
   perks:
     kill_draftees: 0.10
+  excluded_races:
+    - Monster
 
 assassinate_peasants:
   name: Assassinate Peasants
   scope: hostile
   perks:
     kill_peasants: 0.10
+  excluded_races:
+    - Monster
 
 magic_snare:
   name: Magic Snare
   scope: hostile
   perks:
     decrease_wizard_strength: 0.20
+  excluded_races:
+    - Monster
 
 sabotage_construction:
   name: Sabotage Construction

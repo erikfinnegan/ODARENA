@@ -7,6 +7,7 @@ alchemy:
   enabled: 0
   excluded_races:
     - Growth
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -24,6 +25,7 @@ gold_mine:
     - Icekin
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Sylvan
@@ -42,6 +44,7 @@ farm:
     - Icekin
     - Lux
     - Glimjir
+    - Monster
     - Myconid
     - Reptilians
     - Swarm
@@ -77,6 +80,7 @@ ore_mine:
     - Lux
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Qur
@@ -109,6 +113,7 @@ diamond_mine:
   enabled: 0
   excluded_races:
     - Growth
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -129,6 +134,7 @@ gem_mine:
     - Glimjir
     - Growth
     - Marshling
+    - Monster
     - Myconid
     - Simian
     - Swarm
@@ -145,6 +151,7 @@ vault:
   excluded_races:
     - Growth
     - Glimjir
+    - Monster
     - Myconid
     - Sylvan
     - Wood Elf
@@ -160,6 +167,7 @@ granary:
   excluded_races:
     - Growth
     - Glimjir
+    - Monster
     - Void
     - Wood Elf
   land_type: forest
@@ -303,6 +311,7 @@ tower:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -333,6 +342,7 @@ lumberyard:
     - Icekin
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Spirit
     - Swarm
@@ -349,6 +359,7 @@ dock:
     - Dragon
     - Growth
     - Glimjir
+    - Monster
     - Myconid
     - Reptilians
     - Void
@@ -369,6 +380,7 @@ watermill:
     - Growth
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Reptilians
     - Simian
@@ -389,6 +401,7 @@ aqueduct:
     - Icekin
     - Glimjir
     - Myconid
+    - Monster
     - Reptilians
     - Swarm
     - Sylvan
@@ -428,6 +441,7 @@ masonry:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -477,6 +491,7 @@ military_academy:
     - Icekin
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Snow Elf
@@ -509,6 +524,7 @@ guard_tower:
     - Icekin
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Norse
     - Nox
@@ -547,6 +563,7 @@ temple:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Void
@@ -591,6 +608,7 @@ shrine:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -614,6 +632,7 @@ smithy:
     - Icekin
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nox
     - Swarm
@@ -643,6 +662,7 @@ factory:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -668,6 +688,7 @@ constabulary:
   excluded_races:
     - Growth
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Sylvan
@@ -684,6 +705,7 @@ wizard_academy:
     - Dimensionalists
     - Growth
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Sylvan
@@ -703,6 +725,7 @@ wizard_guild:
     - Growth
     - Icekin
     - Glimjir
+    - Monster
     - Myconid
     - Void
     - Swarm
@@ -1320,6 +1343,7 @@ barracks:
     - Legion
     - Marshling
     - Glimjir
+    - Monster
     - Myconid
     - Nomad
     - Orc

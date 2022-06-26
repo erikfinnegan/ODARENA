@@ -414,6 +414,7 @@ class BarbarianService
         # Get Barbarian users.
         $barbarianUsers = DB::table('users')
             ->where('users.email', 'like', 'barbarian%@odarena.com')
+            ->orWhere('users.email', 'like', 'barbarian%@odarena.local')
             ->pluck('users.id')
             ->toArray();
 

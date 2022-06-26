@@ -123,7 +123,6 @@ class DominionFactory
 
         if($race->name !== 'Barbarian')
         {
-
             # Override rulername choice
             $rulerName = Auth::user()->display_name;
 
@@ -157,6 +156,22 @@ class DominionFactory
             if($race->name == 'Marshling')
             {
                 $startingResources['marshling'] = 1500;
+            }
+
+            if($race->name == 'Monster')
+            {
+                $startingParameters['unit1'] = 10;
+                $startingParameters['unit2'] = 100;
+                $startingParameters['unit3'] = 200;
+                $startingParameters['unit4'] = 2;
+
+                $startingParameters['prestige'] = 0;
+
+                $startingParameters['protection_ticks'] = 0;
+
+                $startingResources['strength'] = 10000;
+
+                $startingParameters['draft_rate'] = 0;
             }
         }
         else
@@ -207,6 +222,11 @@ class DominionFactory
         $popBonus *= 1 + $startingParameters['prestige']/10000;
 
         $startingParameters['peasants'] = floor($acresBase * $housingPerBarren * $popBonus);
+
+        if($race->getPerkValue('no_population'))
+        {
+            $startingParameters['peasants'] = 0;
+        }
 
         if(!$race->getPerkValue('no_food_consumption'))
         {

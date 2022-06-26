@@ -185,13 +185,13 @@ class RaceHelper
                 $valueType = '% / tick';
                 $booleanValue = 'static';
                 break;
-          case 'improvements_per_net_victory':
+            case 'improvements_per_net_victory':
                 $negativeBenefit = false;
                 $description = 'Improvements';
                 $valueType = '% per net victory (min 0)';
                 $booleanValue = 'static';
                 break;
-          case 'land_improvements':
+            case 'land_improvements':
                 $negativeBenefit = false;
                 $description = 'Land based improvements';
                 $booleanValue = true;
@@ -200,41 +200,61 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Population growth rate';
                 break;
-          case 'cannot_explore':
+            case 'cannot_explore':
                 $negativeBenefit = true;
                 $description = 'Cannot explore';
                 $booleanValue = true;
                 break;
-          case 'cannot_invade':
+            case 'cannot_invade':
                 $negativeBenefit = true;
                 $description = 'Cannot invade';
                 $booleanValue = true;
                 break;
-          case 'cannot_send_expeditions':
+            case 'cannot_perform_sorcery':
+                $negativeBenefit = true;
+                $description = 'Cannot perform sorcery';
+                $booleanValue = true;
+                break;
+            case 'cannot_sabotage':
+                $negativeBenefit = true;
+                $description = 'Cannot sabotage';
+                $booleanValue = true;
+                break;
+            case 'cannot_send_expeditions':
                 $negativeBenefit = true;
                 $description = 'Cannot send expeditions';
                 $booleanValue = true;
                 break;
-          case 'cannot_train_spies':
+            case 'cannot_steal':
+                $negativeBenefit = true;
+                $description = 'Cannot steal';
+                $booleanValue = true;
+                break;
+            case 'cannot_submit_to_deity':
+                $negativeBenefit = true;
+                $description = 'Cannot submit to a deity';
+                $booleanValue = true;
+                break;
+            case 'cannot_train_spies':
                 $negativeBenefit = true;
                 $description = 'Cannot train spies';
                 $booleanValue = true;
                 break;
-          case 'cannot_train_wizards':
+            case 'cannot_train_wizards':
                 $negativeBenefit = true;
                 $description = 'Cannot train wizards';
                 $booleanValue = true;
                 break;
-          case 'cannot_train_archmages':
+            case 'cannot_train_archmages':
                 $negativeBenefit = true;
                 $description = 'Cannot train Archmages';
                 $booleanValue = true;
                 break;
-          case 'explore_cost':
+            case 'explore_cost':
                 $negativeBenefit = true;
                 $description = 'Cost of exploration';
                 break;
-          case 'spell_cost':
+            case 'spell_cost':
                 $negativeBenefit = true;
                 $description = 'Spell costs';
                 break;
@@ -269,7 +289,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Exchange rates';
                 break;
-          case 'does_not_kill':
+            case 'does_not_kill':
                 $negativeBenefit = false;
                 $description = 'Does not kill units.';
                 $booleanValue = true;
@@ -352,6 +372,11 @@ class RaceHelper
             case 'cannot_tech':
                 $negativeBenefit = true;
                 $description = 'Cannot level up advancements';
+                $booleanValue = true;
+                break;
+            case 'cannot_improve':
+                $negativeBenefit = true;
+                $description = 'Cannot use improvements';
                 $booleanValue = true;
                 break;
             case 'advancement_costs':
@@ -465,28 +490,33 @@ class RaceHelper
                 $description = 'Ruler Title bonus';
                 $booleanValue = false;
                 break;
-          case 'gryphon_nests_generate_gryphons':
+            case 'no_ruler_title_perks':
+                $negativeBenefit = false;
+                $description = 'No perks from title';
+                $booleanValue = true;
+                break;
+            case 'gryphon_nests_generate_gryphons':
                 $negativeBenefit = false;
                 $description = 'Gryphon Nests produce Gryphons';
                 $valueType = ' per tick (max 20% of your land as nests are populated)';
                 $booleanValue = 'static';
                 break;
-          case 'converts_assassinated_draftees':
+            case 'converts_assassinated_draftees':
                 $negativeBenefit = false;
                 $description = 'Converts assassinated draftees';
                 $booleanValue = true;
                 break;
-          case 'converts_executed_spies':
+            case 'converts_executed_spies':
                 $negativeBenefit = false;
                 $description = 'Converts captured spies';
                 $booleanValue = true;
                 break;
-          case 'instant_return':
+            case 'instant_return':
                 $negativeBenefit = false;
                 $description = 'Units return instantly when invading';
                 $booleanValue = true;
                 break;
-          case 'unit_gold_costs_reduced_by_prestige':
+            case 'unit_gold_costs_reduced_by_prestige':
                 $negativeBenefit = false;
                 $description = 'Unit gold costs reduced by prestige';
                 $valueType = '% per 100 prestige';
@@ -497,54 +527,64 @@ class RaceHelper
                 $description = 'Expedition land gains';
                 $valueType = '%';
                 break;
-          case 'cannot_renounce_deity':
+            case 'cannot_renounce_deity':
                 $negativeBenefit = true;
                 $description = 'Cannot renounce deity';
                 $booleanValue = true;
                 break;
-          case 'starts_devoted_to_azk_hurum':
+            case 'starts_devoted_to_azk_hurum':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Azk\'Hurum';
                 $booleanValue = true;
                 break;
-          case 'starts_devoted_to_elskas':
+            case 'starts_devoted_to_elskas':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Elskas';
                 $booleanValue = true;
                 break;
-          case 'starts_devoted_to_glimj':
+            case 'starts_devoted_to_glimj':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Glimj';
                 $booleanValue = true;
                 break;
-          case 'starts_devoted_to_tiranthael':
+            case 'starts_devoted_to_tiranthael':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Tiranthael';
                 $booleanValue = true;
                 break;
-          case 'starts_devoted_to_urugdakh':
+            case 'starts_devoted_to_urugdakh':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Urugdakh';
                 $booleanValue = true;
                 break;
-          case 'improvements_from_souls':
+            case 'gains_strength':
+                $negativeBenefit = false;
+                $description = 'Gains strength';
+                $booleanValue = true;
+                break;
+            case 'grows_bodyparts':
+                $negativeBenefit = false;
+                $description = 'Grows bodyparts';
+                $booleanValue = true;
+                break;
+            case 'improvements_from_souls':
                 $negativeBenefit = false;
                 $description = 'Souls increase improvements';
                 $booleanValue = true;
                 break;
-          case 'sabotage_damage_dealt':
-              $negativeBenefit = true;
-              $description = 'Sabotage damage dealt';
-              $valueType = '%';
-              $booleanValue = 'static';
-              break;
-          case 'sabotage_damage_suffered':
-              $negativeBenefit = true;
-              $description = 'Sabotage damage suffered';
-              $valueType = '%';
-              $booleanValue = 'static';
-              break;
-          default:
+            case 'sabotage_damage_dealt':
+                $negativeBenefit = true;
+                $description = 'Sabotage damage dealt';
+                $valueType = '%';
+                $booleanValue = 'static';
+                break;
+            case 'sabotage_damage_suffered':
+                $negativeBenefit = true;
+                $description = 'Sabotage damage suffered';
+                $valueType = '%';
+                $booleanValue = 'static';
+                break;
+            default:
                 $negativeBenefit = false;
                 $description = 'No description for perk: ' . $perkType->key;
                 #return null;
@@ -649,28 +689,31 @@ class RaceHelper
         $string = '<ul>';
 
         # Peasant production
-        $string .= $this->getPeasantsTerm($race) . ' production: ';
-
-        $x = 0;
-        $peasantProductions = count($race->peasants_production);
-
-        foreach($race->peasants_production as $resourceKey => $amount)
+        if(!$race->getPerkValue('no_population'))
         {
-            $string .= '<li>';
+            $string .= $this->getPeasantsTerm($race) . ' production: ';
 
-            $resource = Resource::where('key', $resourceKey)->first();
-            $x++;
-
-            if($x < $peasantProductions)
+            $x = 0;
+            $peasantProductions = count($race->peasants_production);
+    
+            foreach($race->peasants_production as $resourceKey => $amount)
             {
-                $string .= number_format($amount,2) . ' ' . $resource->name . ',';
+                $string .= '<li>';
+    
+                $resource = Resource::where('key', $resourceKey)->first();
+                $x++;
+    
+                if($x < $peasantProductions)
+                {
+                    $string .= number_format($amount,2) . ' ' . $resource->name . ',';
+                }
+                else
+                {
+                    $string .= number_format($amount,2) . ' ' . $resource->name;
+                }
+    
+                $string .= '</li>';
             }
-            else
-            {
-                $string .= number_format($amount,2) . ' ' . $resource->name;
-            }
-
-            $string .= '</li>';
         }
 
         # Faction perks

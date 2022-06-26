@@ -1,116 +1,107 @@
 name: Monster
 alignment: evil
 description: >-
-  <p>The Monster starts with 333 Muscles, six Carapaces, two Claws, and one Head.</p>
+  <p>The Monster is not a faction. It's a single, gargantuan monster tenuously aligned with the Empire and its vision for unending domination.</p>
+  <p>The Monster gets stronger from combat. Strength generated is based on raw military power used by both sides.</p>
+  <p>The amount of strenght generated (or lost) is calculated in the following manner:</p>
+  <ul>
+    <li>Successful invasion: 10% of own raw OP required to break the target and 10% of the target's raw DP.</li>
+    <li>Non-overwhelmed failed invasion: <code>7.5% * [OP:DP Ratio]</code> of own raw OP and <code>5% * [OP:DP Ratio]</code> of target's raw DP.</li>
+    <li>Overwhelmed failed invasion: <code>-20% * (1/[OP:DP Ratio])</code> of own raw OP and <code>-10% * [OP:DP Ratio]</code> of target's raw DP.</li>
+    <li>Successfully fending off: 10% of own raw DP and 10% * of the invader's raw OP.</li>
+    <li>Failed fending off (successfully invaded): <code>-7.5% * [OP:DP Ratio]</code> of invader's raw OP.</li>
+  </ul>
+  <p>Starts with 2 Heads, 100 Limbs, 200 Claws, and 10 Carapaces. No protection.</p>
 home_land_type: plain
-playable: 0
+playable: 1
 experimental: 1
 skill_level: 3
 
 resources:
-  - food
-  - lumber
-  - ore
-  - mana
-
-land_improvements:
-  plain:
-    food_production_raw: 25
-  forest:
-    lumber_production_raw: 100
-    food_production_raw: 25
-  mountain:
-    ore_production_raw: 60
-  hill:
-    ore_production_raw: 30
-    food_production_raw: 25
-  swamp:
-    food_production_raw: 10
-    lumber_production_raw: 20
-  water:
-    food_production_raw: 15
+  - strength
 
 perks:
   max_per_round: 1
   min_rounds_played: 20
   cannot_construct: 1
   cannot_explore: 1
+  cannot_improve: 1
+  cannot_perform_sorcery: 1
   cannot_rezone: 1
+  cannot_sabotage: 1
+  cannot_send_expeditions: 1
+  cannot_steal: 1
+  cannot_submit_to_deity: 1
+  cannot_tech: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   cannot_vote: 1
-  no_population: 1
   no_food_consumption: 1
-  xp_per_acre_gained: 200
-  cannot_send_expeditions: 1
+  no_population: 1
+  no_prestige: 1
+  no_ruler_title_perks: 1
+  gains_strength: 1
 
 units:
   - name: Carapace
-    training_time: 6
+    training_time: 12
     type:
       - massive
-      - mindless
+      - bodypart
     cost:
-      food: 10000
-      ore: 5000
-      lumber: 5000
+      strength: 10000
     power:
       offense: 0
-      defense: 10000
+      defense: 2000
     perks:
+      immortal: 1
       no_draftee: 1
       does_not_count_as_population: 1
+      cannot_be_released: 1
 
   - name: Limb
-    training_time: 6
     type:
       - massive
-      - mindless
-    cost:
-      food: 20000
+      - bodypart
     power:
       offense: 0
       defense: 0
     perks:
-      no_draftee: 1
+      immortal: 1
+      cannot_be_trained: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,4 # Unit slot, amount
+      cannot_be_released: 1
+      defense_from_resource: strength,100
 
   - name: Claw
-    training_time: 12
     type:
       - massive
-      - mindless
-    cost:
-      food: 15000
-      mana: 2000
-    power:
-      offense: 3000
-      defense: 1000
-    perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
-      pairing_limit: 2,8 # Unit slot, amount
-      offense_from_pairing: 4,3000,0.5 # slot, amount, num required - 1/0.5=2, one Head doubles OP of 2 Claws
-
-  - name: Head
-    training_time: 12
-    type:
-      - sentient
-      - living
-      - massive
-      - intelligent
-    cost:
-      food: 30000
-      mana: 5000
-    power:
+      - bodypart
+    power: 
       offense: 0
       defense: 0
     perks:
       sendable_with_zero_op: 1
-      no_draftee: 1
+      immortal: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,1 # Unit slot, amount
-      xp_generation_raw: 100
-      mana_production_raw: 50
+      cannot_be_trained: 1
+      cannot_be_released: 1
+      offense_from_resource: strength,120
+      defense_from_resource: strength,240
+
+  - name: Head
+    type:
+      - massive
+      - intelligent
+      - bodypart
+    power:
+      offense: 0
+      defense: 0
+    perks:
+      immortal: 1
+      does_not_count_as_population: 1
+      mana_production_raw: 100
+      mana_production_raw_per_victory: 25
+      cannot_be_trained: 1
+      cannot_be_released: 1

@@ -48,7 +48,10 @@
                     <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i><span>Buildings</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i><span>Improvements</span></a></li>
+                <!-- Hide Improvements from cannot_construct races -->
+                @if (!$selectedDominion->race->getPerkValue('cannot_improve'))
+                    <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i><span>Improvements</span></a></li>
+                @endif
 
                 <!-- TECHS -->
                 @if (!$selectedDominion->race->getPerkValue('cannot_tech'))
@@ -82,8 +85,14 @@
                     <li class="{{ Route::is('dominion.theft') ? 'active' : null }}"><a href="{{ route('dominion.theft') }}"><i class="fas fa-hand-lizard fa-fw"></i> <span>Theft</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.sabotage') ? 'active' : null }}"><a href="{{ route('dominion.sabotage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Sabotage</span></a></li>
-                <li class="{{ Route::is('dominion.sorcery') ? 'active' : null }}"><a href="{{ route('dominion.sorcery') }}"><i class="fas fa-hat-wizard fa-fw"></i> <span>Sorcery</span></a></li>
+                @if (!$selectedDominion->race->getPerkValue('cannot_sabotage'))
+                    <li class="{{ Route::is('dominion.sabotage') ? 'active' : null }}"><a href="{{ route('dominion.sabotage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Sabotage</span></a></li>
+                @endif
+
+                @if (!$selectedDominion->race->getPerkValue('cannot_perform_sorcery'))
+                    <li class="{{ Route::is('dominion.sorcery') ? 'active' : null }}"><a href="{{ route('dominion.sorcery') }}"><i class="fas fa-hat-wizard fa-fw"></i> <span>Sorcery</span></a></li>
+                @endif
+
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
@@ -91,7 +100,11 @@
                     <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
                 @endif
                 
-                <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
+                @if($selectedDominion->race->getPerkValue('cannot_submit_to_deity') and $selectedDominion->race->getPerkValue('cannot_vote'))
+                    <!-- Nothing -->
+                @else
+                    <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
+                @endif
 
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
                 </li>

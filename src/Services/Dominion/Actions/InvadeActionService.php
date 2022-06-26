@@ -50,7 +50,7 @@ class InvadeActionService
     /**
      * @var float Failing an invasion by this percentage (or more) results in 'being overwhelmed'
      */
-    protected const OVERWHELMED_PERCENTAGE = 15.0;
+    protected const OVERWHELMED_PERCENTAGE = 20.0;
 
     /**
      * @var float Percentage of units to be stunned
@@ -379,6 +379,9 @@ class InvadeActionService
             # Demon
             $this->handlePeasantKilling($dominion, $target, $units, $landRatio);
 
+            # Monster
+            $this->handleStrengthGain($dominion, $target, $units, $landRatio);
+
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);
             $defensiveConversions = array_fill(1, 4, 0);
@@ -674,6 +677,16 @@ class InvadeActionService
 
         $attackerPrestigeChange = round($attackerPrestigeChange);
         $defenderPrestigeChange = round($defenderPrestigeChange);
+
+        if($attacker->race->getPerkValue('no_prestige'))
+        {
+            $attackerPrestigeChange = 0;
+        }
+
+        if($defender->race->getPerkValue('no_prestige'))
+        {
+            $defenderPrestigeChange = 0;
+        }
 
         if ($attackerPrestigeChange !== 0)
         {
@@ -1590,6 +1603,47 @@ class InvadeActionService
 
     }
 
+    public function handleStrengthGain(Dominion $attacker, Dominion $defender): void
+    {
+        if(($attacker->race->name !== 'Monster' and $defender->race->name !== 'Monster'))
+        {
+            return;
+        }
+
+        if($attacker->race->name == 'Monster')
+        {
+            $mode = 'offense';
+            $role = 'attacker';
+            $monster = $attacker;
+            $enemy = $defender;
+        }
+        else
+        {
+            $mode = 'defense';
+            $role = 'defender';
+            $monster = $defender;
+            $enemy = $attacker;
+        }
+        
+        $this->invasionResult[$role]['strength_gain'] = $this->militaryCalculator->getStrengthGain($monster, $enemy, $mode, $this->invasionResult);
+
+        if($this->invasionResult[$role]['strength_gain'] !== 0)
+        {
+            if($mode == 'offense')
+            {
+                $this->queueService->queueResources(
+                    'invasion',
+                    $monster,
+                    ['strength' => $this->invasionResult[$role]['strength_gain']],
+                    12
+                );
+            }
+            else
+            {
+                $this->resourceService->updateResources($monster, ['strength' => $this->invasionResult[$role]['strength_gain']]);
+            }
+        }
+    }
 
     # Unit Return 2.0
     protected function handleReturningUnits(Dominion $attacker, array $units, array $convertedUnits): void
@@ -2722,12 +2776,31 @@ class InvadeActionService
     protected function checkInvasionSuccess(Dominion $dominion, Dominion $target, array $units): void
     {
         $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true);
         $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
+        
+        $attackingForceRawOP = $this->militaryCalculator->getOffensivePowerRaw($dominion, $target, $landRatio, $units, [], true);
+        $targetRawDP = $this->militaryCalculator->getDefensivePowerRaw($target, $dominion, $landRatio, null, 0, false, $this->isAmbush, true, $this->invasionResult['attacker']['unitsSent'], false, false);
+
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
+
+        $this->invasionResult['attacker']['op_raw'] = $attackingForceRawOP;
+        $this->invasionResult['defender']['dp_raw'] = $targetRawDP;
+
+        $this->invasionResult['attacker']['op_multiplier'] = $this->militaryCalculator->getOffensivePowerMultiplier($dominion, $target, $landRatio, $units, [], true);
+        $this->invasionResult['attacker']['op_multiplier_reduction'] = $this->militaryCalculator->getOffensiveMultiplierReduction($target)-1;
+        $this->invasionResult['attacker']['op_multiplier_net'] = $this->invasionResult['attacker']['op_multiplier'] - $this->invasionResult['attacker']['op_multiplier_reduction'];
+
+        $this->invasionResult['defender']['dp_multiplier'] = $this->militaryCalculator->getDefensivePowerMultiplier($dominion, $target, $this->militaryCalculator->getDefensiveMultiplierReduction($dominion));
+        $this->invasionResult['defender']['dp_multiplier_reduction'] = $this->militaryCalculator->getDefensiveMultiplierReduction($dominion);
+        $this->invasionResult['defender']['dp_multiplier_net'] = $this->invasionResult['defender']['dp_multiplier'] - $this->invasionResult['defender']['dp_multiplier_reduction'];
+
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
+
         $this->invasionResult['result']['opDpRatio'] = $attackingForceOP / $targetDP;
+        $this->invasionResult['result']['opDpRatio_raw'] = $attackingForceRawOP / $targetRawDP;
 
         $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
         $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
@@ -2738,7 +2811,6 @@ class InvadeActionService
             $day = sprintf('%02d', $day);
             $this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
         }
-
 
         if($this->invasionResult['result']['success'])
         {
@@ -2772,8 +2844,6 @@ class InvadeActionService
 
         $this->invasionResult['result']['overwhelmed'] = ((1 - $attackingForceOP / $targetDP) >= (static::OVERWHELMED_PERCENTAGE / 100));
     }
-
-
 
     /*
     *   0) Add OP from annexed dominions (already done when calculating attacker's OP)

@@ -22,38 +22,43 @@ class DeityService
         $this->queueService = app(QueueService::class);
     }
 
-  public function submitToDeity(Dominion $dominion, string $deityKey): void
-  {
-      $deity = Deity::where('key', $deityKey)->first();
+    public function submitToDeity(Dominion $dominion, string $deityKey): void
+    {
+        $deity = Deity::where('key', $deityKey)->first();
 
-      if(!$deity)
-      {
-          throw new GameException('Invalid deity.');
-      }
+        if(!$deity)
+        {
+            throw new GameException('Invalid deity.');
+        }
 
-      if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
-      {
-          throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or when after a round has ended.');
-      }
+        if($dominion->race->getPerkValue('cannot_submit_to_deity'))
+        {
+            throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or when after a round has ended.');
+        }
 
-      if($dominion->hasPendingDeitySubmission())
-      {
-          throw new GameException('You already have a submission to a deity in progress.');
-      }
+        if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
+        {
+            throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or when after a round has ended.');
+        }
 
-      if(!$this->deityCalculator->isDeityAvailableToDominion($dominion, $deity))
-      {
-          throw new GameException('The deity ' . $deity->name . ' does not accept devotion from ' . $dominion . ' and other ' . $dominion->race->name . ' dominions!');
-      }
+        if($dominion->hasPendingDeitySubmission())
+        {
+            throw new GameException('You already have a submission to a deity in progress.');
+        }
 
-      $ticks = 48;
+        if(!$this->deityCalculator->isDeityAvailableToDominion($dominion, $deity))
+        {
+            throw new GameException('The deity ' . $deity->name . ' does not accept devotion from ' . $dominion . ' and other ' . $dominion->race->name . ' dominions!');
+        }
 
-      $this->queueService->queueResources('deity', $dominion, [$deity->key => 1], $ticks);
+        $ticks = 48;
 
-      $dominion->save([
-          'event' => HistoryService::EVENT_SUBMIT_TO_DEITY_BEGUN,
-          'action' => $deity->name
-      ]);
+        $this->queueService->queueResources('deity', $dominion, [$deity->key => 1], $ticks);
+
+        $dominion->save([
+            'event' => HistoryService::EVENT_SUBMIT_TO_DEITY_BEGUN,
+            'action' => $deity->name
+        ]);
 
     }
 

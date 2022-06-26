@@ -162,18 +162,6 @@ class TrainActionService
             $unitsToTrain[$unitType] = $amountToTrain;
         }
 
-        /*
-          Look for:
-          pairing_limit
-          cannot_be_trained
-          land_limit
-          amount_limit
-          building_limit
-          minimum_wpa_to_train
-          victories_limit
-          housing_count
-          advancements_required_to_train
-        */
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
             if (!$amountToTrain)

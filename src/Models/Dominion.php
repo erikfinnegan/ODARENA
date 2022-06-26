@@ -1171,6 +1171,11 @@ class Dominion extends AbstractModel
     # TITLE
     public function getTitlePerkMultiplier(): float
     {
+        if($this->race->getPerkValue('no_ruler_title_perks'))
+        {
+            return 0;
+        }
+
         $multiplier = 1;
         $multiplier += (1 - exp(-pi()*$this->xp / 100000));
         $multiplier += $this->getImprovementPerkMultiplier('title_bonus');

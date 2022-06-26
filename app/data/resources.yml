@@ -164,3 +164,11 @@ yak:
   sell: null
   exclusive_races:
     - Orc
+
+strength:
+  name: Strength
+  description: The Monster gains strength from fighting.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Monster

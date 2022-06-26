@@ -77,6 +77,11 @@ class ImproveActionService
         {
             throw new GameException('You cannot invest in improvements while you are in stasis.');
         }
+        
+        if($dominion->race->getPerkValue('cannot_improve'))
+        {
+            throw new GameException($dominion->race->name . ' cannot use improvements.');
+        }       
 
         $data = array_map('\intval', $data);
 
@@ -98,6 +103,7 @@ class ImproveActionService
         {
             throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
+        
 
         foreach ($data as $improvementKey => $amount)
         {

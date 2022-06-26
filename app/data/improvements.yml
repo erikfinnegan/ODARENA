@@ -6,6 +6,7 @@ cartography:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Myconid
     - Sylvan
     - Swarm
@@ -24,6 +25,7 @@ commerce:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Myconid
     - Sylvan
     - Swarm
@@ -44,6 +46,7 @@ construction:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Qur
@@ -99,6 +102,7 @@ defense:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -115,6 +119,7 @@ espionage:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -134,6 +139,7 @@ irrigation:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -151,6 +157,7 @@ housing:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -169,6 +176,7 @@ logging:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Glimjir
     - Myconid
     - Sylvan
@@ -187,6 +195,7 @@ medicine:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -205,6 +214,7 @@ mobilisation:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Myconid
     - Sylvan
     - Swarm
@@ -224,6 +234,7 @@ offense:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Myconid
     - Sylvan
     - Swarm
@@ -241,6 +252,7 @@ research:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Sylvan
     - Swarm
     - Troll
@@ -262,6 +274,7 @@ mining:
     - Icekin
     - Kerranad
     - Marshling
+    - Monster
     - Glimjir
     - Myconid
     - Qur
@@ -280,6 +293,7 @@ storage:
   excluded_races:
     - Barbarian
     - Growth
+    - Monster
     - Wood Elf
     - Void
   perks:
@@ -293,6 +307,7 @@ wizardry:
     - Growth
     - Kerranad
     - Marshling
+    - Monster
     - Nox
     - Qur
     - Reptilians

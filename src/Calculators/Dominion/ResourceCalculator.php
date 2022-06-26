@@ -20,6 +20,7 @@ use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class ResourceCalculator
 {
@@ -30,8 +31,9 @@ class ResourceCalculator
     protected $landCalculator;
     protected $landImprovementsCalculator;
     protected $prestigeCalculator;
-    protected $SpellCalculator;
+    protected $spellCalculator;
     protected $queueService;
+    protected $statsService;
 
     public function __construct(
 
@@ -44,7 +46,8 @@ class ResourceCalculator
           PrestigeCalculator $prestigeCalculator,
           SpellCalculator $spellCalculator,
 
-          QueueService $queueService
+          QueueService $queueService,
+          StatsService $statsService
         )
     {
         $this->landHelper = app(LandHelper::class);
@@ -57,6 +60,7 @@ class ResourceCalculator
         $this->spellCalculator = $spellCalculator;
 
         $this->queueService = $queueService;
+        $this->statsService = $statsService;
     }
 
     public function dominionHasResource(Dominion $dominion, string $resourceKey): bool
@@ -200,67 +204,76 @@ class ResourceCalculator
         # Unit specific perks
         for ($slot = 1; $slot <= 4; $slot++)
         {
-              # Get the $unit
-              $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
-                      return ($unit->slot == $slot);
-                  })->first();
+            # Get the $unit
+            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot == $slot);
+            })->first();
 
-              # Check for RESOURCE_production_raw_from_pairing
-              if($productionFromPairingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_pairing')))
-              {
-                  $slotPairedWith = (int)$productionFromPairingPerk[0];
-                  $productionPerPair = (float)$productionFromPairingPerk[1];
+            # Check for RESOURCE_production_raw_from_pairing
+            if($productionFromPairingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_pairing')))
+            {
+                $slotPairedWith = (int)$productionFromPairingPerk[0];
+                $productionPerPair = (float)$productionFromPairingPerk[1];
 
-                  $availablePairingUnits = $dominion->{'military_unit' . $slotPairedWith};
-                  /*
-                  # Only units at home count
-                  $availablePairingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                  $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                  $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                  $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                  $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                  */
+                $availablePairingUnits = $dominion->{'military_unit' . $slotPairedWith};
+                /*
+                # Only units at home count
+                $availablePairingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                */
 
-                  $availableProducingUnit = $dominion->{'military_unit' . $slot};
+                $availableProducingUnit = $dominion->{'military_unit' . $slot};
 
-                  $extraProducingUnits = min($availableProducingUnit, $availablePairingUnits);
+                $extraProducingUnits = min($availableProducingUnit, $availablePairingUnits);
 
-                  $production += $extraProducingUnits * $productionPerPair;
-              }
+                $production += $extraProducingUnits * $productionPerPair;
+            }
 
-              # Check for RESOURCE_production_raw_from_time
-              if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_time')))
-              {
-                  $amountProduced = (float)$timePerkData[2];
-                  $hourFrom = $timePerkData[0];
-                  $hourTo = $timePerkData[1];
+            # Check for RESOURCE_production_raw_from_time
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_time')))
+            {
+                $amountProduced = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
 
-                  if (
-                      (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
-                      (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
-                  )
-                  {
-                      $production += $dominion->{'military_unit' . $slot} * $amountProduced;
-                  }
-              }
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $production += $dominion->{'military_unit' . $slot} * $amountProduced;
+                }
+            }
 
-              # Check for gold_production_raw_from_building_pairing
-              if ($buildingPairingProductionPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_building_pairing')))
-              {
-                  $unitsPerBuilding = (float)$buildingPairingProductionPerkData[0];
-                  $buildingKey = (string)$buildingPairingProductionPerkData[1];
-                  $amountProduced = (float)$buildingPairingProductionPerkData[2];
+            # Check for RESOURCE_production_raw_per_victory
+            if ($victoryPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_per_victory')))
+            {
+                $amountProduced = (float)$victoryPerkData[0];
+                $victories = $this->statsService->getStat($dominion, 'invasion_victories');
 
-                  $building = Building::where('key', $buildingKey)->firstOrFail();
+                $production += $dominion->{'military_unit' . $slot} * $amountProduced * $victories;
+            }
 
-                  $buildingAmountOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
+            # Check for gold_production_raw_from_building_pairing
+            if ($buildingPairingProductionPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_building_pairing')))
+            {
+                $unitsPerBuilding = (float)$buildingPairingProductionPerkData[0];
+                $buildingKey = (string)$buildingPairingProductionPerkData[1];
+                $amountProduced = (float)$buildingPairingProductionPerkData[2];
 
-                  $maxProducingUnits = $buildingAmountOwned / $unitsPerBuilding;
+                $building = Building::where('key', $buildingKey)->firstOrFail();
 
-                  $producingUnits = min($maxProducingUnits, $dominion->{'military_unit' . $slot});
+                $buildingAmountOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
 
-                  $production += $producingUnits * $amountProduced;
-              }
+                $maxProducingUnits = $buildingAmountOwned / $unitsPerBuilding;
+
+                $producingUnits = min($maxProducingUnits, $dominion->{'military_unit' . $slot});
+
+                $production += $producingUnits * $amountProduced;
+            }
         }
 
         # Check for RESOURCE_production_raw_random

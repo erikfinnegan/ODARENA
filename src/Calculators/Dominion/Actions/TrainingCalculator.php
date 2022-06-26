@@ -249,6 +249,11 @@ class TrainingCalculator
 
             }
 
+            if(empty($trainableByCost))
+            {
+                dd($unitType, $trainableByCost);
+            }
+
             $trainable[$unitType] = min($trainableByCost);
 
             $slot = intval(str_replace('unit','',$unitType));
