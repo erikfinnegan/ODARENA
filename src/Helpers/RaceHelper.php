@@ -131,6 +131,11 @@ class RaceHelper
                 $description = 'No population';
                 $booleanValue = true;
                 break;
+            case 'no_prestige':
+                $negativeBenefit = false;
+                $description = 'No prestige';
+                $booleanValue = true;
+                break;
             case 'ore_production_mod':
                 $negativeBenefit = false;
                 $description = 'Ore production';
