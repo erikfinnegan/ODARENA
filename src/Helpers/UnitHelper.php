@@ -338,6 +338,9 @@ class UnitHelper
             'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s at home.',
             'blood_production_raw_from_pairing' => 'Gathers %2$s blood/tick if paired with %1$s at home.',
 
+            'mana_production_raw_per_victory' => 'Gathers %s mana/tick per victory.',
+            'gems_production_raw_per_victory' => 'Mines %s gems/tick per victory.',         
+
             'gold_production_raw_from_building_pairing' => 'Produces %3$s gold/tick if paired %2$s (up to %1$s units per %2$s).',
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
