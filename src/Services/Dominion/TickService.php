@@ -491,34 +491,32 @@ class TickService
 
             foreach($realms as $realm)
             {
-                if($realm->crypt > 0)
+                $bodiesAmount = $this->resourceCalculator->getRealmAmount($realm, 'body');
+                if($bodiesAmount > 0)
                 {
                     # Imperial Crypt: handle decay (handleDecay)
                     $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
 
                     $bodiesSpent = DB::table('dominion_tick')
-                                 ->join('dominions', 'dominion_tick.dominion_Id', '=', 'dominions.id')
-                                 ->join('races', 'dominions.race_id', '=', 'races.id')
-                                 ->select(DB::raw("SUM(crypt_bodies_spent) as cryptBodiesSpent"))
-                                 ->where('dominions.round_id', '=', $realm->round->id)
-                                 ->where('races.name', '=', 'Undead')
-                                 ->where('dominions.protection_ticks', '=', 0)
-                                 ->where('dominions.is_locked', '=', 0)
-                                 ->first();
+                        ->join('dominions', 'dominion_tick.dominion_Id', '=', 'dominions.id')
+                        ->join('races', 'dominions.race_id', '=', 'races.id')
+                        ->select(DB::raw("SUM(crypt_bodies_spent) as cryptBodiesSpent"))
+                        ->where('dominions.round_id', '=', $realm->round->id)
+                        ->where('races.name', '=', 'Undead')
+                        ->where('dominions.protection_ticks', '=', 0)
+                        ->where('dominions.is_locked', '=', 0)
+                        ->first();
 
-                     $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
-                     $bodiesToRemove = max(0, min($bodiesToRemove, $realm->crypt));
+                    $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
+                    $bodiesToRemove = max(0, min($bodiesToRemove, $bodiesAmount));
 
-                     $cryptLogString = '[CRYPT] ';
-                     $cryptLogString .= "Current: " . number_format($realm->crypt) . ". ";
-                     $cryptLogString .= "Decayed: " . number_format($bodiesDecayed) . ". ";
-                     $cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
-                     $cryptLogString .= "Removed: " . number_format($bodiesToRemove) . ". ";
+                    $cryptLogString = '[CRYPT] ';
+                    $cryptLogString .= "Current: " . number_format($this->resourceCalculator->getRealmAmount($realm, 'body')) . ". ";
+                    $cryptLogString .= "Decayed: " . number_format($bodiesDecayed) . ". ";
+                    $cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
+                    $cryptLogString .= "Removed: " . number_format($bodiesToRemove) . ". ";
 
-
-                    $realm->fill([
-                        'crypt' => ($realm->crypt - $bodiesToRemove),
-                    ])->save();
+                    $this->resourceService->updateRealmResources($realm, ['body' => (-$bodiesToRemove)]);
 
                     Log::info($cryptLogString);
                 }
@@ -783,13 +781,13 @@ class TickService
         // Starvation
         $tick->starvation_casualties = false;
 
-        $foodProduction = $this->resourceCalculator->getProduction($dominion, 'food');
-        $foodConsumed = $this->resourceCalculator->getConsumption($dominion, 'food');
-        $foodNetChange = $foodProduction - $foodConsumed;
-        $foodOwned = $this->resourceCalculator->getAmount($dominion, 'food');
-
-        if(!$dominion->race->getPerkValue('no_food_consumption'))
+        if($this->resourceCalculator->canStarve($dominion->race))
         {
+            $foodProduction = $this->resourceCalculator->getProduction($dominion, 'food');
+            $foodConsumed = $this->resourceCalculator->getConsumption($dominion, 'food');
+            $foodNetChange = $foodProduction - $foodConsumed;
+            $foodOwned = $this->resourceCalculator->getAmount($dominion, 'food');
+
             if($foodConsumed > 0 and ($foodOwned + $foodNetChange) < 0)
             {
                 $dominion->tick->starvation_casualties = true;
@@ -800,7 +798,7 @@ class TickService
         $baseMorale = $this->moraleCalculator->getBaseMorale($dominion);
         $moraleChangeModifier = $this->moraleCalculator->moraleChangeModifier($dominion);
 
-        if(($tick->starvation_casualties or $dominion->tick->starvation_casualties) and !$dominion->race->getPerkValue('no_food_consumption'))
+        if(($tick->starvation_casualties or $dominion->tick->starvation_casualties) and $this->resourceCalculator->canStarve($dominion->race))
         {
             $starvationMoraleChange = min(10, $dominion->morale)*-1;
             $tick->morale += $starvationMoraleChange;
@@ -959,7 +957,7 @@ class TickService
             $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
             # Check bodies available in the crypt
-            $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
+            $bodiesAvailable = max(0, floor($this->resoureCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
 
             # Break down the spell perk
             $raisersPerRaisedUnit = (int)$spellPerkValues[0];
@@ -980,7 +978,7 @@ class TickService
             $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
             # Check bodies available in the crypt
-            $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
+            $bodiesAvailable = max(0, floor($this->resoureCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
 
             # Break down the spell perk
             $raisersPerRaisedUnit = (int)$spellPerkValues[0];

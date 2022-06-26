@@ -424,17 +424,40 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['attacker']['crypt']['total']) and $event->data['attacker']['crypt']['total'] > 0)
+                                    @if (isset($event->data['result']['crypt']['total']) and $event->data['result']['crypt']['total'] > 0)
                                     <tr>
                                         <th colspan="2">Crypt</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">Dead bodies are immediately added to the Imperial Crypt.</small></td>
+                                        <td colspan="2"><small class="text-muted">Bodies are immediately added to the Imperial Crypt.</small></td>
                                     </tr>
                                     <tr>
                                         <td>Bodies:</td>
-                                        <td><span class="text-green">+{{ number_format($event->data['attacker']['crypt']['total']) }}</span></td>
+                                        <td><span class="text-green">+{{ number_format($event->data['result']['crypt']['total']) }}</span></td>
                                     </tr>
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['strength_gain']))
+                                        <tr>
+                                            <th>Strength</th>
+                                        </tr>
+                                        @if($event->data['attacker']['strength_gain'] > 0)
+                                            <tr>
+                                                <td colspan="2"><small class="text-muted">The Monster grows stronger.</small></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Strength:</td>
+                                                <td><span class="text-green">+{{ number_format($event->data['attacker']['strength_gain']) }}</span></td>
+                                            </tr>
+                                        @else
+                                        <tr>
+                                            <td colspan="2"><small class="text-muted">The Monster is weakened.</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Strength:</td>
+                                            <td><span class="text-red">-{{ number_format($event->data['attacker']['strength_gain']) }}</span></td>
+                                        </tr>
+                                        @endif
                                     @endif
 
                                     @if (isset($event->data['attacker']['mana_exhausted']) and $event->data['attacker']['mana_exhausted'] > 0)
@@ -851,16 +874,16 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['defender']['crypt']['total']) and $event->data['defender']['crypt']['total'] > 0)
+                                    @if (isset($event->data['result']['crypt']['total']) and $event->data['result']['crypt']['total'] > 0)
                                         <tr>
                                             <th colspan="2">Crypt</th>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><small class="text-muted">Dead bodies are immediately added to the Imperial Crypt.</small></td>
+                                            <td colspan="2"><small class="text-muted">Bodies are immediately added to the Imperial Crypt.</small></td>
                                         </tr>
                                         <tr>
                                             <td>Bodies:</td>
-                                            <td><span class="text-green">+{{ number_format($event->data['defender']['crypt']['total']) }}</span></td>
+                                            <td><span class="text-green">+{{ number_format($event->data['result']['crypt']['total']) }}</span></td>
                                         </tr>
                                     @endif
 
@@ -902,6 +925,29 @@
                                                 </tr>
                                             @endif
                                         @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['defender']['strength_gain']))
+                                        <tr>
+                                            <th colspan="2">Strength</th>
+                                        </tr>
+                                        @if($event->data['defender']['strength_gain'] > 0)
+                                            <tr>
+                                                <td colspan="2"><small class="text-muted">The Monster grows stronger.</small></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Strength:</td>
+                                                <td><span class="text-green">+{{ number_format($event->data['defender']['strength_gain']) }}</span></td>
+                                            </tr>
+                                        @else
+                                        <tr>
+                                            <td colspan="2"><small class="text-muted">The Monster is weakened.</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Strength:</td>
+                                            <td><span class="text-red">-{{ number_format($event->data['defender']['strength_gain']) }}</span></td>
+                                        </tr>
+                                        @endif
                                     @endif
                                 </tbody>
                             </table>

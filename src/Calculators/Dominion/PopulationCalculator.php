@@ -232,6 +232,11 @@ class PopulationCalculator
             $unitSpecificBuildingHousing += $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_housing');
         }
 
+        $multiplier = 1;
+        $multiplier += $dominion->getImprovementPerkMultiplier('unit_specific_housing');
+
+        $unitSpecificBuildingHousing *= $multiplier;
+
         return $unitSpecificBuildingHousing;
     }
 

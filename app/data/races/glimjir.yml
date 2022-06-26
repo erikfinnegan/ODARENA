@@ -96,3 +96,5 @@ units:
       food_consumption_raw: 40
       increases_enemy_casualties_on_defense: 1
       building_limit: abyss,1
+      immortal_on_fending_off: 1
+      casualties: -50

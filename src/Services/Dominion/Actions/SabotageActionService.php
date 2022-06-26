@@ -240,7 +240,7 @@ class SabotageActionService
                     # For Empire, add killed draftees go in the crypt
                     if($target->realm->alignment === 'evil')
                     {
-                        $target->realm->crypt += $damageDealt;
+                        $this->resourceService->updateRealmResources($target->realm, ['body' => $damageDealt]);
                         $this->sabotage['target']['crypt_bodies'] += $damageDealt;
                     }
 
@@ -283,7 +283,7 @@ class SabotageActionService
                     # For Empire, add killed draftees go in the crypt
                     if($target->realm->alignment === 'evil')
                     {
-                        $target->realm->crypt += $damageDealt;
+                        $this->resourceService->updateRealmResources($target->realm, ['body' => $damageDealt]);
                         $this->sabotage['target']['crypt_bodies'] += $damageDealt;
                     }
 

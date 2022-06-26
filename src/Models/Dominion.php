@@ -1245,7 +1245,6 @@ class Dominion extends AbstractModel
 
         if($improvementsPerVictoryPerk = $this->race->getPerkValue('improvements_per_net_victory'))
         {
-            #$statsService = app(StatsService::class);
             $militaryCalculator = app(MilitaryCalculator::class);
             $multiplier += (max($militaryCalculator->getNetVictories($this),0) * $improvementsPerVictoryPerk) / 100;
         }

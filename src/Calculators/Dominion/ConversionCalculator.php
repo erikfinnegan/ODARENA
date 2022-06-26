@@ -1022,6 +1022,7 @@ class ConversionCalculator
                 'ammunition',
                 'aspect',
                 'equipment',
+                'fused',
                 'immobile',
                 'magical',
                 'massive',

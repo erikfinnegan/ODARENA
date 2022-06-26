@@ -6,6 +6,8 @@ use DB;
 use Carbon\Carbon;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionResource;
+use OpenDominion\Models\Realm;
+use OpenDominion\Models\RealmResource;
 use OpenDominion\Models\Resource;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
@@ -78,6 +80,75 @@ class ResourceService
                         DB::transaction(function () use ($dominion, $resource)
                         {
                             DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
+                            ->delete();
+                        });
+                    }
+                    */
+                    else
+                    {
+                        dd('[MEGA ERROR] Trying to remove more of a resource than you have. This might have been a temporary glitch due to multiple simultaneous events. Try again, but please report your findings on Discord.', $resource, $amountToRemove, $owned);
+                    }
+                }
+            }
+        }
+    }
+
+    public function updateRealmResources(Realm $realm, array $resourceKeys): void
+    {
+        foreach($resourceKeys as $resourceKey => $amount)
+        {
+            # Positive values: create or update RealmResource
+            if($amount > 0)
+            {
+                $resource = Resource::where('key', $resourceKey)->first();
+                $amount = intval(max(0, $amount));
+
+                if($this->resourceCalculator->realmHasResource($realm, $resourceKey))
+                {
+                    DB::transaction(function () use ($realm, $resource, $amount)
+                    {
+                        RealmResource::where('realm_id', $realm->id)->where('resource_id', $resource->id)
+                        ->increment('amount', $amount);
+                    });
+                }
+                else
+                {
+                    DB::transaction(function () use ($realm, $resource, $amount)
+                    {
+                        RealmResource::create([
+                            'realm_id' => $realm->id,
+                            'resource_id' => $resource->id,
+                            'amount' => $amount
+                        ]);
+                    });
+                }
+            }
+            # Negative values: update or delete RealmResource
+            else
+            {
+                $resource = Resource::where('key', $resourceKey)->first();
+                $owned = $this->resourceCalculator->getRealmAmount($realm, $resource->key);
+
+                $amountToRemove = min(abs($amount), $owned);
+
+                if($this->resourceCalculator->realmHasResource($realm, $resourceKey))
+                {
+                    if($amountToRemove <= $owned)
+                    {
+                        # Let's try storing 0s instead of deleting.
+                        DB::transaction(function () use ($realm, $resource, $amountToRemove)
+                        {
+                            RealmResource::where('realm_id', $realm->id)->where('resource_id', $resource->id)
+                            ->decrement('amount', $amountToRemove);
+                        });
+                    }
+                    # All
+                    /*
+                    elseif($amountToRemove == $owned)
+                    {
+                        DB::transaction(function () use ($realm, $resource)
+                        {
+                            RealmResource::where('realm_id', $realm->id)->where('resource_id', $resource->id)
                             ->delete();
                         });
                     }

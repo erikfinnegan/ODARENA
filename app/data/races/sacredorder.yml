@@ -8,8 +8,7 @@ skill_level: 2
 perks:
   starts_devoted_to_tiranthael: 1
   cannot_renounce_deity: 1
-  food_production_mod: 5
-  max_population: 25
+  food_production_mod: 15
   prestige_gains: 10
   salvaging: 15
   improvements_per_net_victory: 2
@@ -26,6 +25,7 @@ units:
       fixed_casualties: 100
       housing_count: 0.25
       cannot_be_trained: 1
+      destroy_resource_on_victory: soul,4
 
   - name: Monk
     training_time: 1
@@ -51,14 +51,13 @@ units:
       ore: 75
       unit2: 1
     power:
-      offense: 2
-      defense: 5
+      offense: 4
+      defense: 7
     perks:
       no_draftee: 1
-      offense_from_building: temple,5,2 # building type, ratio%, max
-      defense_from_building: temple,5,2 # building type, ratio%, max
       displaced_peasants_conversion: 1
       casualties_conversion: 1
+      destroy_resource_on_victory: soul,2
 
   - name: Paladin
     training_time: 10
@@ -72,12 +71,10 @@ units:
       ore: 80
       unit2: 1
     power:
-      offense: 6
-      defense: 3
+      offense: 8
+      defense: 4
     perks:
       no_draftee: 1
-      offense_from_building: shrine,5,2 # building type, ratio%, max
-      defense_from_building: shrine,10,1 # building type, ratio%, max
       displaced_peasants_conversion: 1
       casualties_conversion: 1
       destroy_resource_on_victory: soul,2

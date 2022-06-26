@@ -12,6 +12,7 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -33,6 +34,7 @@ class RealmController extends AbstractDominionController
         $protectionService = app(ProtectionService::class);
         $spellCalculator = app(SpellCalculator::class);
         $realmCalculator = app(RealmCalculator::class);
+        $resourceCalculator = app(ResourceCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
         $artefactHelper = app(ArtefactHelper::class);
         $dominionHelper = app(DominionHelper::class);
@@ -176,6 +178,7 @@ class RealmController extends AbstractDominionController
             'spellCalculator',
             'realmDominionsStats',
             'realmCalculator',
+            'resourceCalculator',
             'militaryCalculator',
             'dominionHelper',
             'artefactHelper',

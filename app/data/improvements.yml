@@ -158,6 +158,7 @@ housing:
     - Kerranad
     - Marshling
     - Monster
+    - Sacred Order
     - Sylvan
     - Swarm
     - Troll
@@ -424,7 +425,6 @@ hollowing:
   perks:
     population: 40,8000
     thunderstone_production_mod: 20,8000
-
 
 # BEGIN TROLL #
 
@@ -910,11 +910,17 @@ brutality:
 
 # END BEASTFOLK #
 
-# BEGIN ELEMENTALS #
+# BEGIN SACRED ORDER #
 
-# ON HOLD
+sacred_duty:
+  name: Sacred Duty
+  exclusive_races:
+    - Sacred Order
+  perks:
+    unit_specific_housing: 30,6500
+    jobs_per_building: 10,6500
 
-# END ELEMENTALS #
+# END SACRED ORDER #
 
 # BEGIN MARSHLING #
 

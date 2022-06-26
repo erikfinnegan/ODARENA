@@ -188,7 +188,7 @@ class ReleaseActionService
             elseif (
                         !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and 
                         !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee') and 
-                        #!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee_on_release') and 
+                        !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee_on_release') and 
                         !$dominion->race->getPerkValue('no_drafting')
                     )
             {

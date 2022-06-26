@@ -42,6 +42,9 @@ class ImprovementHelper
 
             'population' => 'population',
             'population_growth' => 'population growth',
+            'unit_specific_housing' => 'unit specific housing',
+
+            'jobs_per_building' => 'jobs per building',
 
             'construction_cost' => 'construction costs',
             'rezone_cost' => 'rezoning costs',

@@ -10,8 +10,11 @@ use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
-use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Realm;
+use OpenDominion\Models\RealmResource;
+use OpenDominion\Models\Resource;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -74,14 +77,17 @@ class ResourceCalculator
         return DominionResource::where('dominion_id',$dominion->id)->get();
     }
 
-    /*
-    *   Returns an integer ($owned) of how many of this building the dominion has.
-    *   Three arguments are permitted and evaluated in order:
-    *   Building $resource - if we pass a Building object
-    *   string $resourceKey - if we pass a building key
-    *   int $resourceId - if we pass a building ID
-    *
-    */
+    public function realmHasResource(Realm $realm, string $resourceKey): bool
+    {
+        $resource = Resource::where('key', $resourceKey)->first();
+        return RealmResource::where('resource_id',$resource->id)->where('realm_id',$realm->id)->first() ? true : false;
+    }
+
+    public function getRealmResources(Realm $realm): Collection
+    {
+        return RealmResource::where('realm_id',$realm->id)->get();
+    }
+
     public function getAmount(Dominion $dominion, string $resourceKey): int
     {
         $resource = Resource::where('key', $resourceKey)->first();
@@ -91,6 +97,20 @@ class ResourceCalculator
         if($dominionResourceAmount)
         {
             return $dominionResourceAmount->amount;
+        }
+
+        return 0;
+    }
+
+    public function getRealmAmount(Realm $realm, string $resourceKey): int
+    {
+        $resource = Resource::where('key', $resourceKey)->first();
+
+        $realmnResourceAmount = RealmResource::where('realm_id', $realm->id)->where('resource_id', $resource->id)->first();
+
+        if($realmnResourceAmount)
+        {
+            return $realmnResourceAmount->amount;
         }
 
         return 0;
@@ -251,7 +271,7 @@ class ResourceCalculator
             # Check for RESOURCE_production_raw_per_victory
             if ($victoryPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_per_victory')))
             {
-                $amountProduced = (float)$victoryPerkData[0];
+                $amountProduced = (float)$victoryPerkData;
                 $victories = $this->statsService->getStat($dominion, 'invasion_victories');
 
                 $production += $dominion->{'military_unit' . $slot} * $amountProduced * $victories;
@@ -464,6 +484,16 @@ class ResourceCalculator
         $decayRate += $dominion->getUnitPerkProductionBonus($consumedResourceKey . '_decay');
 
         return $decayRate;
+    }
+
+    public function canStarve(Race $race): bool
+    {
+        if($race->getPerkValue('no_food_consumption') or $race->getPerkValue('no_morale_changes'))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool

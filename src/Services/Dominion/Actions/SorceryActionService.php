@@ -270,7 +270,7 @@ class SorceryActionService
                         # For Empire, add killed draftees go in the crypt
                         if($target->realm->alignment === 'evil')
                         {
-                            $target->realm->crypt += $damageDealt;
+                            $this->resourceService->updateRealmResources($target->realm, ['body' => $damageDealt]);
                             $this->sorcery['target']['crypt_bodies'] += $damageDealt;
                         }
 
@@ -305,7 +305,7 @@ class SorceryActionService
                         # For Empire, add killed draftees go in the crypt
                         if($target->realm->alignment === 'evil')
                         {
-                            $target->realm->crypt += $damageDealt;
+                            $this->resourceService->updateRealmResources($target->realm, ['body' => $damageDealt]);
                             $this->sorcery['target']['crypt_bodies'] += $damageDealt;
                         }
 
@@ -338,7 +338,7 @@ class SorceryActionService
                         # For Empire, add killed draftees go in the crypt
                         if($target->realm->alignment === 'evil')
                         {
-                            $target->realm->crypt += $damageDealt;
+                            $this->resourceService->updateRealmResources($target->realm, ['body' => $damageDealt]);
                             $this->sorcery['target']['crypt_bodies'] += $damageDealt;
                         }
 

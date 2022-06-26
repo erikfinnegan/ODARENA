@@ -2184,7 +2184,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $ticks = 8): int
+    public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $ticks = 12): int
     {
         $invasionEvents = GameEvent::query()
             ->where('tick', '>=', ($defender->round->ticks - $ticks))

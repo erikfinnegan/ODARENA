@@ -355,7 +355,7 @@
                                 @if($realm->alignment === 'evil')
                                     <tr>
                                         <td>Imperial Crypt:</td>
-                                        <td>{{ number_format($selectedDominion->realm->crypt) }}</td>
+                                        <td>{{ number_format($resourceCalculator->getRealmAmount($realm, 'body')) }}</td>
                                     </tr>
                                 @endif
                             </table>

@@ -300,7 +300,7 @@ class EspionageActionService
 
                     if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
-                        $target->realm->crypt += $spiesKilled;
+                        $this->resourceService->updateRealmResources($target->realm, ['body' => $spiesKilled]);
                     }
                 }
 
@@ -331,7 +331,7 @@ class EspionageActionService
 
                               if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                               {
-                                  $target->realm->crypt += $unitKilled;
+                                $this->resourceService->updateRealmResources($target->realm, ['body' => $unitKilled]);
                               }
                           }
                     }
@@ -1013,7 +1013,7 @@ class EspionageActionService
 
                 if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                 {
-                    $target->realm->crypt += $spiesKilled;
+                    $this->resourceService->updateRealmResources($target->realm, ['body' => $spiesKilled]);
                 }
             }
 
@@ -1044,7 +1044,7 @@ class EspionageActionService
 
                           if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                           {
-                              $target->realm->crypt += $unitKilled;
+                            $this->resourceService->updateRealmResources($target->realm, ['body' => $unitKilled]);
                           }
                       }
                 }

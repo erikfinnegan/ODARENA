@@ -529,7 +529,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -1014,59 +1014,41 @@ class InvadeActionService
         );
     }
 
-    protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio, array $units): void
+    protected function handleMoraleChanges(Dominion $attacker, Dominion $target, float $landRatio, array $units): void
     {
 
-        $landRatio *= 100;
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
-            # Drop 10% morale for hits under 60%.
-            if($landRatio < 60)
+            # Land ratio under 60% lowers attacker's morale and increases target's morale.
+            if ($landRatio < 0.60)
             {
-                $attackerMoraleChange = -15;
+                $attackerMoraleChange = -10 * 1/($landRatio);
+                $defenderMoraleChange = 5 * 1/($landRatio);
             }
-            # No change for hits in lower RG (60-75).
-            elseif($landRatio < 75)
+            # Land ratio betwen 60% and 75% has no effect on morale.
+            elseif($landRatio < 0.75)
             {
                 $attackerMoraleChange = 0;
-            }
-            # Increase 15% for hits 75-85%.
-            elseif($landRatio < 85)
-            {
-                $attackerMoraleChange = 15;
-            }
-            # Increase 20% for hits 85-100%
-            elseif($landRatio < 100)
-            {
-                $attackerMoraleChange = 20;
-            }
-            # Increase 25% for hits 100% and up.
-            else
-            {
-                $attackerMoraleChange = 25;
-            }
-            # Defender gets the inverse of attacker morale change,
-            # if it greater than 0.
-            if($attackerMoraleChange > 0)
-            {
-                $defenderMoraleChange = $attackerMoraleChange*-1;
-            }
-            else
-            {
                 $defenderMoraleChange = 0;
+            }
+            # Land ratio over 75% raises attacker's morale and decreases target's morale.
+            else
+            {
+                $attackerMoraleChange = 10 * 1/($landRatio);
+                $defenderMoraleChange = $attackerMoraleChange * -1;
             }
 
             $attackerMoraleChangeMultiplier = 1;
-            $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
-            $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
-            $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->getTitlePerkMultiplier();
+            $attackerMoraleChangeMultiplier += $attacker->getBuildingPerkMultiplier('morale_gains');
+            $attackerMoraleChangeMultiplier += $attacker->race->getPerkMultiplier('morale_change_invasion');
+            $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $attacker->getTitlePerkMultiplier();
 
             # Look for lowers_target_morale_on_successful_invasion
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if(
-                    $increasesMoraleGainsPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
+                    $increasesMoraleGainsPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
                     isset($units[$slot]) and
                     $this->invasionResult['result']['success']
                     )
@@ -1086,7 +1068,7 @@ class InvadeActionService
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if(
-                    $lowersTargetMoralePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
+                    $lowersTargetMoralePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
                     isset($units[$slot]) and
                     $this->invasionResult['result']['success']
                     )
@@ -1099,17 +1081,17 @@ class InvadeActionService
         # For failed invasions...
         else
         {
-            # If overwhelmed, attacker loses 20%, defender gets nothing.
+            # If overwhelmed, attacker loses 20% * 1/[OP:DP Ratio].
             if($this->invasionResult['result']['overwhelmed'])
             {
-                $attackerMoraleChange = -20;
-                $defenderMoraleChange = 0;
+                $attackerMoraleChange = -20 * 1/$this->invasionResult['result']['opDpRatio'];
+                $defenderMoraleChange = $attackerMoraleChange * -0.20;
             }
-            # Otherwise, -10% for attacker and +5% for defender
+            # Otherwise, -10% for attacker and +10% for defender
             else
             {
-                $attackerMoraleChange = -10;
-                $defenderMoraleChange = 10;
+                $attackerMoraleChange = -10 * 1/$this->invasionResult['result']['opDpRatio'];
+                $defenderMoraleChange = $attackerMoraleChange * -1;
             }
         }
 
@@ -1120,11 +1102,11 @@ class InvadeActionService
         # Change attacker morale.
 
         // Make sure it doesn't go below 0.
-        if(($dominion->morale + $attackerMoraleChange) < 0)
+        if(($attacker->morale + $attackerMoraleChange) < 0)
         {
             $attackerMoraleChange = 0;
         }
-        $dominion->morale += $attackerMoraleChange;
+        $attacker->morale += $attackerMoraleChange;
 
         # Change defender morale.
 
@@ -1146,38 +1128,43 @@ class InvadeActionService
      * @param Dominion $dominion
      * @param array $units
      */
-    protected function handleResearchPoints(Dominion $dominion, Dominion $target, array $units): void
+    protected function handleResearchPoints(Dominion $attacker, Dominion $defender, array $units): void
     {
+        $researchPointsPerAcre = 60;
 
-        $researchPointsPerAcre = 40;
+        # Decreased by 0.04 per round tick
+        $researchPointsPerAcre -= $attacker->round->ticks * 0.04;
+
+        # Cap at 40
+        $researchPointsPerAcre = max(40, $researchPointsPerAcre);
 
         $researchPointsPerAcreMultiplier = 1;
 
         # Increase RP per acre
-        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->race->getPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->getImprovementPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->getBuildingPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->getSpellPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->getDeityPerkMultiplier('xp_per_acre_gained');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)
         {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
 
-            $researchPointsForGeneratedAcres = 1;
+            $researchPointsForGeneratedAcres = 5;
 
-            if(!$this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion))
+            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($defender, $attacker))
             {
-                $researchPointsForGeneratedAcres = 2;
+                $researchPointsForGeneratedAcres = 10;
             }
 
             $researchPointsGained = round($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier);
-            $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
+            $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($attacker, $units);
 
             $this->queueService->queueResources(
                 'invasion',
-                $dominion,
+                $attacker,
                 ['xp' => $researchPointsGained],
                 $slowestTroopsReturnHours
             );
@@ -1640,7 +1627,7 @@ class InvadeActionService
             }
             else
             {
-                $this->resourceService->updateResources($monster, ['strength' => $this->invasionResult[$role]['strength_gain']]);
+                $this->resourceService->updateResources($monster, ['resource_strength' => $this->invasionResult[$role]['strength_gain']]);
             }
         }
     }
@@ -2582,27 +2569,8 @@ class InvadeActionService
             # Loop through defensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
             {
-                $uncryptablePerks = [
-                    'dies_into',
-                    'dies_into_spy',
-                    'dies_into_wizard',
-                    'dies_into_archmage',
-                    'dies_into_multiple',
-                    'dies_into_resource',
-                    'dies_into_resources',
-                    'dies_into_multiple_on_defense',
-                    'dies_into_on_defense',
-                    'dies_into_on_defense_instantly'
-                ];
-
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
-                    $isUnitConvertible = true;
-
-                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                            return ($unit->slot == $slot);
-                        })->first();
-
                     if(!$this->conversionCalculator->isSlotConvertible($slot, $defender) and !$defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {
                         $defensiveBodies -= $lost;
@@ -2613,28 +2581,8 @@ class InvadeActionService
             # Loop through offensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
             {
-                $uncryptablePerks = [
-                    'dies_into',
-                    'dies_into_spy',
-                    'dies_into_wizard',
-                    'dies_into_archmage',
-                    'dies_into_multiple',
-                    'dies_into_resource',
-                    'dies_into_resources',
-                    'dies_into_multiple_on_offense',
-                    'dies_into_on_offense',
-                    'dies_into_multiple_on_victory'
-                ];
-
-
                 if($slot !== 'draftees')
                 {
-                    $isUnitConvertible = true;
-
-                    $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
-                            return ($unit->slot == $slot);
-                        })->first();
-
                     if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker) or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {
                         $offensiveBodies -= $lost;
@@ -2704,37 +2652,29 @@ class InvadeActionService
             $cryptLogString .= 'Defensive bodies (final): ' . number_format($defensiveBodies) . ' | ';
             $cryptLogString .= 'Offensive bodies (final): ' . number_format($offensiveBodies) . ' | ';
 
-            $this->invasionResult['defender']['crypt']['bodies_available_final'] = $defensiveBodies;
-            $this->invasionResult['attacker']['crypt']['bodies_available_final'] = $offensiveBodies;
-
             $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
 
             if($whoHasCrypt == 'defender')
             {
+                $this->invasionResult['result']['crypt']['defensive_bodies'] = $defensiveBodies;
+                $this->invasionResult['result']['crypt']['offensive_bodies'] = $offensiveBodies;
+                $this->invasionResult['result']['crypt']['total'] = $toTheCrypt;
 
-                $this->invasionResult['defender']['crypt']['defensiveBodies'] = $defensiveBodies;
-                $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
-                $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($defender->realm, 'body') . ' | ';
 
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($defender->realm->crypt) . ' | ';
-
-                $defender->realm->fill([
-                    'crypt' => ($defender->realm->crypt + $toTheCrypt),
-                ])->save();
+                $this->resourceService->updateRealmResources($defender->realm, ['body' => $toTheCrypt]);
 
                 $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
             }
             elseif($whoHasCrypt == 'attacker')
             {
-                $this->invasionResult['attacker']['crypt']['defensiveBodies'] = $defensiveBodies;
-                $this->invasionResult['attacker']['crypt']['offensiveBodies'] = $offensiveBodies;
-                $this->invasionResult['attacker']['crypt']['total'] = $toTheCrypt;
+                $this->invasionResult['result']['crypt']['defensive_bodies'] = $defensiveBodies;
+                $this->invasionResult['result']['crypt']['offensive_bodies'] = $offensiveBodies;
+                $this->invasionResult['result']['crypt']['total'] = $toTheCrypt;
 
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($attacker->realm->crypt) . ' | ';
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($attacker->realm, 'body') . ' | ';
 
-                $attacker->realm->fill([
-                    'crypt' => ($attacker->realm->crypt + $toTheCrypt),
-                ])->save();
+                $this->resourceService->updateRealmResources($attacker->realm, ['body' => $toTheCrypt]);
 
                 $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
             }

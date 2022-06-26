@@ -19,6 +19,7 @@ skill_level: 3
 
 resources:
   - strength
+  - mana
 
 perks:
   max_per_round: 1
@@ -101,7 +102,7 @@ units:
     perks:
       immortal: 1
       does_not_count_as_population: 1
-      mana_production_raw: 100
-      mana_production_raw_per_victory: 25
+      mana_production_raw: 1000
+      mana_production_raw_per_victory: 500
       cannot_be_trained: 1
       cannot_be_released: 1

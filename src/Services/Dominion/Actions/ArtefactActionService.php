@@ -698,7 +698,7 @@ class ArtefactActionService
         $this->statsService->updateStat($enemy, 'units_killed', array_sum($casualties));
     }
 
-    protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio, array $units): void
+    protected function handleMoraleChanges(Dominion $attacker, Dominion $defender, float $landRatio, array $units): void
     {
 
         $landRatio *= 100;
@@ -801,23 +801,34 @@ class ArtefactActionService
         $attackerMoraleChange = round($attackerMoraleChange);
         $defenderMoraleChange = round($defenderMoraleChange);
 
-        # Change attacker morale.
-
-        // Make sure it doesn't go below 0.
-        if(($dominion->morale + $attackerMoraleChange) < 0)
+        # Look for no_morale_changes
+        if($attacker->race->getPerkValue('no_morale_changes'))
         {
             $attackerMoraleChange = 0;
         }
-        $dominion->morale += $attackerMoraleChange;
+        
+        if($defender->race->getPerkValue('no_morale_changes'))
+        {
+            $defenderMoraleChange = 0;
+        }
+
+        # Change attacker morale.
+
+        // Make sure it doesn't go below 0.
+        if(($attacker->morale + $attackerMoraleChange) < 0)
+        {
+            $attackerMoraleChange = 0;
+        }
+        $attacker->morale += $attackerMoraleChange;
 
         # Change defender morale.
 
         // Make sure it doesn't go below 0.
-        if(($target->morale + $defenderMoraleChange) < 0)
+        if(($defender->morale + $defenderMoraleChange) < 0)
         {
-            $defenderMoraleChange = ($target->morale * -1);
+            $defenderMoraleChange = ($defender->morale * -1);
         }
-        $target->morale += $defenderMoraleChange;
+        $defender->morale += $defenderMoraleChange;
 
         $this->invasionResult['attacker']['moraleChange'] = $attackerMoraleChange;
         $this->invasionResult['defender']['moraleChange'] = $defenderMoraleChange;
@@ -1923,195 +1934,6 @@ class ArtefactActionService
         $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
         $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
-    }
-
-    # Add casualties to the Imperial Crypt.
-    protected function handleCrypt(Dominion $attacker, Dominion $defender, array $offensiveConversions, array $defensiveConversions): void
-    {
-
-        if($attacker->race->alignment === 'evil' or $defender->race->alignment === 'evil')
-        {
-
-            $cryptLogString = '';
-
-            $this->invasionResult['defender']['crypt'] = [];
-            $this->invasionResult['attacker']['crypt'] = [];
-
-            # The battlefield:
-            # Cap bodies by reduced conversions perk, and round.
-            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($defender));
-            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($attacker));
-
-            $cryptLogString .= 'Defensive bodies (raw): ' . number_format($defensiveBodies) . ' | ';
-            $cryptLogString .= 'Offensive bodies (raw): ' . number_format($offensiveBodies) . ' | ';
-
-            $this->invasionResult['defender']['crypt']['bodies_available_raw'] = $defensiveBodies;
-            $this->invasionResult['attacker']['crypt']['bodies_available_raw'] = $offensiveBodies;
-
-            # Loop through defensive casualties and remove units that don't qualify.
-            foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
-            {
-                $uncryptablePerks = [
-                    'dies_into',
-                    'dies_into_spy',
-                    'dies_into_wizard',
-                    'dies_into_archmage',
-                    'dies_into_multiple',
-                    'dies_into_resource',
-                    'dies_into_resources',
-                    'dies_into_multiple_on_defense',
-                    'dies_into_on_defense',
-                    'dies_into_on_defense_instantly'
-                ];
-
-                if($slot !== 'draftees' and $slot !== 'peasants')
-                {
-                    $isUnitConvertible = true;
-
-                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                            return ($unit->slot == $slot);
-                        })->first();
-
-                    if(!$this->conversionCalculator->isSlotConvertible($slot, $defender) and !$defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
-                    {
-                        $defensiveBodies -= $lost;
-                    }
-                }
-            }
-
-            # Loop through offensive casualties and remove units that don't qualify.
-            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
-            {
-                $uncryptablePerks = [
-                    'dies_into',
-                    'dies_into_spy',
-                    'dies_into_wizard',
-                    'dies_into_archmage',
-                    'dies_into_multiple',
-                    'dies_into_resource',
-                    'dies_into_resources',
-                    'dies_into_multiple_on_offense',
-                    'dies_into_on_offense',
-                    'dies_into_multiple_on_victory'
-                ];
-
-
-                if($slot !== 'draftees')
-                {
-                    $isUnitConvertible = true;
-
-                    $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
-                            return ($unit->slot == $slot);
-                        })->first();
-
-                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker) or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
-                    {
-                        $offensiveBodies -= $lost;
-                    }
-                }
-            }
-
-            # Remove defensive conversions (defender's conversions) from offensive bodies (they are spent)
-            if(isset($this->invasionResult['defender']['conversion']))
-            {
-                $offensiveBodies -= array_sum($this->invasionResult['defender']['conversion']);
-            }
-
-            # Remove offensive conversions (attacker's conversions) from defensive bodies (they are spent)
-            if(isset($this->invasionResult['attacker']['conversion']))
-            {
-                $defensiveBodies -= array_sum($this->invasionResult['attacker']['conversion']);
-            }
-
-            $this->invasionResult['defender']['crypt']['bodies_available_net'] = $defensiveBodies;
-            $this->invasionResult['attacker']['crypt']['bodies_available_net'] = $offensiveBodies;
-
-            $cryptLogString .= 'Defensive bodies (net): ' . number_format($defensiveBodies) . ' | ';
-            $cryptLogString .= 'Offensive bodies (net): ' . number_format($offensiveBodies) . ' | ';
-
-            $toTheCrypt = 0;
-
-            # If defender is empire
-            if($defender->race->alignment === 'evil')
-            {
-                  $whoHasCrypt = 'defender';
-                  # If the attack is successful
-                  if($this->invasionResult['result']['success'])
-                  {
-                      # 50% of defensive and 0% of offensive bodies go to the crypt.
-                      $defensiveBodies /= 2;
-                      $offensiveBodies *= 0;
-                  }
-                  # If the attack is unsuccessful
-                  else
-                  {
-                      # 100% of defensive and 100% of offensive bodies go to the crypt.
-                      $defensiveBodies += 0;
-                      $offensiveBodies += 0;
-                  }
-            }
-            # If attacker is empire
-            if($attacker->race->alignment === 'evil')
-            {
-                  $whoHasCrypt = 'attacker';
-                  # If the attack is successful
-                  if($this->invasionResult['result']['success'])
-                  {
-                      # 50% of defensive and 100% of offensive bodies go to the crypt.
-                      $defensiveBodies /= 2;
-                      $offensiveBodies *= 1;
-                  }
-                  # If the attack is unsuccessful
-                  else
-                  {
-                      # 0% of defensive and 0% of offensive bodies go to the crypt.
-                      $defensiveBodies *= 0;
-                      $offensiveBodies *= 0;
-                  }
-            }
-
-            $cryptLogString .= 'Defensive bodies (final): ' . number_format($defensiveBodies) . ' | ';
-            $cryptLogString .= 'Offensive bodies (final): ' . number_format($offensiveBodies) . ' | ';
-
-            $this->invasionResult['defender']['crypt']['bodies_available_final'] = $defensiveBodies;
-            $this->invasionResult['attacker']['crypt']['bodies_available_final'] = $offensiveBodies;
-
-            $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
-
-            if($whoHasCrypt == 'defender')
-            {
-
-                $this->invasionResult['defender']['crypt']['defensiveBodies'] = $defensiveBodies;
-                $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
-                $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
-
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($defender->realm->crypt) . ' | ';
-
-                $defender->realm->fill([
-                    'crypt' => ($defender->realm->crypt + $toTheCrypt),
-                ])->save();
-
-                $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
-            }
-            elseif($whoHasCrypt == 'attacker')
-            {
-                $this->invasionResult['attacker']['crypt']['defensiveBodies'] = $defensiveBodies;
-                $this->invasionResult['attacker']['crypt']['offensiveBodies'] = $offensiveBodies;
-                $this->invasionResult['attacker']['crypt']['total'] = $toTheCrypt;
-
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($attacker->realm->crypt) . ' | ';
-
-                $attacker->realm->fill([
-                    'crypt' => ($attacker->realm->crypt + $toTheCrypt),
-                ])->save();
-
-                $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
-            }
-
-            Log::info($cryptLogString);
-
-        }
-
     }
 
     /**

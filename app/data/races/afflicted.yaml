@@ -21,6 +21,10 @@ resources:
   - mana
   - miasma
 
+peasants_production:
+  gold: 2.40
+  food: 0.40
+
 improvement_resources:
   gems: 12
   miasma: 24
@@ -36,6 +40,7 @@ units:
   - name: Abomination
     training_time: 9
     type:
+      - fused
       - living
       - mindless
     cost:
@@ -45,7 +50,8 @@ units:
       defense: 1
     perks:
       attrition: 0.25 # 0.25% lost each tick.
-      #no_draftee_on_release: 1
+      no_draftee_on_release: 1
+      releases_into_resource: 10,food
 
   - name: Pest Rat
     training_time: 9
@@ -67,10 +73,10 @@ units:
       - living
       - sentient
     cost:
-      gold: 800
+      gold: 1000
     power:
       offense: 0
-      defense: 6
+      defense: 7
 
   - name: Reaper
     training_time: 12
@@ -86,4 +92,4 @@ units:
       defense: -1
     perks:
       increases_enemy_casualties_on_offense: 1
-      value_conversion: 1,1 # [Killed]*1 = number of unit1 created
+      value_conversion: 1,1 # [Killed points]*1 = number of unit1 created

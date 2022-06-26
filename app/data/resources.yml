@@ -4,6 +4,12 @@ blood:
   buy: null
   sell: null
 
+body:
+  name: Body
+  description: A body of adequate size taken by the Empire and placed in the Crypt.
+  buy: null
+  sell: null
+
 brimmer:
   name: Brimmer
   description: A thick liquid extracted from ore.
@@ -141,6 +147,14 @@ sapling:
   exclusive_races:
     - Sylvan
 
+strength:
+  name: Strength
+  description: The Monster gains strength from fighting.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Monster
+
 swamp_gas:
   name: Swamp Gas
   description: A pungent, greenish gas floating above certain swamps.
@@ -164,11 +178,3 @@ yak:
   sell: null
   exclusive_races:
     - Orc
-
-strength:
-  name: Strength
-  description: The Monster gains strength from fighting.
-  buy: null
-  sell: null
-  exclusive_races:
-    - Monster

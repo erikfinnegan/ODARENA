@@ -245,6 +245,10 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('sapling', $value);
                                                             break;
 
+                                                        case 'strength':
+                                                            $labelParts[] =  number_format($value) . ' strength';
+                                                            break;
+
                                                         default:
                                                             break;
                                                     }

@@ -169,7 +169,7 @@ class DominionFactory
 
                 $startingParameters['protection_ticks'] = 0;
 
-                $startingResources['strength'] = 10000;
+                $startingResources['strength'] = 25000;
 
                 $startingParameters['draft_rate'] = 0;
             }

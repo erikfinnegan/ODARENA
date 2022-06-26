@@ -69,39 +69,35 @@ class SpellDamageCalculator
               }
           }
 
-          if(isset($spell))
-          {
-              $modifier += $target->race->getPerkMultiplier('damage_from_' . $spell->key);
-              $modifier += $target->getBuildingPerkMultiplier('damage_from_' . $spell->key);
-              $modifier += $target->getSpellPerkMultiplier('damage_from_' . $spell->key);
+            if(isset($spell))
+            {
+                $modifier += $target->race->getPerkMultiplier('damage_from_' . $spell->key);
+                $modifier += $target->getBuildingPerkMultiplier('damage_from_' . $spell->key);
+                $modifier += $target->getSpellPerkMultiplier('damage_from_' . $spell->key);
 
-              ## Disband Spies: spies
-              if($spell->key == 'disband_spies')
-              {
-                  if ($target->race->getPerkValue('immortal_spies') or $target->realm->getArtefactPerkMultiplier('immortal_spies'))
-                  {
-                      $modifier = -1;
-                  }
-              }
+                ## Disband Spies: spies
+                if($spell->key == 'disband_spies' and ($target->race->getPerkValue('immortal_spies') or $target->realm->getArtefactPerkMultiplier('immortal_spies')))
+                {
+                    $modifier = -1;
+                }
 
-              ## Purification: only effective against Afflicted.
-              if($spell->key == 'purification')
-              {
-                  if($target->race->name !== 'Afflicted')
-                  {
-                      $modifier = -1;
-                  }
-              }
+                ## Purification: only effective against Afflicted.
+                if($spell->key == 'purification' and $target->race->name !== 'Afflicted')
+                {
+                    $modifier = -1;
+                }
 
-              ## Solar Flare: only effective against Nox.
-              if($spell->key == 'solar_rays')
-              {
-                  if($target->race->name !== 'Nox')
-                  {
-                      $modifier = -1;
-                  }
-              }
-          }
+                ## Solar Flare: only effective against Nox.
+                if($spell->key == 'solar_rays' and $target->race->name !== 'Nox')
+                {
+                    $modifier = -1;
+                }
+            }
+
+            if($attribute == 'morale' and $target->race->getPerkValue('no_morale_changes'))
+            {
+                $modifier = -1;
+            }
 
           return max(0, $modifier);
     }
