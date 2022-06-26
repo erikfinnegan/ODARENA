@@ -4,7 +4,6 @@ description: >-
   <p>Demon starts with 1 Archdemon.</p>
 home_land_type: mountain
 playable: 1
-experimental: 1
 skill_level: 3
 
 peasants_alias: sinner

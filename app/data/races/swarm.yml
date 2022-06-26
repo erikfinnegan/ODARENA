@@ -4,7 +4,6 @@ description: >-
   <p>Buildings under construction count as barren land for the purpose of Scorpion and Centipede offensive power perk.</p>
 home_land_type: plain
 playable: 1
-experimental: 0
 skill_level: 2
 
 peasants_alias: larva

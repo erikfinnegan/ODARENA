@@ -4,7 +4,6 @@ description: >-
   <p>In order to send out units, Dimensionalists must have discovered a certain number of cosmic alignments. The number of cosmic alignments required is expended upon invasion (unused ones remain intact).</p>
 home_land_type: swamp
 playable: 1
-experimental: 0
 skill_level: 3
 
 resources:
