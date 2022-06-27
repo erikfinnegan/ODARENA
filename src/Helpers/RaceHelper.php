@@ -192,7 +192,7 @@ class RaceHelper
                 break;
             case 'improvements_per_net_victory':
                 $negativeBenefit = false;
-                $description = 'Improvements';
+                $description = 'Improvements bonus';
                 $valueType = '% per net victory (min 0)';
                 $booleanValue = 'static';
                 break;

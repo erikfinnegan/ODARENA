@@ -1,7 +1,7 @@
 name: Kerranad
 alignment: independent
 description: >-
-  <p>The City-state of Kerranad starts with different land and buildings:</p>
+  <p>The City-state of Kerranad starts with buildings:</p>
   <ul>
   <li>Plains: 50 farms, 200 smithies</li>
   <li>Forest: 50 lumberyards</li>
@@ -41,7 +41,7 @@ units:
       offense: 4
       defense: 0
     perks:
-      counts_as_spy: 1
+      counts_as_spy: 0.5
       increases_casualties_on_defense: 1
       immortal_on_victory: 1
       no_draftee: 1

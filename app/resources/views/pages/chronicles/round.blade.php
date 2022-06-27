@@ -85,7 +85,13 @@
                             <td class="text-left">{{ $statsHelper->getStatName($statKey) }}:</td>
                             <td class="text-left">{{ number_format($value) }}</td>
                             <td class="text-left"><a href="{{ route('chronicles.dominion', $dominion->id) }}">{{ $dominion->name }}</a></td>
-                            <td class="text-left"><a href="{{ route('chronicles.ruler', $dominion->user->display_name) }}">{{ $dominion->user->display_name }}</a></td>
+                            <td class="text-left">
+                                @if($dominion->isAbandoned())
+                                    <em><span class="text-muted">{{ $dominion->ruler_name }}</span></em>
+                                @else
+                                    <a href="{{ route('chronicles.ruler', $dominion->user->display_name) }}">{{ $dominion->user->display_name }}</a>
+                                @endif
+                            </td>
                             <td class="text-left">{{ $dominion->race->name }}</td>
                         </tr>
                     @endforeach
