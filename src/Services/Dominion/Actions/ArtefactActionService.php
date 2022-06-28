@@ -742,15 +742,15 @@ class ArtefactActionService
             }
 
             $attackerMoraleChangeMultiplier = 1;
-            $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
-            $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
-            $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->getTitlePerkMultiplier();
+            $attackerMoraleChangeMultiplier += $attacker->getBuildingPerkMultiplier('morale_gains');
+            $attackerMoraleChangeMultiplier += $attacker->race->getPerkMultiplier('morale_change_invasion');
+            $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $attacker->getTitlePerkMultiplier();
 
             # Look for lowers_target_morale_on_successful_invasion
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if(
-                    $increasesMoraleGainsPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
+                    $increasesMoraleGainsPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
                     isset($units[$slot]) and
                     $this->invasionResult['result']['success']
                     )
@@ -762,7 +762,7 @@ class ArtefactActionService
             $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
 
             $defenderMoraleChangeMultiplier = 1;
-            $defenderMoraleChangeMultiplier += $target->race->getPerkMultiplier('morale_change_invasion');
+            $defenderMoraleChangeMultiplier += $defender->race->getPerkMultiplier('morale_change_invasion');
 
             $defenderMoraleChange *= $defenderMoraleChangeMultiplier;
 
@@ -770,7 +770,7 @@ class ArtefactActionService
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if(
-                    $lowersTargetMoralePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
+                    $lowersTargetMoralePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
                     isset($units[$slot]) and
                     $this->invasionResult['result']['success']
                     )
