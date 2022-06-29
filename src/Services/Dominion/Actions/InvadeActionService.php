@@ -529,7 +529,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -1014,29 +1014,47 @@ class InvadeActionService
         );
     }
 
-    protected function handleMoraleChanges(Dominion $attacker, Dominion $target, float $landRatio, array $units): void
+    protected function handleMoraleChanges(Dominion $attacker, Dominion $defender, float $landRatio, array $units): void
     {
 
+        $landRatio *= 100;
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
-            # Land ratio under 60% lowers attacker's morale and increases target's morale.
-            if ($landRatio < 0.60)
+            # Drop 10% morale for hits under 60%.
+            if($landRatio < 60)
             {
-                $attackerMoraleChange = -10 * 1/($landRatio);
-                $defenderMoraleChange = 5 * 1/($landRatio);
+                $attackerMoraleChange = -15;
             }
-            # Land ratio betwen 60% and 75% has no effect on morale.
-            elseif($landRatio < 0.75)
+            # No change for hits in lower RG (60-75).
+            elseif($landRatio < 75)
             {
                 $attackerMoraleChange = 0;
-                $defenderMoraleChange = 0;
             }
-            # Land ratio over 75% raises attacker's morale and decreases target's morale.
+            # Increase 15% for hits 75-85%.
+            elseif($landRatio < 85)
+            {
+                $attackerMoraleChange = 15;
+            }
+            # Increase 20% for hits 85-100%
+            elseif($landRatio < 100)
+            {
+                $attackerMoraleChange = 20;
+            }
+            # Increase 25% for hits 100% and up.
             else
             {
-                $attackerMoraleChange = 10 * 1/($landRatio);
-                $defenderMoraleChange = $attackerMoraleChange * -1;
+                $attackerMoraleChange = 25;
+            }
+            # Defender gets the inverse of attacker morale change,
+            # if it greater than 0.
+            if($attackerMoraleChange > 0)
+            {
+                $defenderMoraleChange = $attackerMoraleChange*-1;
+            }
+            else
+            {
+                $defenderMoraleChange = 0;
             }
 
             $attackerMoraleChangeMultiplier = 1;
@@ -1060,7 +1078,7 @@ class InvadeActionService
             $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
 
             $defenderMoraleChangeMultiplier = 1;
-            $defenderMoraleChangeMultiplier += $target->race->getPerkMultiplier('morale_change_invasion');
+            $defenderMoraleChangeMultiplier += $defender->race->getPerkMultiplier('morale_change_invasion');
 
             $defenderMoraleChange *= $defenderMoraleChangeMultiplier;
 
@@ -1081,23 +1099,34 @@ class InvadeActionService
         # For failed invasions...
         else
         {
-            # If overwhelmed, attacker loses 20% * 1/[OP:DP Ratio].
+            # If overwhelmed, attacker loses 20%, defender gets nothing.
             if($this->invasionResult['result']['overwhelmed'])
             {
-                $attackerMoraleChange = -20 * 1/$this->invasionResult['result']['opDpRatio'];
-                $defenderMoraleChange = $attackerMoraleChange * -0.20;
+                $attackerMoraleChange = -20;
+                $defenderMoraleChange = 0;
             }
-            # Otherwise, -10% for attacker and +10% for defender
+            # Otherwise, -10% for attacker and +5% for defender
             else
             {
-                $attackerMoraleChange = -10 * 1/$this->invasionResult['result']['opDpRatio'];
-                $defenderMoraleChange = $attackerMoraleChange * -1;
+                $attackerMoraleChange = -10;
+                $defenderMoraleChange = 10;
             }
         }
 
         # Round
         $attackerMoraleChange = round($attackerMoraleChange);
         $defenderMoraleChange = round($defenderMoraleChange);
+
+        # Look for no_morale_changes
+        if($attacker->race->getPerkValue('no_morale_changes'))
+        {
+            $attackerMoraleChange = 0;
+        }
+        
+        if($defender->race->getPerkValue('no_morale_changes'))
+        {
+            $defenderMoraleChange = 0;
+        }
 
         # Change attacker morale.
 
@@ -1111,11 +1140,11 @@ class InvadeActionService
         # Change defender morale.
 
         // Make sure it doesn't go below 0.
-        if(($target->morale + $defenderMoraleChange) < 0)
+        if(($defender->morale + $defenderMoraleChange) < 0)
         {
-            $defenderMoraleChange = ($target->morale * -1);
+            $defenderMoraleChange = ($defender->morale * -1);
         }
-        $target->morale += $defenderMoraleChange;
+        $defender->morale += $defenderMoraleChange;
 
         $this->invasionResult['attacker']['moraleChange'] = $attackerMoraleChange;
         $this->invasionResult['defender']['moraleChange'] = $defenderMoraleChange;
@@ -2660,7 +2689,7 @@ class InvadeActionService
                 $this->invasionResult['result']['crypt']['offensive_bodies'] = $offensiveBodies;
                 $this->invasionResult['result']['crypt']['total'] = $toTheCrypt;
 
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($defender->realm, 'body') . ' | ';
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($defender->realm, 'body')) . ' | ';
 
                 $this->resourceService->updateRealmResources($defender->realm, ['body' => $toTheCrypt]);
 
