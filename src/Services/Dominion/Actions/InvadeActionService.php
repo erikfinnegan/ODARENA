@@ -2701,7 +2701,7 @@ class InvadeActionService
                 $this->invasionResult['result']['crypt']['offensive_bodies'] = $offensiveBodies;
                 $this->invasionResult['result']['crypt']['total'] = $toTheCrypt;
 
-                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($attacker->realm, 'body') . ' | ';
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($this->resourceCalculator->getRealmAmount($attacker->realm, 'body')) . ' | ';
 
                 $this->resourceService->updateRealmResources($attacker->realm, ['body' => $toTheCrypt]);
 
