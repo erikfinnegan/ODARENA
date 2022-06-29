@@ -1654,7 +1654,7 @@ class InvadeActionService
                 $this->queueService->queueResources(
                     'invasion',
                     $monster,
-                    ['strength' => $this->invasionResult[$role]['strength_gain']],
+                    ['resource_strength' => $this->invasionResult[$role]['strength_gain']],
                     12
                 );
             }
