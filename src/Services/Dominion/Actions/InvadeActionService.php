@@ -1177,18 +1177,22 @@ class InvadeActionService
         $researchPointsPerAcreMultiplier += $attacker->getDeityPerkMultiplier('xp_per_acre_gained');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
+        
         if ($isInvasionSuccessful)
         {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
+            $landDiscovered = array_sum($this->invasionResult['attacker']['landDiscovered']);
 
-            $researchPointsForGeneratedAcres = 5;
+            $researchPointsForGeneratedAcresMultiplier = 1;
 
             if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($defender, $attacker))
             {
-                $researchPointsForGeneratedAcres = 10;
+                $researchPointsForGeneratedAcresMultiplier = 2;
             }
 
-            $researchPointsGained = round($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier);
+            $researchPointsGained = $landConquered * $researchPointsPerAcre * $researchPointsPerAcreMultiplier;
+            $researchPointsGained += $landDiscovered * $researchPointsPerAcre * $researchPointsForGeneratedAcresMultiplier;
+
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($attacker, $units);
 
             $this->queueService->queueResources(
