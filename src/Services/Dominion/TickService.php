@@ -858,8 +858,6 @@ class TickService
         {
             $attritionMultiplier -= $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
             $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition');
-
-            #dd($dominion->getBuildingPerkMultiplier('reduces_attrition'));
         }
 
         # Cap at -100%
