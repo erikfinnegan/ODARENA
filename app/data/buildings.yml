@@ -501,6 +501,7 @@ obelisk:
   name: Obelisk
   exclusive_races:
     - Afflicted
+    - Cult
     - Demon
     - Reptilians
     - Sacred Order
@@ -632,6 +633,7 @@ smithy:
     - Armada
     - Aurei
     - Beastfolk
+    - Cult
     - Dimensionalists
     - Dragon
     - Gnome
@@ -1474,7 +1476,7 @@ compound:
   perks:
     housing: 35
     jobs: 0
-    reduces_attrition: 0.5,1 # Every 1%, reduces 1%
+    reduces_attrition: 0.5,1 # Every 0.5%, reduces 1%
     food_production_raw: 5
 
 farmstead:

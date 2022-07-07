@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
 
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\DominionCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\MoraleCalculator;
@@ -36,6 +37,8 @@ class StatusController extends AbstractDominionController
         return view('pages.dominion.status', [
             'title' => 'STATUS',
             'dominionProtectionService' => app(ProtectionService::class),
+
+            'dominionCalculator' => app(DominionCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'moraleCalculator' => app(MoraleCalculator::class),

@@ -16,14 +16,14 @@ home_land_type: plain
 playable: 1
 experimental: 1
 skill_level: 3
+max_per_round: 1
+minimum_rounds: 20
 
 resources:
   - strength
   - mana
 
 perks:
-  max_per_round: 1
-  min_rounds_played: 20
   cannot_construct: 1
   cannot_explore: 1
   cannot_improve: 1

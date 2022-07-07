@@ -46,6 +46,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
       gold: 250
       wizard: 1
@@ -66,6 +67,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
       gold: 350
       wizard: 1

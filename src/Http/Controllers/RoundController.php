@@ -207,16 +207,16 @@ class RoundController extends AbstractController
         
                         if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
                         {
-                            if ($roundsPlayed < $race->getPerkValue('min_rounds_played'))
+                            if ($roundsPlayed < $race->minimum_rounds)
                             {
-                                throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
+                                throw new GameException('You must have played at least ' . number_format($race->minimum_rounds) .  ' rounds to play ' . $race->name . '.');
                             }
         
-                            if ($race->getPerkValue('max_per_round') and isset($countRaces[$race->name]))
+                            if ($race->max_per_round and isset($countRaces[$race->name]))
                             {
-                                if($countRaces[$race->name] >= $race->getPerkValue('max_per_round'))
+                                if($countRaces[$race->name] >= $race->max_per_round)
                                 {
-                                    throw new GameException('There can only be ' . number_format($race->getPerkValue('max_per_round')) . ' of this faction per round.');
+                                    throw new GameException('There can only be ' . number_format($race->max_per_round) . ' of this faction per round.');
                                 }
                             }
                         }
@@ -388,16 +388,16 @@ class RoundController extends AbstractController
 
                 if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
                 {
-                    if ($roundsPlayed < $race->getPerkValue('min_rounds_played'))
+                    if ($roundsPlayed < $race->rounds_played)
                     {
-                        throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
+                        throw new GameException('You must have played at least ' . number_format($race->rounds_played) .  ' rounds to play ' . $race->name . '.');
                     }
 
-                    if ($race->getPerkValue('max_per_round') and isset($countRaces[$race->name]))
+                    if ($race->max_per_round and isset($countRaces[$race->name]))
                     {
-                        if($countRaces[$race->name] >= $race->getPerkValue('max_per_round'))
+                        if($countRaces[$race->name] >= $race->max_per_round)
                         {
-                            throw new GameException('There can only be ' . number_format($race->getPerkValue('max_per_round')) . ' of this faction per round.');
+                            throw new GameException('There can only be ' . number_format($race->max_per_round) . ' of this faction per round.');
                         }
                     }
                 }

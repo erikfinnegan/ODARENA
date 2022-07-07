@@ -3,10 +3,10 @@
         <div class="row text-left">
             <div class="col-lg-2">
                 <p>
-                    @if($roundsPlayed < $race->getPerkValue('min_rounds_played'))
-                    <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }}>
+                    @if($roundsPlayed < $race->minimum_rounds)
+                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }}>
                     @else
-                    <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
+                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                     @endif
                     <strong>{{ $race->name }}</strong>
                     &nbsp;&mdash;&nbsp;
@@ -51,9 +51,9 @@
                 </table>
             </div>
 
-            @if($race->getPerkValue('min_rounds_played') > 0)
+            @if($race->minimum_rounds)
             <div class="col-sm-4">
-                  <p><em>You must have played at least {{ number_format($race->getPerkValue('min_rounds_played')) }} rounds to play {{ $race->name }}.</em></p>
+                  <p><em>You must have played at least {{ number_format($race->minimum_rounds) }} rounds to play {{ $race->name }}.</em></p>
             </div>
             @endif
         </div>

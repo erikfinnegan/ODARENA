@@ -298,6 +298,30 @@
                                       </tr>
                                   @endif
                               @endif
+                              @if($race->max_per_round)
+                                <tr>
+                                    <td>
+                                        <span data-toggle="tooltip" data-placement="top" title="Maximum amount of dominions of this faction per round">Max per round:</span>
+                                    </td>
+                                    <td><span class="text-red">{{ $race->max_per_round }}</a></td>
+                                </tr>
+                              @endif
+                              @if($race->minimum_rounds)
+                                <tr>
+                                    <td>
+                                        <span data-toggle="tooltip" data-placement="top" title="Minimum rounds you must have played in order to select this faction">Minimum rounds played:</span>
+                                    </td>
+                                    <td><span class="text-red">{{ $race->minimum_rounds }}</a></td>
+                                </tr>
+                              @endif
+                              @if($race->psionic_strength !== 1)
+                                <tr>
+                                    <td>
+                                        <span data-toggle="tooltip" data-placement="top" title="Standard is 1">Psionic base strength:</span>
+                                    </td>
+                                    <td><span class="text-info">{{ number_format($race->psionic_strength,6) }}</a></td>
+                                </tr>
+                              @endif
                               @if(!$race->getPerkValue('no_population'))
                               <tr>
                                   <td>

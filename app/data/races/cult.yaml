@@ -4,11 +4,13 @@ description:
 home_land_type: forest
 playable: 1
 skill_level: 3
+max_per_round: 1
+minimum_rounds: 10
+psionic_strength: 1.5
 
 perks:
-  max_population: 25
-  min_rounds_played: 10
-  max_per_round: 1
+  cannot_renounce_deity: 1
+  deity_power: 100
   population_growth: 50
   wizards_training_time: 6
   cannot_explore: 1
@@ -23,13 +25,14 @@ units:
       defense: 2
     perks:
       cannot_be_trained: 1
-      attrition: 0.5 # 1% lost each tick.
+      attrition: 0.5
       does_not_count_as_population: 1
 
   - name: Initiate
     training_time: 6
     type:
       - living
+      - sentient
     cost:
       unit1: 1
       ore: 25
@@ -45,6 +48,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       gold: 650
       ore: 50
@@ -63,6 +67,8 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
+      - psychic
     cost:
       gold: 500
       ore: 50

@@ -124,6 +124,7 @@ class Dominion extends AbstractModel
         'morale' => 'integer',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
+        'prestige' => 'float',
 
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',

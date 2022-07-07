@@ -1,4 +1,4 @@
-# Refrain from giving deities direct improvement bonuses (like Schools, Strongholds). Creates circular reference/infinite loop.
+# Do not give deities direct improvement bonuses (like Schools, Strongholds). Creates circular reference/infinite loop.
 
 azk_hurum:
   name: Azk'Hurum
@@ -83,6 +83,7 @@ ib_tham:
   range_multiplier: 0.60
   exclusive_races:
     - Barbarian
+    - Cult
   perks:
     amount_stolen: 20
     offensive_power_on_retaliation: 10

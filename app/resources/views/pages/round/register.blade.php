@@ -75,9 +75,9 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-maxPerRound="{{ $race->max_per_round }}"
                                           data-experimental="{{ $race->experimental }}"
-                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
+                                          data-minRoundsPlayed="{{ $race->minimum_rounds ? number_format($race->minimum_rounds) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach
@@ -92,9 +92,9 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-maxPerRound="{{ $race->max_per_round }}"
                                           data-experimental="{{ $race->experimental }}"
-                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
+                                          data-minRoundsPlayed="{{ $race->minimum_rounds ? number_format($race->minimum_rounds) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach
@@ -109,9 +109,9 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-maxPerRound="{{ $race->max_per_round }}"
                                           data-experimental="{{ $race->experimental }}"
-                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
+                                          data-minRoundsPlayed="{{ $race->minimum_rounds ? number_format($race->minimum_rounds) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach

@@ -1,10 +1,10 @@
 name: Myconid
 alignment: independent
 description: >-
-  <p>Unique building: Mycelia - houses 30 and produces 4 food/tick. Starts with 1,000 Mycelia.</p>
 home_land_type: forest
 playable: 1
 skill_level: 3
+minimum_rounds_played: 2
 
 peasants_alias: spore
 draftees_alias: sporeling
@@ -34,7 +34,6 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   cannot_join_guards: 1
-  min_rounds_played: 1
   unemployed_peasants_produce: 1
 
 units:

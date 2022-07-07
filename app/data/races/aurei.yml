@@ -67,6 +67,7 @@ units:
       - sentient
       - intelligent
       - aspect
+      - wise
     cost:
       wizard: 1
       gold: 360
@@ -89,6 +90,7 @@ units:
       - sentient
       - intelligent
       - aspect
+      - wise
     cost:
       wizard: 1
       gold: 360

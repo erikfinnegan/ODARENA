@@ -15,14 +15,14 @@ description: >-
 home_land_type: plain
 playable: 1
 skill_level: 2
+max_per_round: 1
+minimum_rounds: 10
 
 perks:
   gold_production_mod: 10
   ore_production_mod: 25
   cannot_rezone: 1
   salvaging: 95
-  max_per_round: 1
-  min_rounds_played: 5
   cannot_train_archmages: 1
   max_population: 10
 
@@ -70,6 +70,7 @@ units:
       - sentient
       - intelligent
       - legendary
+      - wise
     cost:
       gold: 800
       ore: 50

@@ -4,6 +4,8 @@ description:
 home_land_type: swamp
 playable: 1
 skill_level: 2
+max_per_round: 1
+minimum_rounds_played: 2
 
 resources:
   - gold
@@ -16,7 +18,6 @@ perks:
   max_population: 30
   mana_production_mod: 10
   no_food_consumption: 1
-  max_per_round: 1
   wizards_training_time: 6
   converts_executed_spies: 3 # into slot 3
 units:

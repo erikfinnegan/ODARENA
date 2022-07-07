@@ -21,12 +21,12 @@ description: >-
 home_land_type: hill
 playable: 1
 skill_level: 2
+max_per_round: 1
+minimum_rounds: 10
 
 perks:
   salvaging: 80
   cannot_release_units: 1
-  max_per_round: 1
-  min_rounds_played: 10
 
 units:
   - name: Infantry

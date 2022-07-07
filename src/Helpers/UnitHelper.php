@@ -1218,4 +1218,28 @@ class UnitHelper
         return true;
     }
 
+    public function getUnitAttributePsionicStrengthValue(string $attribute): float
+    {
+        switch ($attribute)
+        {
+            case 'mindless':
+                return -0.5;
+
+            case 'intelligent':
+                return 0.5;
+            
+            case 'wise':
+                return 2;
+
+            case 'psychic':
+                return 4;
+            
+            default:
+                0;
+        }
+
+        return 0;
+
+    }
+
 }

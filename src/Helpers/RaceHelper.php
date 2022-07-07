@@ -484,12 +484,6 @@ class RaceHelper
                 $valueType = '';
                 $booleanValue = 'static';
                 break;
-            case 'min_rounds_played':
-                $negativeBenefit = true;
-                $description = 'Mininum number of rounds played to play this faction';
-                $valueType = '';
-                $booleanValue = 'static';
-                break;
             case 'title_bonus':
                 $negativeBenefit = false;
                 $description = 'Ruler Title bonus';
@@ -881,6 +875,12 @@ class RaceHelper
         $rulers = array_unique($rulers);
 
         return count($rulers);
+    }
+
+    # Reserved for future where Race class is extended.
+    public function getBasePsionicStrength(Race $race): float
+    {
+        return $race->psionic_strength ?: 1;
     }
 
 }

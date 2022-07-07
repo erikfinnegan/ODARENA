@@ -11,6 +11,7 @@ use OpenDominion\Models\DominionInsight;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\DominionCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -136,6 +137,7 @@ class InsightController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
 
             'buildingCalculator' => app(BuildingCalculator::class),
+            'dominionCalculator' => app(DominionCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'improvementCalculator' => app(ImprovementCalculator::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
@@ -209,6 +211,7 @@ class InsightController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
 
             'buildingCalculator' => app(BuildingCalculator::class),
+            'dominionCalculator' => app(DominionCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'improvementCalculator' => app(ImprovementCalculator::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),

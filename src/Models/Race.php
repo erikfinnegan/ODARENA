@@ -35,6 +35,8 @@ class Race extends AbstractModel
           'spies_cost' => 'text',
           'wizards_cost' => 'text',
           'archmages_cost' => 'text',
+
+          'psionic_strength' => 'float',
       ];
 
     public function dominions()

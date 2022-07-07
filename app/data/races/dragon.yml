@@ -80,6 +80,7 @@ units:
       - sentient
       - intelligent
       - massive
+      - wise
     cost:
       gems: 50000
     power:
