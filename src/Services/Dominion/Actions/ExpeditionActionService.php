@@ -106,7 +106,7 @@ class ExpeditionActionService
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
 
-            foreach($units as $amount)
+            foreach($units as $slot => $amount)
             {
                  if($amount < 0)
                  {
