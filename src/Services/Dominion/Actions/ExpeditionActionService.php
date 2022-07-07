@@ -113,9 +113,13 @@ class ExpeditionActionService
                      throw new GameException('Expedition was canceled due to bad input.');
                  }
 
+                 $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                     return ($unit->slot === $slot);
+                 })->first();
+
                  if(!$this->unitHelper->isUnitSendableByDominion($unit, $dominion))
                  {
-                     throw new GameException('You cannot send ' . $unit->name . ' on invasion.');
+                     throw new GameException('You cannot send ' . $unit->name . ' on expeditions.');
                  }
              }
 
@@ -133,14 +137,6 @@ class ExpeditionActionService
           {
               throw new GameException('A spell is preventing you from sending expeditions.');
           }
-
-            foreach($units as $amount)
-            {
-                if($amount < 0)
-                {
-                    throw new GameException('Expedition was cancelled due to bad input.');
-                }
-            }
 
             // Spell: Rainy Season (cannot invade)
             if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
