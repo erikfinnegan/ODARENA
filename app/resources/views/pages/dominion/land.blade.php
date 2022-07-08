@@ -9,42 +9,70 @@
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="row">
-            <div class="{{ $raceHelper->hasLandImprovements($selectedDominion->race) ? 'col-md-5' : 'col-md-6' }}">
+            <div class="{{ $raceHelper->hasLandImprovements($selectedDominion->race) ? 'col-md-10' : 'col-md-12' }}">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fas fa-redo-alt"></i> Rezone Land</h3>
+                        <h3 class="box-title"><i class="fa fa-map fa-fw"></i> Land</h3>
                         <small class="pull-right text-muted">
-                            <span data-toggle="tooltip" data-placement="top" title="How many acres of land you can afford to rezone right now">Max rezonable</span>: {{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }}
+                            <span data-toggle="tooltip" data-placement="top" title="How many acres of land you can afford to explore right now">Max explorable</span>: {{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}
                         </small>
                     </div>
-                    <form action="{{ route('dominion.land') }}" method="post" role="form">
-                        @csrf
-                        <input type="hidden" name="action" value="rezone">
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <colgroup>
+                    
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col width="100">
+                                @for ($i = 1; $i <= 12; $i++)
                                     <col>
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                </colgroup>
-                                <thead>
+                                @endfor
+                                <col width="100">
+                                <col width="100">
+                                <col width="100">
+                                <col width="100">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Land Type</th>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <th class="text-center">{{ $i }}</th>
+                                    @endfor
+                                    <th class="text-center">Total<br>Incoming</th>
+                                    <th class="text-center">Barren</th>
+                                    <th class="text-center">Rezone From</th>
+                                    <th class="text-center">Rezone Into</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $incomingLandPerTick = array_fill(1,12,0);
+                                    $barrenLand = $landCalculator->getBarrenLandByLandType($selectedDominion);
+                                @endphp
+                                @foreach ($landHelper->getLandTypes() as $landType)
+                                    @php
+                                        $amount = $barrenLand[$landType];
+                                    @endphp
                                     <tr>
-                                        <th>Land Type</th>
-                                        <th class="text-center">Barren</th>
-                                        <th class="text-center">Rezone From</th>
-                                        <th class="text-center">Rezone Into</th>
-                                    </tr>
-                                </thead>
-                                @foreach ($landCalculator->getBarrenLandByLandType($selectedDominion) as $landType => $amount)
-                                    <tr>
-                                        <td>
-                                          {!! $landHelper->getLandTypeIconHtml($landType) !!}
-                                          {{ ucfirst($landType) }}
-                                          @if ($landType === $selectedDominion->race->home_land_type)
-                                              <small class="text-muted"><span title="This is the land type where {{ ($selectedDominion->race->name) }} constructs home buildings."><i class="fa fa-home"></span></i></small>
-                                          @endif
-                                        </td>
+                                        <td>{!! $landHelper->getLandTypeIconHtml($landType) !!} {{ ucfirst($landType) }}</td>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            @php
+                                                $land = (
+                                                    $queueService->getExplorationQueueAmount($selectedDominion, "land_{$landType}", $i) +
+                                                    $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i) +
+                                                    $queueService->getExpeditionQueueAmount($selectedDominion, "land_{$landType}", $i)
+                                                );
+                                                $incomingLandPerTick[$i] += $land;
+                                            @endphp
+                                            <td class="text-center">
+                                                @if ($land === 0)
+                                                    -
+                                                @else
+                                                    {{ number_format($land) }}
+                                                @endif
+                                            </td>
+                                        @endfor
+                                        <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
+
+
                                         <td class="text-center">{{ number_format($amount) }}</td>
                                         <td class="text-center">
                                             <input name="remove[{{ $landType }}]" type="number"
@@ -61,102 +89,30 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </table>
-                        </div>
-                        <div class="box-footer">
-                          @if ((bool)$selectedDominion->race->getPerkValue('cannot_rezone'))
-                              <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot rezone</span>
-                          @else
-                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Rezone</button>
-                          @endif
-                        </div>
-                    </form>
-                </div>
-            </div>
+                                <tr>
+                                    <td><em>Total</em></td>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <td class="text-center">
+                                            <em>
+                                        @if($incomingLandPerTick[$i] !== 0)
+                                            {{ number_format($incomingLandPerTick[$i]) }}
+                                        @else
+                                            -
+                                        @endif
+                                        </em>
+                                        </td>
+                                    @endfor
+                                    <td class="text-center"><em>{{ number_format(array_sum($incomingLandPerTick)) }}</em></td>
+                                    <td class="text-center"><em>{{ number_format(array_sum($barrenLand)) }}</em></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                </tr>
 
-            <div class="{{ $raceHelper->hasLandImprovements($selectedDominion->race) ? 'col-md-5' : 'col-md-6' }}">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
-                        <small class="pull-right text-muted">
-                            <span data-toggle="tooltip" data-placement="top" title="How many acres of land you can afford to explore right now">Max explorable</span>: {{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}
-                        </small>
+                                
+                            </tbody>
+                        </table>
                     </div>
-                    <form action="{{ route('dominion.land') }}" method="post" role="form">
-                        @csrf
-                        <input type="hidden" name="action" value="explore">
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <colgroup>
-                                    <col>
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>Land Type</th>
-                                        <th class="text-center">Owned</th>
-                                        <th class="text-center">Incoming</th>
-                                        <th class="text-center">Explore For</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $totalIncomingLand = 0;
-                                    @endphp
-                                    @foreach ($landHelper->getLandTypes() as $landType)
-                                        <tr>
-                                            <td>
-                                                {!! $landHelper->getLandTypeIconHtml($landType) !!}
-                                                {{ ucfirst($landType) }}
-                                                @if ($landType === $selectedDominion->race->home_land_type)
-                                                    <small class="text-muted"><span title="This is the land type where {{ ($selectedDominion->race->name) }} constructs home buildings."><i class="fa fa-home"></span></i></small>
-                                                @endif
-                                            </td>
-                                            <td class="text-center">
-                                                {{ number_format($selectedDominion->{'land_' . $landType}) }}
-                                                <small>
-                                                    ({{ number_format((($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) * 100), 2) }}%)
-                                                </small>
-                                            </td>
-                                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
-                                            <td class="text-center">
-                                                <input type="number" name="explore[land_{{ $landType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $explorationCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('explore.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            </td>
-                                        </tr>
-                                        @php
-                                            $totalIncomingLand += $queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}");
-                                            $totalIncomingLand += $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}");
-                                            $totalIncomingLand += $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}");
-                                        @endphp
-                                    @endforeach
-                                    {{--
-                                        <tr>
-                                            <td><em>Total</em></td>
-                                            <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
-                                            <td class="text-center"><em>{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} <small class="text-muted">({{ number_format(($landCalculator->getTotalBarrenLand($selectedDominion) / $landCalculator->getTotalLand($selectedDominion))*100)}}%)</span></em></td>
-                                            <td class="text-center"><em>{{ number_format($totalIncomingLand) }}</em></td>
-                                            <td></td>
-                                        </tr>
-                                    --}}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="box-footer">
-                          @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                              <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot explore</span>
-                          @elseif ($selectedDominion->getDeityPerkValue('cannot_explore'))
-                              <span class="label label-danger">{{ $selectedDominion->deity->name }} does not permit exploring</span>
-                          @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-                              <span class="label label-primary">You cannot explore during the Rainy Season</span>
-                          @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
-                              <span class="label label-danger">You cannot explore while you are in stasis</span>
-                          @else
-                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
-                          @endif
-                        </div>
-                    </form>
+
                 </div>
             </div>
             @if($raceHelper->hasLandImprovements($selectedDominion->race))
@@ -246,82 +202,6 @@
 
 
 
-<div class="row">
-    <div class="col-sm-12 col-md-9">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="fas fa-map-marked-alt"></i> Incoming Land</h3>
-            </div>
-            <div class="box-body table-responsive no-padding">
-                <table class="table">
-                    <colgroup>
-                        <col width="100">
-                        @for ($i = 1; $i <= 12; $i++)
-                            <col>
-                        @endfor
-                        <col width="100">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Land Type</th>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <th class="text-center">{{ $i }}</th>
-                            @endfor
-                            <th class="text-center">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @php
-                        $incomingLandPerTick = array_fill(1,12,0);
-                    @endphp
-                    @foreach ($landHelper->getLandTypes() as $landType)
-                        <tr>
-                            <td>
-                                {{ ucfirst($landType) }}
-                                @if ($landType === $selectedDominion->race->home_land_type)
-                                    <small class="text-muted"><i>(home)</i></small>
-                                @endif
-                            </td>
-                            @for ($i = 1; $i <= 12; $i++)
-                                @php
-                                    $land = (
-                                        $queueService->getExplorationQueueAmount($selectedDominion, "land_{$landType}", $i) +
-                                        $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i) +
-                                        $queueService->getExpeditionQueueAmount($selectedDominion, "land_{$landType}", $i)
-                                    );
-                                    $incomingLandPerTick[$i] += $land;
-                                @endphp
-                                <td class="text-center">
-                                    @if ($land === 0)
-                                        -
-                                    @else
-                                        {{ number_format($land) }}
-                                    @endif
-                                </td>
-                            @endfor
-                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
-                        </tr>
-                    @endforeach
-                        <tr>
-                            <td><em>Total</em></td>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <td class="text-center">
-                                  <em>
-                                @if($incomingLandPerTick[$i] !== 0)
-                                    {{ number_format($incomingLandPerTick[$i]) }}
-                                @else
-                                    -
-                                @endif
-                                </em>
-                                </td>
-                            @endfor
-                            <td class="text-center"><em>{{ number_format(array_sum($incomingLandPerTick)) }}</em></td>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-md-9">
@@ -339,7 +219,6 @@
                     @csrf
                     <input type="hidden" name="action" value="daily_land">
                     <button type="submit" name="land" class="btn btn-primary btn-block btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
-                        <i class="fa fa fa-plus"></i>
                         Claim Daily Land Bonus
                     </button>
                 </form>

@@ -162,31 +162,14 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($realmCalculator->hasMonster($selectedDominion->realm))
-                                <label for="realm_name">Percentage Contribution to the Monster</label>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" name="realm_contribution" id="realm_contribution" placeholder="{{ $selectedDominion->realm->contribution }}" min=0 max=10 step=1 autocomplete="off" />
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                                Change
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
 
-                                    <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                                Change
-                                            </button>
-                                        </div>
-                                    </div>
+                            <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        Change
+                                    </button>
+                                </div>
+                            </div>
 
                             @endif
                         </form>
@@ -212,10 +195,6 @@
                         Assembly.
                       @else
                         Council.
-                      @endif
-
-                      @if($realmCalculator->hasMonster($selectedDominion->realm))
-                      <p>There is monster in your realm. You are tasked with deciding what percentage of everyone's food, lumber, and ore stockpiles shall be given to the monster each tick.</p>
                       @endif
             </div>
         </div>

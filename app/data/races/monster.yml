@@ -25,7 +25,6 @@ perks:
   max_per_round: 1
   min_rounds_played: 20
   cannot_construct: 1
-  cannot_explore: 1
   cannot_improve: 1
   cannot_perform_sorcery: 1
   cannot_rezone: 1

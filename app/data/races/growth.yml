@@ -26,7 +26,6 @@ peasants_production:
 perks:
   population_growth: 200
   no_food_consumption: 1
-  cannot_explore: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1

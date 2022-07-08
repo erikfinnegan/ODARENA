@@ -11,7 +11,6 @@ perks:
   max_per_round: 1
   population_growth: 50
   wizards_training_time: 6
-  cannot_explore: 1
 
 units:
   - name: Thrall

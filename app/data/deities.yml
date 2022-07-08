@@ -36,7 +36,6 @@ bregon:
     offensive_power: 5
     mana_production_mod: -20
     gold_production_mod: -2.5
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 druva:
@@ -62,7 +61,6 @@ elskas:
     spy_strength: 10
     target_defensive_power_mod: -5
     casualties: 10
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 glimj:
@@ -75,7 +73,6 @@ glimj:
     defensive_power: 5
     food_production_mod: 10
     gold_production_mod: -2.5
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 ib_tham:
@@ -98,7 +95,6 @@ ix:
       xp_per_acre_gained: 50
       construction_cost: 5
       rezone_cost: 5
-      cannot_explore: 1
       cannot_send_expeditions: 1
 
 kinthys:
@@ -112,7 +108,6 @@ kinthys:
     wizard_cost: -10
     defensive_power: 2.5
     xp_generation_mod: -2.5
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 mirnon:
@@ -126,7 +121,6 @@ mirnon:
     gems_production_mod: 5
     ore_production_mod: 5
     food_production_mod: -20
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 sazal:
@@ -138,7 +132,6 @@ sazal:
     wizard_strength: 10
     unit_mana_costs: -2.5
     gems_production_mod: -5
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 tiranthael:
@@ -149,7 +142,6 @@ tiranthael:
   perks:
     offensive_power_on_retaliation: 10
     mana_production_mod: -25
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 urugdakh:
@@ -163,7 +155,6 @@ urugdakh:
     offensive_power_on_retaliation: 5
     casualties: 10
     construction_cost: 7.5
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 zidur:
@@ -175,7 +166,6 @@ zidur:
   perks:
     increases_enemy_casualties: 10
     population_growth: -10
-    cannot_explore: 1
     target_defensive_power_mod: -2.5
     cannot_send_expeditions: 1
 
@@ -189,7 +179,6 @@ voiddeity1:
     target_defensive_power_mod: -5
     rezone_cost: 20
     construction_cost: 20
-    cannot_explore: 1
     cannot_send_expeditions: 1
 
 voiddeity2:
@@ -201,5 +190,4 @@ voiddeity2:
     improvements_interest: 10
     rezone_cost: -20
     unit_mana_costs: 5
-    cannot_explore: 1
     cannot_send_expeditions: 1

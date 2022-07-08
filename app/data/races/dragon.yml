@@ -23,7 +23,6 @@ peasants_production:
 perks:
     max_population: -10
     population_growth: -10
-    cannot_explore: 1
 
 units:
   - name: Farmer
