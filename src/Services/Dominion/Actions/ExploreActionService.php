@@ -85,6 +85,10 @@ class ExploreActionService
     {
         $this->guardLockedDominion($dominion);
 
+
+        throw new GameException('Exploration has been permanently disabled.');
+
+
         if($dominion->getDeityPerkValue('cannot_explore'))
         {
             throw new GameException('Your deity prohibits exploring.');
