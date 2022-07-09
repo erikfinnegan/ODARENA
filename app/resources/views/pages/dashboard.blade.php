@@ -5,7 +5,16 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-9">
+
+        <div class="col-sm-12 col-md-12">
+            <div class="box">
+                <div class="box-body">
+                    <h4>Welcome {{ $dominions->isEmpty() ? '' : 'back' }} to ODARENA, <strong>{{ Auth::user()->display_name }}</strong></h4> 
+                    <p>You have been playing since {{ $user->created_at }} and have participated in {{ number_format($dominions->count()) }} of {{ number_format($rounds->where('end_date', '>=', $user->created_at)->count()) }} completed rounds since joining. <a href="{{ route('chronicles.ruler', $user->display_name) }}">View the Chronicles of {{ $user->display_name }}</a> for your full stats.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
             <div class="box box-primary table-responsive" id="dominion-search">
                 <table class="table table-striped table-hover" id="dominions-table">
                     <colgroup>
@@ -205,17 +214,6 @@
                         </tr>
                     @endforeach
                 </table>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <p>Welcome {{ $dominions->isEmpty() ? '' : 'back' }} to ODARENA, <strong>{{ Auth::user()->display_name }}</strong>!</p>
-                    <p>You have been playing since {{ $user->created_at }} and have participated in {{ number_format($dominions->count()) }} of {{ number_format($rounds->where('end_date', '>=', $user->created_at)->count()) }} finished rounds since joining.</p>
-                </div>
             </div>
         </div>
     </div>

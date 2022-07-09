@@ -98,7 +98,6 @@ class LandController extends AbstractDominionController
         # Rezone
         elseif($request->get('action') === 'rezone')
         {
-            dd($request);
             $rezoneActionService = app(RezoneActionService::class);
 
             try {

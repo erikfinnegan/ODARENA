@@ -55,7 +55,6 @@ class RezoneActionService
      */
     public function rezone(Dominion $dominion, array $remove, array $add): array
     {
-        dd($remove, $add);
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis

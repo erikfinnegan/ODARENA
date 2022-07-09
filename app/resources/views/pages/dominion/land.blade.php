@@ -176,36 +176,6 @@
 
                 <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                   and you can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
-
-
-                <h4>Explore</h4>
-                <p>You can explore land to grow your dominion. It takes <b>{{ $explorationCalculator->getExploreTime($selectedDominion) }}  ticks</b> to explore.</p>
-                <p>The cost for exploring one acre is {{ number_format($explorationCalculator->getGoldCost($selectedDominion)) }} gold and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
-
-                @if ($explorationCalculator->getGoldCostBonus($selectedDominion) !== 1 or $explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
-                  <p>Bonuses are
-
-                  @if (1-$explorationCalculator->getGoldCostBonus($selectedDominion) > 0)
-                    decreasing
-                  @else
-                    increasing
-                  @endif
-
-                   your exploring gold costs by <strong>{{ number_format((abs(1-$explorationCalculator->getGoldCostBonus($selectedDominion)))*100, 2) }}%</strong>
-
-                  and
-
-                  @if (1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) > 0)
-                    decreasing
-                  @else
-                    increasing
-                  @endif
-
-                   your draftee costs by <strong>{{ number_format(abs($explorationCalculator->getDrafteeCostModifier($selectedDominion))) }}</strong>.</p>
-
-                @endif
-
-                <p>You can afford to explore <b>{{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
             </div>
         </div>
     </div>
