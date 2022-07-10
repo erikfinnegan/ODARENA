@@ -166,7 +166,7 @@
                             <li>{{ $improvements }} <a href="{{ route('scribes.improvements') }}">improvements</a></li>
                             <li>{{ $resources }} resources</li>
                         </ul>
-                        <p>The strategies possibilities are almost infinite.</p>
+                        <p>The strategy possibilities are almost infinite.</p>
                         <hr>
                         @if ($discordInviteLink = config('app.discord_invite_link'))
                             <p>Please feel welcome to join us on our <i class="fab fa-discord"></i> <a href="{{ $discordInviteLink }}" target="_blank">Discord server</a>!  It's the main place for game announcements, game-related chat and development chat.</p>
