@@ -94,15 +94,15 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
             'vampiric_conversion' => 'Spreads vampirism.',
+            'psionic_conversion' => 'Psionically converts enemy units to %2$s.',
             
-
             'displaced_peasants_conversion' => 'Converts enemy displaced enemy peasants into %s.',
             'displaced_peasants_random_split_conversion' => 'Converts %1$s%% to %2$s%% of displaced enemy peasants into %3$s, the rest to %4$s.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s and stronger enemies into %3$s.',
             'value_conversion' => 'Fuses %1$sx of killed enemy raw OP or DP into %2$s.',
             'casualties_conversion' => 'Converts enemy casualties into %s.',
 
-            'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
+            'passive_conversion' => 'Converts %3$s %1$s into %2$s each tick.',
 
             'captures_displaced_peasants' => 'Captures enemy displaced enemy peasants.',
             'kills_displaced_peasants' => 'Kills own displaced peasants.',
@@ -200,6 +200,8 @@ class UnitHelper
             'offense_from_deity' => 'Offense increased by %2$s if devoted to %1$s.',
             'defense_from_deity' => 'Defense increased by %2$s if devoted to %1$s.',
 
+            'offense_vs_other_deity' => 'Offense increased by %1$s if target is devoted to no or another deity.',
+
             'offense_from_devotion' => 'Offense increased by %2$s for every tick devoted to %1$s (max +%3$s).',
             'defense_from_devotion' => 'Defense increased by %2$s for every tick devoted to %1$s (max +%3$s).',
 
@@ -267,6 +269,7 @@ class UnitHelper
             'reduces_spell_damage' => 'Reduces spell damage.',
 
             'reduces_casualties' => 'Reduces casualties.',
+            'reduces_enemy_casualties' => 'Reduces casualties.',
 
             'increases_enemy_casualties' => 'Increases enemy casualties.',
             'increases_enemy_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
@@ -601,6 +604,19 @@ class UnitHelper
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
+                // Special case for conversions
+                if ($perk->key === 'psionic_conversion')
+                {
+                    $strengthMultiplier = (float)$perkValue[0];
+                    $slotConvertedTo = (int)$perkValue[1];
+                    
+                    $unitToConvertTo = $race->units->filter(static function ($unit) use ($slotConvertedTo) {
+                        return ($unit->slot === $slotConvertedTo);
+                    })->first();
+
+                    $perkValue = [$strengthMultiplier, $unitToConvertTo->name];
+                }
+
                 // Special case for displaced_peasants_random_split_conversion
                 if ($perk->key === 'displaced_peasants_random_split_conversion')
                 {
@@ -642,7 +658,6 @@ class UnitHelper
                     $slotFrom = (int)$perkValue[0];
                     $slotTo = (int)$perkValue[1];
                     $rate = (float)$perkValue[2];
-                    $building = (string)$perkValue[3];
 
                     $unitFrom = $race->units->filter(static function ($unit) use ($slotFrom)
                         {
@@ -654,7 +669,7 @@ class UnitHelper
                             return ($unit->slot === $slotTo);
                         })->first();
 
-                    $perkValue = [$unitFrom->name, $unitTo->name, $rate, $building];
+                    $perkValue = [str_plural($unitFrom->name), str_plural($unitTo->name), $rate];
                 }
                 if($perk->key === 'value_conversion')
                 {

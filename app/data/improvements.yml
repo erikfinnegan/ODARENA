@@ -189,7 +189,7 @@ logging:
     lumber_production_mod: 25,4000
 
 medicine:
-  name: Medicine
+  name: Combat
   excluded_races:
     - Barbarian
     - Beastfolk
@@ -203,8 +203,8 @@ medicine:
     - Void
     - Wood Elf
   perks:
-    casualties_on_defense: -20,4000
-    casualties_on_offense: -20,4000
+    casualties_on_defense: -20,5000
+    casualties_on_offense: -20,6000
 
 mobilisation:
   name: Mobilisation
@@ -699,7 +699,7 @@ logging_kerranad:
     lumber_production_mod: 35,5500
 
 medicine_kerranad:
-  name: Medicine
+  name: Combat
   exclusive_races:
     - Kerranad
   perks:
@@ -794,7 +794,7 @@ camouflage:
     - Wood Elf
   perks:
     defensive_power: 40,9000
-    casualties_on_defense: -40,8000
+    casualties_on_defense: -30,8000
 
 cartography_wood_elf:
   name: Cartography

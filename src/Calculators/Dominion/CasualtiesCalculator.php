@@ -8,6 +8,7 @@ use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class CasualtiesCalculator
 {
@@ -19,6 +20,7 @@ class CasualtiesCalculator
     {
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
@@ -433,8 +435,7 @@ class CasualtiesCalculator
             }
         }
 
-
-        return min(2, (max(0.10, $multiplier)));
+        return min(2, (max(0.20, $multiplier)));
     }
 
     private function getCasualtiesPerkMultipliersFromLand(Dominion $dominion, Dominion $enemy = null, Unit $unit, array $invasionData = [], string $mode = 'offense')
@@ -512,6 +513,27 @@ class CasualtiesCalculator
                 {
                     $multiplier += ($amount / array_sum($units)) / 2;
                 }
+            }
+        }
+
+        # Look for reduces enemy casualties
+        # On offense, look for perk among defending units
+        # On defense, look for perk aming invading units
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($mode == 'offense')
+            {
+                if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
+                {
+                    $multiplier -= ($enemy->{'military_unit' . $slot} / $this->populationCalculator->getPopulationMilitary($dominion)) / 2;
+                }    
+            }
+            if($mode == 'defense')
+            {
+                if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
+                {
+                    $multiplier -= ($unitsSent[$slot] / array_sum($unitsSent)) / 2;
+                }    
             }
         }
 

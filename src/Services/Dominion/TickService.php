@@ -645,7 +645,6 @@ class TickService
 
     public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false): void
     {
-
         /** @var Tick $tick */
         $tick = Tick::firstOrCreate(['dominion_id' => $dominion->id]);
 
@@ -856,7 +855,7 @@ class TickService
         $attritionMultiplier = 0;
         if($dominion->race->name == 'Cult')
         {
-            $attritionMultiplier -= $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
+            $attritionMultiplier -= ($dominion->military_unit3 + $dominion->military_unit4) / max($this->populationCalculator->getPopulationMilitary($dominion),1);
             $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition');
         }
 
@@ -1037,6 +1036,24 @@ class TickService
             $unitsToSummon = intval(max($unitsToSummon, 0));
 
             $tick->{'generated_unit'.$slot} += $unitsToSummon;
+        }
+
+        # Passive conversions
+        $passiveConversions = $this->conversionCalculator->getPassiveConversions($dominion);
+        if((array_sum($passiveConversions['units_converted']) + array_sum($passiveConversions['units_removed'])) > 0)
+        {
+            $unitsConverted = $passiveConversions['units_converted'];
+            $unitsRemoved = $passiveConversions['units_removed'];
+    
+            $generatedUnit1 += $unitsConverted[1];
+            $generatedUnit2 += $unitsConverted[2];
+            $generatedUnit3 += $unitsConverted[3];
+            $generatedUnit4 += $unitsConverted[4];
+    
+            $tick->attrition_unit1 += $unitsRemoved[1];
+            $tick->attrition_unit2 += $unitsRemoved[2];
+            $tick->attrition_unit3 += $unitsRemoved[3];
+            $tick->attrition_unit4 += $unitsRemoved[4];
         }
 
         # Use decimals as probability to round up

@@ -20,6 +20,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\DominionCalculator;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
@@ -85,6 +86,7 @@ class InvadeActionService
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->conversionCalculator = app(ConversionCalculator::class);
+        $this->dominionCalculator = app(DominionCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landCalculator = app(LandCalculator::class);
@@ -385,6 +387,16 @@ class InvadeActionService
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);
             $defensiveConversions = array_fill(1, 4, 0);
+            if($dominion->race->name == 'Cult')
+            {
+                $psionicConversions = $this->conversionCalculator->getPsionicConversions($dominion, $target, $this->invasionResult, 'offense');
+            }
+            elseif($target->race->name == 'Cult')
+            {
+                $psionicConversions = $this->conversionCalculator->getPsionicConversions($target, $dominion, $this->invasionResult, 'offense');
+                
+            }
+
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
 
             if(array_sum($conversions['attacker']) > 0)
@@ -398,6 +410,13 @@ class InvadeActionService
                 $defensiveConversions = $conversions['defender'];
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
                 $this->statsService->updateStat($target, 'units_converted', array_sum($conversions['defender']));
+            }
+
+            if(isset($psionicConversions))
+            {
+                $this->invasionResult['attacker']['psionic_conversions'] = $psionicConversions;
+                $this->statsService->updateStat($dominion, 'units_converted_psionically', array_sum($psionicConversions));
+                $this->statsService->updateStat($target, 'units_lost_psionically', array_sum($psionicConversions));
             }
 
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
@@ -2755,6 +2774,9 @@ class InvadeActionService
         
         $attackingForceRawOP = $this->militaryCalculator->getOffensivePowerRaw($dominion, $target, $landRatio, $units, [], true);
         $targetRawDP = $this->militaryCalculator->getDefensivePowerRaw($target, $dominion, $landRatio, null, 0, false, $this->isAmbush, true, $this->invasionResult['attacker']['unitsSent'], false, false);
+
+        $this->invasionResult['attacker']['psionic_strength'] = $this->dominionCalculator->getPsionicStrength($dominion);
+        $this->invasionResult['defender']['psionic_strength'] = $this->dominionCalculator->getPsionicStrength($target);
 
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;

@@ -228,7 +228,11 @@ class ConstructionCalculator
         $ticks -= $dominion->race->getPerkValue('increased_construction_speed');
         $ticks -= $dominion->title->getPerkValue('increased_construction_speed') * $dominion->getTitlePerkMultiplier();;
 
-        $ticks *= (1 + $dominion->getImprovementPerkMultiplier('construction_time'));
+        $multiplier = 1;
+        $multiplier -= $dominion->getImprovementPerkMultiplier('construction_time');
+        $multiplier -= $dominion->getBuildingPerkMultiplier('construction_time');
+
+        $ticks *= $multiplier;
 
         return max(1, ceil($ticks));
 

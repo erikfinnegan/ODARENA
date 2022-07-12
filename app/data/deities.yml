@@ -84,7 +84,7 @@ ib_tham:
   perks:
     amount_stolen: 20
     offensive_power_on_retaliation: 10
-    xp_generation_mod: -2.5
+    xp_generation_mod: -5
 
 ix:
     name: Ix

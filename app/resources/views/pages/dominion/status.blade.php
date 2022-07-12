@@ -105,16 +105,6 @@
                                         </td>
                                         <td>{{ number_format($selectedDominion->xp) }}</td>
                                     </tr>
-                                    @if($selectedDominion->race->name == 'Cult')
-                                        <tr>
-                                            <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="<p>A measurement of the mental fortitude of your dominion.</p>">
-                                                Psionic Strength:
-                                                </span>
-                                            </td>
-                                            <td>{{ number_format($dominionCalculator->getPsionicStrength($selectedDominion),6) }}</td>
-                                        </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -313,6 +303,13 @@
                                     {{ number_string((($populationCalculator->getMaxPopulationMultiplier($selectedDominion) - 1) * 100), 3, true) }}%
                                 </td>
                             </tr>
+
+                            @if($selectedDominion->race->name == 'Cult')
+                            <tr>
+                                <td><i class="ra ra-brain-freeze ra-fw"></i><span data-toggle="tooltip" data-placement="top" title="A measurement of the mental fortitude of your dominion"> Psionic Strength:</td>
+                                <td>{{ number_format($dominionCalculator->getPsionicStrength($selectedDominion),6) }}</td>
+                            </tr>
+                            @endif
 
 
 

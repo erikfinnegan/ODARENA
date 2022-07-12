@@ -5,14 +5,14 @@ tactics_level1:
   level: 1
   perks:
     casualties_on_offense: -3.750
-    casualties_on_defense: -3.750
+    casualties_on_defense: -2.50
 
 tactics_level2:
   name: Tactics
   level: 2
   perks:
     casualties_on_offense: -7.500
-    casualties_on_defense: -7.500
+    casualties_on_defense: -5.00
   requires:
     - tactics_level1
 
@@ -21,7 +21,7 @@ tactics_level3:
   level: 3
   perks:
     casualties_on_offense: -11.250
-    casualties_on_defense: -11.250
+    casualties_on_defense: -7.50
   requires:
     - tactics_level2
 
@@ -30,7 +30,7 @@ tactics_level4:
   level: 4
   perks:
     casualties_on_offense: -15.000
-    casualties_on_defense: -15.000
+    casualties_on_defense: -10.00
   requires:
     - tactics_level3
 
@@ -39,7 +39,7 @@ tactics_level5:
   level: 5
   perks:
     casualties_on_offense: -18.750
-    casualties_on_defense: -18.750
+    casualties_on_defense: -12.50
   requires:
     - tactics_level4
 
@@ -48,7 +48,7 @@ tactics_level6:
   level: 6
   perks:
     casualties_on_offense: -22.500
-    casualties_on_defense: -22.500
+    casualties_on_defense: -15
   requires:
     - tactics_level5
 
@@ -57,7 +57,7 @@ tactics_level7:
   level: 7
   perks:
     casualties_on_offense: -24.375
-    casualties_on_defense: -24.375
+    casualties_on_defense: -16.25
   requires:
     - tactics_level6
 
@@ -66,7 +66,7 @@ tactics_level8:
   level: 8
   perks:
     casualties_on_offense: -26.250
-    casualties_on_defense: -26.250
+    casualties_on_defense: -17.50
   requires:
     - tactics_level7
 
@@ -75,7 +75,7 @@ tactics_level9:
   level: 9
   perks:
     casualties_on_offense: -28.125
-    casualties_on_defense: -28.125
+    casualties_on_defense: -18.75
   requires:
     - tactics_level8
 
@@ -84,7 +84,7 @@ tactics_level10:
   level: 10
   perks:
     casualties_on_offense: -30.000
-    casualties_on_defense: -30.000
+    casualties_on_defense: -20.000
   requires:
     - tactics_level9
 

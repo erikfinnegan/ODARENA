@@ -20,11 +20,10 @@ units:
       - living
       - mindless
     power:
-      offense: 2
-      defense: 2
+      offense: 3
+      defense: 1
     perks:
       cannot_be_trained: 1
-      attrition: 0.5
       does_not_count_as_population: 1
 
   - name: Initiate
@@ -36,11 +35,14 @@ units:
       unit1: 1
       ore: 25
     power:
-      offense: 4
-      defense: 3
+      offense: 5
+      defense: 4
     perks:
-      displaced_peasants_conversion: 1 # Slot
+      psionic_conversion: 1,1 # Strength multiplier, Slot
       cannot_be_trained: 1
+      passive_conversion: 1,2,0.01 # From slot, To slot, Amount
+      offense_vs_other_deity: 0.5
+      reduces_enemy_casualties: 1
 
   - name: Disciple
     training_time: 6
@@ -49,16 +51,17 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 650
+      gold: 900
       ore: 50
     power:
       offense: 0
-      defense: 6
+      defense: 8
     perks:
       food_production_raw: 1
       gold_production_raw: 2.7
-      reduces_casualties: 1
-      unit_production: 2,0.0035 # Every 125 Disciples produce 1 Initiate
+      unit_production: 2,0.0020 # Every 125 Disciples produce 1 Initiate
+      passive_conversion: 1,2,0.02 # From slot, To slot, Amount
+      reduces_enemy_casualties: 1
 
   - name: Mystic
     training_time: 6
@@ -69,17 +72,17 @@ units:
       - wise
       - psychic
     cost:
-      gold: 500
+      gold: 625
       ore: 50
       wizard: 1
     power:
-      offense: 6
-      defense: 4
+      offense: 7
+      defense: 5
     perks:
       no_draftee: 1
       counts_as_wizard_offense: 0.5
       counts_as_wizard_defense: 0.2
       immortal_wizard: 1
-      reduces_attrition: 1
-      displaced_peasants_conversion: 1 # slot
-      casualties_conversion: 1
+      psionic_conversion: 2,1 # Strength multiplier, Slot
+      passive_conversion: 1,2,0.04 # From slot, To slot, Amount
+      reduces_enemy_casualties: 1

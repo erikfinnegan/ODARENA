@@ -4,20 +4,17 @@
 
 alchemy:
   name: Alchemy
-  enabled: 0
-  excluded_races:
-    - Growth
-    - Monster
-    - Myconid
-    - Void
-    - Swarm
+  exclusive_races:
+    - Aurei
+    - Cult
+    - Dark Elf
+    - Human
   land_type: plain
   perks:
-    gold_production_raw: 45
+    gold_production_mod: 1,4,20 # Every 1% gives +4% gem production, max +20%
 
 gold_mine:
   name: Gold Mine
-  enabled: 1
   excluded_races:
     - Aurei
     - Dragon
@@ -666,7 +663,6 @@ ore_mill:
 
 factory:
   name: Factory
-  enabled: 0
   excluded_races:
     - Dragon
     - Growth
@@ -680,8 +676,9 @@ factory:
     - Wood Elf
   land_type: hill
   perks:
-    construction_cost: 1,4,80 # 1% gives -4% construction cost, max -80%
-    rezone_cost: 1,2,40 # 1% gives -2% construction cost, max -40%
+    construction_cost: 1,5,50 # 1% gives -5% construction cost, max -50%
+    rezone_cost: 1,5,50 # 1% gives -5% rezone cost, max -50%
+    construction_time: 1,2.5,25
 
 refiner:
   name: Refinery
@@ -1064,7 +1061,6 @@ spring:
 
 thicket:
   name: Thicket
-  enabled: 1
   exclusive_races:
     - Sylvan
   land_type: forest
@@ -1326,7 +1322,6 @@ dungeon:
 
 gold_quarry:
   name: Gold Quarry
-  enabled: 1
   exclusive_races:
     - Aurei
   land_type: mountain
@@ -1345,6 +1340,7 @@ barracks:
     - Ants
     - Armada
     - Black Orc
+    - Cult
     - Dragon
     - Growth
     - Icekin
@@ -1598,6 +1594,7 @@ ringfort:
 # END NORSE
 
 # BEGIN SACRED ORDER
+
 monastery:
   name: Monastery
   exclusive_races:
@@ -1649,8 +1646,6 @@ mire:
   perks:
     housing: 30
     jobs: 0
-
-
 
 residence:
   name: Residence

@@ -5,10 +5,11 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class ConversionCalculator
 {
@@ -24,10 +25,11 @@ class ConversionCalculator
 
     public function __construct()
     {
+        $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
-        $this->landCalculator = app(LandCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
     }
 
@@ -1009,12 +1011,117 @@ class ConversionCalculator
 
         }
 
-
         return $convertedUnits;
 
     }
 
-    public function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = [], array $unconvertiblePerks = []): bool
+    public function getPsionicConversions(Dominion $cult, Dominion $enemy, array $invasion, string $mode): array
+    {
+        $conversions['psionic_conversions'] = array_fill(1, 4, 0);
+        $conversions['psionic_losses'] = array_fill(1, 4, 0);
+
+        if($cult->race->name !== 'Cult')
+        {
+            return $conversions;
+        }
+
+        if($mode == 'offense')
+        {
+            if(!$invasion['result']['success'])
+            {
+                return $conversions;
+            }
+
+            try
+            {
+                $psionicStrengthRatio = $invasion['attacker']['psionic_strength'] / $invasion['defender']['psionic_strength'];
+            }
+            catch(DivisionByZeroError $e)
+            {
+                $psionicStrengthRatio = $invasion['attacker']['psionic_strength'];
+            }
+
+            $psionicStrengthRatio = $psionicStrengthRatio > 1 ? 1 : $psionicStrengthRatio;
+
+            # Look for reduces enemy casualties
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if($cult->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
+                {
+                    $casualtyReductionPerk = ($invasion['attacker']['units_sent'][$slot] / array_sum($invasion['attacker']['units_sent'])) / 2;
+                }
+            }
+
+
+
+        }
+        if($mode == 'defense')
+        {
+            if($invasion['result']['success'])
+            {
+                return $conversions;
+            }
+
+            try
+            {
+                $psionicStrengthRatio = $invasion['defender']['psionic_strength'] / $invasion['attacker']['psionic_strength'];
+            }
+            catch(DivisionByZeroError $e)
+            {
+                $psionicStrengthRatio = $invasion['defender']['psionic_strength'];
+            }
+            
+
+            # Look for reduces enemy casualties
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if($cult->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
+                {
+                    $casualtyReductionPerk = ($invasion['defender']['units_defending'][$slot] / $this->populationCalculator->getPopulationMilitary($cult)) / 2;
+                }
+            }
+        }
+
+        return $conversions;
+    }
+
+    public function getPassiveConversions(Dominion $dominion): array
+    {
+        $convertedUnits =
+            [
+                '1' => 0,
+                '2' => 0,
+                '3' => 0,
+                '4' => 0,
+            ];
+
+        $removedUnits = $convertedUnits;
+
+        #$availablePopulation = $this->populationCalculator->getMaxPopulation($dominion) - $this->populationCalculator->getPopulationMilitary($dominion);
+
+        # Check each unit slot for passive conversion
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($passiveConversion = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'passive_conversion'))
+            {
+                $fromSlot = (int)$passiveConversion[0];
+                $toSlot = (int)$passiveConversion[1];
+                $perConverter = (float)$passiveConversion[2];
+
+                $convertingUnits = $dominion->{'military_unit' . $slot};
+
+                $amountConverted = (int)floor(min($convertingUnits * $perConverter, $dominion->{'military_unit' . $fromSlot}));
+
+                $convertedUnits[$toSlot] += $amountConverted;
+                $removedUnits[$fromSlot] += $amountConverted;
+            }
+        }
+
+        return ['units_converted' => $convertedUnits, 'units_removed' => $removedUnits];
+
+    }
+
+    public function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = [], array $unconvertiblePerks = [], bool $isPsionic = false, Dominion $enemy = null, array $invasion = [], $mode = 'offense'): bool
     {
         if(empty($unconvertibleAttributes))
         {
@@ -1046,6 +1153,21 @@ class ConversionCalculator
                 'dies_into_on_offense',
                 'dies_into_multiple_on_victory'
               ];
+        }
+
+        if($isPsionic)
+        {
+            unset($unconvertibleAttributes['aspects']);
+            unset($unconvertibleAttributes['fused']);
+            $unconvertibleAttributes[] = 'mindless';
+            $unconvertibleAttributes[] = 'wise';
+            
+            $unit = 
+
+            if($this->casualtiesCalculator->isUnitImmortal($dominion, $enemy, $unit, $invasion, $mode))
+            {
+                return false;
+            }
         }
 
         $isConvertible = false;

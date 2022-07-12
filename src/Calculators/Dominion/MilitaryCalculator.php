@@ -515,9 +515,10 @@ class MilitaryCalculator
 
         if ($target !== null || !empty($calc))
         {
-            $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusOtherDeityPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
@@ -899,6 +900,29 @@ class MilitaryCalculator
         else
         {
             $powerFromPerk = min($powerFromLand, $max);
+        }
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromVersusOtherDeityPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
+    {
+        if ($target === null && empty($calc))
+        {
+            return 0;
+        }
+
+        $otherDeityPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_other_deity", null);
+        $powerFromPerk = 0;
+
+        if (!$otherDeityPerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+        {
+            return 0;
+        }
+
+        if(!$target->hasDeity() or ($dominion->deity->id !== $target->deity->id))
+        {
+            $powerFromPerk += $otherDeityPerkData;
         }
 
         return $powerFromPerk;

@@ -646,6 +646,10 @@ units_killed:
   name: Total units killed
 units_converted:
   name: Total units converted
+units_converted_psionically:
+  name: Total units psionically converted
+units_lost_psionically:
+  name: Total units psionically lost
 
 unit1_trained:
   name: Total unit1 trained

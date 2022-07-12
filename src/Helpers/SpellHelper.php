@@ -350,7 +350,6 @@ class SpellHelper
                 $slotFrom = (int)$perkValue[0];
                 $slotTo = (int)$perkValue[1];
                 $rate = (float)$perkValue[2];
-                $building = (string)$perkValue[3];
 
                 $unitFrom = $race->units->filter(static function ($unit) use ($slotFrom)
                     {

@@ -773,6 +773,7 @@ class Dominion extends AbstractModel
                         or $perkKey == 'construction_cost'
                         or $perkKey == 'rezone_cost'
                         or $perkKey == 'land_discovered'
+                        or $perkKey == 'construction_time'
 
                         # Espionage
                         or $perkKey == 'gold_theft_reduction'
