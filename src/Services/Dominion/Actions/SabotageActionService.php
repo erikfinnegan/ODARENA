@@ -519,16 +519,16 @@ class SabotageActionService
             $this->sabotage['spy_units_sent_ratio'] = $spyStrengthCost;
 
             # Casualties
-            $survivingUnits = $units;
+            $surviving_units = $units;
             $killedUnits = $this->sabotageCalculator->getUnitsKilled($saboteur, $target, $units);
 
             foreach($killedUnits as $slot => $amountKilled)
             {
-                $survivingUnits[$slot] -= $amountKilled;
+                $surviving_units[$slot] -= $amountKilled;
             }
 
             $this->sabotage['killed_units'] = $killedUnits;
-            $this->sabotage['returning_units'] = $survivingUnits;
+            $this->sabotage['returning_units'] = $surviving_units;
 
             # Remove units
             foreach($units as $slot => $amount)
@@ -546,7 +546,7 @@ class SabotageActionService
             # Queue returning units
             $ticks = 12;
 
-            foreach($survivingUnits as $slot => $amount)
+            foreach($surviving_units as $slot => $amount)
             {
                 if($slot == 'spies')
                 {

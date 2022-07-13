@@ -629,7 +629,7 @@ class WorldNewsHelper
             return 'ambushed and conquered';
         }
 
-        if($invasion['data']['result']['opDpRatio'] >= (1/0.85))
+        if($invasion['data']['result']['op_dp_ratio'] >= (1/0.85))
         {
             return 'easily conquered';
         }

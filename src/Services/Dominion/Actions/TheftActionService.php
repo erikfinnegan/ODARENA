@@ -218,20 +218,20 @@ class TheftActionService
             $this->theft['resource']['name'] = $resource->name;
 
             # Casualties
-            $survivingUnits = $units;
+            $surviving_units = $units;
             $killedUnits = $this->theftCalculator->getUnitsKilled($thief, $target, $units);
 
             foreach($killedUnits as $slot => $amountKilled)
             {
-                $survivingUnits[$slot] -= $amountKilled;
+                $surviving_units[$slot] -= $amountKilled;
             }
 
             $this->theft['killed_units'] = $killedUnits;
-            $this->theft['returning_units'] = $survivingUnits;
+            $this->theft['returning_units'] = $surviving_units;
 
             # Determine how much was stolen
             $this->theft['amount_owned'] = $this->resourceCalculator->getAmount($target, $resource->key);
-            $amountStolen = $this->theftCalculator->getTheftAmount($thief, $target, $resource, $survivingUnits);
+            $amountStolen = $this->theftCalculator->getTheftAmount($thief, $target, $resource, $surviving_units);
             $this->theft['amount_stolen'] = $amountStolen;
 
             # Remove from target
@@ -265,7 +265,7 @@ class TheftActionService
             # Queue returning units
             $ticks = 6;
 
-            foreach($survivingUnits as $slot => $amount)
+            foreach($surviving_units as $slot => $amount)
             {
                 if($slot == 'spies')
                 {

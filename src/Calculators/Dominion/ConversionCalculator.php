@@ -5,6 +5,7 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
@@ -25,6 +26,7 @@ class ConversionCalculator
 
     public function __construct()
     {
+        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->populationCalculator = app(PopulationCalculator::class);
@@ -52,7 +54,7 @@ class ConversionCalculator
 
         # Attacker's raw OP
         $rawOp = 1; # In case someone sends with just a zero-OP unit (Snow Elf Hailstorm Cannon)
-        foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+        foreach($invasion['attacker']['units_sent'] as $slot => $amount)
         {
             $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
                 return ($unit->slot === $slot);
@@ -63,7 +65,7 @@ class ConversionCalculator
 
         # Attacker's raw OP lost, from convertible units
         $rawOpLost = 0;
-        foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
+        foreach($invasion['attacker']['units_lost'] as $slot => $amount)
         {
             $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
                 return ($unit->slot === $slot);
@@ -77,7 +79,7 @@ class ConversionCalculator
 
         # Defender's raw DP
         $rawDp = 0;
-        foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
+        foreach($invasion['defender']['units_defending'] as $slot => $amount)
         {
             if($slot === 'draftees')
             {
@@ -101,7 +103,7 @@ class ConversionCalculator
 
         # Defender's raw DP lost
         $rawDpLost = 0;
-        foreach($invasion['defender']['unitsLost'] as $slot => $amount)
+        foreach($invasion['defender']['units_lost'] as $slot => $amount)
         {
             if($slot === 'draftees')
             {
@@ -191,7 +193,7 @@ class ConversionCalculator
         $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
 
         # Check that unitsSent contains displaced_peasants_conversion perk
-        foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+        foreach($invasion['attacker']['units_sent'] as $slot => $amount)
         {
             if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_conversion'))
             {
@@ -243,7 +245,7 @@ class ConversionCalculator
         $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
 
         # Check that unitsSent contains displaced_peasants_random_split_conversion perk
-        foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+        foreach($invasion['attacker']['units_sent'] as $slot => $amount)
         {
             if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'displaced_peasants_random_split_conversion'))
             {
@@ -294,7 +296,7 @@ class ConversionCalculator
         if($mode === 'offense')
         {
             # Check that unitsSent contains displaced_peasants_conversion perk
-            foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+            foreach($invasion['attacker']['units_sent'] as $slot => $amount)
             {
                 if($valueConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'value_conversion'))
                 {
@@ -342,8 +344,8 @@ class ConversionCalculator
 
         elseif($mode === 'defense')
         {
-            # Check that unitsDefending contains displaced_peasants_conversion perk
-            foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
+            # Check that units_defending contains displaced_peasants_conversion perk
+            foreach($invasion['defender']['units_defending'] as $slot => $amount)
             {
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
@@ -353,9 +355,9 @@ class ConversionCalculator
 
                         # Deduct lost units.
                         /*
-                        if(isset($invasion['defender']['unitsLost'][$slot]))
+                        if(isset($invasion['defender']['units_lost'][$slot]))
                         {
-                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['units_lost'][$slot];
                         }
                         */
                     }
@@ -412,7 +414,7 @@ class ConversionCalculator
         if($mode === 'offense')
         {
             $defensiveCasualties = 0;
-            foreach($invasion['defender']['unitsLost'] as $slot => $amount)
+            foreach($invasion['defender']['units_lost'] as $slot => $amount)
             {
                 if($this->isSlotConvertible($slot, $defender))
                 {
@@ -427,7 +429,7 @@ class ConversionCalculator
             }
 
             # Check that unitsSent contains displaced_peasants_conversion perk
-            foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+            foreach($invasion['attacker']['units_sent'] as $slot => $amount)
             {
                 if($valueConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_conversion'))
                 {
@@ -435,9 +437,9 @@ class ConversionCalculator
 
                     # Deduct lost units.
                     /*
-                    if(isset($invasion['attacker']['unitsLost'][$slot]))
+                    if(isset($invasion['attacker']['units_lost'][$slot]))
                     {
-                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['units_lost'][$slot];
                     }
                     */
                 }
@@ -451,7 +453,7 @@ class ConversionCalculator
                     return ($unit->slot === $slot);
                 })->first();
 
-                $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense', null, $invasion['attacker']['unitsSent'], null);
+                $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense', null, $invasion['attacker']['units_sent'], null);
 
                 $convertingUnitsOpRatio[$slot] = ($unitRawOp * $amount) / $rawOp;
              }
@@ -478,7 +480,7 @@ class ConversionCalculator
         if($mode === 'defense')
         {
             $offensiveCasualties = 0;
-            foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
+            foreach($invasion['attacker']['units_lost'] as $slot => $amount)
             {
                 if($this->isSlotConvertible($slot, $attacker))
                 {
@@ -493,8 +495,8 @@ class ConversionCalculator
                 $offensiveCasualties /= static::DEFENSIVE_CONVERSIONS_FAILED_FRACTION;
             }
 
-            # Check that unitsDefending contains casualties_conversion perk
-            foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
+            # Check that units_defending contains casualties_conversion perk
+            foreach($invasion['defender']['units_defending'] as $slot => $amount)
             {
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
@@ -504,9 +506,9 @@ class ConversionCalculator
 
                         # Deduct lost units.
                         /*
-                        if(isset($invasion['defender']['unitsLost'][$slot]))
+                        if(isset($invasion['defender']['units_lost'][$slot]))
                         {
-                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['units_lost'][$slot];
                         }
                         */
                     }
@@ -567,7 +569,7 @@ class ConversionCalculator
                 ];
 
             # Check that unitsSent contains strength_conversion perk
-            foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+            foreach($invasion['attacker']['units_sent'] as $slot => $amount)
             {
                 if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
                 {
@@ -588,7 +590,7 @@ class ConversionCalculator
                 $convertingUnitsOpRatio[$slot] = ($unitRawOp * $amount) / $rawOp;
              }
 
-            foreach($invasion['defender']['unitsLost'] as $slot => $amount)
+            foreach($invasion['defender']['units_lost'] as $slot => $amount)
             {
                 # Apply reduced conversions
                 $amount *= $this->getConversionReductionMultiplier($defender);
@@ -674,8 +676,8 @@ class ConversionCalculator
                            '4' => ['amount' => 0, 'op' => 0],
                 ];
 
-            # Check that unitsDefending contains strength_conversion perk
-            foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
+            # Check that units_defending contains strength_conversion perk
+            foreach($invasion['defender']['units_defending'] as $slot => $amount)
             {
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
@@ -685,9 +687,9 @@ class ConversionCalculator
 
                         # Deduct lost units.
                         /*
-                        if(isset($invasion['defender']['unitsLost'][$slot]))
+                        if(isset($invasion['defender']['units_lost'][$slot]))
                         {
-                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['units_lost'][$slot];
                         }
                         */
                     }
@@ -707,7 +709,7 @@ class ConversionCalculator
                 $convertingUnitsDpRatio[$slot] = ($unitRawDp * $amount) / $rawDp;
              }
 
-            foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
+            foreach($invasion['attacker']['units_lost'] as $slot => $amount)
             {
                 # Apply reduced conversions
                 $amount *= $this->getConversionReductionMultiplier($attacker);
@@ -793,7 +795,7 @@ class ConversionCalculator
                 ];
 
             # Check that unitsSent contains strength_conversion perk
-            foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
+            foreach($invasion['attacker']['units_sent'] as $slot => $amount)
             {
                 if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'vampiric_conversion'))
                 {
@@ -801,9 +803,9 @@ class ConversionCalculator
 
                     # Deduct lost units.
                     /*
-                    if(isset($invasion['attacker']['unitsLost'][$slot]))
+                    if(isset($invasion['attacker']['units_lost'][$slot]))
                     {
-                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['units_lost'][$slot];
                     }
                     */
                 }
@@ -822,7 +824,7 @@ class ConversionCalculator
                 $convertingUnitsOpRatio[$slot] = ($unitRawOp * $amount) / $rawOp;
              }
 
-             foreach($invasion['defender']['unitsLost'] as $slot => $amount)
+             foreach($invasion['defender']['units_lost'] as $slot => $amount)
              {
                  # Apply reduced conversions
                  $amount *= $this->getConversionReductionMultiplier($defender);
@@ -906,8 +908,8 @@ class ConversionCalculator
                            '4' => ['amount' => 0, 'op' => 0],
                 ];
 
-            # Check that unitsDefending contains vampiric_conversion perk
-            foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
+            # Check that units_defending contains vampiric_conversion perk
+            foreach($invasion['defender']['units_defending'] as $slot => $amount)
             {
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
@@ -917,9 +919,9 @@ class ConversionCalculator
 
                         # Deduct lost units.
                         /*
-                        if(isset($invasion['defender']['unitsLost'][$slot]))
+                        if(isset($invasion['defender']['units_lost'][$slot]))
                         {
-                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['units_lost'][$slot];
                         }
                         */
                     }
@@ -942,7 +944,7 @@ class ConversionCalculator
                 $convertingUnitsDpRatio[$slot] = ($unitRawDp * $amount) / $rawDp;
              }
 
-            foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
+            foreach($invasion['attacker']['units_lost'] as $slot => $amount)
             {
                 # Apply reduced conversions
                 $amount *= $this->getConversionReductionMultiplier($attacker);
@@ -1017,8 +1019,16 @@ class ConversionCalculator
 
     public function getPsionicConversions(Dominion $cult, Dominion $enemy, array $invasion, string $mode): array
     {
-        $conversions['psionic_conversions'] = array_fill(1, 4, 0);
-        $conversions['psionic_losses'] = array_fill(1, 4, 0);
+        $conversions['psionic_conversions'] = [1 => 0];
+
+        $conversions['psionic_losses'] = [
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            'draftees' => 0,
+            'peasants' => 0,
+        ];
 
         if($cult->race->name !== 'Cult')
         {
@@ -1041,17 +1051,43 @@ class ConversionCalculator
                 $psionicStrengthRatio = $invasion['attacker']['psionic_strength'];
             }
 
-            $psionicStrengthRatio = $psionicStrengthRatio > 1 ? 1 : $psionicStrengthRatio;
+            $psionicStrengthRatio = $psionicStrengthRatio > 2 ? 2 : $psionicStrengthRatio;
 
             # Look for reduces enemy casualties
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if($cult->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
                 {
-                    $casualtyReductionPerk = ($invasion['attacker']['units_sent'][$slot] / array_sum($invasion['attacker']['units_sent'])) / 2;
+                    if(isset($invasion['attacker']['units_sent'][$slot]))
+                    {
+                        $casualtyReductionPerk = ($invasion['attacker']['units_sent'][$slot] / array_sum($invasion['attacker']['units_sent'])) / 2;
+                    }
                 }
             }
 
+            $baseRatio = 0.02;
+            $baseRatio *= min($invasion['result']['op_dp_ratio']-1, 1.25);
+            $ratioMultiplier = 0;
+            $ratioMultiplier += $psionicStrengthRatio;
+            $ratioMultiplier += $casualtyReductionPerk;
+
+            $ratio = $baseRatio * $ratioMultiplier;
+
+            foreach($invasion['defender']['surviving_units'] as $slot => $amount)
+            {
+                if($this->isSlotConvertible($slot, $enemy, [], [], true, $cult, $invasion, $mode))
+                {
+                    # Lazy because they all become Unit1/Thrall for now.
+                    $amountConverted = intval(min($amount, $amount * $ratio));
+                    $conversions['psionic_conversions'][1] += $amountConverted;
+                    $conversions['psionic_losses'][$slot] += $amountConverted;
+                }
+            }
+
+            # Peasants
+            $amountConverted = intval(min($enemy->peasants * $ratio, ($enemy->peasants-1000)));
+            $conversions['psionic_conversions'][1] += $amountConverted;
+            $conversions['psionic_losses']['peasants'] += $amountConverted;
 
 
         }
@@ -1070,8 +1106,9 @@ class ConversionCalculator
             {
                 $psionicStrengthRatio = $invasion['defender']['psionic_strength'];
             }
-            
 
+            $psionicStrengthRatio = $psionicStrengthRatio > 2 ? 2 : $psionicStrengthRatio;
+            
             # Look for reduces enemy casualties
             for ($slot = 1; $slot <= 4; $slot++)
             {
@@ -1080,7 +1117,25 @@ class ConversionCalculator
                     $casualtyReductionPerk = ($invasion['defender']['units_defending'][$slot] / $this->populationCalculator->getPopulationMilitary($cult)) / 2;
                 }
             }
+
+            $ratio = 0.01;
+            $baseRatio *= min(1/$invasion['result']['op_dp_ratio']-1, 1.25);
+            $ratioMultiplier = 0;
+            $ratioMultiplier += $psionicStrengthRatio;
+            $ratioMultiplier += $casualtyReductionPerk;
+
+            $ratio = $baseRatio * $ratioMultiplier;
+
+            foreach($invasion['attacker']['surviving_units'] as $slot => $amount)
+            {
+                # Lazy because they all become Unit1/Thrall for now.
+                $amountConverted = intval(min($amount, $amount * $ratio));
+                $conversions['psionic_conversions'][1] += $amountConverted;
+                $conversions['psionic_losses'][$slot] += $amountConverted;
+            }
         }
+
+        dump($ratio);
 
         return $conversions;
     }
@@ -1157,13 +1212,19 @@ class ConversionCalculator
 
         if($isPsionic)
         {
-            unset($unconvertibleAttributes['aspects']);
+            unset($unconvertibleAttributes['aspect']);
             unset($unconvertibleAttributes['fused']);
             $unconvertibleAttributes[] = 'mindless';
             $unconvertibleAttributes[] = 'wise';
             
-            $unit = 
-
+            $unit = $slot;
+            if(!in_array($slot, ['draftees',' peasants']))
+            {
+                $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot == $slot);
+                })->first();
+            }
+    
             if($this->casualtiesCalculator->isUnitImmortal($dominion, $enemy, $unit, $invasion, $mode))
             {
                 return false;

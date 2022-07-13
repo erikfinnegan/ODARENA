@@ -378,7 +378,7 @@ class ExpeditionActionService
                 # Look for dies_into and variations amongst the dead attacking units.
                 if(isset($this->expeditionResult['units_lost'][$slot]))
                 {
-                    $casualties = $this->expeditionResult['attacker']['unitsLost'][$slot];
+                    $casualties = $this->expeditionResult['attacker']['units_lost'][$slot];
 
                     if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {

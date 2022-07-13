@@ -2575,7 +2575,7 @@ class MilitaryCalculator
     {
         $rawOp = $invasionResult['attacker']['op_raw'];
         $rawDp = $invasionResult['defender']['dp_raw'];
-        $opDpRatio = $invasionResult['result']['opDpRatio'];
+        $opDpRatio = $invasionResult['result']['op_dp_ratio'];
 
         $strength = 0;
 

@@ -87,9 +87,9 @@
                                 </thead>
                                 <tbody>
                                     @for ($slot = 1; $slot <= 4; $slot++)
-                                    @if((isset($event->data['attacker']['unitsSent'][$slot]) and $event->data['attacker']['unitsSent'][$slot] > 0) or
-                                        (isset($event->data['attacker']['unitsLost'][$slot]) and $event->data['attacker']['unitsLost'][$slot] > 0) or
-                                        (isset($event->data['attacker']['unitsReturning'][$slot]) and $event->data['attacker']['unitsReturning'][$slot] > 0)
+                                    @if((isset($event->data['attacker']['units_sent'][$slot]) and $event->data['attacker']['units_sent'][$slot] > 0) or
+                                        (isset($event->data['attacker']['units_lost'][$slot]) and $event->data['attacker']['units_lost'][$slot] > 0) or
+                                        (isset($event->data['attacker']['units_returning'][$slot]) and $event->data['attacker']['units_returning'][$slot] > 0)
                                         )
 
                                         @php
@@ -102,23 +102,23 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if (isset($event->data['attacker']['unitsSent'][$slot]))
-                                                  {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                @if (isset($event->data['attacker']['units_sent'][$slot]))
+                                                  {{ number_format($event->data['attacker']['units_sent'][$slot]) }}
                                                 @else
                                                   0
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($event->data['attacker']['unitsLost'][$slot]))
-                                                  {{ number_format($event->data['attacker']['unitsLost'][$slot]) }}
+                                                @if (isset($event->data['attacker']['units_lost'][$slot]))
+                                                  {{ number_format($event->data['attacker']['units_lost'][$slot]) }}
                                                 @else
                                                   0
                                                 @endif
                                             </td>
                                             <td>
                                               @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                                  @if (isset($event->data['attacker']['unitsReturning'][$slot]))
-                                                    {{ number_format($event->data['attacker']['unitsReturning'][$slot]) }}
+                                                  @if (isset($event->data['attacker']['units_returning'][$slot]))
+                                                    {{ number_format($event->data['attacker']['units_returning'][$slot]) }}
                                                   @else
                                                     0
                                                   @endif
@@ -157,9 +157,9 @@
                                         </thead>
                                         <tbody>
                                             @for ($slot = 1; $slot <= 4; $slot++)
-                                            @if((isset($annexedDominionData['unitsSent'][$slot]) and $annexedDominionData['unitsSent'][$slot] > 0) or
-                                                (isset($annexedDominionData['unitsLost'][$slot]) and $annexedDominionData['unitsLost'][$slot] > 0) or
-                                                (isset($annexedDominionData['unitsReturning'][$slot]) and $annexedDominionData['unitsReturning'][$slot] > 0)
+                                            @if((isset($annexedDominionData['units_sent'][$slot]) and $annexedDominionData['units_sent'][$slot] > 0) or
+                                                (isset($annexedDominionData['units_lost'][$slot]) and $annexedDominionData['units_lost'][$slot] > 0) or
+                                                (isset($annexedDominionData['units_returning'][$slot]) and $annexedDominionData['units_returning'][$slot] > 0)
                                                 )
 
                                                 @php
@@ -172,23 +172,23 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        @if (isset($annexedDominionData['unitsSent'][$slot]))
-                                                          {{ number_format($annexedDominionData['unitsSent'][$slot]) }}
+                                                        @if (isset($annexedDominionData['units_sent'][$slot]))
+                                                          {{ number_format($annexedDominionData['units_sent'][$slot]) }}
                                                         @else
                                                           0
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if (isset($annexedDominionData['unitsLost'][$slot]))
-                                                          {{ number_format($annexedDominionData['unitsLost'][$slot]) }}
+                                                        @if (isset($annexedDominionData['units_lost'][$slot]))
+                                                          {{ number_format($annexedDominionData['units_lost'][$slot]) }}
                                                         @else
                                                           0
                                                         @endif
                                                     </td>
                                                     <td>
                                                       @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                                          @if (isset($annexedDominionData['unitsReturning'][$slot]))
-                                                            {{ number_format($annexedDominionData['unitsReturning'][$slot]) }}
+                                                          @if (isset($annexedDominionData['units_returning'][$slot]))
+                                                            {{ number_format($annexedDominionData['units_returning'][$slot]) }}
                                                           @else
                                                             0
                                                           @endif
@@ -231,9 +231,9 @@
                                     <tr>
                                         <td>Prestige:</td>
                                         <td>
-                                        @if (isset($event->data['attacker']['prestigeChange']))
+                                        @if (isset($event->data['attacker']['prestige_change']))
                                             @php
-                                                $prestigeChange = $event->data['attacker']['prestigeChange'];
+                                                $prestigeChange = $event->data['attacker']['prestige_change'];
                                             @endphp
                                             @if ($prestigeChange < 0)
                                                 <span class="text-red">
@@ -401,14 +401,14 @@
                                     </tr>
                                     @endif
 
-                                    @if (isset($event->data['defender']['unitsStunned']) and array_sum($event->data['defender']['unitsStunned']) > 0)
+                                    @if (isset($event->data['defender']['units_stunned']) and array_sum($event->data['defender']['units_stunned']) > 0)
                                     <tr>
                                         <th colspan="2">Stunned</th>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><small class="text-muted">We stun some of the enemy units and they will not be able to fight for two ticks.</small></td>
                                     </tr>
-                                        @foreach($event->data['defender']['unitsStunned'] as $slot => $amount)
+                                        @foreach($event->data['defender']['units_stunned'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
                                                     <td>
@@ -529,13 +529,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(isset($event->data['defender']['unitsLost']['peasants']) and $event->data['defender']['unitsLost']['peasants'] > 0)
+                                    @if(isset($event->data['defender']['units_lost']['peasants']) and $event->data['defender']['units_lost']['peasants'] > 0)
 
                                         @php
-                                        if(!isset($event->data['defender']['unitsDefending']['peasants']))
+                                        if(!isset($event->data['defender']['units_defending']['peasants']))
                                             $peasants = 0;
                                         else
-                                            $peasants = $event->data['defender']['unitsDefending']['peasants'];
+                                            $peasants = $event->data['defender']['units_defending']['peasants'];
                                         @endphp
 
                                         <tr>
@@ -551,18 +551,18 @@
                                                     <span class="text-muted">?</span>
                                                 @endif
                                             </td>
-                                            <td>{{ number_format($event->data['defender']['unitsLost']['peasants']) }}</td>
+                                            <td>{{ number_format($event->data['defender']['units_lost']['peasants']) }}</td>
                                         </tr>
 
                                     @endif
 
-                                    @if(isset($event->data['defender']['unitsLost']['draftees']) and $event->data['defender']['unitsLost']['draftees'] > 0)
+                                    @if(isset($event->data['defender']['units_lost']['draftees']) and $event->data['defender']['units_lost']['draftees'] > 0)
 
                                         @php
-                                        if(!isset($event->data['defender']['unitsDefending']['draftees']))
+                                        if(!isset($event->data['defender']['units_defending']['draftees']))
                                             $draftees = 0;
                                         else
-                                            $draftees = $event->data['defender']['unitsDefending']['draftees'];
+                                            $draftees = $event->data['defender']['units_defending']['draftees'];
                                         @endphp
 
                                         <tr>
@@ -578,13 +578,13 @@
                                                     <span class="text-muted">?</span>
                                                 @endif
                                             </td>
-                                            <td>{{ number_format($event->data['defender']['unitsLost']['draftees']) }}</td>
+                                            <td>{{ number_format($event->data['defender']['units_lost']['draftees']) }}</td>
                                         </tr>
 
                                     @endif
                                     @for ($slot = 1; $slot <= 4; $slot++)
-                                    @if((isset($event->data['defender']['unitsDefending'][$slot]) and $event->data['defender']['unitsDefending'][$slot] > 0) or
-                                        (isset($event->data['defender']['unitsLost'][$slot]) and $event->data['defender']['unitsLost'][$slot] > 0)
+                                    @if((isset($event->data['defender']['units_defending'][$slot]) and $event->data['defender']['units_defending'][$slot] > 0) or
+                                        (isset($event->data['defender']['units_lost'][$slot]) and $event->data['defender']['units_lost'][$slot] > 0)
                                         )
 
                                         @php
@@ -599,8 +599,8 @@
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race, [$militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'defense'), ]) }}">
                                                       @if ($event->target->realm->id === $selectedDominion->realm->id)
-                                                          @if (isset($event->data['defender']['unitsDefending'][$slot]))
-                                                              {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
+                                                          @if (isset($event->data['defender']['units_defending'][$slot]))
+                                                              {{ number_format($event->data['defender']['units_defending'][$slot]) }}
                                                           @else
                                                               0
                                                           @endif
@@ -610,8 +610,8 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                @if (isset($event->data['defender']['unitsLost'][$slot]))
-                                                    {{ number_format($event->data['defender']['unitsLost'][$slot]) }}
+                                                @if (isset($event->data['defender']['units_lost'][$slot]))
+                                                    {{ number_format($event->data['defender']['units_lost'][$slot]) }}
                                                 @else
                                                     0
                                                 @endif
@@ -645,9 +645,9 @@
                                         </thead>
                                         <tbody>
                                             @for ($slot = 1; $slot <= 4; $slot++)
-                                            @if((isset($annexedDominionData['unitsSent'][$slot]) and $annexedDominionData['unitsSent'][$slot] > 0) or
-                                                (isset($annexedDominionData['unitsLost'][$slot]) and $annexedDominionData['unitsLost'][$slot] > 0) or
-                                                (isset($annexedDominionData['unitsReturning'][$slot]) and $annexedDominionData['unitsReturning'][$slot] > 0)
+                                            @if((isset($annexedDominionData['units_sent'][$slot]) and $annexedDominionData['units_sent'][$slot] > 0) or
+                                                (isset($annexedDominionData['units_lost'][$slot]) and $annexedDominionData['units_lost'][$slot] > 0) or
+                                                (isset($annexedDominionData['units_returning'][$slot]) and $annexedDominionData['units_returning'][$slot] > 0)
                                                 )
 
                                                 @php
@@ -660,15 +660,15 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        @if (isset($annexedDominionData['unitsSent'][$slot]))
-                                                          {{ number_format($annexedDominionData['unitsSent'][$slot]) }}
+                                                        @if (isset($annexedDominionData['units_sent'][$slot]))
+                                                          {{ number_format($annexedDominionData['units_sent'][$slot]) }}
                                                         @else
                                                           0
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if (isset($annexedDominionData['unitsLost'][$slot]))
-                                                          {{ number_format($annexedDominionData['unitsLost'][$slot]) }}
+                                                        @if (isset($annexedDominionData['units_lost'][$slot]))
+                                                          {{ number_format($annexedDominionData['units_lost'][$slot]) }}
                                                         @else
                                                           0
                                                         @endif
@@ -708,9 +708,9 @@
                                     <tr>
                                         <td>Prestige:</td>
                                         <td>
-                                        @if (isset($event->data['defender']['prestigeChange']))
+                                        @if (isset($event->data['defender']['prestige_change']))
                                             @php
-                                                $prestigeChange = $event->data['defender']['prestigeChange'];
+                                                $prestigeChange = $event->data['defender']['prestige_change'];
                                             @endphp
                                             @if ($prestigeChange < 0)
                                                 <span class="text-red">
@@ -851,14 +851,14 @@
                                     </tr>
                                     @endif
 
-                                    @if (isset($event->data['defender']['unitsStunned']) and array_sum($event->data['defender']['unitsStunned']) > 0)
+                                    @if (isset($event->data['defender']['units_stunned']) and array_sum($event->data['defender']['units_stunned']) > 0)
                                     <tr>
                                         <th colspan="2">Stunned</th>
                                     </tr>
                                     <tr>
                                           <td colspan="2"><small class="text-muted">Some of our units are stunned and will not be able to fight for two ticks.</small></td>
                                     </tr>
-                                        @foreach($event->data['defender']['unitsStunned'] as $slot => $amount)
+                                        @foreach($event->data['defender']['units_stunned'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
                                                     <td>

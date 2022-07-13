@@ -170,7 +170,7 @@ class CasualtiesCalculator
 
     }
 
-    private function isUnitImmortal(Dominion $dominion, Dominion $enemy, Unit $unit, array $invasionData = [], string $mode = 'offense')
+    public function isUnitImmortal(Dominion $dominion, Dominion $enemy, /*Unit*/ $unit, array $invasionData = [], string $mode = 'offense')
     {
         if(is_a($unit, 'OpenDominion\Models\Unit', true))
         {
@@ -234,9 +234,16 @@ class CasualtiesCalculator
                 }
             }
         }
+        else
+        {
+            return $this->isUnitTypeImmortal($dominion, $enemy, $unit, $invasionData, $mode);
+        }
+        
     }
     private function isUnitTypeImmortal(Dominion $dominion, Dominion $enemy, string $unitType, array $invasionData = [], string $mode = 'offense')
     {
+        $unitType = str_replace('military_', '', $unitType);
+        
         if($unitType == 'draftees')
         {
             if($dominion->race->getPerkValue('immortal_draftees'))
@@ -412,7 +419,7 @@ class CasualtiesCalculator
             {
                 if($enemyMode == 'defense')
                 {
-                    $multiplier += ($dominion->{'military_unit' . $unit->slot} / array_sum($invasionData['defender']['unitsDefending'])) / 2;
+                    $multiplier += ($dominion->{'military_unit' . $unit->slot} / array_sum($invasionData['defender']['units_defending'])) / 2;
                 }
 
                 if($enemyMode == 'offense')
@@ -426,9 +433,9 @@ class CasualtiesCalculator
                         Message:Undefined offset: 3
 
                     */
-                    if(isset($invasionData['attacker']['unitsSent'][$unit->slot]))
+                    if(isset($invasionData['attacker']['units_sent'][$unit->slot]))
                     {
-                        $multiplier += ($invasionData['attacker']['unitsSent'][$unit->slot] / array_sum($invasionData['attacker']['unitsSent'])) / 2;
+                        $multiplier += ($invasionData['attacker']['units_sent'][$unit->slot] / array_sum($invasionData['attacker']['units_sent'])) / 2;
                     }
                 }
 
@@ -489,14 +496,14 @@ class CasualtiesCalculator
 
         $multiplier = 0;
 
-        $unitsSent = $invasionData['attacker']['unitsSent'];
-        $unitsDefending = $invasionData['defender']['unitsDefending'];
+        $unitsSent = $invasionData['attacker']['units_sent'];
+        $units_defending = $invasionData['defender']['units_defending'];
 
-        $units = $invasionData['attacker']['unitsSent'];
+        $units = $invasionData['attacker']['units_sent'];
 
         if($mode == 'defense')
         {
-            $units = $unitsDefending;
+            $units = $units_defending;
         }
 
         foreach($units as $slot => $amount)
@@ -532,7 +539,10 @@ class CasualtiesCalculator
             {
                 if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
                 {
-                    $multiplier -= ($unitsSent[$slot] / array_sum($unitsSent)) / 2;
+                    if(isset($unitsSent[$slot]))
+                    {
+                        $multiplier -= ($unitsSent[$slot] / array_sum($unitsSent)) / 2;
+                    }
                 }    
             }
         }
@@ -545,8 +555,8 @@ class CasualtiesCalculator
     {
         $multiplier = 1;
 
-        $attackingUnits = $invasionData['attacker']['unitsSent'];
-        $defendingUnits = $invasionData['defender']['unitsDefending'];
+        $attackingUnits = $invasionData['attacker']['units_sent'];
+        $defendingUnits = $invasionData['defender']['units_defending'];
 
         if($mode == 'offense')
         {
@@ -626,7 +636,7 @@ class CasualtiesCalculator
             # If successful on offense, casualties are only incurred on units needed to break.
             elseif($invasionData['result']['success'])
             {
-                $multiplier /= $invasionData['result']['opDpRatio'];
+                $multiplier /= $invasionData['result']['op_dp_ratio'];
             }
         }
 
@@ -644,13 +654,13 @@ class CasualtiesCalculator
             # If successful on defense, casualties are only incurred on units needed to fend off.
             if(!$invasionData['result']['success'])
             {
-                $multiplier *= $invasionData['result']['opDpRatio'];
+                $multiplier *= $invasionData['result']['op_dp_ratio'];
             }
 
             # If unsuccessful on defense, casualties are increased by OP/DP ratio (max +50%).
             if($invasionData['result']['success'])
             {
-                $multiplier *= min(1.50, $invasionData['result']['opDpRatio']);
+                $multiplier *= min(1.50, $invasionData['result']['op_dp_ratio']);
             }
         }
 
