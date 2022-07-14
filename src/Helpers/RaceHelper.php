@@ -531,6 +531,10 @@ class RaceHelper
                 $description = 'Cannot renounce deity';
                 $booleanValue = true;
                 break;
+            case 'deity_power':
+                $negativeBenefit = false;
+                $description = 'Deity perks';
+                break;
             case 'starts_devoted_to_azk_hurum':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Azk\'Hurum';
@@ -539,11 +543,6 @@ class RaceHelper
             case 'starts_devoted_to_elskas':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Elskas';
-                $booleanValue = true;
-                break;
-            case 'starts_devoted_to_glimj':
-                $negativeBenefit = false;
-                $description = 'Starts devoted to Glimj';
                 $booleanValue = true;
                 break;
             case 'starts_devoted_to_tiranthael':
