@@ -258,9 +258,9 @@
                                     <tr>
                                         <td>XP:</td>
                                         <td>
-                                        @if (isset($event->data['attacker']['researchPoints']))
+                                        @if (isset($event->data['attacker']['xp']))
                                             <span class="text-green">
-                                                +{{ number_format($event->data['attacker']['researchPoints']) }}
+                                                +{{ number_format($event->data['attacker']['xp']) }}
                                             </span>
                                         @else
                                             <span class="text-muted">
@@ -272,9 +272,9 @@
                                     <tr>
                                         <td>Morale:</td>
                                         <td>
-                                        @if (isset($event->data['attacker']['moraleChange']))
+                                        @if (isset($event->data['attacker']['morale_change']))
                                             @php
-                                                $moraleChange = $event->data['attacker']['moraleChange'];
+                                                $moraleChange = $event->data['attacker']['morale_change'];
                                             @endphp
                                             @if ($moraleChange < 0)
                                                 <span class="text-red">
@@ -735,9 +735,9 @@
                                     <tr>
                                         <td>Morale:</td>
                                         <td>
-                                        @if (isset($event->data['defender']['moraleChange']))
+                                        @if (isset($event->data['defender']['morale_change']))
                                             @php
-                                                $moraleChange = $event->data['defender']['moraleChange'];
+                                                $moraleChange = $event->data['defender']['morale_change'];
                                             @endphp
                                             @if ($moraleChange < 0)
                                                 <span class="text-red">
@@ -993,7 +993,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!isset($event->data['attacker']['landConquered']))
+                                    @if (!isset($event->data['attacker']['land_conquered']))
                                         <tr>
                                             <td colspan="3" class="text-center">
                                                 <em>None</em>
@@ -1005,19 +1005,19 @@
                                             <tr>
                                                 <td>{{ ucwords($landType) }}</td>
                                                 <td>
-                                                    @if(isset($event->data['attacker']['landConquered'][$landType]))
-                                                        {{ number_format($event->data['attacker']['landConquered'][$landType]) }}
+                                                    @if(isset($event->data['attacker']['land_conquered'][$landType]))
+                                                        {{ number_format($event->data['attacker']['land_conquered'][$landType]) }}
                                                     @else
                                                         &mdash;
                                                     @endif
                                                 </td>
                                                 @if ($event->source->realm->id === $selectedDominion->realm->id)
                                                   <td>
-                                                      @if(isset($event->data['attacker']['landDiscovered'][$landType]))
-                                                          @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
-                                                              {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
+                                                      @if(isset($event->data['attacker']['land_discovered'][$landType]))
+                                                          @if(isset($event->data['attacker']['extra_land_discovered'][$landType]))
+                                                              {{ number_format($event->data['attacker']['land_discovered'][$landType]+$event->data['attacker']['extra_land_discovered'][$landType]) }}
                                                           @else
-                                                              {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
+                                                              {{ number_format($event->data['attacker']['land_discovered'][$landType]) }}
                                                           @endif
                                                       @else
                                                           &mdash;
@@ -1048,8 +1048,8 @@
                                     <col width="50%">
                                 </colgroup>
                                 <tbody>
-                                @if(isset($event->data['defender']['buildingsLost']))
-                                    @foreach($event->data['defender']['buildingsLost'] as $buildingKey => $details)
+                                @if(isset($event->data['defender']['buildings_lost']))
+                                    @foreach($event->data['defender']['buildings_lost'] as $buildingKey => $details)
                                         @php
                                             $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
 

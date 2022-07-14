@@ -50,7 +50,7 @@ class ConversionCalculator
         $conversions['defender'] = array_fill(1, 4, 0);
 
         # Land ratio: float
-        $landRatio = $invasion['attacker']['landSize'] / $invasion['defender']['landSize'];
+        $landRatio = $invasion['attacker']['land_size'] / $invasion['defender']['land_size'];
 
         # Attacker's raw OP
         $rawOp = 1; # In case someone sends with just a zero-OP unit (Snow Elf Hailstorm Cannon)
@@ -186,8 +186,8 @@ class ConversionCalculator
             return $convertedUnits;
         }
 
-        $landConquered = array_sum($invasion['attacker']['landConquered']);
-        $displacedPeasants = intval(($defender->peasants / $invasion['defender']['landSize']) * $landConquered);
+        $landConquered = array_sum($invasion['attacker']['land_conquered']);
+        $displacedPeasants = intval(($defender->peasants / $invasion['defender']['land_size']) * $landConquered);
 
         # Apply reduced conversions
         $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
@@ -238,8 +238,8 @@ class ConversionCalculator
             return $convertedUnits;
         }
 
-        $landConquered = array_sum($invasion['attacker']['landConquered']);
-        $displacedPeasants = intval(($defender->peasants / $invasion['defender']['landSize']) * $landConquered);
+        $landConquered = array_sum($invasion['attacker']['land_conquered']);
+        $displacedPeasants = intval(($defender->peasants / $invasion['defender']['land_size']) * $landConquered);
 
         # Apply reduced conversions
         $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
@@ -1065,8 +1065,8 @@ class ConversionCalculator
                 }
             }
 
-            $baseRatio = 0.02;
-            $baseRatio *= min($invasion['result']['op_dp_ratio']-1, 1.25);
+            $baseRatio = 0.01;
+            $baseRatio *= min($invasion['result']['op_dp_ratio'], 1.25);
             $ratioMultiplier = 0;
             $ratioMultiplier += $psionicStrengthRatio;
             $ratioMultiplier += $casualtyReductionPerk;
@@ -1078,7 +1078,7 @@ class ConversionCalculator
                 if($this->isSlotConvertible($slot, $enemy, [], [], true, $cult, $invasion, $mode))
                 {
                     # Lazy because they all become Unit1/Thrall for now.
-                    $amountConverted = intval(min($amount, $amount * $ratio));
+                    $amountConverted = intval(min($invasion['defender']['units_lost'][$slot], $amount, $amount * $ratio));
                     $conversions['psionic_conversions'][1] += $amountConverted;
                     $conversions['psionic_losses'][$slot] += $amountConverted;
                 }
@@ -1118,7 +1118,7 @@ class ConversionCalculator
                 }
             }
 
-            $ratio = 0.01;
+            $ratio = 0.005;
             $baseRatio *= min(1/$invasion['result']['op_dp_ratio']-1, 1.25);
             $ratioMultiplier = 0;
             $ratioMultiplier += $psionicStrengthRatio;
@@ -1129,13 +1129,11 @@ class ConversionCalculator
             foreach($invasion['attacker']['surviving_units'] as $slot => $amount)
             {
                 # Lazy because they all become Unit1/Thrall for now.
-                $amountConverted = intval(min($amount, $amount * $ratio));
+                $amountConverted = intval(min($invasion['attacker']['units_lost'][$slot], $amount, $amount * $ratio));
                 $conversions['psionic_conversions'][1] += $amountConverted;
                 $conversions['psionic_losses'][$slot] += $amountConverted;
             }
         }
-
-        dump($ratio);
 
         return $conversions;
     }

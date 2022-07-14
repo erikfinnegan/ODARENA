@@ -6,6 +6,8 @@ playable: 1
 experimental: 1
 skill_level: 2
 
+draftees_alias: Guard
+
 resources:
   - gold
   - food
@@ -19,6 +21,7 @@ perks:
   food_consumption_mod: 20
   lumber_production_mod: 50
   starts_devoted_to_urugdakh: 1
+  draftee_dp: 3
 
 land_improvements:
   plain:

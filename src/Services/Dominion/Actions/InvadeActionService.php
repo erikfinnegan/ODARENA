@@ -307,11 +307,14 @@ class InvadeActionService
 
             $this->invasionResult['defender']['recently_invaded_count'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
             $this->invasionResult['attacker']['units_sent'] = $units;
-            $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
-            $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
+            $this->invasionResult['attacker']['land_size'] = $this->landCalculator->getTotalLand($dominion);
+            $this->invasionResult['defender']['land_size'] = $this->landCalculator->getTotalLand($target);
 
             $this->invasionResult['attacker']['fog'] = $dominion->getSpellPerkValue('fog_of_war') ? true : false;
             $this->invasionResult['defender']['fog'] = $target->getSpellPerkValue('fog_of_war') ? true : false;
+
+            $this->invasionResult['attacker']['conversions'] = array_fill(1,4,0);
+            $this->invasionResult['defender']['conversions'] = array_fill(1,4,0);
 
             $this->invasionResult['log']['initiated_at'] = $now;
             $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
@@ -412,8 +415,8 @@ class InvadeActionService
                 $this->handlePsionicConversions($target, $dominion, 'defense');
             }
 
-            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['surviving_units'], $offensiveConversions, $defensiveConversions);
-            $this->handleDefensiveConversions($target, $defensiveConversions);
+            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['surviving_units'], $this->invasionResult['attacker']['conversions'], $this->invasionResult['defender']['conversions']);
+            $this->handleDefensiveConversions($target, $this->invasionResult['defender']['conversions']);
 
             # Afflicted
             $this->handleInvasionSpells($dominion, $target);
@@ -425,17 +428,17 @@ class InvadeActionService
             $this->handleSalvagingAndPlundering($dominion, $target);
 
             # Imperial Crypt
-            $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['surviving_units'], $offensiveConversions, $defensiveConversions);
+            $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['surviving_units'], $this->invasionResult['attacker']['conversions'], $this->invasionResult['defender']['conversions']);
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
             {
-                $this->statsService->updateStat($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['landConquered']));
-                $this->statsService->updateStat($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['landDiscovered']));
+                $this->statsService->updateStat($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['land_conquered']));
+                $this->statsService->updateStat($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['land_discovered']));
                 $this->statsService->updateStat($dominion, 'invasion_victories', $countsAsVictory);
                 $this->statsService->updateStat($dominion, 'invasion_bottomfeeds', $countsAsBottomfeed);
 
-                $this->statsService->updateStat($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['landConquered']));
+                $this->statsService->updateStat($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['land_conquered']));
                 $this->statsService->updateStat($target, 'defense_failures', 1);
             }
             else
@@ -526,7 +529,7 @@ class InvadeActionService
                 $this->notificationService->queueNotification('received_invasion', [
                     '_routeParams' => [(string)$this->invasionEvent->id],
                     'attackerDominionId' => $dominion->id,
-                    'landLost' => $this->landLost,
+                    'land_lost' => $this->landLost,
                     'units_lost' => $this->invasionResult['defender']['units_lost'],
                 ]);
             } else {
@@ -556,8 +559,8 @@ class InvadeActionService
                 'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! After the invasion, your troops also discovered %s acres of land.',
                 $target->name,
                 $target->realm->number,
-                number_format(array_sum($this->invasionResult['attacker']['landConquered'])),
-                number_format(array_sum($this->invasionResult['attacker']['landDiscovered']) + array_sum($this->invasionResult['attacker']['extraLandDiscovered']))
+                number_format(array_sum($this->invasionResult['attacker']['land_conquered'])),
+                number_format(array_sum($this->invasionResult['attacker']['land_discovered']) + array_sum($this->invasionResult['attacker']['extra_land_discovered']))
             );
             $alertType = 'success';
         }
@@ -937,11 +940,11 @@ class InvadeActionService
         $discoverLand = $this->militaryCalculator->checkDiscoverLand($dominion, $target, $landConquered);
         $extraLandDiscovered = $this->militaryCalculator->getExtraLandDiscovered($dominion, $target, $discoverLand, $landConquered);
 
-        $this->invasionResult['attacker']['landConquered'] = [];
-        $this->invasionResult['attacker']['landDiscovered'] = [];
-        $this->invasionResult['defender']['landLost'] = [];
-        $this->invasionResult['defender']['buildingsLost'] = [];
-        $this->invasionResult['defender']['totalBuildingsLost'] = 0;
+        $this->invasionResult['attacker']['land_conquered'] = [];
+        $this->invasionResult['attacker']['land_discovered'] = [];
+        $this->invasionResult['defender']['land_lost'] = [];
+        $this->invasionResult['defender']['buildings_lost'] = [];
+        $this->invasionResult['defender']['total_buildings_lost'] = 0;
 
         $landLossRatio = ($landConquered / $this->landCalculator->getTotalLand($target));
         $landAndBuildingsLostPerLandType = $this->landCalculator->getLandLostByLandType($target, $landLossRatio);
@@ -951,12 +954,12 @@ class InvadeActionService
         foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost)
         {
             $buildingsToDestroy = $landAndBuildingsLost['buildingsToDestroy'];
-            $landLost = $landAndBuildingsLost['landLost'];
+            $landLost = $landAndBuildingsLost['land_lost'];
             $buildingsLostForLandType = $this->buildingCalculator->getBuildingsToDestroy($target, $buildingsToDestroy, $landType);
 
             // Remove land
             $target->{"land_$landType"} -= $landLost;
-            $this->invasionResult['defender']['totalBuildingsLost'] += $landLost;
+            $this->invasionResult['defender']['total_buildings_lost'] += $landLost;
 
             // Destroy buildings
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
@@ -967,7 +970,7 @@ class InvadeActionService
 
                 $resourceName = "building_{$buildingType}";
 
-                $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
+                $this->invasionResult['defender']['buildings_lost'][$buildingType] = $buildingsLost;
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
@@ -984,7 +987,7 @@ class InvadeActionService
 
             $landGainedPerLandType["land_{$landType}"] += $landLost;
 
-            $this->invasionResult['attacker']['landConquered'][$landType] = $landLost;
+            $this->invasionResult['attacker']['land_conquered'][$landType] = $landLost;
 
 
             $landDiscovered = 0;
@@ -996,15 +999,15 @@ class InvadeActionService
                     $landDiscovered = (int)round($landLost/3);
                 }
 
-                $this->invasionResult['attacker']['landDiscovered'][$landType] = $landDiscovered;
+                $this->invasionResult['attacker']['land_discovered'][$landType] = $landDiscovered;
 
                 $landGainedPerLandType["land_{$landType}"] += $landDiscovered;
             }
 
-            $this->invasionResult['defender']['landLost'][$landType] = $landLost;
+            $this->invasionResult['defender']['land_lost'][$landType] = $landLost;
 
         }
-        $this->invasionResult['attacker']['extraLandDiscovered'][$dominion->race->home_land_type] = $extraLandDiscovered;
+        $this->invasionResult['attacker']['extra_land_discovered'][$dominion->race->home_land_type] = $extraLandDiscovered;
 
         if(isset($landGainedPerLandType['land_'.$dominion->race->home_land_type]))
         {
@@ -1158,8 +1161,8 @@ class InvadeActionService
         }
         $defender->morale += $defenderMoraleChange;
 
-        $this->invasionResult['attacker']['moraleChange'] = $attackerMoraleChange;
-        $this->invasionResult['defender']['moraleChange'] = $defenderMoraleChange;
+        $this->invasionResult['attacker']['morale_change'] = $attackerMoraleChange;
+        $this->invasionResult['defender']['morale_change'] = $defenderMoraleChange;
 
     }
 
@@ -1192,8 +1195,8 @@ class InvadeActionService
         
         if ($isInvasionSuccessful)
         {
-            $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
-            $landDiscovered = array_sum($this->invasionResult['attacker']['landDiscovered']);
+            $landConquered = array_sum($this->invasionResult['attacker']['land_conquered']);
+            $landDiscovered = array_sum($this->invasionResult['attacker']['land_discovered']);
 
             $researchPointsForGeneratedAcresMultiplier = 1;
 
@@ -1214,7 +1217,7 @@ class InvadeActionService
                 $slowestTroopsReturnHours
             );
 
-            $this->invasionResult['attacker']['researchPoints'] = $researchPointsGained;
+            $this->invasionResult['attacker']['xp'] = $researchPointsGained;
         }
     }
 
@@ -1531,8 +1534,8 @@ class InvadeActionService
             }
         }
 
-        $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
-        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['landSize']) * $landConquered);
+        $landConquered = array_sum($this->invasionResult['attacker']['land_conquered']);
+        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['land_size']) * $landConquered);
 
         foreach($units as $slot => $amount)
         {
@@ -1604,8 +1607,8 @@ class InvadeActionService
             }
         }
 
-        $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
-        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['landSize']) * $landConquered);
+        $landConquered = array_sum($this->invasionResult['attacker']['land_conquered']);
+        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['land_size']) * $landConquered);
 
         foreach($this->invasionResult['defender']['units_defending'] as $slot => $amount)
         {
@@ -1684,12 +1687,51 @@ class InvadeActionService
 
         dump($psionicConversions);
 
-        if(!empty($psionicConversions))
+        if(empty($psionicConversions))
         {
-            $this->invasionResult['attacker']['psionic_conversions'] = $psionicConversions;
-            $this->statsService->updateStat($cult, 'units_converted_psionically', array_sum($psionicConversions));
-            $this->statsService->updateStat($enemy, 'units_lost_psionically', array_sum($psionicConversions));
+            return;
         }
+
+        $this->invasionResult['attacker']['psionic_conversions'] = $psionicConversions;
+        $this->statsService->updateStat($cult, 'units_converted_psionically', array_sum($psionicConversions));
+        $this->statsService->updateStat($enemy, 'units_lost_psionically', array_sum($psionicConversions));
+
+        if($mode == 'offense')
+        {
+            if(!isset($this->invasionResult['attacker']['conversions']))
+            {
+                $this->invasionResult['attacker']['conversions'] = array_fill(1, 4, 0);
+            }
+
+            foreach($psionicConversions['psionic_losses'] as $slot => $amount)
+            {
+                $enemy->{'military_' . $slot} -= $amount;
+            }
+
+            foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
+            {
+                $this->invasionResult['attacker']['conversions'][$slot] += $amount;
+            }
+        }
+
+        if($mode == 'defense')
+        {
+            if(!isset($this->invasionResult['defender']['conversions']))
+            {
+                $this->invasionResult['defender']['conversions'] = array_fill(1, 4, 0);
+            }
+
+            foreach($psionicConversions['psionic_losses'] as $slot => $amount)
+            {
+                $enemy->{'military_' . $slot} -= $amount;
+            }
+
+            foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
+            {
+                $this->invasionResult['defender']['conversions'][$slot] += $amount;
+            }
+        }
+        
     }
 
     # Unit Return 2.0

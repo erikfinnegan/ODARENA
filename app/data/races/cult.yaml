@@ -10,7 +10,7 @@ psionic_strength: 1.5
 
 perks:
   cannot_renounce_deity: 1
-  deity_power: 100
+  deity_power: 25
   population_growth: 50
   wizards_training_time: 6
 

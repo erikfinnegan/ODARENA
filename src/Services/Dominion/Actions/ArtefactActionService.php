@@ -279,8 +279,8 @@ class ArtefactActionService
 
             $this->invasionResult['defender']['recently_invaded_count'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
             $this->invasionResult['attacker']['units_sent'] = $units;
-            $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
-            $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
+            $this->invasionResult['attacker']['land_size'] = $this->landCalculator->getTotalLand($dominion);
+            $this->invasionResult['defender']['land_size'] = $this->landCalculator->getTotalLand($target);
 
             $this->invasionResult['attacker']['fog'] = $dominion->getSpellPerkValue('fog_of_war') ? true : false;
             $this->invasionResult['defender']['fog'] = $target->getSpellPerkValue('fog_of_war') ? true : false;
@@ -394,12 +394,12 @@ class ArtefactActionService
             // Stat changes
             if ($this->invasionResult['result']['success'])
             {
-                $this->statsService->updateStat($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['landConquered']));
-                $this->statsService->updateStat($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['landDiscovered']));
+                $this->statsService->updateStat($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['land_conquered']));
+                $this->statsService->updateStat($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['land_discovered']));
                 $this->statsService->updateStat($dominion, 'invasion_victories', $countsAsVictory);
                 $this->statsService->updateStat($dominion, 'invasion_bottomfeeds', $countsAsBottomfeed);
 
-                $this->statsService->updateStat($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['landConquered']));
+                $this->statsService->updateStat($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['land_conquered']));
                 $this->statsService->updateStat($target, 'defense_failures', 1);
             }
             else
@@ -495,7 +495,7 @@ class ArtefactActionService
                 $this->notificationService->queueNotification('received_invasion', [
                     '_routeParams' => [(string)$this->invasionEvent->id],
                     'attackerDominionId' => $dominion->id,
-                    'landLost' => $this->landLost,
+                    'land_lost' => $this->landLost,
                     'units_lost' => $this->unitsLost,
                 ]);
             } else {
@@ -519,8 +519,8 @@ class ArtefactActionService
                 'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
                 $target->name,
                 $target->realm->number,
-                number_format(array_sum($this->invasionResult['attacker']['landConquered'])),
-                number_format(array_sum($this->invasionResult['attacker']['landDiscovered']) + array_sum($this->invasionResult['attacker']['extraLandDiscovered']))
+                number_format(array_sum($this->invasionResult['attacker']['land_conquered'])),
+                number_format(array_sum($this->invasionResult['attacker']['land_discovered']) + array_sum($this->invasionResult['attacker']['extra_land_discovered']))
             );
             $alertType = 'success';
         }
@@ -830,8 +830,8 @@ class ArtefactActionService
         }
         $defender->morale += $defenderMoraleChange;
 
-        $this->invasionResult['attacker']['moraleChange'] = $attackerMoraleChange;
-        $this->invasionResult['defender']['moraleChange'] = $defenderMoraleChange;
+        $this->invasionResult['attacker']['morale_change'] = $attackerMoraleChange;
+        $this->invasionResult['defender']['morale_change'] = $defenderMoraleChange;
 
     }
 
@@ -858,7 +858,7 @@ class ArtefactActionService
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)
         {
-            $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
+            $landConquered = array_sum($this->invasionResult['attacker']['land_conquered']);
 
             $researchPointsForGeneratedAcres = 1;
 
@@ -877,7 +877,7 @@ class ArtefactActionService
                 $slowestTroopsReturnHours
             );
 
-            $this->invasionResult['attacker']['researchPoints'] = $researchPointsGained;
+            $this->invasionResult['attacker']['xp'] = $researchPointsGained;
         }
     }
 

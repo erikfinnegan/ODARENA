@@ -284,7 +284,6 @@ class CasualtiesCalculator
     # These are casualty perks that do not depend on anything else
     public function getBasicCasualtiesPerkMultipliers(Dominion $dominion, string $mode = 'offense')
     {
-
         $multiplier =  0;
 
         # Title perks
