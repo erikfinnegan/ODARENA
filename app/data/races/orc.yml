@@ -53,6 +53,7 @@ units:
       defense: 3
     perks:
       offense_from_pairing: 4,2,0.05 # slot, amount, num required
+      no_draftee: 1
 
   - name: Shieldbearer
     training_time: 9
@@ -68,6 +69,7 @@ units:
       defense: 4
     perks:
       defense_from_pairing: 4,2,0.05 # slot, amount
+      no_draftee: 1
 
   - name: Doomrider
     training_time: 12
@@ -88,6 +90,7 @@ units:
       defense_from_pairing: 4,8,0.10 # slot, amount, num required
       dies_into_resource: 0.90,yak
       sendable_with_zero_op: 1
+      no_draftee: 1
 
   - name: Warboss
     training_time: 12
@@ -106,3 +109,4 @@ units:
     perks:
       reduces_casualties: 1
       offense_from_pairing: 1,2,20 # slot, amount, num required
+      no_draftee: 1

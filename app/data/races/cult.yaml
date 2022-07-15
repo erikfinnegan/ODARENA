@@ -3,6 +3,7 @@ alignment: independent
 description:
 home_land_type: forest
 playable: 1
+experimental: 1
 skill_level: 3
 max_per_round: 1
 minimum_rounds: 10
@@ -24,10 +25,9 @@ units:
       defense: 1
     perks:
       cannot_be_trained: 1
-      does_not_count_as_population: 1
+      gold_production_raw: 0.2
 
   - name: Initiate
-    training_time: 6
     type:
       - living
       - sentient
@@ -43,6 +43,7 @@ units:
       passive_conversion: 1,2,0.01 # From slot, To slot, Amount
       offense_vs_other_deity: 0.5
       reduces_enemy_casualties: 1
+      gold_production_raw: 0.4
 
   - name: Disciple
     training_time: 6

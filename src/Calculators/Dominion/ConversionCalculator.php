@@ -1093,6 +1093,9 @@ class ConversionCalculator
         }
         if($mode == 'defense')
         {
+            # Cult is the defender here
+
+
             if($invasion['result']['success'])
             {
                 return $conversions;
@@ -1110,15 +1113,16 @@ class ConversionCalculator
             $psionicStrengthRatio = $psionicStrengthRatio > 2 ? 2 : $psionicStrengthRatio;
             
             # Look for reduces enemy casualties
+            $totalUnitsAtHome = $cult->military_draftees + $cult->military_unit1 + $cult->military_unit2 + $cult->military_unit3 + $cult->military_unit4;
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 if($cult->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
                 {
-                    $casualtyReductionPerk = ($invasion['defender']['units_defending'][$slot] / $this->populationCalculator->getPopulationMilitary($cult)) / 2;
+                    $casualtyReductionPerk = ($invasion['defender']['units_defending'][$slot] / $totalUnitsAtHome) / 2;
                 }
             }
 
-            $ratio = 0.005;
+            $baseRatio = 0.005;
             $baseRatio *= min(1/$invasion['result']['op_dp_ratio']-1, 1.25);
             $ratioMultiplier = 0;
             $ratioMultiplier += $psionicStrengthRatio;
@@ -1167,6 +1171,9 @@ class ConversionCalculator
 
                 $convertedUnits[$toSlot] += $amountConverted;
                 $removedUnits[$fromSlot] += $amountConverted;
+
+                $convertedUnits[$toSlot] = min($convertedUnits[$toSlot], $dominion->{'military_unit' . $fromSlot});
+                $removedUnits[$fromSlot] = min($removedUnits[$fromSlot], $dominion->{'military_unit' . $fromSlot});
             }
         }
 

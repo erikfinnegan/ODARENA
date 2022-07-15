@@ -1069,8 +1069,6 @@ class TickService
         $tick->attrition_unit3 += intval($attritionUnit3);
         $tick->attrition_unit4 += intval($attritionUnit4);
 
-
-
         foreach ($incomingQueue as $row)
         {
             if($row->source !== 'deity' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')

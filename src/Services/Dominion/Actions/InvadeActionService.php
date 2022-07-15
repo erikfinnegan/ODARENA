@@ -542,7 +542,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            if(request()->getHost() === 'odarena.local')
+            if(request()->getHost() === 'odarena.local' or request()->getHost() === '192.168.64.11')
             {
                 dd($this->invasionResult);
             }
@@ -1705,7 +1705,7 @@ class InvadeActionService
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
             {
-                $enemy->{'military_' . $slot} -= $amount;
+                $enemy->{'military_unit' . $slot} -= $amount;
             }
 
             foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
@@ -1723,7 +1723,22 @@ class InvadeActionService
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
             {
-                $enemy->{'military_' . $slot} -= $amount;
+                if(in_array($slot, [1,2,3,4]))
+                {
+                    $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                    #$enemy->{'military_unit' . $slot} -= $amount;
+                }
+                elseif($slot == 'draftees')
+                {
+                    $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                    #$enemy->{'military_' . $slot} -= $amount;
+                }
+                elseif($slot == 'peasants')
+                {
+                    #$this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                    #$enemy->{$slot} -= $amount;
+                }
+                
             }
 
             foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
