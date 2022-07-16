@@ -73,7 +73,7 @@ units:
     perks:
       dies_into: 1
       lumber_production_raw: 0.6
-      counts_as_spy_on_defense: 0.11111
+      counts_as_spy_defense: 0.11111
 
   - name: Amanita
     training_time: 12
