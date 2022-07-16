@@ -21,10 +21,8 @@ construction_materials:
   - food
 
 improvement_resources:
-  gold: 1
   lumber: 2
   food: 2
-  gems: 12
 
 perks:
   cannot_invade: 1

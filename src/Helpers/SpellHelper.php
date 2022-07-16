@@ -96,6 +96,7 @@ class SpellHelper
             'no_gems_production' => 'No gem production',
 
             'rezone_all_land' => 'Rezones %1s%% of all other land types to %2$s.',
+            'land_generation_mod' => '%s%% land generated.',
 
             'resource_theft' => 'Displaces %2$s%% of the target\'s %1$s and returns it to the caster.',
 
