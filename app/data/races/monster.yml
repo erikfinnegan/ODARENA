@@ -13,7 +13,7 @@ description: >-
   </ul>
   <p>Starts with 2 Heads, 100 Limbs, 200 Claws, and 10 Carapaces, and 25,000 strength. No protection.</p>
 home_land_type: plain
-playable: 1
+playable: 0
 experimental: 1
 skill_level: 3
 max_per_round: 1
@@ -50,10 +50,10 @@ units:
       - massive
       - bodypart
     cost:
-      strength: 10000
+      strength: 600
     power:
       offense: 0
-      defense: 2000
+      defense: 1600
     perks:
       immortal: 1
       no_draftee: 1
