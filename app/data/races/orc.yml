@@ -48,6 +48,7 @@ units:
     cost:
       gold: 480
       ore: 60
+      peasant: 1
     power:
       offense: 4
       defense: 3
@@ -64,6 +65,7 @@ units:
     cost:
       gold: 480
       ore: 60
+      peasant: 1
     power:
       offense: 0
       defense: 4
@@ -82,6 +84,7 @@ units:
       gold: 2000
       ore: 400
       yak: 1
+      peasant: 1
     power:
       offense: 0
       defense: 8
@@ -103,6 +106,7 @@ units:
       gold: 1200
       ore: 200
       gems: 1
+      peasant: 1
     power:
       offense: 8
       defense: 8
