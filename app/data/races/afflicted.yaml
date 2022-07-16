@@ -22,8 +22,7 @@ resources:
   - miasma
 
 peasants_production:
-  gold: 2.40
-  food: 0.40
+  gold: 2.70
 
 improvement_resources:
   gems: 12
