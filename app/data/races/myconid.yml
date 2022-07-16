@@ -42,7 +42,7 @@ units:
       food: 1000
     perks:
       land_per_tick: 0.01
-      attrition: 0.50
+      attrition: 5
 
   - name: Psilocybe
     training_time: 9
@@ -50,10 +50,10 @@ units:
       - living
       - sentient
     cost:
-      food: 500
+      food: 565
     power:
       offense: 0
-      defense: 8
+      defense: 9
     perks:
       dies_into: 1
       mana_production_raw: 0.3
@@ -66,10 +66,10 @@ units:
       - sentient
       - intelligent
     cost:
-      food: 500
+      food: 565
     power:
       offense: 0
-      defense: 8
+      defense: 9
     perks:
       dies_into: 1
       lumber_production_raw: 0.6
