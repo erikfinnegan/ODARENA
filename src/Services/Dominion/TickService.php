@@ -883,9 +883,6 @@ class TickService
                 $generatedLand += $dominion->{"military_unit".$slot} * $landPerTick;
                 $generatedLand = max($generatedLand, 0);
 
-
-                dd($landPerTick, $multiplier, $generatedLand);
-
                 # Defensive Warts turn off land generation
                 if($dominion->getSpellPerkValue('stop_land_generation'))
                 {
