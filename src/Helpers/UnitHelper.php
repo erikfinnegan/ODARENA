@@ -371,7 +371,7 @@ class UnitHelper
 
             // Return time
             'faster_return' => 'Returns %s ticks faster from battle.',
-            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
+            'land_per_tick' => 'Discovers land each tick:<br><code>(%1$s * (1 - ([Land Size]/12,000)))</code>',
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).', # Hidden
             'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
             'faster_return_if_paired_multiple' => 'Returns %2$s ticks faster if paired with a %1$s (max %3$s per %1$s).',

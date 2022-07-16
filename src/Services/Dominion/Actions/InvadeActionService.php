@@ -1723,20 +1723,21 @@ class InvadeActionService
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
             {
-                if(in_array($slot, [1,2,3,4]))
+                if(isset($this->invasionResult['attacker']['units_sent'][$slot]))
                 {
-                    $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
-                    #$enemy->{'military_unit' . $slot} -= $amount;
-                }
-                elseif($slot == 'draftees')
-                {
-                    $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
-                    #$enemy->{'military_' . $slot} -= $amount;
-                }
-                elseif($slot == 'peasants')
-                {
-                    #$this->invasionResult['attacker']['units_lost'][$slot] += $amount;
-                    #$enemy->{$slot} -= $amount;
+                    if(in_array($slot, [1,2,3,4]))
+                    {
+                        $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                    }
+                    elseif($slot == 'draftees')
+                    {
+                        $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                    }
+                    elseif($slot == 'peasants')
+                    {
+                        #$this->invasionResult['attacker']['units_lost'][$slot] += $amount;
+                        #$enemy->{$slot} -= $amount;
+                    }
                 }
                 
             }

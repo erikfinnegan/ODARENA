@@ -545,6 +545,11 @@ class RaceHelper
                 $description = 'Starts devoted to Elskas';
                 $booleanValue = true;
                 break;
+            case 'starts_devoted_to_glimj':
+                $negativeBenefit = false;
+                $description = 'Starts devoted to Glimj';
+                $booleanValue = true;
+                break;
             case 'starts_devoted_to_tiranthael':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Tiranthael';

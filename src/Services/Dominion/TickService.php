@@ -873,7 +873,14 @@ class TickService
             // Myconid: Land generation
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
             {
-                $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
+                $landPerTick = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick') * (0.01 * (1 - ($this->landCalculator->getTotalLand($dominion)/12000)));
+                $multiplier = 1;
+                $multiplier += $dominion->getSpellPerkMultiplier('land_generation_mod');
+                $multiplier += $dominion->getImprovementPerkMultiplier('land_generation_mod');
+
+                $landPerTick *= $multiplier;
+
+                $generatedLand += $dominion->{"military_unit".$slot} * $landPerTick;
                 $generatedLand = max($generatedLand, 0);
 
                 # Defensive Warts turn off land generation

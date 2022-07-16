@@ -12,11 +12,10 @@ draftees_alias: sporeling
 resources:
   - food
   - mana
-  - gems
   - lumber
 
 peasants_production:
-  food: 2.10
+  food: 2.70
 
 construction_materials:
   - food
@@ -28,61 +27,55 @@ improvement_resources:
   gems: 12
 
 perks:
+  cannot_invade: 1
+  cannot_rezone: 1
+  cannot_send_expeditions: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  cannot_invade: 1
-  cannot_join_guards: 1
   unemployed_peasants_produce: 1
 
 units:
   - name: Fruitbody
-    training_time: 3
-    type:
-      - living
-    cost:
-      food: 25
-    power:
-      offense: 0
-      defense: 1
-
-  - name: Mushroom
     training_time: 6
     type:
       - living
-      - sentient
     cost:
-      food: 100
-      unit1: 1
-    power:
-      offense: 0
-      defense: 3
+      food: 1000
     perks:
-      no_draftee: 1
-      dies_into: 1
-      gems_production_raw: 0.111
-      unit_production: 1,0.0001
+      land_per_tick: 0.01
+      attrition: 0.50
 
   - name: Psilocybe
     training_time: 9
     type:
       - living
       - sentient
-      - intelligent
     cost:
-      food: 875
-      unit2: 1
+      food: 500
     power:
       offense: 0
-      defense: 6
+      defense: 8
     perks:
-      no_draftee: 1
       dies_into: 1
-      mana_production_raw: 0.5
-      counts_as_wizard_offense: 0.16666
-      counts_as_wizard_defense: 0.16666
-      unit_production: 1,0.0003
-      gems_production_raw: 0.222
+      mana_production_raw: 0.3
+      counts_as_wizard: 0.166666
+
+  - name: Deeproot
+    training_time: 9
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      food: 500
+    power:
+      offense: 0
+      defense: 8
+    perks:
+      dies_into: 1
+      lumber_production_raw: 0.6
+      counts_as_spy_on_defense: 0.11111
 
   - name: Amanita
     training_time: 12
@@ -91,17 +84,10 @@ units:
       - sentient
       - intelligent
     cost:
-      food: 1250
-      unit2: 1
+      food: 1200
     power:
       offense: 0
-      defense: 9
+      defense: 12
     perks:
-      no_draftee: 1
       dies_into: 1
-      land_per_tick: 0.0002
-      counts_as_spy_offense: 0.1111
-      counts_as_spy_defense: 0.1111
-      unit_production: 1,0.0002
-      defense_from_spell: defensive_warts,2
-      gems_production_raw: 0.111
+      increases_enemy_casualties: 1

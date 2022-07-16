@@ -270,13 +270,13 @@ mining:
     - Aurei
     - Barbarian
     - Beastfolk
+    - Glimjir
     - Growth
     - Halfling
     - Icekin
     - Kerranad
     - Marshling
     - Monster
-    - Glimjir
     - Myconid
     - Qur
     - Simian
@@ -295,6 +295,7 @@ storage:
     - Barbarian
     - Growth
     - Monster
+    - Myconid
     - Wood Elf
     - Void
   perks:
