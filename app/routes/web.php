@@ -123,6 +123,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Military
             $router->get('military')->uses('Dominion\MilitaryController@getMilitary')->name('military');
             $router->post('military/change-draft-rate')->uses('Dominion\MilitaryController@postChangeDraftRate')->name('military.change-draft-rate');
+            $router->post('military/release-draftees')->uses('Dominion\MilitaryController@postReleaseDraftees')->name('military.release-draftees');
             $router->post('military/train')->uses('Dominion\MilitaryController@postTrain')->name('military.train');
             $router->get('military/release')->uses('Dominion\MilitaryController@getRelease')->name('military.release');
             $router->post('military/release')->uses('Dominion\MilitaryController@postRelease');

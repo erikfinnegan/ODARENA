@@ -98,6 +98,36 @@ class MilitaryController extends AbstractDominionController
         return redirect()->route('dominion.military');
     }
 
+    public function postReleaseDraftees(ReleaseActionRequest $request)
+    {
+        $release = $request->get('release');
+        $release = ['draftees' => $release['draftees']];
+        $dominion = $this->getSelectedDominion();
+        $releaseActionService = app(ReleaseActionService::class);
+
+        try {
+            $result = $releaseActionService->release($dominion, $release);
+
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        // todo: laravel event
+        $analyticsService = app(AnalyticsService::class);
+        $analyticsService->queueFlashEvent(new AnalyticsEvent(
+            'dominion',
+            'release',
+            null, // todo: make null everywhere where ''
+            $result['data']['totalTroopsReleased']
+        ));
+
+        $request->session()->flash('alert-success', $result['message']);
+        return redirect()->route('dominion.military');
+
+    }
+
     public function postTrain(TrainActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();

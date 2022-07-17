@@ -524,12 +524,21 @@
                 </div>
                 @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting'))
                 <div class="box-footer">
-                    <button type="submit"
-                            class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Change
-                    </button>
+                    <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Change</button>
+                    </form>
+
+
+                    <form action="{{ route('dominion.military.release-draftees') }}" method="post" role="form" class="pull-right">
+                        @csrf
+                        <input type="hidden" style="display:none;" name="release[draftees]" value="{{ $selectedDominion->military_draftees }}">
+                        <input type="hidden" style="display:none;" name="release[unit1]" value="0">
+                        <input type="hidden" style="display:none;" name="release[unit2]" value="0">
+                        <input type="hidden" style="display:none;" name="release[unit3]" value="0">
+                        <input type="hidden" style="display:none;" name="release[unit4]" value="0">
+                        <button type="submit" class="btn btn-warning btn-small" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Release {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race)) }}</button>
+                    </form>
                 </div>
                 @endif
-            </form>
         </div>
         @include('partials.dominion.military-cost-modifiers')
         @include('partials.dominion.military-power-modifiers')
