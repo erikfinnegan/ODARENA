@@ -101,7 +101,16 @@ class MilitaryController extends AbstractDominionController
     public function postReleaseDraftees(ReleaseActionRequest $request)
     {
         $release = $request->get('release');
-        $release = ['draftees' => $release['draftees']];
+        foreach($release as $unitType => $amount)
+        {
+            if($unitType !== 'draftees')
+            {
+                $release[$unitType] = '0';
+            }
+        }
+
+        #dd($release, $request->get('release'));
+
         $dominion = $this->getSelectedDominion();
         $releaseActionService = app(ReleaseActionService::class);
 
