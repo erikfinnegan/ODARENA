@@ -907,7 +907,7 @@ class MilitaryCalculator
 
     protected function getUnitPowerFromVersusOtherDeityPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
-        if ($target === null && empty($calc))
+        if ($target === null && empty($calc) or !$dominion->hasDeity())
         {
             return 0;
         }
@@ -915,7 +915,7 @@ class MilitaryCalculator
         $otherDeityPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_other_deity", null);
         $powerFromPerk = 0;
 
-        if (!$otherDeityPerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+        if (!$otherDeityPerkData or $dominion->isAbandoned())
         {
             return 0;
         }
