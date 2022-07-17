@@ -901,7 +901,7 @@ mycelial_visions_friendly:
   exclusive_races:
     - Myconid
   perks:
-    mana_production_mod: 20
+    mana_production_mod: 5
 
 protective_spores:
   name: Protective Spores
@@ -949,7 +949,7 @@ verdant_fields_friendly:
   exclusive_races:
     - Myconid
   perks:
-    food_production_mod: 20
+    food_production_mod: 5
 
 # END MYCONID SPELLS
 
