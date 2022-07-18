@@ -345,7 +345,7 @@
                                             @endif
 
                                             @if($expeditionAmount)
-                                                <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from expedition">
+                                                <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> Units returning from expedition">
                                                     <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($expeditionAmount) }}
                                                 </span>
                                             @endif
@@ -356,10 +356,21 @@
                                         </td>
                                     @endfor
                                     <td class="text-left">
-                                        <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
-                                        <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
-                                        <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
-                                        <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-home fa-fw'></i> Units at home">
+                                            <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
+                                        </span>
+
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> Units in training">
+                                            <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                        </span>
+
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from invasion">
+                                            <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                        </span>
+
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> Units returning from expedition">
+                                            <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach
