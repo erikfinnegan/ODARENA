@@ -544,7 +544,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === '192.168.64.11')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -1685,7 +1685,7 @@ class InvadeActionService
 
         $psionicConversions = $this->conversionCalculator->getPsionicConversions($cult, $enemy, $this->invasionResult, $mode);
 
-        dump($psionicConversions);
+        #dump($psionicConversions);
 
         if(empty($psionicConversions))
         {
@@ -1705,7 +1705,20 @@ class InvadeActionService
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
             {
-                $enemy->{'military_unit' . $slot} -= $amount;
+                isset($this->invasionResult['defender']['units_lost'][$slot]) ? $this->invasionResult['defender']['units_lost'][$slot] += $amount : $this->invasionResult['defender']['units_lost'][$slot] = $amount;
+
+                if(in_array($slot, [1,2,3,4]))
+                {
+                    $enemy->{'military_unit'.$slot} -= $amount;
+                }
+                elseif($slot == 'draftees')
+                {
+                    $enemy->{'military_'.$slot} -= $amount;
+                }
+                elseif($slot == 'peasants')
+                {
+                    $enemy->{$slot} -= $amount;
+                }
             }
 
             foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
@@ -1723,6 +1736,8 @@ class InvadeActionService
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
             {
+                isset($this->invasionResult['attacker']['units_lost'][$slot]) ? $this->invasionResult['attacker']['units_lost'][$slot] += $amount : $this->invasionResult['attacker']['units_lost'][$slot] = $amount;
+
                 if(isset($this->invasionResult['attacker']['units_sent'][$slot]))
                 {
                     if(in_array($slot, [1,2,3,4]))
@@ -1739,7 +1754,6 @@ class InvadeActionService
                         #$enemy->{$slot} -= $amount;
                     }
                 }
-                
             }
 
             foreach($psionicConversions['psionic_conversions'] as $slot => $amount)
