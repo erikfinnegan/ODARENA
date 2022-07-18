@@ -57,7 +57,6 @@ druvas_granaries:
     - Icekin
     - Glimjir
     - Monster
-    - Myconid
     - Nox
     - Spirit
     - Void
@@ -118,6 +117,7 @@ fools_gold:
     - Elementals
     - Growth
     - Monster
+    - Myconid
     - Sylvan
     - Void
   perks:
