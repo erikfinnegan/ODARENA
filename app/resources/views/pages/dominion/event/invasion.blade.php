@@ -297,7 +297,7 @@
                                         </td>
                                     </tr>
 
-                                    @if (isset($event->data['attacker']['conversions']))
+                                    @if (isset($event->data['attacker']['conversions']) and array_sum($event->data['attacker']['conversions']) > 0)
                                     <tr>
                                         <th colspan="2">Conversion</th>
                                     </tr>
@@ -760,7 +760,7 @@
                                         </td>
                                     </tr>
 
-                                    @if (isset($event->data['defender']['conversions']))
+                                    @if (isset($event->data['defender']['conversions']) and array_sum($event->data['defender']['conversions']) > 0)
                                     <tr>
                                         <th colspan="2">Conversion</th>
                                     </tr>
