@@ -82,6 +82,7 @@ class LandCalculator
         {
             $incoming += $this->queueService->getExplorationQueueTotalByResource($dominion, "land_{$landType}");
             $incoming += $this->queueService->getInvasionQueueTotalByResource($dominion, "land_{$landType}");
+            $incoming += $this->queueService->getExpeditionQueueTotalByResource($dominion, "land_{$landType}");
         }
 
         return $incoming;
