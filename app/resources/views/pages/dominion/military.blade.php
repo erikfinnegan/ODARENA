@@ -365,7 +365,7 @@
                                         </span>
 
                                         <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from invasion">
-                                            <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                            <i class="ra ra-crossed-swords ra-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
                                         </span>
 
                                         <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> Units returning from expedition">
