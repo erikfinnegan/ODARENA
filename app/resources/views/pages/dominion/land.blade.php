@@ -27,6 +27,7 @@
                                     <col width="100">
                                     <col width="100">
                                     <col width="100">
+                                    <col width="100">
                                     @for ($i = 1; $i <= 12; $i++)
                                         <col>
                                     @endfor
@@ -35,6 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th>Land Type</th>
+                                        <th class="text-center">Owned</th>
                                         <th class="text-center">Barren</th>
                                         <th class="text-center">Rezone From</th>
                                         <th class="text-center">Rezone Into</th>
@@ -48,6 +50,7 @@
                                     @php
                                         $incomingLandPerTick = array_fill(1,12,0);
                                         $barrenLand = $landCalculator->getBarrenLandByLandType($selectedDominion);
+                                        $totalLand = $landCalculator->getTotalLand($selectedDominion);
                                     @endphp
                                     @foreach ($landHelper->getLandTypes() as $landType)
                                         @php
@@ -57,7 +60,13 @@
                                             <td>{!! $landHelper->getLandTypeIconHtml($landType) !!} {{ ucfirst($landType) }}</td>
 
                                             <!-- Rezone From -->
-                                            <td class="text-center">{{ number_format($amount) }}</td>
+                                            <td class="text-center">
+                                                {{ number_format($selectedDominion->{'land_' . $landType}) }} 
+                                                <small class="text-muted">({{ number_format(($selectedDominion->{'land_' . $landType} / $totalLand)*100,2) }}%)</small>
+                                            </td>
+                                            <td class="text-center">
+                                                {{ number_format($amount) }}
+                                            </td>
                                             <td class="text-center">
                                                 <input name="remove[{{ $landType }}]" type="number"
                                                     class="form-control text-center" placeholder="0" min="0"
@@ -90,13 +99,18 @@
                                                     @endif
                                                 </td>
                                             @endfor
-                                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
+                                            <td class="text-center">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{  number_format($selectedDominion->{'land_' . $landType} + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}">
+                                                    {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}
+                                                </span>
+                                            </td>
 
 
                                         </tr>
                                     @endforeach
                                     <tr>
                                         <td><em>Total</em></td>
+                                        <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
                                         <td class="text-center"><em>{{ number_format(array_sum($barrenLand)) }}</em></td>
                                         <td colspan="2">
                                             @if ((bool)$selectedDominion->race->getPerkValue('cannot_rezone'))

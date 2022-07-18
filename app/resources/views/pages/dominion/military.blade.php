@@ -507,10 +507,11 @@
                             @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting'))
                             <tr>
                                 @if ($selectedDominion->race->name == 'Myconid')
-                                <td class="text">Germination</td>
+                                    <td class="text">Germination</td>
                                 @else
-                                <td class="text">Draft Rate</td>
+                                    <td class="text">Draft Rate</td>
                                 @endif
+                                
                                 <td class="text">
                                     <input type="number" name="draft_rate" class="form-control text-center"
                                            style="display: inline-block; width: 4em;" placeholder="0" min="0" max="100"
