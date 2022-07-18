@@ -542,6 +542,8 @@ class UnitHelper
                     }
 
                     $perkValue[1] = number_format($perkValue[1], 2);
+
+                    $perkValue = []
                 }
 
 

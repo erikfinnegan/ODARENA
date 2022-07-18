@@ -1130,8 +1130,22 @@ class NotificationHelper
                         $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our realm.';
                         break;
 
+                    case 'mycelial_visions_friendly':
+                        $resultString = 'Mycelial visions are increasing our mana production.';
+                        break;
+
+                    case 'protective_spores_friendly':
+                        $resultString = 'Protective spores envelop our lands, reducing the damage from sorcery.';
+                        break;
+
+                    case 'verdant_fields_friendly':
+                        $resultString = 'Myconid magic turns our fields verdant, increasing our food production.';
+                        break;
+
                     default:
-                        throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
+                        $resultString = 'Friendly wizards cast ' . $data['spellKey'] . ' on us.';
+                        break;
+                        #throw new LogicException("Received friendly spell notification for operation key {$data['spellKey']} not yet implemented");
                 }
 
                 if ($sourceDominion)
