@@ -356,19 +356,19 @@
                                         </td>
                                     @endfor
                                     <td class="text-left">
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-home fa-fw'></i> Units at home">
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-home fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} at home">
                                             <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
                                         </span>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> Units in training">
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} in training">
                                             <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
                                         </span>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from invasion">
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} returning from invasion">
                                             <i class="ra ra-crossed-swords ra-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
                                         </span>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> Units returning from expedition">
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} returning from expedition">
                                             <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                         </span>
                                     </td>
