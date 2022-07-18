@@ -325,8 +325,8 @@
                                             @endphp
 
                                             @if($trainingAmount)
-                                                <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> Units in training">
-                                                    <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($trainingAmount) }}
+                                                <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-up ra-fw'></i> Units in training">
+                                                    <i class="ra ra-muscle-up ra-fw"></i>&nbsp;{{ number_format($trainingAmount) }}
                                                 </span>
 
                                                 @if($invasionAmount + $expeditionAmount)
@@ -360,8 +360,8 @@
                                             <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
                                         </span>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} in training">
-                                            <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-up ra-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} in training">
+                                            <i class="ra ra-muscle-up ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
                                         </span>
 
                                         <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} returning from invasion">
