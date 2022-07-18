@@ -305,7 +305,7 @@
                                 @for ($i = 1; $i <= 12; $i++)
                                     <th class="text-center">{{ $i }}</th>
                                 @endfor
-                                <th class="text-center">Home<br>(Training)</th>
+                                <th class="text-center">Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -328,12 +328,20 @@
                                                 <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-fat ra-fw'></i> Units in training">
                                                     <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($trainingAmount) }}
                                                 </span>
+
+                                                @if($invasionAmount + $expeditionAmount)
+                                                    <br>
+                                                @endif
                                             @endif
 
                                             @if($invasionAmount)
                                                 <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from invasion">
                                                     <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($invasionAmount) }}
                                                 </span>
+
+                                                @if($invasionAmount + $expeditionAmount)
+                                                    <br>
+                                                @endif
                                             @endif
 
                                             @if($expeditionAmount)
@@ -347,9 +355,11 @@
                                             @endif
                                         </td>
                                     @endfor
-                                    <td class="text-center">
-                                        {{ number_format($selectedDominion->{'military_' . $unitType}) }}
-                                        ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                    <td class="text-left">
+                                        <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
+                                        <i class="ra ra-muscle-fat ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                        <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
+                                        <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                     </td>
                                 </tr>
                             @endforeach
