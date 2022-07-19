@@ -284,7 +284,8 @@
             </form>
         </div>
 
-
+        {{--
+        
         <div class="col-sm-12 col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -379,8 +380,9 @@
                 </div>
             </div>
         </div>
+        --}}
 
-        {{-- 
+        <!-- Stacked boxes -->
         <div class="col-sm-12 col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -577,7 +579,7 @@
                 </div>
             </div>
         </div>
-        --}}
+        
 
     </div>
 
