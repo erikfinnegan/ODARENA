@@ -100,8 +100,8 @@
                                                 </td>
                                             @endfor
                                             <td class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{  number_format($selectedDominion->{'land_' . $landType} + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}">
-                                                    {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}
+                                                <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{  number_format($selectedDominion->{'land_' . $landType} + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}")) }}">
+                                                    {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}")) }}
                                                 </span>
                                             </td>
 
