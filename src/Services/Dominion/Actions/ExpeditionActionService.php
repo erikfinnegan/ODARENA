@@ -241,7 +241,7 @@ class ExpeditionActionService
             $this->statsService->updateStat($dominion, 'expeditions', 1);
 
             # Debug before saving:
-            if(request()->getHost() === 'odarena.local')
+            if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
                 dd($this->expeditionResult);
             }

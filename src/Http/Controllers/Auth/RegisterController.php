@@ -103,7 +103,7 @@ class RegisterController extends AbstractController
     protected function create(array $data)
     {
 
-      if(request()->getHost() == 'odarena.local')
+      if(request()->getHost() == 'odarena.local' or request()->getHost() == 'odarena.virtual')
       {
           return User::create([
               'email' => $data['email'],

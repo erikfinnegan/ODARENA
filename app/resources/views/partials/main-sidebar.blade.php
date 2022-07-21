@@ -96,7 +96,7 @@
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
-                @if(request()->getHost() == 'odarena.local')
+                @if(request()->getHost() == 'odarena.local' or request()->getHost() == 'odarena.virtual')
                     <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
                 @endif
                 

@@ -205,7 +205,7 @@ class RoundController extends AbstractController
                             throw new GameException('Invalid race selection');
                         }
         
-                        if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
+                        if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local' and request()->getHost() !== 'odarena.virtual')
                         {
                             if ($roundsPlayed < $race->minimum_rounds)
                             {
@@ -259,7 +259,7 @@ class RoundController extends AbstractController
                 } catch (QueryException $e) {
         
                     # Useful for debugging.
-                    if(request()->getHost() === 'odarena.local' or request()->getHost() === 'sim.odarena.com')
+                    if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual' or request()->getHost() === 'sim.odarena.com')
                     {
                         dd($e->getMessage());
                     }
@@ -386,7 +386,7 @@ class RoundController extends AbstractController
                     throw new GameException('Invalid race selection');
                 }
 
-                if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
+                if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local' and request()->getHost() !== 'odarena.virtual')
                 {
                     if ($roundsPlayed < $race->rounds_played)
                     {
@@ -440,7 +440,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
 
             # Useful for debugging.
-            if(request()->getHost() === 'odarena.local' or request()->getHost() === 'sim.odarena.com')
+            if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual' or request()->getHost() === 'sim.odarena.com')
             {
                 dd($e->getMessage());
             }
