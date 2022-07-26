@@ -14,7 +14,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-map fa-fw"></i> Land</h3>
                         <small class="pull-right text-muted">
-                            <span data-toggle="tooltip" data-placement="top" title="How many acres of land you can afford to explore right now">Max explorable</span>: {{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}
+                            <span data-toggle="tooltip" data-placement="top" title="How many acres of land you can afford to rezone right now">Max rezonable</span>: {{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }}
                         </small>
                     </div>
                     <form action="{{ route('dominion.land') }}" method="post" role="form">
