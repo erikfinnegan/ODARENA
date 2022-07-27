@@ -44,7 +44,7 @@ class TechHelper
             'spell_cost' => '%s%% cost of spells',
             'wizard_cost' => '%s%% cost of wizards',
             'wizard_strength' => '%s%% wizard power',
-            'wizard_strength_recovery' => '%s wizard strength per tick',
+            'wizard_strength_recovery' => '%s wizard strength recovery per tick',
 
             // Resource related
             'food_production_mod' => '%s%% food production',
