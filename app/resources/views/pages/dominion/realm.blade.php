@@ -125,7 +125,7 @@
                                     <td class="text-center">{{ $i }} </td>
                                     <td>
                                         @if ($dominion->isLocked())
-                                            <span data-toggle="tooltip" data-placement="top" title="This dominion has been locked.<br>Reason: <strong>{{ $dominion->getLockedReason($dominion->is_locked) }}</strong>">
+                                            <span data-toggle="tooltip" data-placement="top" title="<strong>This dominion has been locked.</strong><br>Reason: <em>{{ $dominion->getLockedReason($dominion->is_locked) }}</em>">
                                             <i class="fa fa-lock fa-lg text-grey" title=""></i>
                                             </span>
                                         @endif
