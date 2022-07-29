@@ -542,7 +542,7 @@ class WorldNewsHelper
         $string = sprintf(
             '<a href="%s">
                 <span data-toggle="tooltip" data-placement="top" title="
-                    <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%% <small>(%s)</small></span><br>
+                    <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span>&nbsp;<small>(%s)</small><br>
                     <small class=\'text-muted\'>Faction:</small> %s<br>
                     <small class=\'text-muted\'>Status:</small> %s<br>
                     <small class=\'text-muted\'>Units returning:</small> %s<br>
