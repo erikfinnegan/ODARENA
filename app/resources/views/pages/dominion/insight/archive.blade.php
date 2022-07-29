@@ -209,7 +209,7 @@
                   <a href="{{ route('dominion.insight.show', ['dominion' => $dominion]) }}" class="btn btn-primary btn-block">View current Insight</a>
                   <p class="text-muted">
                       <em>
-                          Currently viewing insight archived at tick {{ $dominionInsight->round_tick }},
+                          Currently viewing insight archived at tick {{ number_format($dominionInsight->round_tick) }},
                           <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }} {{ isset($dominionInsight->source_dominion_id) ? 'by ' . OpenDominion\Models\Dominion::findOrFail($dominionInsight->source_dominion_id)->name : '' }}">
                               {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago</a>.
                           </span>

@@ -143,7 +143,7 @@ class WorldNewsHelper
                 $this->generateDominionString($trigger, 'neutral', $viewer),
                 number_format($round->goal),
                 $this->roundHelper->getRoundModeGoalString($round),
-                $round->end_tick
+                number_format($round->end_tick)
             );
         }
 
@@ -542,7 +542,7 @@ class WorldNewsHelper
         $string = sprintf(
             '<a href="%s">
                 <span data-toggle="tooltip" data-placement="top" title="
-                    <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span><br>
+                    <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%% <small>(%s)</small></span><br>
                     <small class=\'text-muted\'>Faction:</small> %s<br>
                     <small class=\'text-muted\'>Status:</small> %s<br>
                     <small class=\'text-muted\'>Units returning:</small> %s<br>
@@ -556,6 +556,7 @@ class WorldNewsHelper
             route('dominion.insight.show', [$dominion->id]),
             $this->rangeCalculator->isInRange($viewer, $dominion) ? "text-green" : "text-red",
             number_format($this->landCalculator->getTotalLand($dominion)/$this->landCalculator->getTotalLand($viewer)*100,2),
+            number_format($this->landCalculator->getTotalLand($dominion)),
             $dominion->race->name,
             (($dominion->realm->id == $viewer->realm->id) or ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration')) ? "<span class='text-green'>Friendly</span>" : "<span class='text-red'>Hostile</span>",
             $this->militaryCalculator->hasReturningUnits($dominion) ? "<span class='text-green'>Yes</span>" : "<span class='text-red'>No</span>",
