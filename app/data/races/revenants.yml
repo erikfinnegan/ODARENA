@@ -1,0 +1,85 @@
+name: Revenants
+alignment: evil
+description:
+home_land_type: swamp
+playable: 1
+skill_level: 2
+max_per_round: 1
+minimum_rounds_played: 2
+
+resources:
+  - gold
+  - food
+  - lumber
+  - gems
+  - mana
+
+perks:
+  wizards_training_time: 6
+units:
+  - name: Lesser Zombie
+    training_time: 12
+    type:
+      - mindless
+      - magical
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      cannot_be_trained: 1
+      no_draftee_on_release: 1
+      displaced_peasants_random_split_conversion: 80,90,1,2
+      strength_conversion: 4,1,2 # threshold,under,over
+      some_win_into: 2,2 # ratio, slot
+
+  - name: Zombie
+    training_time: 12
+    type:
+      - mindless
+    power:
+      offense: 7
+      defense: 6
+    perks:
+      cannot_be_trained: 1
+      no_draftee_on_release: 1
+      displaced_peasants_random_split_conversion: 70,90,2,3
+      strength_conversion: 6,2,3 # threshold,under,over
+      some_win_into: 2,2 # ratio, slot
+
+  - name: Great Zombie
+    training_time: 12
+    type:
+      - sentient
+      - intelligent
+    cost:
+      gold: 1000
+      mana: 8
+    power:
+      offense: 14
+      defense: 11
+    perks:
+      cannot_be_trained: 1
+      no_draftee_on_release: 1
+      displaced_peasants_random_split_conversion: 60,90,3,2
+      strength_conversion: 6,2,3 # threshold,under,over
+
+  - name: Necromancer
+    training_time: 6
+    type:
+      - sentient
+      - intelligent
+      - wise
+    cost:
+      gold: 300
+      lumber: 1
+      wizard: 1
+    power:
+      offense: 04
+      defense: 6
+    perks:
+      strength_conversion: 4,2,3 # threshold,under,over
+      immortal_wizard: 1
+      no_draftee: 1
+      counts_as_wizard_offense: 0.50
+      counts_as_wizard_defense: 0.25
+      building_limit: wizard_guild,40 # building, buildings per unit, imp to increased

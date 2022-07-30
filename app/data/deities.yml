@@ -36,7 +36,6 @@ bregon:
     offensive_power: 5
     mana_production_mod: -20
     gold_production_mod: -2.5
-    cannot_send_expeditions: 1
 
 druva:
   name: Druva
@@ -61,7 +60,6 @@ elskas:
     spy_strength: 10
     target_defensive_power_mod: -5
     casualties: 10
-    cannot_send_expeditions: 1
 
 glimj:
   name: Glimj
@@ -73,7 +71,6 @@ glimj:
     defensive_power: 5
     food_production_mod: 10
     gold_production_mod: -2.5
-    cannot_send_expeditions: 1
 
 ib_tham:
   name: Ib-Tham
@@ -96,20 +93,19 @@ ix:
       xp_per_acre_gained: 50
       construction_cost: 5
       rezone_cost: 5
-      cannot_send_expeditions: 1
 
 kinthys:
   name: Kinthys
   range_multiplier: 0.75
   exclusive_races:
     - Afflicted
+    - Revenants
     - Undead
   perks:
     casualties: -10
     wizard_cost: -10
     defensive_power: 2.5
     xp_generation_mod: -2.5
-    cannot_send_expeditions: 1
 
 mirnon:
   name: Mirnon
@@ -122,7 +118,6 @@ mirnon:
     gems_production_mod: 5
     ore_production_mod: 5
     food_production_mod: -20
-    cannot_send_expeditions: 1
 
 sazal:
   name: Sazal
@@ -133,7 +128,6 @@ sazal:
     wizard_strength: 10
     unit_mana_costs: -2.5
     gems_production_mod: -5
-    cannot_send_expeditions: 1
 
 tiranthael:
   name: Tiranthael
@@ -143,7 +137,6 @@ tiranthael:
   perks:
     offensive_power_on_retaliation: 10
     mana_production_mod: -25
-    cannot_send_expeditions: 1
 
 urugdakh:
   name: Urugdakh
@@ -156,19 +149,18 @@ urugdakh:
     offensive_power_on_retaliation: 5
     casualties: 10
     construction_cost: 7.5
-    cannot_send_expeditions: 1
 
 zidur:
   name: Zidur
   range_multiplier: 0.60
   exclusive_races:
     - Afflicted
+    - Revenants
     - Undead
   perks:
     increases_enemy_casualties: 10
     population_growth: -10
     target_defensive_power_mod: -2.5
-    cannot_send_expeditions: 1
 
 voiddeity1:
   name: ◮◬◭
@@ -180,7 +172,6 @@ voiddeity1:
     target_defensive_power_mod: -5
     rezone_cost: 20
     construction_cost: 20
-    cannot_send_expeditions: 1
 
 voiddeity2:
   name: ▽◬◿
@@ -191,4 +182,3 @@ voiddeity2:
     improvements_interest: 10
     rezone_cost: -20
     unit_mana_costs: 5
-    cannot_send_expeditions: 1

@@ -2,7 +2,7 @@ name: Undead
 alignment: evil
 description:
 home_land_type: swamp
-playable: 1
+playable: 0
 skill_level: 2
 max_per_round: 1
 minimum_rounds_played: 2

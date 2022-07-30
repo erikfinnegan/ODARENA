@@ -46,12 +46,33 @@ class ExpeditionCalculator
     public function getOpPerLand(Dominion $dominion): float
     {
         $land = $this->landCalculator->getTotalLand($dominion);
-        return ($land ** 1.25) / 3;
+        return ($land ** 1.25) / 5;
     }
 
     public function getLandDiscoveredAmount(Dominion $dominion, float $op): int
     {
-        return floor($op / $this->getOpPerLand($dominion) * $this->getLandDiscoveredMultiplier($dominion));
+        $baseGain = floor($op / $this->getOpPerLand($dominion) * $this->getLandDiscoveredMultiplier($dominion));
+
+        # Reduced by deity multiplier
+        $deityMultiplier = 1;
+        if ($dominion->hasDeity())
+        {
+            $deityMultiplier -= $dominion->deity->range_multiplier;
+        }
+
+        return $baseGain * $deityMultiplier;
+    }
+
+    public function getLandDiscoveredMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 1;
+        $multiplier += $dominion->getSpellPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->getTechPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->getImprovementPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->race->getPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->title->getPerkMultiplier('expedition_land_gains');
+
+        return $multiplier;
     }
 
     public function getLandDiscovered(Dominion $dominion, int $landDiscoveredAmount): array
@@ -73,16 +94,6 @@ class ExpeditionCalculator
 
     }
 
-    public function getLandDiscoveredMultiplier(Dominion $dominion): float
-    {
-        $multiplier = 1;
-        $multiplier += $dominion->getSpellPerkMultiplier('expedition_land_gains');
-        $multiplier += $dominion->getTechPerkMultiplier('expedition_land_gains');
-        $multiplier += $dominion->getImprovementPerkMultiplier('expedition_land_gains');
-        $multiplier += $dominion->race->getPerkMultiplier('expedition_land_gains');
-        $multiplier += $dominion->title->getPerkMultiplier('expedition_land_gains');
 
-        return $multiplier;
-    }
 
 }

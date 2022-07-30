@@ -21,12 +21,9 @@ resources:
   - mana
   - miasma
 
-peasants_production:
-  gold: 2.70
-
 improvement_resources:
   gems: 12
-  miasma: 24
+  miasma: 32
   gold: 1
   lumber: 2
 
@@ -35,6 +32,7 @@ perks:
   population_growth: 30
   converts_assassinated_draftees: 1 # into slot 1
   converts_executed_spies: 1 # into slot 1
+
 units:
   - name: Abomination
     training_time: 9

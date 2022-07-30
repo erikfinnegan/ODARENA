@@ -93,6 +93,7 @@ mining_strength:
     - Nox
     - Qur
     - Reptilians
+    - Revenants
     - Simian
     - Spirit
     - Sylvan
@@ -223,6 +224,7 @@ transmogrify:
     - Nox
     - Qur
     - Reptilians
+    - Revenants
     - Simian
     - Spirit
     - Sylvan
@@ -1142,7 +1144,7 @@ fine_arts:
     invest_bonus: 10
     unit_gold_costs: 5
 
-# BEGIN UNDEAD
+# BEGIN UNDEAD SPELLS
 
 dark_rites:
   name: Dark Rites
@@ -1181,7 +1183,7 @@ rites_of_kinthys:
   perks:
     converts_crypt_bodies: 13,4,2 # every 10 unit4 creates 1 unit2
 
-# END UNDEAD
+# END UNDEAD SPELLS
 
 furnace_maws:
   name: Furnace Maws
@@ -1307,13 +1309,13 @@ miasmic_charges:
   class: passive
   cost: 6
   duration: 24
-  cooldown: 192
   exclusive_races:
     - Afflicted
   perks:
     defense_from_resource: 0.20,miasma # DP per resource, resource
     resource_lost_on_invasion: 100,miasma # percentage, resource
     miasma_production_mod: -50
+    population_growth: -100
 
 # END AFFLICTED
 
@@ -1426,6 +1428,7 @@ curse_of_zidur:
   duration: 0.5
   cooldown: 12
   exclusive_races:
+    - Revenants
     - Undead
   perks:
     casualties: 5
@@ -1536,6 +1539,7 @@ curse_of_kinthys:
   duration: 0
   cooldown: 24
   exclusive_races:
+    - Revenants
     - Undead
   perks:
     decrease_morale: 1.00
