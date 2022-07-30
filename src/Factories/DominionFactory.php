@@ -173,6 +173,11 @@ class DominionFactory
 
                 $startingParameters['draft_rate'] = 0;
             }
+
+            if($race->name == 'Revenants')
+            {
+                $startingParameters['unit1'] = 4000;
+            }
         }
         else
         {

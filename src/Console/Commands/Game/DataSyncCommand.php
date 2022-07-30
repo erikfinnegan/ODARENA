@@ -77,6 +77,7 @@ class DataSyncCommand extends Command implements CommandInterface
     public function handle(): void
     {
         DB::transaction(function () {
+            $this->syncQuickstarts();
             $this->syncDeities();
             $this->syncRaces();
             $this->syncTechs();
@@ -89,8 +90,9 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncResources();
             $this->syncArtefacts();
             $this->syncDecrees();
-            $this->syncQuickstarts();
         });
+
+        $this->info('Game data synced');
     }
 
     /**
@@ -285,6 +287,8 @@ class DataSyncCommand extends Command implements CommandInterface
                 $unit->perks()->sync($unitPerksToSync);
             }
         }
+
+        $this->info('Races and units synced.');
     }
 
     /**
@@ -357,6 +361,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $tech->perks()->sync($techPerksToSync);
         }
+
+        $this->info('Techs synced.');
     }
 
     /**
@@ -435,6 +441,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $building->perks()->sync($buildingPerksToSync);
         }
+
+        $this->info('Buildings synced.');
     }
 
     /**
@@ -442,74 +450,76 @@ class DataSyncCommand extends Command implements CommandInterface
      */
     protected function syncTitles()
     {
-            $fileContents = $this->filesystem->get(base_path('app/data/titles.yml'));
+        $fileContents = $this->filesystem->get(base_path('app/data/titles.yml'));
 
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
-            foreach ($data as $titleKey => $titleData) {
-                // Title
-                $title = Title::firstOrNew(['key' => $titleKey])
-                    ->fill([
-                        'name' => $titleData->name,
-                        'enabled' => (int)object_get($titleData, 'enabled', 1),
-                    ]);
+        foreach ($data as $titleKey => $titleData) {
+            // Title
+            $title = Title::firstOrNew(['key' => $titleKey])
+                ->fill([
+                    'name' => $titleData->name,
+                    'enabled' => (int)object_get($titleData, 'enabled', 1),
+                ]);
 
-                if (!$title->exists) {
-                    $this->info("Adding title {$titleData->name}");
-                } else {
-                    $this->info("Processing title {$titleData->name}");
+            if (!$title->exists) {
+                $this->info("Adding title {$titleData->name}");
+            } else {
+                $this->info("Processing title {$titleData->name}");
 
-                    $newValues = $title->getDirty();
+                $newValues = $title->getDirty();
 
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $title->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $title->save();
-                $title->refresh();
-
-                // Title Perks
-                $titlePerksToSync = [];
-
-                foreach (object_get($titleData, 'perks', []) as $perk => $value)
+                foreach ($newValues as $key => $newValue)
                 {
-                    $value = (string)$value;
+                    $originalValue = $title->getOriginal($key);
 
-                    $titlePerkType = TitlePerkType::firstOrCreate(['key' => $perk]);
-
-                    $titlePerksToSync[$titlePerkType->id] = ['value' => $value];
-
-                    $titlePerk = TitlePerk::query()
-                        ->where('title_id', $title->id)
-                        ->where('title_perk_type_id', $titlePerkType->id)
-                        ->first();
-
-                    if ($titlePerk === null)
+                    if(is_array($originalValue))
                     {
-                        $this->info("[Add Title Perk] {$perk}: {$value}");
+                        $originalValue = implode(',', $originalValue);
                     }
-                    elseif ($titlePerk->value != $value)
+                    if(is_array($newValue))
                     {
-                        $this->info("[Change Title Perk] {$perk}: {$titlePerk->value} -> {$value}");
+                        $newValue = implode(',', $newValue);
                     }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
-
-                $title->perks()->sync($titlePerksToSync);
             }
+
+            $title->save();
+            $title->refresh();
+
+            // Title Perks
+            $titlePerksToSync = [];
+
+            foreach (object_get($titleData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $titlePerkType = TitlePerkType::firstOrCreate(['key' => $perk]);
+
+                $titlePerksToSync[$titlePerkType->id] = ['value' => $value];
+
+                $titlePerk = TitlePerk::query()
+                    ->where('title_id', $title->id)
+                    ->where('title_perk_type_id', $titlePerkType->id)
+                    ->first();
+
+                if ($titlePerk === null)
+                {
+                    $this->info("[Add Title Perk] {$perk}: {$value}");
+                }
+                elseif ($titlePerk->value != $value)
+                {
+                    $this->info("[Change Title Perk] {$perk}: {$titlePerk->value} -> {$value}");
+                }
+            }
+
+            $title->perks()->sync($titlePerksToSync);
         }
+
+        $this->info('Titles synced.');
+    }
 
     /**
      * Syncs spells and perk data from .yml file to the database.
@@ -599,6 +609,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $spell->perks()->sync($spellPerksToSync);
         }
+
+        $this->info('Spells synced.');
     }
 
     /**
@@ -677,6 +689,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $spyop->perks()->sync($spyopPerksToSync);
         }
+
+        $this->info('Spy-ops synced.');
     }
 
     /**
@@ -753,6 +767,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $improvement->perks()->sync($improvementPerksToSync);
         }
+
+        $this->info('Improvements synced.');
     }
 
     /**
@@ -849,8 +865,9 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $resource->save();
             $resource->refresh();
-
         }
+
+        $this->info('Resources synced.');
     }
 
     /**
@@ -862,7 +879,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
         $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
-        foreach ($data as $deityKey => $deityData) {
+        foreach ($data as $deityKey => $deityData)
+        {
             // Deity
             $deity = Deity::firstOrNew(['key' => $deityKey])
                 ->fill([
@@ -928,93 +946,97 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $deity->perks()->sync($deityPerksToSync);
         }
+
+        $this->info('Deities synced.');
     }
 
     /**
      * Syncs spells and perk data from .yml file to the database.
      */
-        protected function syncArtefacts()
-        {
-            $fileContents = $this->filesystem->get(base_path('app/data/artefacts.yml'));
+    protected function syncArtefacts()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/artefacts.yml'));
 
-            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
-            foreach ($data as $artefactKey => $artefactData) {
+        foreach ($data as $artefactKey => $artefactData) {
 
-                $deityId = null;
-                if($deityKey = object_get($artefactData, 'deity'))
-                {
-                    $deityId = Deity::where('key', $deityKey)->first()->id;
-                }
-
-                // Artefact
-                $artefact = Artefact::firstOrNew(['key' => $artefactKey])
-                    ->fill([
-                        'name' => $artefactData->name,
-                        'enabled' => object_get($artefactData, 'enabled', 1),
-                        'description' => object_get($artefactData, 'description', ''),
-                        'deity_id' => $deityId,
-                        'base_power' => object_get($artefactData, 'base_power', 100000),
-                        'excluded_races' => object_get($artefactData, 'excluded_races', []),
-                        'exclusive_races' => object_get($artefactData, 'exclusive_races', []),
-                    ]);
-
-                if (!$artefact->exists) {
-                    $this->info("Adding artefact {$artefactData->name}");
-                } else {
-                    $this->info("Processing artefact {$artefactData->name}");
-
-                    $newValues = $artefact->getDirty();
-
-                    foreach ($newValues as $key => $newValue)
-                    {
-                        $originalValue = $artefact->getOriginal($key);
-
-                        if(is_array($originalValue))
-                        {
-                            $originalValue = implode(',', $originalValue);
-                        }
-                        if(is_array($newValue))
-                        {
-                            $newValue = implode(',', $newValue);
-                        }
-
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
-                    }
-                }
-
-                $artefact->save();
-                $artefact->refresh();
-
-                // Artefact Perks
-                $artefactPerksToSync = [];
-
-                foreach (object_get($artefactData, 'perks', []) as $perk => $value)
-                {
-                    $value = (string)$value;
-
-                    $artefactPerkType = ArtefactPerkType::firstOrCreate(['key' => $perk]);
-
-                    $artefactPerksToSync[$artefactPerkType->id] = ['value' => $value];
-
-                    $artefactPerk = ArtefactPerk::query()
-                        ->where('artefact_id', $artefact->id)
-                        ->where('artefact_perk_type_id', $artefactPerkType->id)
-                        ->first();
-
-                    if ($artefactPerk === null)
-                    {
-                        $this->info("[Add Artefact Perk] {$perk}: {$value}");
-                    }
-                    elseif ($artefactPerk->value != $value)
-                    {
-                        $this->info("[Change Artefact Perk] {$perk}: {$artefactPerk->value} -> {$value}");
-                    }
-                }
-
-                $artefact->perks()->sync($artefactPerksToSync);
+            $deityId = null;
+            if($deityKey = object_get($artefactData, 'deity'))
+            {
+                $deityId = Deity::where('key', $deityKey)->first()->id;
             }
+
+            // Artefact
+            $artefact = Artefact::firstOrNew(['key' => $artefactKey])
+                ->fill([
+                    'name' => $artefactData->name,
+                    'enabled' => object_get($artefactData, 'enabled', 1),
+                    'description' => object_get($artefactData, 'description', ''),
+                    'deity_id' => $deityId,
+                    'base_power' => object_get($artefactData, 'base_power', 100000),
+                    'excluded_races' => object_get($artefactData, 'excluded_races', []),
+                    'exclusive_races' => object_get($artefactData, 'exclusive_races', []),
+                ]);
+
+            if (!$artefact->exists) {
+                $this->info("Adding artefact {$artefactData->name}");
+            } else {
+                $this->info("Processing artefact {$artefactData->name}");
+
+                $newValues = $artefact->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $artefact->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $artefact->save();
+            $artefact->refresh();
+
+            // Artefact Perks
+            $artefactPerksToSync = [];
+
+            foreach (object_get($artefactData, 'perks', []) as $perk => $value)
+            {
+                $value = (string)$value;
+
+                $artefactPerkType = ArtefactPerkType::firstOrCreate(['key' => $perk]);
+
+                $artefactPerksToSync[$artefactPerkType->id] = ['value' => $value];
+
+                $artefactPerk = ArtefactPerk::query()
+                    ->where('artefact_id', $artefact->id)
+                    ->where('artefact_perk_type_id', $artefactPerkType->id)
+                    ->first();
+
+                if ($artefactPerk === null)
+                {
+                    $this->info("[Add Artefact Perk] {$perk}: {$value}");
+                }
+                elseif ($artefactPerk->value != $value)
+                {
+                    $this->info("[Change Artefact Perk] {$perk}: {$artefactPerk->value} -> {$value}");
+                }
+            }
+
+            $artefact->perks()->sync($artefactPerksToSync);
         }
+
+        $this->info('Artefacts synced.');
+    }
 
     /**
      * Syncs race, unit and perk data from .yml files to the database.
@@ -1022,11 +1044,15 @@ class DataSyncCommand extends Command implements CommandInterface
     protected function syncQuickstarts()
     {
         $files = $this->filesystem->files(base_path('app/data/quickstarts'));
+        $quickstartsToSync = [];
 
-        foreach ($files as $file) {
+        foreach ($files as $file)
+        {
             $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
 
             $race = Race::where('name', $data->race)->first();
+
+            $quickstartsToSync[] = $data->name;
 
             if(isset($data->deity))
             {
@@ -1099,8 +1125,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $quickstart->save();
             $quickstart->refresh();
-
         }
+
+        foreach(Quickstart::all() as $quickstart)
+        {
+            if(!in_array($quickstart->name, $quickstartsToSync))
+            {
+                $this->info("Deleting quickstart {$quickstart->name}");
+                $quickstart->delete();
+            }
+        }
+
+        $this->info('Quickstarts synced.');
     }
 
 
@@ -1242,6 +1278,8 @@ class DataSyncCommand extends Command implements CommandInterface
                 $decreeState->perks()->sync($decreeStatePerksToSync);
             }
         }
+
+        $this->info('Decrees synced.');
     }
 
 }

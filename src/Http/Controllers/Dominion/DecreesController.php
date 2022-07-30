@@ -30,7 +30,7 @@ class DecreesController extends AbstractDominionController
         $decrees = $decreeHelper->getDecreesByRace($dominion->race);
 
         return view('pages.dominion.decrees', [
-            'decreeHelper',
+            'decreeHelper' => $decreeHelper,
             'decrees' => $decrees
         ]);
     }

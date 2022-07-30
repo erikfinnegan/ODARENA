@@ -292,11 +292,11 @@ class Dominion extends AbstractModel
         return $this->hasOne(DominionDeity::class);
     }
 
-    public function decrees()
+    public function decreeStates()
     {
         return $this->hasManyThrough(
             Decree::class,
-            DominionDecree::class,
+            DominionDecreeState::class,
             'dominion_id',
             'id',
             'id',

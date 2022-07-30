@@ -4,8 +4,8 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Dominion;
-
 use OpenDominion\Models\Decree;
+use OpenDominion\Models\DominionDecreeState;
 
 class DecreeHelper
 {
@@ -305,6 +305,16 @@ class DecreeHelper
 
         return $exclusivityString;
 
+    }
+
+    public function isDominionDecreeIssued(Dominion $dominion, Decree $decree): bool
+    {
+        return $dominion->decreeStates->contains($decree);
+    }
+
+    public function getDominionDecreeState(Decree $decree, Dominion $dominion): DominionDecreeState
+    {
+        return $dominion->decreeStates->where('decree_id', $decree->id)->first();
     }
 
 }

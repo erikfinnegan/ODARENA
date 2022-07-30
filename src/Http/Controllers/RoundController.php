@@ -202,7 +202,7 @@ class RoundController extends AbstractController
         
                         if (!$race->playable and $race->alignment !== 'npc')
                         {
-                            throw new GameException('Invalid race selection');
+                            throw new GameException('Invalid faction selection.');
                         }
         
                         if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local' and request()->getHost() !== 'odarena.virtual')

@@ -1,6 +1,6 @@
 name: Revenants
 alignment: evil
-description:
+description: Starts with 4,000 Lesser Zombies.
 home_land_type: swamp
 playable: 1
 skill_level: 2

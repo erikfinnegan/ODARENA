@@ -43,11 +43,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1050
+      gold: 1150
       lumber: 10
     power:
       offense: 0
-      defense: 7
+      defense: 8
     perks:
       counts_as_wizard_offense: 0.50
       counts_as_wizard_defense: 0.25

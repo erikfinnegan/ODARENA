@@ -20,7 +20,12 @@
                             <div class="col-lg-12"><i class="far fa-file-alt fa-fw"></i> <b>Description</b></div>
                             <div class="col-lg-12">{{ $decree->description }}</div>
                         </div>
-                    </div>                    
+                    </div>         
+                    @if($decreeHelper->isDominionDecreeIssued($selectedDominion, $degree))
+
+                        <p>ISSUED</p>
+
+                    @endif
                     @foreach($decree->states as $decreeState)
                         <div class="row">
                             @php

@@ -11,7 +11,7 @@ resources:
   - mana
 
 peasants_production:
-  sapling: 0.01
+  sapling: 0.003
 
 construction_materials:
   - mana
@@ -33,7 +33,6 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   unemployed_peasants_produce: 1
-  sapling_production_mod: -70
 
 units:
   - name: Leshy

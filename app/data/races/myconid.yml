@@ -41,7 +41,7 @@ units:
     cost:
       food: 1000
     perks:
-      land_per_tick: 0.01
+      land_per_tick: 0.006
       attrition: 5
 
   - name: Psilocybe
@@ -85,7 +85,7 @@ units:
       food: 1200
     power:
       offense: 0
-      defense: 12
+      defense: 16
     perks:
       dies_into: 1
       increases_enemy_casualties: 1
