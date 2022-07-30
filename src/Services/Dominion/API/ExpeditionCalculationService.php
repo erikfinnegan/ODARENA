@@ -4,6 +4,7 @@ namespace OpenDominion\Services\Dominion\API;
 
 use LogicException;
 use OpenDominion\Calculators\Dominion\ArtefactCalculator;
+use OpenDominion\Calculators\Dominion\ExpeditionCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
@@ -58,12 +59,14 @@ class ExpeditionCalculationService
      */
     public function __construct(
         ArtefactCalculator $artefactCalculator,
+        ExpeditionCalculator $expeditionCalculator,
         LandCalculator $landCalculator,
         MilitaryCalculator $militaryCalculator,
         RangeCalculator $rangeCalculator
     )
     {
         $this->artefactCalculator = $artefactCalculator;
+        $this->expeditionCalculator = $expeditionCalculator;
         $this->landCalculator = $landCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->rangeCalculator = $rangeCalculator;

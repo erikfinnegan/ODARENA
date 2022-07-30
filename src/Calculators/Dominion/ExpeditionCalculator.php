@@ -26,7 +26,6 @@ class ExpeditionCalculator
     public function __construct(
 
           LandHelper $landHelper,
-          UnitHelper $unitHelper,
 
           LandCalculator $landCalculator,
           PrestigeCalculator $prestigeCalculator,

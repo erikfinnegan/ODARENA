@@ -4,8 +4,6 @@ description:
 home_land_type: swamp
 playable: 1
 skill_level: 2
-max_per_round: 1
-minimum_rounds_played: 2
 
 resources:
   - gold
@@ -21,7 +19,6 @@ units:
     training_time: 12
     type:
       - mindless
-      - magical
     power:
       offense: 4
       defense: 4
@@ -49,8 +46,7 @@ units:
   - name: Great Zombie
     training_time: 12
     type:
-      - sentient
-      - intelligent
+      - mindless
     cost:
       gold: 1000
       mana: 8
@@ -74,7 +70,7 @@ units:
       lumber: 1
       wizard: 1
     power:
-      offense: 04
+      offense: 4
       defense: 6
     perks:
       strength_conversion: 4,2,3 # threshold,under,over

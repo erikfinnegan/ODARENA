@@ -1315,7 +1315,7 @@ miasmic_charges:
     defense_from_resource: 0.20,miasma # DP per resource, resource
     resource_lost_on_invasion: 100,miasma # percentage, resource
     miasma_production_mod: -50
-    population_growth: -100
+    population_growth: -90
 
 # END AFFLICTED
 
