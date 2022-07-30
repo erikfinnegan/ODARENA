@@ -59,7 +59,7 @@ class ExpeditionCalculator
             $deityMultiplier -= $dominion->deity->range_multiplier;
         }
 
-        return $baseGain * $deityMultiplier;
+        return floor($baseGain * $deityMultiplier);
     }
 
     public function getLandDiscoveredMultiplier(Dominion $dominion): float
