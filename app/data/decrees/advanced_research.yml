@@ -8,7 +8,7 @@ exclusive_races:
 states:
   - name: Enabled
     perks:
-      xp_generation_mod: 10
+      xp_generation_mod: 12.5
       gold_production_mod: -2.5
       gems_production_mod: -2.5
       mana_production_mod: -2.5
