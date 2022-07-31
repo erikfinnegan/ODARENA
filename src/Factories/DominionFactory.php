@@ -36,9 +36,7 @@ class DominionFactory
 {
 
 
-    public function __construct(
-        RaceHelper $raceHelper
-    )
+    public function __construct()
     {
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);

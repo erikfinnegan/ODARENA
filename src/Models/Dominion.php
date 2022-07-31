@@ -295,14 +295,15 @@ class Dominion extends AbstractModel
     public function decreeStates()
     {
         return $this->hasManyThrough(
-            Decree::class,
+            DecreeState::class,
             DominionDecreeState::class,
             'dominion_id',
             'id',
             'id',
-            'decree_id'
+            'decree_state_id'
         );
     }
+
 
     public function queues()
     {
@@ -1442,6 +1443,29 @@ class Dominion extends AbstractModel
 
     # DECREES
 
+    protected function getDecreeStatePerks()
+    {
+        return $this->decreeStates->flatMap(
+            function ($decreeState) {
+                return $decreeState->perks;
+            }
+        );
+    }
+
+    public function getDecreePerkValue(string $key): float
+    {
+        $perks = $this->getDecreeStatePerks()->groupBy('key');
+
+        if (isset($perks[$key])) {
+            $max = (float)$perks[$key]->max('pivot.value');
+            if ($max < 0) {
+                return (float)$perks[$key]->min('pivot.value');
+            }
+            return $max;
+        }
+        return 0;
+    }
+    /*
     public function getDecreePerkValue(string $perkKey)
     {
         $perk = 0;
@@ -1464,8 +1488,8 @@ class Dominion extends AbstractModel
         }
 
         return $perk;
-
     }
+    */
 
     public function getDecreePerkMultiplier(string $key): float
     {
