@@ -17,7 +17,7 @@ resources:
 
 perks:
   food_production_mod: 15
-  xp_per_acre_gained: 100
+  xp_gains: 100
   salvaging: 75
   construction_cost: -20
   rezone_cost: -20

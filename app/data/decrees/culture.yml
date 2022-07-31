@@ -1,0 +1,37 @@
+name: Culture
+cooldown: 768
+description: Decide what type of culture you want your dominion to have.
+states:
+  - name: Artistic
+    perks:
+      improvements: 10
+      base_morale: 20
+
+  - name: Community
+    perks:
+      population: 2.5
+      population_growth: 10
+
+  - name: Espionage
+    perks:
+      spy_strength: 10
+      spy_cost: -5
+
+  - name: Militaristic
+    perks:
+      prestige_gains: 10
+      military_housing: 2.5
+
+  - name: Religious
+    perks:
+      deity_power: 2.5
+
+  - name: Scientific
+    perks:
+      xp_generation_mod: 2.5
+      xp_gains: 20
+
+  - name: Wizardry
+    perks:
+      wizard_strength: 10
+      wizard_cost: -5

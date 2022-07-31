@@ -1,0 +1,37 @@
+name: Economic Theory
+cooldown: 384
+description: Determine the type of military tradition you want your dominion to have.
+excluded_factions:
+  - Firewalker
+  - Lux
+  - Swarm
+  - Afflicted
+  - Artillery
+  - Troll
+  - Growth
+  - Myconid
+  - Marshling
+  - Void
+states:
+  - name: Trade
+    perks:
+      exchange_rate: 2.5
+
+  - name: Production
+    perks:
+      gold_production_mod: 1
+      food_production_mod: 1
+      lumber_production_mod: 1
+      ore_production_mod: 1
+      gems_production_mod: 1
+      mana_production_mod: 1
+      pearl_production_mod: 1
+
+  - name: Advancements
+    perks:
+      xp_generation_mod: 2.5
+
+  - name: Improvements
+    perks:
+      improvements: 2.5
+      improvement_points: 1.25

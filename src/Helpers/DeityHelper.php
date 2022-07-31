@@ -39,7 +39,7 @@ class DeityHelper
 
             'exchange_rate' => '%s%% exchange rates',
 
-            'xp_per_acre_gained' => '%s%% XP per acre gained',
+            'xp_gains' => '%s%% XP per acre gained',
 
             // Military
             'drafting' => '+%s%% drafting',

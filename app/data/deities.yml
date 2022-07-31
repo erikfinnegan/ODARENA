@@ -90,7 +90,7 @@ ix:
     range_multiplier: 0.75
     perks:
       xp_generation_mod: 5
-      xp_per_acre_gained: 50
+      xp_gains: 50
       construction_cost: 5
       rezone_cost: 5
 

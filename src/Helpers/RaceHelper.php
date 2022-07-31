@@ -397,7 +397,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Experience points gained per acre on successful invasions';
                 break;
-            case 'xp_per_acre_gained':
+            case 'xp_gains':
                 $negativeBenefit = false;
                 $description = 'XP per acre on invasions';
                 break;

@@ -96,6 +96,7 @@ class MoraleCalculator
         $multiplier += $dominion->getBuildingPerkMultiplier('base_morale');
         $multiplier += $dominion->getImprovementPerkMultiplier('base_morale');
         $multiplier += $dominion->getSpellPerkMultiplier('base_morale');
+        $multiplier += $dominion->getDecreePerkMultiplier('base_morale');
 
         return $multiplier;
 

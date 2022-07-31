@@ -315,11 +315,11 @@ class ExpeditionActionService
     {
 
         $xpPerAcreMultiplier = 1;
-        $xpPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_per_acre_gained');
-        $xpPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_per_acre_gained');
-        $xpPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_per_acre_gained');
-        $xpPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_per_acre_gained');
-        $xpPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_per_acre_gained');
+        $xpPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_gains');
+        $xpPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_gains');
+        $xpPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_gains');
+        $xpPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_gains');
+        $xpPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_gains');
 
         $xpGained = intval(25 * $xpPerAcreMultiplier * $landDiscovered);
 

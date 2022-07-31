@@ -1360,6 +1360,7 @@ class Dominion extends AbstractModel
         $multiplier += $this->getBuildingPerkMultiplier('deity_power');
         $multiplier += $this->race->getPerkMultiplier('deity_power');
         $multiplier += $this->title->getPerkMultiplier('deity_power') * $this->getTitlePerkMultiplier();
+        $multiplier += $this->getDecreePerkMultiplier('deity_power');
 
         return (float)$this->deity->getPerkValue($perkKey) * $multiplier;
     }

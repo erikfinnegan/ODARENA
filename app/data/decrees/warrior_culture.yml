@@ -1,10 +1,10 @@
 name: Military Tradition
 cooldown: 384
 description: Determine the type of military tradition you want your dominion to have.
-exclusive_races:
-  - Human
-  - Kerranad
-  - Nomad
+excluded_factions:
+  - Growth
+  - Myconid
+  - Void
 states:
   - name: Brutal
     perks:

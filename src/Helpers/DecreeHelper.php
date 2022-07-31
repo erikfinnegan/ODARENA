@@ -19,8 +19,10 @@ class DecreeHelper
 
         $perkTypeStrings = [
             # Housing and Population
+            'max_population' => '%s%% population.',
             'population_growth' => '%s%% population growth rate.',
             'drafting' => '%s%% drafting.',
+            'military_housing' => '%s%% military housing.',
 
             # Production
             'gold_production_mod' => '%s%% gold production.',
@@ -35,6 +37,7 @@ class DecreeHelper
             'mud_production_mod' => '%s%% mud production.',
             'swamp gas_production_mod' => '%s%% swamp gas production.',
             'xp_generation_mod' => '%s%% XP generation.',
+            'xp_gains' => '%s%% XP gains.',
 
             'building_gold_mine_production_mod' => '%s%% gold mine production.',
             'building_gold_quarry_production_mod' => '%s%% gold quarry production.',

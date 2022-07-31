@@ -651,6 +651,7 @@ class InvadeActionService
         $attackerPrestigeChangeMultiplier += $attacker->getDeityPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->realm->getArtefactPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->getTitlePerkMultiplier();
+        $attackerPrestigeChangeMultiplier += $attacker->getDecreePerkMultiplier('prestige_gains');
 
         # Monarch gains +10% always
         if($attacker->isMonarch())
@@ -1185,11 +1186,12 @@ class InvadeActionService
         $researchPointsPerAcreMultiplier = 1;
 
         # Increase RP per acre
-        $researchPointsPerAcreMultiplier += $attacker->race->getPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $attacker->getImprovementPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $attacker->getBuildingPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $attacker->getSpellPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $attacker->getDeityPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $attacker->race->getPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $attacker->getImprovementPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $attacker->getBuildingPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $attacker->getSpellPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $attacker->getDeityPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $attacker->getDecreePerkMultiplier('xp_gains');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         

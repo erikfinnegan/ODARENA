@@ -849,11 +849,11 @@ class ArtefactActionService
         $researchPointsPerAcreMultiplier = 1;
 
         # Increase RP per acre
-        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_per_acre_gained');
-        $researchPointsPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_gains');
+        $researchPointsPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_gains');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)
