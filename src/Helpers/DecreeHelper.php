@@ -24,24 +24,24 @@ class DecreeHelper
 
             # Production
             'gold_production_mod' => '%s%% gold production.',
-            'food_production_mod' => '%s%% food production',
+            'food_production_mod' => '%s%% food production.',
             'lumber_production_mod' => '%s%% lumber production.',
-            'ore_production_mod' => '%s%% ore production',
-            'gems_production_mod' => '%s%% gem production',
-            'mana_production_mod' => '%s%% mana production',
-            'pearls_production_mod' => '%s%% pearl production',
-            'blood_production_mod' => '%s%% blood production',
-            'horse_production_mod' => '%s%% horse production',
-            'mud_production_mod' => '%s%% mud production',
-            'swamp gas_production_mod' => '%s%% swamp gas production',
-            'xp_generation_mod' => '%s%% XP generation',
+            'ore_production_mod' => '%s%% ore production.',
+            'gems_production_mod' => '%s%% gem production.',
+            'mana_production_mod' => '%s%% mana production.',
+            'pearls_production_mod' => '%s%% pearl production.',
+            'blood_production_mod' => '%s%% blood production.',
+            'horse_production_mod' => '%s%% horse production.',
+            'mud_production_mod' => '%s%% mud production.',
+            'swamp gas_production_mod' => '%s%% swamp gas production.',
+            'xp_generation_mod' => '%s%% XP generation.',
 
-            'building_gold_mine_production_mod' => '%s%% gold mine production',
-            'building_gold_quarry_production_mod' => '%s%% gold quarry production',
+            'building_gold_mine_production_mod' => '%s%% gold mine production.',
+            'building_gold_quarry_production_mod' => '%s%% gold quarry production.',
 
             'exchange_rate' => '%s%% exchange rates.',
 
-            'food_consumption_mod' => '%s%% food consumption',
+            'food_consumption_mod' => '%s%% food consumption.',
 
             # Military
             'offensive_casualties' => '%s%% casualties on offense.',
@@ -72,8 +72,8 @@ class DecreeHelper
             'unit_pairing' => '%s%% unit pairing capacity.',
 
             # OP/DP
-            'offensive_power' => '%s%% offensive power',
-            'defensive_power' => '%s%% defensive power',
+            'offensive_power' => '%s%% offensive power.',
+            'defensive_power' => '%s%% defensive power.',
 
             # Improvements
             'improvements' => '%s%% improvements.',
