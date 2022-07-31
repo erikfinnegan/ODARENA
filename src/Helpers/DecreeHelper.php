@@ -47,21 +47,21 @@ class DecreeHelper
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
 
-            'unit_costs' => '%s%% unit costs',
-            'unit_gold_costs' => '%s%% unit gold costs',
-            'unit_ore_costs' => '%s%% unit ore costs',
-            'unit_lumber_costs' => '%s%% unit lumber costs',
-            'unit_mana_costs' => '%s%% unit mana costs',
-            'unit_blood_costs' => '%s%% unit blood costs',
-            'unit_food_costs' => '%s%% unit food costs',
+            'unit_costs' => '%s%% unit costs.',
+            'unit_gold_costs' => '%s%% unit gold costs.',
+            'unit_ore_costs' => '%s%% unit ore costs.',
+            'unit_lumber_costs' => '%s%% unit lumber costs.',
+            'unit_mana_costs' => '%s%% unit mana costs.',
+            'unit_blood_costs' => '%s%% unit blood costs.',
+            'unit_food_costs' => '%s%% unit food costs.',
 
-            'extra_units_trained' => '%s additional units trained for free',
+            'extra_units_trained' => '%s additional units trained for free.',
 
-            'morale_gains' => '%s%% morale gains',
-            'base_morale' => '%s%% base morale',
-            'prestige_gains' => '%s%% prestige gains',
+            'morale_gains' => '%s%% morale gains.',
+            'base_morale' => '%s%% base morale.',
+            'prestige_gains' => '%s%% prestige gains.',
 
-            'land_discovered' => '%s%% land discovered during invasions',
+            'land_discovered' => '%s%% land discovered during invasions.',
 
             'reduces_attrition' => '%s%% unit attrition.',
 
@@ -109,7 +109,7 @@ class DecreeHelper
             'wizard_strength_on_offense' => '%s%% wizard strength on offense.',
 
             # Growth specific
-            'generate_building' => 'Generate %s',
+            'generate_building' => 'Generate %s.',
             'generate_building_plain' => 'Generate %s on plains',
             'generate_building_mountain' => 'Generate %s in mountains',
             'generate_building_hill' => 'Generate %s on hills',
