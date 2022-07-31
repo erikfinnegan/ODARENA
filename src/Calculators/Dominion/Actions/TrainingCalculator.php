@@ -357,7 +357,6 @@ class TrainingCalculator
         $multiplier += $dominion->realm->getArtefactPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Decrees
-        $multiplier += $dominion->getDecreePerkMultiplier('unit_costs'); # For all resources
         $multiplier += $dominion->getDecreePerkMultiplier('unit_' . $resourceType . '_costs');
 
         # Cap reduction at -50%

@@ -8,8 +8,8 @@ states:
   - name: Brutal
     perks:
       offensive_power: 1.25
-      enemy_casualties: 10
-      casualties: 5
+      enemy_casualties: 5
+      casualties: 7.5
 
   - name: Defensive
     perks:
@@ -18,5 +18,5 @@ states:
 
   - name: Honourable
     perks:
-      prestige_gains: 10
+      prestige_gains: 5
       increases_enemy_casualties: -10
