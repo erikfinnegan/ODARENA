@@ -84,10 +84,10 @@ class DecreeHelper
             'rezone_cost' => '%s%% rezoning costs.',
 
             # Espionage and Wizardry
-            'spy_losses' => '%s spy losses.',
-            'spell_damage' => '%s spell damage.',
-            'wizard_cost' => '%s wizard costs.',
-            'spell_cost' => '%s spell costs.',
+            'spy_losses' => '%s%% spy losses.',
+            'spell_damage' => '%s%% spell damage.',
+            'wizard_cost' => '%s%% wizard costs.',
+            'spell_cost' => '%s%% spell costs.',
 
             'gold_theft_reduction' => '%s%% gold stolen from you.',
             'gems_theft_reduction' => '%s%% gems stolen from you.',
