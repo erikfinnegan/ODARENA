@@ -263,7 +263,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
     $router->get('resources')->uses('ScribesController@getResources')->name('resources');
-    $router->get('decrees')->uses('ScribesController@getDecrees')->name('decress');
+    $router->get('decrees')->uses('ScribesController@getDecrees')->name('decrees');
 
     $router->get('quickstarts')->uses('ScribesController@getQuickstarts')->name('quickstarts');
     $router->get('quickstart/{quickstart}')->uses('ScribesController@getQuickstart')->name('quickstart');
