@@ -152,7 +152,7 @@ class LandCalculator
                     $barren -= $dominionBuildings->where('building_id', $building->id)->first()->owned;
                 }
                 $barren -= $this->queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}");
-
+                $barren -= $this->queueService->getSabotageQueueTotalByResource($dominion, "building_{$building->key}");
             }
 
             $barrenLandByLandType[$landType] += $barren;

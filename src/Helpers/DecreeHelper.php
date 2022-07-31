@@ -114,7 +114,7 @@ class DecreeHelper
             'generate_building_hill' => 'Generate %s on hills',
             'generate_building_swamp' => 'Generate %s in swamps',
             'generate_building_water' => 'Generate %s in water',
-            'generate_building_forest' => 'Generate %s in forests',
+            'generate_building_forest' => 'Generate %s in the forest',
         ];
 
         foreach ($decreeState->perks as $perk)
@@ -145,14 +145,16 @@ class DecreeHelper
 
             # SPECIAL DESCRIPTION PERKS
 
-            if($perk->key === 'generate_building')
+            if($perk->key === 'generate_building' or
+                $perk->key === 'generate_building_plain' or
+                $perk->key === 'generate_building_mountain' or
+                $perk->key === 'generate_building_hill' or
+                $perk->key === 'generate_building_swamp' or
+                $perk->key === 'generate_building_water' or
+                $perk->key === 'generate_building_forest')
             {
                 $building = Building::where('key', $perkValue)->first();
 
-                if(!$building)
-                {
-                    dd($perk, $perk->key, $perkValue);
-                }
                 $perkValue = $building->name;
 
             }

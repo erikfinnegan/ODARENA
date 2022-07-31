@@ -1442,7 +1442,7 @@ class Dominion extends AbstractModel
 
     # DECREES
 
-    public function getDecreePerkValue(string $perkKey): float
+    public function getDecreePerkValue(string $perkKey)
     {
         $perk = 0;
 
@@ -1450,7 +1450,17 @@ class Dominion extends AbstractModel
         {
             $decreeState = DecreeState::findOrFail($dominionDecreeState->decree_state_id);
 
-            $perk += $decreeState->getPerkValue($perkKey);
+            $decreeStatePerkValue = $decreeState->getPerkValue($perkKey);
+
+            if(is_numeric($decreeStatePerkValue))
+            {
+                $perk += $decreeStatePerkValue;
+            }
+            else
+            {
+                return $decreeStatePerkValue;
+            }
+            
         }
 
         return $perk;

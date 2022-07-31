@@ -1348,7 +1348,16 @@ class TickService
         {
             foreach($this->landHelper->getLandTypes() as $landType)
             {
-
+                $barrenLand = $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType);
+                if($barrenLand > 0)
+                {
+                    $buildingKeyToGenerate = $dominion->getDecreePerkValue('generate_building_' . $landType);
+                    if($buildingKeyToGenerate)
+                    {
+                        #$this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKeyToGenerate => $barrenLand]);
+                        $this->queueService->queueResources('construction', $dominion, [('building_' . $buildingKeyToGenerate) => $barrenLand], 10);
+                    }
+                }
             }
         }
     }
