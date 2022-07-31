@@ -1,6 +1,5 @@
 name: Call To Arms
 cooldown: 48
-enabled: 1
 description: Quickly raise an army, at extra cost.
 excluded_races:
   - Growth
@@ -10,4 +9,8 @@ states:
   - name: Enabled
     perks:
       training_time_mod: -25
-      unit_costs: 15
+      unit_gold_costs: 15
+      unit_ore_costs: 15
+      unit_lumber_costs: 15
+      unit_mana_costs: 15
+      unit_food_costs: 15

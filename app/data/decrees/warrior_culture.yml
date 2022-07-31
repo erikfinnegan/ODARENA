@@ -1,0 +1,22 @@
+name: War Culture
+description: Determine the type of warfare you wish to wage.
+exclusive_races:
+  - Human
+  - Kerranad
+  - Nomad
+states:
+  - name: Brutal
+    perks:
+      offensive_power: 1.25
+      enemy_casualties: 10
+      casualties: 5
+
+  - name: Defensive
+    perks:
+      defensive_power: 1.25
+      cannot_invade: 1
+
+  - name: Honourable
+    perks:
+      prestige_gains: 10
+      increases_enemy_casualties: -10

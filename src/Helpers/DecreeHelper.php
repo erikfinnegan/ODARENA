@@ -47,6 +47,10 @@ class DecreeHelper
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
 
+            'increases_enemy_casualties' => '%s%% enemy casualties.',
+            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties on defense.',
+            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties on offense.',
+
             'unit_costs' => '%s%% unit costs.',
             'unit_gold_costs' => '%s%% unit gold costs.',
             'unit_ore_costs' => '%s%% unit ore costs.',
