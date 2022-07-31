@@ -6,6 +6,7 @@
                     <ul class="nav navbar-nav scribes-menu">
                         <li class="{{ Route::is('scribes.advancements') ? 'active' : null }}"><a href="{{ route('scribes.advancements') }}">Advancements</a></li>
                         <li class="{{ Route::is('scribes.buildings') ? 'active' : null }}"><a href="{{ route('scribes.buildings') }}">Buildings</a></li>
+                        <li class="{{ Route::is('scribes.decrees') ? 'active' : null }}"><a href="{{ route('scribes.decrees') }}">Decrees</a></li>
                         <li class="{{ Route::is('scribes.deities') ? 'active' : null }}"><a href="{{ route('scribes.deities') }}">Deities</a></li>
                         <li class="{{ Route::is('scribes.factions') ? 'active' : null }}"><a href="{{ route('scribes.factions') }}">Factions</a></li>
                         <li class="{{ Route::is('scribes.improvements') ? 'active' : null }}"><a href="{{ route('scribes.improvements') }}">Improvements</a></li>
