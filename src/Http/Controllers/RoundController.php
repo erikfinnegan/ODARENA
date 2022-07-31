@@ -10,6 +10,7 @@ use LogicException;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Factories\DominionFactory;
 use OpenDominion\Factories\RealmFactory;
+use OpenDominion\Helpers\DecreeHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Models\Dominion;
@@ -30,14 +31,6 @@ use OpenDominion\Models\GameEvent;
 
 class RoundController extends AbstractController
 {
-    /** @var DominionFactory */
-    protected $dominionFactory;
-
-    /** @var PackService */
-    protected $packService;
-
-    /** @var GameEvent */
-    protected $newDominionEvent;
     /**
      * RoundController constructor.
      *

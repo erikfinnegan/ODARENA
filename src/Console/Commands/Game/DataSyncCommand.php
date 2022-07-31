@@ -77,7 +77,6 @@ class DataSyncCommand extends Command implements CommandInterface
     public function handle(): void
     {
         DB::transaction(function () {
-            $this->syncQuickstarts();
             $this->syncDeities();
             $this->syncRaces();
             $this->syncTechs();
@@ -90,6 +89,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncResources();
             $this->syncArtefacts();
             $this->syncDecrees();
+            $this->syncQuickstarts();
         });
 
         $this->info('Game data synced');
@@ -1096,6 +1096,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'resources' => object_get($data, 'resources', []),
                     'spells' => object_get($data, 'spells', []),
                     'techs' => object_get($data, 'techs', []),
+                    'decree_states' => object_get($data, 'decree_states', []),
                     'units' => object_get($data, 'units', []),
                 ]);
 

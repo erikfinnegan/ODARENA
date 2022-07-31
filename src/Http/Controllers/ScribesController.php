@@ -54,6 +54,7 @@ class ScribesController extends AbstractController
     {
         return view('pages.scribes.quickstarts', [
             'quickstarts' => Quickstart::where('enabled', true)->get(),
+            'decreeHelper' => app(DecreeHelper::class),
         ]);
     }
 
@@ -61,6 +62,7 @@ class ScribesController extends AbstractController
     {
         return view('pages.scribes.quickstart', [
             'quickstart' => Quickstart::findOrFail($quickstartId),
+            'decreeHelper' => app(DecreeHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'unitHelper' => app(UnitHelper::class),
         ]);

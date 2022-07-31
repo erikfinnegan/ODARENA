@@ -11,7 +11,7 @@ resources:
   - mana
 
 peasants_production:
-  sapling: 0.003
+  sapling: 0.006
 
 construction_materials:
   - mana

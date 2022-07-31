@@ -312,5 +312,37 @@
         </div>
     </div>
 
+    <div class="col-md-12 col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <h4 class="box-title">Decrees</h4>
+            </div>
+            <table class="table table-striped" style="margin-bottom: 0">
+                <colgroup>
+                    <col width="50%">
+                    <col>
+                </colgroup>
+                <tbody>
+                    @foreach($quickstart->decree_states as $decreeStateData)
+                        @php
+                            $decreeStateData = explode(',', $decreeStateData);
+                            $decreeId = (int)$decreeStateData[0];
+                            $decreeStateId = (int)$decreeStateData[1];
+                            $decree = OpenDominion\Models\Decree::findOrFail($decreeId);
+                            $decreeState = OpenDominion\Models\DecreeState::findOrFail($decreeStateId);
+                        @endphp
+                        <tr>
+                            <td>{{ $decree->name }}:</td>
+                            <td>
+                                <u>{{ $decreeState->name }}</u>
+                                {!! $decreeHelper->getDecreeStateDescription($decreeState) !!}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 @endsection

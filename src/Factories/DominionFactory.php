@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\DominionDeity;
 use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\DominionTech;
@@ -766,6 +767,21 @@ class DominionFactory
                 DominionTech::create([
                     'dominion_id' => $dominion->id,
                     'tech_id' => Tech::where('key',$techKey)->first()->id,
+                ]);
+            });
+        }
+
+        foreach($quickstart->decree_states as $decreeState)
+        {
+            $decreeState = explode(',', $decreeState);
+
+            DB::transaction(function () use ($dominion, $decreeState)
+            {
+                DominionDecreeState::create([
+                    'dominion_id' => $dominion->id,
+                    'decree_id' => (int)$decreeState[0],
+                    'decree_state_id' => (int)$decreeState[1],
+                    'tick' => $dominion->round->ticks,
                 ]);
             });
         }
