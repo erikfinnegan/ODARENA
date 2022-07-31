@@ -1355,7 +1355,7 @@ class TickService
                     if($buildingKeyToGenerate)
                     {
                         #$this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKeyToGenerate => $barrenLand]);
-                        $this->queueService->queueResources('construction', $dominion, [('building_' . $buildingKeyToGenerate) => $barrenLand], 10);
+                        $this->queueService->queueResources('construction', $dominion, [('building_' . $buildingKeyToGenerate) => $barrenLand], 12);
                     }
                 }
             }

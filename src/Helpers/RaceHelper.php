@@ -162,7 +162,12 @@ class RaceHelper
                 $description = 'Cannot steal lumber';
                 $booleanValue = true;
                 break;
-            case 'cannot_construct':
+            case 'cannot_build':
+                $negativeBenefit = true;
+                $description = 'Cannot construct buildings';
+                $booleanValue = true;
+                break;
+            case 'growth_cannot_build':
                 $negativeBenefit = true;
                 $description = 'Cannot construct buildings';
                 $booleanValue = true;

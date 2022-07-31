@@ -43,12 +43,12 @@
                     </a>
                 </li>
 
-                <!-- Hide Construct Buildings from cannot_construct races -->
-                @if (!$selectedDominion->race->getPerkValue('cannot_construct'))
+                <!-- Hide Construct Buildings from cannot_build races -->
+                @if (!$selectedDominion->race->getPerkValue('cannot_build'))
                     <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i><span>Buildings</span></a></li>
                 @endif
 
-                <!-- Hide Improvements from cannot_construct races -->
+                <!-- Hide Improvements from cannot_build races -->
                 @if (!$selectedDominion->race->getPerkValue('cannot_improve'))
                     <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i><span>Improvements</span></a></li>
                 @endif
@@ -96,10 +96,8 @@
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
-                @if(request()->getHost() == 'odarena.local' or request()->getHost() == 'odarena.virtual')
-                    <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
-                @endif
-                
+                <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
+
                 @if($selectedDominion->race->getPerkValue('cannot_submit_to_deity') and $selectedDominion->race->getPerkValue('cannot_vote'))
                     <!-- Nothing -->
                 @else

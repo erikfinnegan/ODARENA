@@ -340,7 +340,7 @@
                 </div>
             </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right" id="submit">Build</button>
+                <button type="submit" class="btn btn-primary pull-right" id="submit" {{ ($selectedDominion->race->getPerkValue('cannot_build') or $selectedDominion->race->getPerkValue('growth_cannot_build')) ? 'disabled' : '' }} >Build</button>
             </div>
         </div>
         </form>

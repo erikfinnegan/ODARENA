@@ -71,7 +71,7 @@ class BuildActionService
             throw new GameException('Construction was not started due to bad input.');
         }
 
-        if ($dominion->race->getPerkValue('cannot_construct') or $dominion->race->getPerkValue('cannot_build'))
+        if ($dominion->race->getPerkValue('cannot_build') or $dominion->getSpellPerkValue('cannot_build') or $dominion->race->getSpellPerkValue('growth_cannot_build'))
         {
             throw new GameException('Your faction is unable to construct buildings.');
         }
