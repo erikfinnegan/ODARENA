@@ -47,13 +47,13 @@ class DecreeHelper
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
 
-            'unit_costs' => '%s unit costs',
-            'unit_gold_costs' => '%s unit gold costs',
-            'unit_ore_costs' => '%s unit ore costs',
-            'unit_lumber_costs' => '%s unit lumber costs',
-            'unit_mana_costs' => '%s unit mana costs',
-            'unit_blood_costs' => '%s unit blood costs',
-            'unit_food_costs' => '%s unit food costs',
+            'unit_costs' => '%s%% unit costs',
+            'unit_gold_costs' => '%s%% unit gold costs',
+            'unit_ore_costs' => '%s%% unit ore costs',
+            'unit_lumber_costs' => '%s%% unit lumber costs',
+            'unit_mana_costs' => '%s%% unit mana costs',
+            'unit_blood_costs' => '%s%% unit blood costs',
+            'unit_food_costs' => '%s%% unit food costs',
 
             'extra_units_trained' => '%s additional units trained for free',
 
