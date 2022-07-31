@@ -1,5 +1,6 @@
-name: War Culture
-description: Determine the type of warfare you wish to wage.
+name: Military Tradition
+cooldown: 384
+description: Determine the type of military tradition you want your dominion to have.
 exclusive_races:
   - Human
   - Kerranad
@@ -14,7 +15,7 @@ states:
   - name: Defensive
     perks:
       defensive_power: 1.25
-      cannot_invade: 1
+      offensive_power: -1.50
 
   - name: Honourable
     perks:
