@@ -8,9 +8,11 @@ use OpenDominion\Http\Requests\Dominion\Actions\InsightActionRequest;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionInsight;
+use OpenDominion\Models\DominionDecreeState;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\DecreeCalculator;
 use OpenDominion\Calculators\Dominion\DominionCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -23,6 +25,7 @@ use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\DecreeHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\ImprovementHelper;
@@ -118,12 +121,15 @@ class InsightController extends AbstractDominionController
                 ];
         }
 
+
         return view('pages.dominion.insight.show', [
             'advancements' => $advancements,
             'dominion' => $dominion,
             'landImprovementPerks' => $landImprovementPerks,
+            'dominionDecreeStates' => DominionDecreeState::where('dominion_id', $dominion->id)->get(),
 
             'buildingHelper' => app(BuildingHelper::class),
+            'decreeHelper' => app(DecreeHelper::class),
             'deityHelper' => app(DeityHelper::class),
             'dominionHelper' => app(DominionHelper::class),
             'insightHelper' => app(InsightHelper::class),
@@ -137,6 +143,7 @@ class InsightController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
 
             'buildingCalculator' => app(BuildingCalculator::class),
+            'decreeCalculator' => app(DecreeCalculator::class),
             'dominionCalculator' => app(DominionCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'improvementCalculator' => app(ImprovementCalculator::class),
@@ -200,6 +207,7 @@ class InsightController extends AbstractDominionController
             'dominionInsights' => $dominionInsights,
 
             'buildingHelper' => app(BuildingHelper::class),
+            'decreeHelper' => app(DecreeHelper::class),
             'deityHelper' => app(DeityHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'insightHelper' => app(InsightHelper::class),

@@ -6,7 +6,7 @@ exclusive_races:
 states:
   - name: Tissue
     perks:
-      generate_building: mountain_tissue
+      generate_building_mountain: tissue_mountain
   - name: Cartilage
     perks:
-      generate_building: cartilage
+      generate_building_mountain: cartilage

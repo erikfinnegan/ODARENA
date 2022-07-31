@@ -206,6 +206,9 @@ class ConstructionCalculator
         // Techs
         $multiplier += $dominion->getDeityPerkMultiplier('construction_cost');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('construction_cost');
+
         // Title
         if(isset($dominion->title))
         {

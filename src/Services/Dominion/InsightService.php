@@ -9,7 +9,10 @@ use Illuminate\Support\Collection;
 
 use OpenDominion\Exceptions\GameException;
 
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\DominionInsight;
 
 use OpenDominion\Helpers\BuildingHelper;
@@ -20,6 +23,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
 
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\DecreeCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -47,6 +51,7 @@ class InsightService
         $this->titleHelper = app(TitleHelper::class);
 
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->decreeCalculator = app(DecreeCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->landImprovementCalculator = app(LandImprovementCalculator::class);
@@ -269,6 +274,23 @@ class InsightService
                   $data['improvements'][$improvement->key]['points'] = $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement);
                   $data['improvements'][$perk->key]['rating'] = $target->getImprovementPerkMultiplier($perk->key);
             }
+        }
+
+        # Improvements
+        $data['decrees'] = [];
+
+        $i = 0;
+        foreach(DominionDecreeState::where('dominion_id', $target->id)->get() as $dominionDecreeState)
+        {
+            $decree = Decree::findOrFail($dominionDecreeState->decree_id);
+            $data['decrees'][$i] =
+                [
+                    'decree_id' => $dominionDecreeState->decree_id,
+                    'decree_state_id' => $dominionDecreeState->decree_state_id,
+                    'cooldown' => $this->decreeCalculator->getTicksUntilDominionCanRevokeDecree($target, $decree),
+                ];
+            
+            $i++;
         }
 
         # Advancements

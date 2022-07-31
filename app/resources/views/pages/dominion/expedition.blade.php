@@ -204,6 +204,9 @@
                                   @elseif ($selectedDominion->getSpellPerkValue('cannot_send_expeditions'))
                                     <p><strong><em>A spell is preventing you from sending expeditions.</em></strong></p>
 
+                                    @elseif ($selectedDominion->getDecreePerkValue('cannot_send_expeditions'))
+                                      <p><strong><em>You have issued a decree which forbids expeditions.</em></strong></p>
+
                                   @elseif ($protectionService->isUnderProtection($selectedDominion))
                                   <p><strong><em>You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not send out an expedition during that time.</em></strong></p>
 

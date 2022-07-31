@@ -1,6 +1,5 @@
 name: Advanced Research
-cooldown: 48
-enabled: 0
+cooldown: 96
 description: Dedicate your dominion's best and brightest to research.
 exclusive_races:
   - Human

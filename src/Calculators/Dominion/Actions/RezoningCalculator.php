@@ -130,6 +130,9 @@ class RezoningCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('rezone_cost');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('rezone_cost');
+
         // Artefact
         $multiplier += $dominion->realm->getArtefactPerkMultiplier('rezone_cost');
 

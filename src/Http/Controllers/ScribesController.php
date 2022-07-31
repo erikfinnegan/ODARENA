@@ -9,6 +9,8 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\DecreeHelper;
+use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\ResourceHelper;
@@ -19,9 +21,9 @@ use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
-use OpenDominion\Helpers\DeityHelper;
 
 use OpenDominion\Models\Artefact;
+use OpenDominion\Models\Decree;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Improvement;
@@ -211,6 +213,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.sabotage', [
             'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'espionageHelper' => app(EspionageHelper::class),
+        ]);
+    }
+
+    public function getDecrees()
+    {
+        return view('pages.scribes.decrees', [
+            'decrees' => Decree::all()->where('enabled',1)->sortBy('name'),
+            'decreeHelper' => app(DecreeHelper::class),
         ]);
     }
 

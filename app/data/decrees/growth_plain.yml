@@ -6,7 +6,7 @@ exclusive_races:
 states:
   - name: Tissue
     perks:
-      generate_building: plain_tissue
+      generate_building_plain: tissue_plain
   - name: Sinew
     perks:
-      generate_building: sinew
+      generate_building_plain: sinew

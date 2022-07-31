@@ -523,6 +523,9 @@ class PopulationCalculator
         // Improvement
         $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');
 
+        // Deity
+        $multiplier += $dominion->getDecreePerkMultiplier('population_growth');
+
         # Look for population_growth in units
         for ($slot = 1; $slot <= 4; $slot++)
         {

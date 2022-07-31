@@ -26,6 +26,7 @@ use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Building;
@@ -52,39 +53,6 @@ class TickService
     /** @var Carbon */
     protected $now;
 
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var NotificationService */
-    protected $notificationService;
-
-    /** @var PopulationCalculator */
-    protected $populationCalculator;
-
-    /** @var ProductionCalculator */
-    protected $productionCalculator;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var BarbarianService */
-    protected $barbarianService;
-
-    /** @var BarbarianCalculator */
-    protected $barbarianCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var ImprovementHelper */
-    protected $improvementHelper;
-
-    /** @var RealmCalculator */
-    protected $realmCalculator;
-
     /**
      * TickService constructor.
      */
@@ -102,16 +70,18 @@ class TickService
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->queueService = app(QueueService::class);
         $this->spellCalculator = app(SpellCalculator::class);
-
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->espionageCalculator = app(EspionageCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->moraleCalculator = app(MoraleCalculator::class);
-        $this->improvementHelper = app(ImprovementHelper::class);
-        $this->unitHelper = app(UnitHelper::class);
-        $this->roundHelper = app(RoundHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+
+        $this->improvementHelper = app(ImprovementHelper::class);
+        $this->landHelper = app(LandHelper::class);
+        $this->unitHelper = app(UnitHelper::class);
+        $this->roundHelper = app(RoundHelper::class);
+
         $this->deityService = app(DeityService::class);
         $this->insightService = app(InsightService::class);
         $this->protectionService = app(ProtectionService::class);
@@ -1371,6 +1341,15 @@ class TickService
             $amount = intval($finishedBuildingInQueue->amount);
             $building = Building::where('key', $buildingKey)->first();
             $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
+        }
+
+        # Special case for Growth
+        if($dominion->race->name == 'Growth')
+        {
+            foreach($this->landHelper->getLandTypes() as $landType)
+            {
+
+            }
         }
     }
 

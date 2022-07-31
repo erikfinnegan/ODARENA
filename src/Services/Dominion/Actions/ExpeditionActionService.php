@@ -138,6 +138,11 @@ class ExpeditionActionService
               throw new GameException('A spell is preventing you from sending expeditions.');
           }
 
+          if ($dominion->getDecreePerkValue('cannot_send_expeditions'))
+          {
+              throw new GameException('A decree has been issued which forbids expeditions.');
+          }
+
             // Spell: Rainy Season (cannot invade)
             if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
             {

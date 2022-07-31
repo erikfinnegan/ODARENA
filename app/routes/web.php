@@ -201,8 +201,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 
             // Decrees
             $router->get('decrees')->uses('Dominion\DecreesController@getIndex')->name('decrees');
-            $router->post('decrees/issue')->uses('Dominion\DecreesController@postIssueDecree')->name('decrees.issue');
-            $router->post('decrees/revoke')->uses('Dominion\DecreesController@postRevokeDecree')->name('decrees.revoke');
+            $router->post('decrees/issue-decree')->uses('Dominion\DecreesController@postIssueDecree')->name('decrees.issue-decree');
+            $router->post('decrees/revoke-decree')->uses('Dominion\DecreesController@postRevokeDecree')->name('decrees.revoke-decree');
 
             // Realm
             $router->get('realm/{realmNumber?}')->uses('Dominion\RealmController@getRealm')->name('realm');
@@ -263,6 +263,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
     $router->get('resources')->uses('ScribesController@getResources')->name('resources');
+    $router->get('decrees')->uses('ScribesController@getDecrees')->name('decress');
 
     $router->get('quickstarts')->uses('ScribesController@getQuickstarts')->name('quickstarts');
     $router->get('quickstart/{quickstart}')->uses('ScribesController@getQuickstart')->name('quickstart');

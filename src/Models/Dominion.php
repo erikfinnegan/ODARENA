@@ -1032,9 +1032,13 @@ class Dominion extends AbstractModel
                     dd("[Error] Undefined building perk key (\$perkKey): $perkKey");
                 }
             }
+
+            # Build-specific perks
+            $buildingSpecificMultiplier = 1;
+            $buildingSpecificMultiplier += $this->getDecreePerkMultiplier('building_' . $building->key . '_production_mod');
+
+            $perk *= $buildingSpecificMultiplier;
         }
-
-
 
         return $perk;
     }
@@ -1398,38 +1402,6 @@ class Dominion extends AbstractModel
         return $bonus;
     }
 
-    # DECREES
-
-    protected function getDecreePerks()
-    {
-        return $this->decrees->flatMap(
-            function ($decree) {
-                return $decree->perks;
-            }
-        );
-    }
-
-    /**
-     * @param string $key
-     * @return float
-     */
-    public function getDecreePerkValue(string $key): float
-    {
-        $multiplier = 1;
-
-        return (float)$this->decree->getPerkValue($perkKey) * $multiplier;
-    }
-
-    /**
-     * @param string $key
-     * @return float
-     */
-    public function getDecreePerkMultiplier(string $key): float
-    {
-        return ($this->getDecreePerkValue($key) / 100);
-    }
-
-
     # Land improvements 2.0
 
     public function getLandImprovementPerkValue(string $perkKey): float
@@ -1467,5 +1439,37 @@ class Dominion extends AbstractModel
         return $perk;
     }
 
+
+    # DECREES
+
+    public function getDecreePerkValue(string $perkKey): float
+    {
+        $perk = 0;
+
+        foreach(DominionDecreeState::where('dominion_id', $this->id)->get() as $dominionDecreeState)
+        {
+            $decreeState = DecreeState::findOrFail($dominionDecreeState->decree_state_id);
+
+            $perk += $decreeState->getPerkValue($perkKey);
+        }
+
+        return $perk;
+
+    }
+
+    public function getDecreePerkMultiplier(string $key): float
+    {
+        return ($this->getDecreePerkValue($key) / 100);
+    }
+
+
+    protected function getDecreePerks()
+    {
+        return $this->decrees->flatMap(
+            function ($decree) {
+                return $decree->perks;
+            }
+        );
+    }
 
 }

@@ -430,6 +430,9 @@ class TrainingCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_cost');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('wizard_cost');
+
         // Cap $multiplier at -50% from techs and buildings
         $multiplier = max($multiplier, -0.50);
 

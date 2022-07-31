@@ -880,6 +880,55 @@
 
     <div class="col-sm-12 col-md-6">
         @component('partials.dominion.insight.box')
+
+            @slot('title', 'Decrees')
+            @slot('titleIconClass', 'fas fa-gavel')
+            @slot('noPadding', true)
+
+            @if(count($advancements) > 0)
+                <table class="table">
+                    <colgroup>
+                        <col width="150">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Decree</th>
+                            <th>State</th>
+                            <th>Cooldown</th>
+                            <th>Perks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($dominionDecreeStates as $dominionDecreeState)
+                            @php
+                                $decree = OpenDominion\Models\Decree::findOrFail($dominionDecreeState->decree_id);
+                                $decreeState = OpenDominion\Models\DecreeState::findOrFail($dominionDecreeState->decree_state_id);
+                            @endphp
+                            <tr>
+                                <td>{{ $decree->name }}</td>
+                                <td>{{ $decreeState->name }}</td>
+                                <td>{{ $decreeCalculator->getTicksUntilDominionCanRevokeDecree($dominion, $decree) }}</td>
+                                <td>{!! $decreeHelper->getDecreeStateDescription($decreeState) !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <div class="box-body">
+                    <p>No decrees have been issued in this dominion.</p>
+                </div>
+            @endif
+        @endcomponent
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        @component('partials.dominion.insight.box')
             @slot('title', 'Statistics')
             @slot('titleIconClass', 'fa fa-chart-bar')
             @slot('noPadding', true)

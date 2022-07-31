@@ -85,6 +85,10 @@ class ImprovementCalculator
             $multiplier += $dominion->realm->getArtefactPerkMultiplier('improvement_points');
             $multiplier += $dominion->realm->getArtefactPerkMultiplier($resourceKey . '_improvement_points');
 
+            # Decree
+            $multiplier += $dominion->realm->getDecreePerkMultiplier('improvement_points');
+            $multiplier += $dominion->realm->getDecreePerkMultiplier($resourceKey . '_improvement_points');
+
             # Faction
             $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
 

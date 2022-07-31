@@ -4,8 +4,11 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Spell;
@@ -43,6 +46,12 @@ class WorldNewsHelper
 
             case 'barbarian_invasion':
                 return $this->generateBarbarianInvasionString($event->source, $event, $viewer);
+
+            case 'decree_issued':
+                return $this->generateDecreeIssuedString($event->source, $event, $viewer);
+
+            case 'decree_revoked':
+                return $this->generateDecreeRevokedString($event->source, $event, $viewer);
 
             case 'deity_completed':
                 return $this->generateDeityCompletedString($event->target, $event->source, $viewer);
@@ -147,6 +156,59 @@ class WorldNewsHelper
             );
         }
 
+    }
+
+    public function generateDecreeIssuedString(Dominion $issuer, GameEvent $decreeIssuedEvent, Dominion $viewer): string
+    {
+
+        $viewerInvolved = ($issuer->realm->id == $viewer->realm->id);
+
+        if(!$viewerInvolved)
+        {
+            return sprintf(
+                'A new decree has been issued in %s realm.',
+                $this->generateRealmOnlyString($issuer->realm)
+              );
+        }
+        else
+        {
+            $decree = $decreeIssuedEvent->target;
+            $decreeState = DecreeState::findOrFail($decreeIssuedEvent->data['decree_state_id']);
+
+            return sprintf(
+                '%s has issued a decree regarding %s: <span class="text-green">%s</span>.',
+                $this->generateDominionString($issuer, 'friendly', $viewer),
+                $decree->name,
+                $decreeState->name
+              );
+        }
+    }
+
+    public function generateDecreeRevokedString(Dominion $issuer, GameEvent $decreeIssuedEvent, Dominion $viewer): string
+    {
+
+        $deityClass = $this->getSpanClass('other');
+
+        $viewerInvolved = ($issuer->realm->id == $viewer->realm->id);
+
+        if(!$viewerInvolved)
+        {
+            return sprintf(
+                'A decree has been revoked in %s realm.',
+                $this->generateRealmOnlyString($issuer->realm)
+              );
+        }
+        else
+        {
+            $decree = $decreeIssuedEvent->target;
+            $decreeState = DecreeState::findOrFail($decreeIssuedEvent->data['decree_state_id']);
+            return sprintf(
+                '%s has revoked the %s decree.',
+                $this->generateDominionString($issuer, 'friendly', $viewer),
+                $decree->name,
+                $decreeState->name
+              );
+        }
     }
 
     public function generateDeityCompletedString(Dominion $dominion, Deity $deity, Dominion $viewer): string

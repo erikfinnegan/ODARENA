@@ -1,60 +1,94 @@
 @extends('layouts.master')
 @section('title', 'Decrees')
 
-{{--
-@section('page-header', 'Government')
---}}
-
 @section('content')
 
 <div class="row">
     @foreach($decrees as $decree)
-        <div class="col-sm-12 col-md-9">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h4 class="box-title"><i class="fas fa-gavel fw-fw"></i> {{ ($decree->name) }}</h4>
-                </div>
-                <div class="box-body">
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-12"><i class="far fa-file-alt fa-fw"></i> <b>Description</b></div>
-                            <div class="col-lg-12">{{ $decree->description }}</div>
+        @if($decreeCalculator->isDecreeAvailableToDominion($selectedDominion, $decree))
+            @php
+            $isIssued = $decreeHelper->isDominionDecreeIssued($selectedDominion, $decree);
+            if($isIssued)
+            {
+                $dominionDecreeState = $decreeHelper->getDominionDecreeState($selectedDominion, $decree);
+                $ticksUntilCanRevoke = $decreeCalculator->getTicksUntilDominionCanRevokeDecree($selectedDominion, $decree);
+            }
+            @endphp
+            <div class="col-sm-12 col-md-9">
+                <div class="box {{ $isIssued ? 'box-success' : '' }}">
+                    <div class="box-header with-border">
+                        <div class="col-lg-9">
+                            <h4 class="box-title"><i class="fas fa-gavel fw-fw"></i> {{ ($decree->name) }}</h4>
                         </div>
-                    </div>         
-                    @if($decreeHelper->isDominionDecreeIssued($selectedDominion, $degree))
-
-                        <p>ISSUED</p>
-
-                    @endif
-                    @foreach($decree->states as $decreeState)
-                        <div class="row">
-                            @php
-                                #$isIssued = $decreeState->isIssued();
-                                #$canIssue = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
-                            @endphp
-
-                            <input type="hidden" name="decreeState" value="{{ $decreeState->id }}">
-                            
-                            <div class="box-body">
-                                <div class="col-sm-12 col-md-3">
-                                    <div class="box-header">
-                                        <button type="button" class="btn btn-block btn-primary">
-                                            {{ $decreeState->name }}
-                                        </button>
+                        <div class="col-lg-3">
+                            @if($isIssued)
+                                <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span>
+                            @else
+                                <span class="label text-muted" style="background: #ccc;">Not issued</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <div class="box-body">
+                                        <i class="far fa-file-alt fa-fw"></i> {{ $decree->description }}
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 col-md-9">
+                                <div class="col-sm-12 col-md-3">
                                     <div class="box-body">
-                                        Perks go here.
+                                        @if($isIssued)
+                                            <form action="{{ route('dominion.decrees.revoke-decree') }}" method="post" role="form">
+                                                @csrf
+                                                <input type="hidden" name="dominionDecreeState" value="{{ $dominionDecreeState->id }}">
+                                                <button type="submit" class="btn btn-block btn-danger" {{ !$decreeCalculator->canDominionRevokeDecree($selectedDominion, $decree) ? 'disabled' : ''}}>
+                                                    Revoke decree
+                                                    @if($ticksUntilCanRevoke)
+                                                        <small>({{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }} until you can revoke)</small>
+                                                    @endif
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        </div>         
+
+                        @foreach($decree->states as $decreeState)
+                            <div class="row">
+                                <div class="box-body">
+                                    <div class="col-sm-12 col-md-3">
+                                        <div class="box-header">
+                                            @if($isIssued and $dominionDecreeState->decree_state_id === $decreeState->id)
+                                                <button type="button" class="btn btn-block btn-success" {{ $isIssued ? 'disabled' : ''}}>
+                                            @else
+                                                <form action="{{ route('dominion.decrees.issue-decree') }}" method="post" role="form">
+                                                    @csrf
+                                                    <input type="hidden" name="decree" value="{{ $decree->id }}">
+                                                    <input type="hidden" name="decreeState" value="{{ $decreeState->id }}">
+                                                    <button type="submit" class="btn btn-block btn-primary">
+                                                </form>
+                                            @endif
+                                                {{ $decreeState->name }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="box-body">
+                                            {!! $decreeHelper->getDecreeStateDescription($decreeState) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     @endforeach
 
     <div class="col-sm-12 col-md-3">

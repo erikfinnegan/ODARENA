@@ -2,193 +2,122 @@
 
 namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
-use OpenDominion\Models\Race;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\DominionDecreeState;
+use OpenDominion\Models\Race;
 
 class DecreeHelper
 {
 
-    public function getDecreeDescription(Decree $decree): ?string
+    public function getDecreeStateDescription(DecreeState $decreeState): ?string
     {
 
-        $helpStrings[$decree->name] = '';
+        $helpStrings[$decreeState->name] = '';
 
         $perkTypeStrings = [
-            # Housing
-            'housing' => 'Houses %s people.',
-            'housing_increasing' => 'Houses %1$s people, increased by %2$s per tick.',
-
-            'military_housing' => 'Houses %s military units.',
-            'military_housing_increasing' => 'Houses %1$s military units, increased by %2$s per tick.',
-
-            'draftee_housing' => 'Houses %s draftees.',
-
-            'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
-            'spy_housing' => 'Houses %1$s spies and units that count as spies.',
-
-            'unit_production_from_wizard_ratio' => 'Summoning increased by (Wizard Ratio / %s)%%.',
-
-            'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
-            'snow_elf_unit4_production_mod' => '%2$s%% Gryphon arrival rate for every %1$s%% (max %3$s%%).',
-
-            'jobs' => 'Provides %s jobs.',
-
-            'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
-
-            'drafting' => 'Drafting increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            # Housing and Population
+            'population_growth' => '%s%% population growth rate.',
+            'drafting' => '%s%% drafting.',
 
             # Production
-            'gold_production_raw' => 'Produces %s gold per tick.',
-            'food_production_raw' => 'Produces %s food per tick.',
-            'lumber_production_raw' => 'Produces %s lumber per tick.',
-            'ore_production_raw' => 'Produces %s ore per tick.',
-            'gems_production_raw' => 'Produces %s gems per tick.',
-            'mana_production_raw' => 'Produces %s mana per tick.',
-            'pearls_production_raw' => 'Produces %s pearls per tick.',
-            'horse_production_raw' => 'Produces %s horses per tick.',
-            'mud_production_raw' => 'Produces %s mud per tick.',
-            'swamp_gas_production_raw' => 'Produces %s swamp gas per tick.',
-            'marshling_production_raw' => 'Produces %s marshlings per tick.',
+            'gold_production_mod' => '%s%% gold production.',
+            'food_production_mod' => '%s%% food production',
+            'lumber_production_mod' => '%s%% lumber production.',
+            'ore_production_mod' => '%s%% ore production',
+            'gems_production_mod' => '%s%% gem production',
+            'mana_production_mod' => '%s%% mana production',
+            'pearls_production_mod' => '%s%% pearl production',
+            'blood_production_mod' => '%s%% blood production',
+            'horse_production_mod' => '%s%% horse production',
+            'mud_production_mod' => '%s%% mud production',
+            'swamp gas_production_mod' => '%s%% swamp gas production',
+            'xp_generation_mod' => '%s%% XP generation',
 
-            'xp_generation_raw' => 'Generates %s XP per tick.',
+            'building_gold_mine_production_mod' => '%s%% gold mine production',
+            'building_gold_quarry_production_mod' => '%s%% gold quarry production',
 
-            'gold_upkeep_raw' => 'Costs %s gold per tick.',
-            'food_upkeep_raw' => 'Costs %s food per tick.',
-            'lumber_upkeep_raw' => 'Costs %s lumber per tick.',
-            'ore_upkeep_raw' => 'Costs %s ore per tick.',
-            'gems_upkeep_raw' => 'Costs %s gems per tick.',
-            'mana_upkeep_raw' => 'Costs %s mana per tick.',
-            'pearls_upkeep_raw' => 'Costs %s pearls per tick.',
-            'prisoner_upkeep_raw' => 'Works %s prisoners per tick to death.',
+            'exchange_rate' => '%s%% exchange rates.',
 
-            'gold_production_mod' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'food_production_mod' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'lumber_production_mod' => 'Lumber production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'ore_production_mod' => 'Ore production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'gems_production_mod' => 'Gem production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'mana_production_mod' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'pearls_production_mod' => 'Pearl production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'blood_production_mod' => 'Blood production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'horse_production_mod' => 'Horse production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'mud_production_mod' => 'Mud production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'swamp gas_production_mod' => 'Swamp gas production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-
-            'xp_generation_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-
-            'resource_conversion' => 'Converts %1$s %2$s into %3$s %4$s per tick.',
-
-            'gold_production_depleting_raw' => 'Produces %1$s gold per tick (reduced by %2$s per tick of the round down to 0).',
-            'food_production_depleting_raw' => 'Produces %1$s food per tick (reduced by %2$s per tick of the round down to 0).',
-            'lumber_production_depleting_raw' => 'Produces %1$s lumber per tick (reduced by %2$s per tick of the round down to 0).',
-            'ore_production_depleting_raw' => 'Produces %1$s ore per tick (reduced by %2$s per tick of the round down to 0).',
-            'gems_production_depleting_raw' => 'Produces %1$s gems per tick (reduced by %2$s per tick of the round down to 0).',
-            'mana_production_depleting_raw' => 'Produces %1$s mana per tick (reduced by %2$s per tick of the round down to 0).',
-
-            'gold_production_increasing_raw' => 'Produces %1$s gold per tick (increased by %2$s per tick of the round).',
-            'food_production_increasing_raw' => 'Produces %1$s food per tick (increased by %2$s per tick of the round).',
-            'lumber_production_increasing_raw' => 'Produces %1$s lumber per tick (increased by %2$s per tick of the round).',
-            'ore_production_increasing_raw' => 'Produces %1$s ore per tick (increased by %2$s per tick of the round).',
-            'gems_production_increasing_raw' => 'Produces %1$s gems per tick (increased by %2$s per tick of the round).',
-            'mana_production_increasing_raw' => 'Produces %1$s mana per tick (increased by %2$s per tick of the round).',
-
-            'ore_production_raw_from_prisoner' => 'Produces %1$s ore per tick per prisoner up to a maximum of %2$s prisoners.',
-            'gold_production_raw_from_prisoner' => 'Produces %1$s gold per tick per prisoner up to a maximum of %2$s prisoners.',
-            'gems_production_raw_from_prisoner' => 'Produces %1$s gems per tick per prisoner up to a maximum of %2$s prisoners.',
-
-            'draftee_generation' => 'Generates %s draftees per tick (limited by population).',
-
-            'exchange_rate' => 'Resource exchange rates improved by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'food_consumption_mod' => '%s%% food consumption',
 
             # Military
-            'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'offensive_casualties' => '%s%% casualties on offense.',
+            'defensive_casualties' => '%s%% casualties on defense.',
 
-            'unit_gold_costs' => 'Unit gold costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_ore_costs' => 'Unit ore costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_lumber_costs' => 'Unit lumber costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_mana_costs' => 'Unit mana costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_blood_costs' => 'Unit blood costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_food_costs' => 'Unit food costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_gold_costs' => '%s unit gold costs',
+            'unit_ore_costs' => '%s unit ore costs',
+            'unit_lumber_costs' => '%s unit lumber costs',
+            'unit_mana_costs' => '%s unit mana costs',
+            'unit_blood_costs' => '%s unit blood costs',
+            'unit_food_costs' => '%s unit food costs',
 
-            'extra_units_trained' => '%2$s%% additional units trained for free for every %1$s%% (max %3$s%% extra units).',
+            'extra_units_trained' => '%s additional units trained for free',
 
-            'faster_return' =>  '%2$s%% of units sent on invasion return %4$s ticks faster for every %1$s%% (max %3$s%% of all units).',
-            'faster_returning_units_increasing' =>  'Each decree enables %1$s units sent on invasion to return four ticks faster, increased by %2$s per tick.',
-            'faster_returning_units' =>  'Each decree enables %1$s units sent on invasion to return four ticks faster.',
+            'morale_gains' => '%s%% morale gains',
+            'base_morale' => '%s%% base morale',
+            'prestige_gains' => '%s%% prestige gains',
 
-            'morale_gains' => 'Morale gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'land_discovered' => '%s%% land discovered during invasions',
 
-            'land_discovered' => 'Land discovered during invasions increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'reduces_attrition' => '%s%% unit attrition.',
 
-            'reduces_attrition' => 'Reduces unit attrition by %2$s%% for every %1$s%%.',
+            'reduces_conversions' => '%s%% conversions for enemies.',
 
-            'reduces_conversions' => 'Reduces conversions for enemies by %2$s%% for every %1$s%%.',
+            'training_time_mod' => '%s%% training time.',
 
-            'training_time_mod' => '%2$s%% training time for every %1$s%% (max %3$s%%).',
-
-            'unit_pairing' => '%2$s%% unit pairing for every %1$s%%.',
+            'unit_pairing' => '%s%% unit pairing capacity.',
 
             # OP/DP
-            'raw_defense' => 'Provides %s raw defensive power.',
-            'offensive_power' => 'Offensive power increased by %2$s%% for every %1$s%% (max +%3$s%% OP)',
-            'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
-            'target_defensive_power_mod' => '%2$s%% target defensive modifiers for every %1$s%% (max -%3$s%% or 0%% defensive modifiers).',
-
-            'attacker_offensive_power_mod' => 'Invading force\'s total offensive power reduced by %2$s%% for every %1$s%% (max -%3$s%% OP).',
+            'offensive_power' => '%s%% offensive power',
+            'defensive_power' => '%s%% defensive power',
 
             # Improvements
-            'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
-            'improvements_capped' => 'Improvements increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'improvement_interest' => 'Improvements interest increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-
-            'invest_bonus' => 'Improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'gold_invest_bonus' => 'Improvement points from gold increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'food_invest_bonus' => 'Improvement points from food increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'ore_invest_bonus' => 'Improvement points from ore increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'lumber_invest_bonus' => 'Improvement points from lumber increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'mana_invest_bonus' => 'Improvement points from from mana increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'blood_invest_bonus' => 'Improvement points from blood increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'soul_invest_bonus' => 'Improvement points from souls increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'improvements' => '%s%% improvements.',
+            'improvement_points' => '%s%% improvement points when investing.',
 
             # Construction and Rezoning
-            'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'construction_cost' => '%s%% construction costs.',
+            'rezone_cost' => '%s%% rezoning costs.',
 
             # Espionage and Wizardry
-            'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'damage_from_fireball' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
-            'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
-            'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'spy_losses' => '%s spy losses.',
+            'spell_damage' => '%s spell damage.',
+            'wizard_cost' => '%s wizard costs.',
+            'spell_cost' => '%s spell costs.',
 
-            'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
-            'gems_theft_reduction' => 'Gems stolen from you reduced by %2$s%% for every %1$s%%.',
-            'ore_theft_reduction' => 'Ore stolen from you reduced by %2$s%% for every %1$s%%.',
-            'lumber_theft_reduction' => 'Lumber stolen from you reduced by %2$s%% for every %1$s%%.',
-            'food_theft_reduction' => 'Food stolen from you reduced by %2$s%% for every %1$s%%.',
-            'mana_theft_reduction' => 'Mana stolen from you reduced by %2$s%% for every %1$s%%.',
-            'horse_theft_reduction' => 'Horses stolen from you reduced by %2$s%% for every %1$s%%.',
+            'gold_theft_reduction' => '%s%% gold stolen from you.',
+            'gems_theft_reduction' => '%s%% gems stolen from you.',
+            'ore_theft_reduction' => '%s%% ore stolen from you.',
+            'lumber_theft_reduction' => '%s%% lumber stolen from you.',
+            'food_theft_reduction' => '%s%% food stolen from you.',
+            'mana_theft_reduction' => '%s%% mana stolen from you.',
+            'horse_theft_reduction' => '%s%% horses stolen from you.',
 
-            'gold_theft_protection' => 'Protects %s gold from theft.',
-            'gems_theft_protection' => 'Protects %s gems from theft.',
-            'ore_theft_protection' => 'Protects %s ore from theft.',
-            'lumber_theft_protection' => 'Protects %s lumber from theft.',
-            'food_theft_protection' => 'Protects %s food from theft.',
-            'mana_theft_protection' => 'Protects %s mana from theft.',
-            'horse_theft_protection' => 'Protects %s horses from theft.',
+            'wizard_strength_recovery' => '%s%% wizard strength recovery per tick.',
+            'spy_strength_recovery' => '%s%% wizard strength recovery per tick.',
+            
+            'spy_strength' => '%s%% spy strength.',
+            'spy_strength_on_defense' => '%s%% spy strength on defense.',
+            'spy_strength_on_offense' => '%s%% spy strength on offense.',
 
-            'wizard_strength_recovery' => 'Wizard strength recovery increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'spy_strength_on_defense' => 'Spy strength on defense increased by %2$s%% for every %1$s%%.',
-            'spy_strength_on_offense' => 'Spy strength on offense increased by %2$s%% for every %1$s%%.',
+            'wizard_strength' => '%s%% wizard strength.',
+            'wizard_strength_on_defense' => '%s%% wizard strength on defense.',
+            'wizard_strength_on_offense' => '%s%% wizard strength on offense.',
 
+            # Growth specific
+            'generate_building' => 'Generate %s',
+            'generate_building_plain' => 'Generate %s on plains',
+            'generate_building_mountain' => 'Generate %s in mountains',
+            'generate_building_hill' => 'Generate %s on hills',
+            'generate_building_swamp' => 'Generate %s in swamps',
+            'generate_building_water' => 'Generate %s in water',
+            'generate_building_forest' => 'Generate %s in forests',
         ];
 
-        foreach ($decree->perks as $perk)
+        foreach ($decreeState->perks as $perk)
         {
             if (!array_key_exists($perk->key, $perkTypeStrings))
             {
@@ -214,36 +143,53 @@ class DecreeHelper
                 }
             }
 
+            # SPECIAL DESCRIPTION PERKS
+
+            if($perk->key === 'generate_building')
+            {
+                $building = Building::where('key', $perkValue)->first();
+
+                if(!$building)
+                {
+                    dd($perk, $perk->key, $perkValue);
+                }
+                $perkValue = $building->name;
+
+            }
+
             if (is_array($perkValue))
             {
                 if ($nestedArrays)
                 {
                     foreach ($perkValue as $nestedKey => $nestedValue)
                     {
-                        $helpStrings[$decree->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
+                        $helpStrings[$decreeState->name] .= '<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>';
                     }
                 }
                 else
                 {
-                    $helpStrings[$decree->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                    $perkValue = $perkValue > 0 ? '+' . $perkValue : $perkValue;
+                    $helpStrings[$decreeState->name] .= '<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>';
                 }
             }
             else
             {
-                $helpStrings[$decree->name] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                $perkValue = $perkValue > 0 ? '+' . $perkValue : $perkValue;
+                
+                $helpStrings[$decreeState->name] .= '<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>';
             }
         }
 
-        if(strlen($helpStrings[$decree->name]) == 0)
+        if(strlen($helpStrings[$decreeState->name]) == 0)
         {
-          $helpStrings[$decree->name] = '<i>No special abilities</i>';
+            $helpStrings[$decreeState->name] = '<i>No special abilities</i>';
         }
         else
         {
-          $helpStrings[$decree->name] = '<ul>' . $helpStrings[$decree->name] . '</ul>';
+            $helpStrings[$decreeState->name] = '<ul>' . $helpStrings[$decreeState->name] . '</ul>';
         }
 
-        return $helpStrings[$decree->name] ?: null;
+        return $helpStrings[$decreeState->name] ?: null;
     }
 
     /*
@@ -312,9 +258,10 @@ class DecreeHelper
         return $dominion->decreeStates->contains($decree);
     }
 
-    public function getDominionDecreeState(Decree $decree, Dominion $dominion): DominionDecreeState
+    public function getDominionDecreeState(Dominion $dominion, Decree $decree): DominionDecreeState
     {
-        return $dominion->decreeStates->where('decree_id', $decree->id)->first();
+        return DominionDecreeState::where('dominion_id', $dominion->id)->where('decree_id', $decree->id)->first();
+        #return $dominion->decreeStates->where('decree_id', $decree->id)->first();
     }
 
 }

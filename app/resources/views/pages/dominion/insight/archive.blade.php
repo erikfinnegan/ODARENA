@@ -206,15 +206,17 @@
     <div class="col-sm-12 col-md-3">
         <div class="box">
             <div class="box-body text-center">
-                  <a href="{{ route('dominion.insight.show', ['dominion' => $dominion]) }}" class="btn btn-primary btn-block">View current Insight</a>
-                  <p class="text-muted">
-                      <em>
-                          Currently viewing insight archived at tick {{ number_format($dominionInsight->round_tick) }},
-                          <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }} {{ isset($dominionInsight->source_dominion_id) ? 'by ' . OpenDominion\Models\Dominion::findOrFail($dominionInsight->source_dominion_id)->name : '' }}">
-                              {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago</a>.
-                          </span>
-                      </em>
-                  </p>
+                <a href="{{ route('dominion.insight.show', ['dominion' => $dominion]) }}" class="btn btn-primary btn-block">View current Insight</a>
+                <p class="text-muted">
+                    <em>
+                        Currently viewing insight archived at tick {{ number_format($dominionInsight->round_tick) }},
+                        <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }} {{ isset($dominionInsight->source_dominion_id) ? 'by ' . OpenDominion\Models\Dominion::findOrFail($dominionInsight->source_dominion_id)->name : '' }}">
+                            {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago</a>.
+                        </span>
+                    </em>
+                </p>
+
+                {{ $dominionInsights->onEachSide(1)->links() }}
             </div>
         </div>
     </div>
@@ -782,129 +784,53 @@
         @endcomponent
     </div>
 
-    {{--
     <div class="col-sm-12 col-md-6">
         @component('partials.dominion.insight.box')
-            @slot('title', 'Statistics')
-            @slot('titleIconClass', 'fa fa-chart-bar')
+
+            @slot('title', 'Decrees')
+            @slot('titleIconClass', 'fa fa-flask')
             @slot('noPadding', true)
 
-            <table class="table">
-                <colgroup>
-                    <col width="50%">
-                    <col width="50%">
-                </colgroup>
-                <thead class="hidden-xs">
-                    <tr>
-                        <th colspan="2">Offensive Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Attacking victory</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'invasion_victories')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bottomfeeds</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'invasion_bottomfeeds')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tactical razes</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'invasion_razes')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Overwhelmed failures</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'invasion_failures')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Land conquered</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'land_conquered')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Land discovered</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'land_discovered')) }}</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table">
-                <colgroup>
-                    <col width="50%">
-                    <col width="50%">
-                </colgroup>
-                <thead class="hidden-xs">
-                    <tr>
-                        <th colspan="2">Defensive Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Invasions fought back</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'defense_success')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Invasions lost</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'defense_failures')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Land lost</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'land_lost')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Land explored</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'land_explored')) }}</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table">
-                <colgroup>
-                    <col width="50%">
-                    <col width="50%">
-                </colgroup>
-                <thead class="hidden-xs">
-                    <tr>
-                        <th colspan="2">Enemy Units</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Enemy units killed</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'units_killed')) }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Total units converted</td>
-                        <td>
-                            <strong>{{ number_format($statsService->getStat($dominion, 'units_converted')) }}</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if(count($data['decrees']) > 0)
+                <table class="table">
+                    <colgroup>
+                        <col width="150">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Decree</th>
+                            <th>State</th>
+                            <th>Cooldown</th>
+                            <th>Perks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data['decrees'] as $dominionDecreeState)
+                            @php
+                                $decree = OpenDominion\Models\Decree::findOrFail($dominionDecreeState['decree_id']);
+                                $decreeState = OpenDominion\Models\DecreeState::findOrFail($dominionDecreeState['decree_state_id']);
+                            @endphp
+                            <tr>
+                                <td>{{ $decree->name }}</td>
+                                <td>{{ $decreeState->name }}</td>
+                                <td>{{ $dominionDecreeState['cooldown'] }}</td>
+                                <td>{!! $decreeHelper->getDecreeStateDescription($decreeState) !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <div class="box-body">
+                    <p>No decrees have been issued in this dominion.</p>
+                </div>
+            @endif
         @endcomponent
     </div>
-    --}}
+
 </div>
 
 <div class="box-footer">

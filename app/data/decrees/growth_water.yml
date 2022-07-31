@@ -6,7 +6,7 @@ exclusive_races:
 states:
   - name: Tissue
     perks:
-      generate_building: water_tissue
+      generate_building_water: tissue_water
   - name: Gills
     perks:
-      generate_building: gill
+      generate_building_water: gill

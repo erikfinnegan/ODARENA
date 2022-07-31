@@ -61,6 +61,9 @@ class ProductionCalculator
         // Artefacts
         $multiplier += $dominion->realm->getArtefactPerkMultiplier('xp_generation_mod');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('xp_generation_mod');
+
         // Title
         if(isset($dominion->title))
         {

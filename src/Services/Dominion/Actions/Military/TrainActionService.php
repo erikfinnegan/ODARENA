@@ -430,6 +430,7 @@ class TrainActionService
                     $ticksMultiplier = 1;
                     $ticksMultiplier += $dominion->getImprovementPerkMultiplier('training_time_mod');
                     $ticksMultiplier += $dominion->getBuildingPerkMultiplier('training_time_mod');
+                    $ticksMultiplier += $dominion->getDecreePerkMultiplier('training_time_mod');
 
                     $ticks = (int)ceil($ticks * $ticksMultiplier);
 

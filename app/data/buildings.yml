@@ -760,7 +760,6 @@ mass_grave:
   land_type: swamp
   perks:
     peasants_conversions: 3,6;miasma,18;food # amountFrom, amountTo, resourceTo
-    population_growth: 1,-2 # Every 1%, gives -2%
 
 yak_breeder:
   name: Yak Breeder

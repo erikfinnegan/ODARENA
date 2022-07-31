@@ -1168,7 +1168,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 ->fill([
                     'name' => object_get($data, 'name'),
                     'enabled' => object_get($data, 'enabled', 1),
-                    'cooldown' => object_get($data, 'cooldown', 48),
+                    'cooldown' => object_get($data, 'cooldown', 96),
                     'deity' => $deityId,
                     'title' => $titleId,
                     'description' => object_get($data, 'description'),

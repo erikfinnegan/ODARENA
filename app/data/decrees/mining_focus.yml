@@ -1,0 +1,51 @@
+name: Mining Focus
+cooldown: 48
+description: Assign resources to mining, at the cost of quality of improvements and increased food consumption.
+excluded_races:
+  - Afflicted
+  - Ants
+  - Aurei
+  - Demon
+  - Dimensionalists
+  - Dwarg
+  - Elementals
+  - Firewalker
+  - Growth
+  - Halfling
+  - Icekin
+  - Lux
+  - Marshling
+  - Glimjir
+  - Monster
+  - Myconid
+  - Nox
+  - Qur
+  - Reptilians
+  - Revenant
+  - Simian
+  - Spirit
+  - Sylvan
+  - Swarm
+  - Undead
+  - Vampires
+  - Void
+  - Weres
+  - Wood Elf
+states:
+  - name: Ore
+    perks:
+      ore_production_mod: 10
+      food_consumption_mod: 5
+      improvement_points: -10
+
+  - name: Gems
+    perks:
+      gems_production_mod: 10
+      food_consumption_mod: 7.5
+      improvement_points: -12.5
+
+  - name: Gold Mines
+    perks:
+      building_gold_mine_production_mod: 10
+      food_consumption_mod: 5
+      improvement_points: -10

@@ -6,7 +6,7 @@ exclusive_races:
 states:
   - name: Tissue
     perks:
-      generate_building: hills_tissue
+      generate_building_hill: tissue_hill
   - name: Incisor
     perks:
-      generate_building: incisor
+      generate_building_hill: incisor
