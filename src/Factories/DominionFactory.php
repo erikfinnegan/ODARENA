@@ -118,6 +118,7 @@ class DominionFactory
         $startingParameters['spies'] = 0;
         $startingParameters['wizards'] = 0;
         $startingParameters['archmages'] = 0;
+        $startingResources['food'] = 0;
 
 
         if($race->name !== 'Barbarian')
@@ -144,12 +145,12 @@ class DominionFactory
 
             if($race->name == 'Kerranad')
             {
-                $startingResources['gems'] = 400000;
+                $startingResources['gems'] += 400000;
             }
 
             if($race->name == 'Legion')
             {
-                $startingParameters['unit4'] = 1;
+                $startingParameters['unit4'] += 1;
             }
 
             if($race->name == 'Marshling')
@@ -176,7 +177,7 @@ class DominionFactory
             if($race->name == 'Revenants')
             {
                 $startingParameters['unit1'] = 4000;
-                $startingResources['food'] = 40000;
+                $startingResources['food'] += 40000;
             }
         }
         else
@@ -235,7 +236,7 @@ class DominionFactory
 
         if(!$race->getPerkValue('no_food_consumption'))
         {
-            $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption_raw')));
+            $startingResources['food'] += floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption_raw')));
         }
 
         foreach($startingResources as $resourceKey => $amount)
@@ -249,7 +250,7 @@ class DominionFactory
             'realm_id' => $realm->id,
             'race_id' => $race->id,
             'title_id' => $title->id,
-            'pack_id' => $pack->id ?? null,
+            'pack_id' => null,
 
             'ruler_name' => $rulerName,
             'name' => $dominionName,
