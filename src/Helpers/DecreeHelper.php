@@ -46,6 +46,9 @@ class DecreeHelper
 
             'food_consumption_mod' => '%s%% food consumption.',
 
+            # Deity
+            'deity_power' => '%s%% deity perks.',
+
             # Military
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
@@ -265,7 +268,14 @@ class DecreeHelper
 
     public function isDominionDecreeIssued(Dominion $dominion, Decree $decree): bool
     {
-        return $dominion->decreeStates->contains($decree);
+        foreach($dominion->decreeStates as $decreeState)
+        {
+            if($decreeState->decree_id == $decree->id)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getDominionDecreeState(Dominion $dominion, Decree $decree): DominionDecreeState
