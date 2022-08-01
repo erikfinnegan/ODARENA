@@ -3,94 +3,108 @@
 
 @section('content')
 
+{{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
+@php
+    $numOfCols = 2;
+    $rowCount = 0;
+    $bootstrapColWidth = 12 / $numOfCols;
+@endphp
 <div class="row">
     @foreach($decrees as $decree)
-        @if($decreeCalculator->isDecreeAvailableToDominion($selectedDominion, $decree))
-            @php
-            $isIssued = $decreeHelper->isDominionDecreeIssued($selectedDominion, $decree);
-            if($isIssued)
-            {
-                $dominionDecreeState = $decreeHelper->getDominionDecreeState($selectedDominion, $decree);
-                $ticksUntilCanRevoke = $decreeCalculator->getTicksUntilDominionCanRevokeDecree($selectedDominion, $decree);
-            }
-            @endphp
-            <div class="col-sm-12 col-md-9">
-                <div class="box {{ $isIssued ? 'box-success' : '' }}">
-                    <div class="box-header with-border">
-                        <div class="col-lg-9">
-                            <h4 class="box-title"><i class="fas fa-gavel fw-fw"></i> {{ ($decree->name) }}</h4>
-                        </div>
-                        <div class="col-lg-3">
-                            @if($isIssued)
-                                <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span>
-                            @else
-                                <span class="label text-muted" style="background: #ccc;">Not issued</span>
-                            @endif
-                        </div>
+        @php
+        $isIssued = $decreeHelper->isDominionDecreeIssued($selectedDominion, $decree);
+        if($isIssued)
+        {
+            $dominionDecreeState = $decreeHelper->getDominionDecreeState($selectedDominion, $decree);
+            $ticksUntilCanRevoke = $decreeCalculator->getTicksUntilDominionCanRevokeDecree($selectedDominion, $decree);
+        }
+        @endphp
+        <div class="col-md-{{ $bootstrapColWidth }}">
+            <div class="box {{ $isIssued ? 'box-success' : '' }}">
+                <div class="box-header with-border">
+                    <div class="col-lg-9">
+                        <h4 class="box-title"><i class="fas fa-gavel fw-fw"></i> {{ ($decree->name) }}</h4>
                     </div>
-                    <div class="box-body">
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <div class="box-body">
-                                        <i class="far fa-file-alt fa-fw"></i> {{ $decree->description }}
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12 col-md-3">
-                                    <div class="box-body">
-                                        @if($isIssued)
-                                            <form action="{{ route('dominion.decrees.revoke-decree') }}" method="post" role="form">
-                                                @csrf
-                                                <input type="hidden" name="dominionDecreeState" value="{{ $dominionDecreeState->id }}">
-                                                <button type="submit" class="btn btn-block btn-danger" {{ !$decreeCalculator->canDominionRevokeDecree($selectedDominion, $decree) ? 'disabled' : ''}}>
-                                                    Revoke decree
-                                                    @if($ticksUntilCanRevoke)
-                                                        <small>({{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }} until you can revoke)</small>
-                                                    @endif
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>         
-
-                        @foreach($decree->states as $decreeState)
-                            <div class="row">
-                                <div class="box-body">
-                                    <div class="col-sm-12 col-md-3">
-                                        <div class="box-header">
-                                            @if($isIssued and $dominionDecreeState->decree_state_id === $decreeState->id)
-                                                <button type="button" class="btn btn-block btn-success" {{ $isIssued ? 'disabled' : ''}}>
-                                            @else
-                                                <form action="{{ route('dominion.decrees.issue-decree') }}" method="post" role="form">
-                                                    @csrf
-                                                    <input type="hidden" name="decree" value="{{ $decree->id }}">
-                                                    <input type="hidden" name="decreeState" value="{{ $decreeState->id }}">
-                                                    <button type="submit" class="btn btn-block btn-primary">
-                                                </form>
-                                            @endif
-                                                {{ $decreeState->name }}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="box-body">
-                                            {!! $decreeHelper->getDecreeStateDescription($decreeState) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        @endforeach
+                    <div class="col-lg-3">
+                        @if($isIssued)
+                            <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span>
+                        @else
+                            <span class="label text-muted" style="background: #ccc;">Not issued</span> <span class="label label-info">Cooldown: {{ $decree->cooldown }}</span>
+                        @endif
                     </div>
                 </div>
-            </div>
-        @endif
-    @endforeach
+                <div class="box-body">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="box-body">
+                                    <i class="far fa-file-alt fa-fw"></i> {{ $decree->description }}
+                                </div>
+                            </div>
 
+                            <div class="col-lg-4">
+                                <div class="box-body">
+                                    @if($isIssued)
+                                        <form action="{{ route('dominion.decrees.revoke-decree') }}" method="post" role="form">
+                                            @csrf
+                                            <input type="hidden" name="dominionDecreeState" value="{{ $dominionDecreeState->id }}">
+                                            <button type="submit" class="btn btn-block btn-danger" {{ !$decreeCalculator->canDominionRevokeDecree($selectedDominion, $decree) ? 'disabled' : ''}}>
+                                                Revoke decree
+                                                @if($ticksUntilCanRevoke)
+                                                    <small>({{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }} until you can revoke)</small>
+                                                @endif
+                                            </button>
+                                        </form>                                        
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>         
+
+                    @foreach($decree->states as $decreeState)
+                        <div class="row">
+                            <div class="box-body">
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="box-header">
+                                        @if($isIssued and $dominionDecreeState->decree_state_id === $decreeState->id)
+                                            <button type="button" class="btn btn-block btn-success" {{ $isIssued ? 'disabled' : ''}}>
+                                        @else
+                                            <form action="{{ route('dominion.decrees.issue-decree') }}" method="post" role="form">
+                                                @csrf
+                                                <input type="hidden" name="decree" value="{{ $decree->id }}">
+                                                <input type="hidden" name="decreeState" value="{{ $decreeState->id }}">
+                                                <button type="submit" class="btn btn-block btn-primary">
+                                            </form>
+                                        @endif
+                                            {{ $decreeState->name }}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="box-body">
+                                        {!! $decreeHelper->getDecreeStateDescription($decreeState) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        @php
+            $rowCount++;
+        @endphp
+
+        @if($rowCount % $numOfCols == 0)
+            </div><div class="row">
+        @endif
+        
+    @endforeach
+</div>
+<div class="row">
     <div class="col-sm-12 col-md-3">
         <div class="box">
             <div class="box-header with-border">

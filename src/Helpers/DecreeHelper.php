@@ -211,20 +211,34 @@ class DecreeHelper
     */
     public function getDecreesByRace(Race $race): Collection
     {
-        $decrees = collect(Decree::all()->sortBy('name')->where('enabled',1));
+        $decrees = Decree::all()->where('enabled',1)->sortBy('name');
 
-        foreach($decrees as $decree)
+        foreach($decrees as $id => $decree)
         {
-          if(
-                (count($decree->excluded_races) > 0 and in_array($race->name, $decree->excluded_races)) or
-                (count($decree->exclusive_races) > 0 and !in_array($race->name, $decree->exclusive_races))
-            )
-          {
-              $decrees->forget($decree->key);
-          }
+            if(!$this->isDecreeAvailableToRace($race, $decree))
+            {
+                $decrees->forget($id);
+            }
         }
 
         return $decrees;
+    }
+
+    public function isDecreeAvailableToRace(Race $race, Decree $decree): bool
+    {
+        $isAvailable = true;
+
+        if(count($decree->exclusive_races) > 0 and !in_array($race->name, $decree->exclusive_races))
+        {
+            $isAvailable = false;
+        }
+
+        if(count($decree->excluded_races) > 0 and in_array($race->name, $decree->excluded_races))
+        {
+            $isAvailable = false;
+        }
+
+        return $isAvailable;
     }
 
     public function getExclusivityString(Decree $decree): string
