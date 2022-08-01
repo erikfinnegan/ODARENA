@@ -82,7 +82,7 @@ ore_mine:
     - Nox
     - Qur
     - Reptilians
-    - Revenant
+    - Revenants
     - Simian
     - Spirit
     - Sylvan
@@ -401,7 +401,7 @@ aqueduct:
     - Myconid
     - Monster
     - Reptilians
-    - Revenant
+    - Revenants
     - Swarm
     - Sylvan
     - Undead
@@ -504,7 +504,7 @@ obelisk:
     - Demon
     - Reptilians
     - Sacred Order
-    - Revenant
+    - Revenants
     - Undead
   land_type: hill
   perks:
@@ -1673,7 +1673,7 @@ sanctuary:
 tomb:
   name: Tomb
   exclusive_races:
-    - Revenant
+    - Revenants
     - Undead
   land_type: swamp
   perks:
