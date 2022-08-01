@@ -29,7 +29,7 @@
                         @if($isIssued)
                             <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span>
                         @else
-                            <span class="label text-muted" style="background: #ccc;">Not issued</span> <span class="label label-info">Cooldown: {{ $decree->cooldown }}</span>
+                            <span class="label text-muted" style="background: #ccc;">Not issued</span> <span class="label label-info">Cooldown: {{ $decree->cooldown . ' ' . str_plural('tick', $decree->cooldown) }}</span>
                         @endif
                     </div>
                 </div>
