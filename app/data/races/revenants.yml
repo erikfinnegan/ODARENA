@@ -41,7 +41,7 @@ units:
       no_draftee_on_release: 1
       displaced_peasants_random_split_conversion: 70,90,2,3
       strength_conversion: 6,2,3 # threshold,under,over
-      some_win_into: 2,2 # ratio, slot
+      some_win_into: 2,3 # ratio, slot
 
   - name: Great Zombie
     training_time: 12
