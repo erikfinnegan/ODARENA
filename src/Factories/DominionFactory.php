@@ -176,6 +176,7 @@ class DominionFactory
             if($race->name == 'Revenants')
             {
                 $startingParameters['unit1'] = 4000;
+                $startingResources['food'] = 40000;
             }
         }
         else
