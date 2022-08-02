@@ -59,6 +59,11 @@
                         <td>{{ number_format($selectedDominion->getDeityPerkMultiplier('offensive_power') * 100, 2) }}%</td>
                         <td>{{ number_format($selectedDominion->getDeityPerkMultiplier('defensive_power') * 100, 2) }}%</td>
                     </tr>
+                    <tr>
+                        <td>Decrees:</td>
+                        <td>{{ number_format($selectedDominion->getDecreePerkMultiplier('offensive_power') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getDecreePerkMultiplier('defensive_power') * 100, 2) }}%</td>
+                    </tr>
                     @if($militaryCalculator->getRawDefenseAmbushReductionRatio($selectedDominion))
                     <tr>
                         <td>Ambush:</td>

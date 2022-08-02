@@ -1458,11 +1458,12 @@ class Dominion extends AbstractModel
         $perks = $this->getDecreeStatePerks()->groupBy('key');
 
         if (isset($perks[$key])) {
-            $max = (float)$perks[$key]->max('pivot.value');
-            if ($max < 0) {
-                return (float)$perks[$key]->min('pivot.value');
-            }
-            return $max;
+            #$max = (float)$perks[$key]->max('pivot.value');
+            #if ($max < 0) {
+            #    return (float)$perks[$key]->min('pivot.value');
+            #}
+            #return $max;
+            return $perks[$key]->sum('pivot.value');
         }
         return 0;
     }
