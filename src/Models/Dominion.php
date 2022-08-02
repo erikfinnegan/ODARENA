@@ -1036,7 +1036,7 @@ class Dominion extends AbstractModel
 
             # Build-specific perks
             $buildingSpecificMultiplier = 1;
-            #$buildingSpecificMultiplier += $this->getDecreePerkMultiplier('building_' . $building->key . '_production_mod');
+            $buildingSpecificMultiplier += $this->getDecreePerkMultiplier('building_' . $building->key . '_production_mod');
 
             $perk *= $buildingSpecificMultiplier;
         }
