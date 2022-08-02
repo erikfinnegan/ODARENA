@@ -264,6 +264,48 @@
 
         <div class="box">
             <div class="box-header with-border">
+                <h3 class="box-title"><i class="ra ra-axe"></i> Military</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table">
+                    <colgroup>
+                        <col width="33%">
+                        <col width="33%">
+                        <col width="33%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Modifier</th>
+                            <th>Offensive</th>
+                            <th>Defensive</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Power:</strong></td>
+                            <td><strong>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($dominion) - 1) * 100, 2) }}%</strong></td>
+                            <td><strong>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($dominion) - 1) * 100, 2) }}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Enemy modifers:</td>
+                            <td>{{ number_format(($militaryCalculator->getOffensiveMultiplierReduction($dominion)-1)*100, 2) }}%</td>
+                            <td>{{ number_format($militaryCalculator->getDefensiveMultiplierReduction($dominion)*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Own casualties:</td>
+                            <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($dominion, 'offense'))*100, 2) }}%</td>
+                            <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($dominion, 'defense'))*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-header with-border">
                 <h3 class="box-title"><i class="fas fa-pray"></i> Deity</h3>
             </div>
             <div class="box-body">

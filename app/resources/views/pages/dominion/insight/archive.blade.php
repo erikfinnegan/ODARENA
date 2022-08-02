@@ -220,7 +220,52 @@
             </div>
         </div>
     </div>
+
+
     <div class="col-sm-12 col-md-3">
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="ra ra-axe"></i> Military</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table">
+                    <colgroup>
+                        <col width="33%">
+                        <col width="33%">
+                        <col width="33%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Modifier</th>
+                            <th>Offensive</th>
+                            <th>Defensive</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Power:</strong></td>
+                            <td><strong>{{ number_format(($data['mods']['offense']['power'] - 1) * 100, 2) }}%</strong></td>
+                            <td><strong>{{ number_format(($data['mods']['defense']['power'] - 1) * 100, 2) }}%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Enemy modifers:</td>
+                            <td>{{ number_format(($data['mods']['offense']['enemy_modifiers']-1)*100, 2) }}%</td>
+                            <td>{{ number_format($data['mods']['defense']['enemy_modifiers']*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Own casualties:</td>
+                            <td>{{ number_format(($data['mods']['offense']['own_casualties'])*100, 2) }}%</td>
+                            <td>{{ number_format(($data['mods']['defense']['own_casualties'])*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fas fa-pray"></i> Deity</h3>

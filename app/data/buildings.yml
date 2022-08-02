@@ -759,7 +759,7 @@ mass_grave:
     - Afflicted
   land_type: swamp
   perks:
-    peasants_conversions: 3,6;miasma,18;food # amountFrom, amountTo, resourceTo
+    peasants_conversions: 3,6;miasma,18;food # amountFrom, amountTo;resourceTo, amountTo;resourceTo
 
 yak_breeder:
   name: Yak Breeder

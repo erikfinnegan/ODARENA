@@ -12,6 +12,7 @@ use OpenDominion\Models\DominionDecreeState;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\DecreeCalculator;
 use OpenDominion\Calculators\Dominion\DominionCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
@@ -19,6 +20,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
@@ -143,6 +145,7 @@ class InsightController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
 
             'buildingCalculator' => app(BuildingCalculator::class),
+            'casualtiesCalculator' => app(CasualtiesCalculator::class),
             'decreeCalculator' => app(DecreeCalculator::class),
             'dominionCalculator' => app(DominionCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
@@ -151,6 +154,7 @@ class InsightController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
+            'prestigeCalculator' => app(PrestigeCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'resourceCalculator' => app(ResourceCalculator::class),

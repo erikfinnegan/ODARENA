@@ -23,6 +23,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
 
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\DecreeCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
@@ -51,6 +52,7 @@ class InsightService
         $this->titleHelper = app(TitleHelper::class);
 
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->decreeCalculator = app(DecreeCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
@@ -121,6 +123,7 @@ class InsightService
             'military_wizards' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'wizards'),
             'military_archmages' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'archmages'),
 
+
             # Deity
             'deity' => $target->hasDeity() ? $target->deity->name : NULL,
             'deity_devotion' => $target->hasDeity() ? $target->devotion->duration : NULL,
@@ -132,6 +135,21 @@ class InsightService
             'has_annexed' => $this->spellCalculator->hasAnnexedDominions($target),
             'military_power_from_annexed_dominions' => $this->militaryCalculator->getRawMilitaryPowerFromAnnexedDominions($target),
         ];
+
+        # Military mods
+        $data['mods'] = [];
+        $data['mods']['offense'] =
+            [
+                'power' => $this->militaryCalculator->getOffensivePowerMultiplier($target),
+                'enemy_modifiers' => $this->militaryCalculator->getOffensiveMultiplierReduction($target),
+                'own_casualties' => $this->casualtiesCalculator->getBasicCasualtiesPerkMultipliers($target, 'offense'),
+            ];
+        $data['mods']['defense'] =
+            [
+                'power' => $this->militaryCalculator->getDefensivePowerMultiplier($target),
+                'enemy_modifiers' => $this->militaryCalculator->getDefensiveMultiplierReduction($target),
+                'own_casualties' => $this->casualtiesCalculator->getBasicCasualtiesPerkMultipliers($target, 'defense'),
+            ];
 
         # Units
         $data['units'] = [];
