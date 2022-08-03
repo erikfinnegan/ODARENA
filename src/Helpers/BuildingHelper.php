@@ -49,6 +49,10 @@ class BuildingHelper
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
             'vampires_unit1_housing' => 'Houses %s Servants.',
+            'human_unit2_housing' => 'Houses %s Spearguards.',
+            'revenants_unit1_housing' => 'Houses %s Lesser Zombies.',
+            'revenants_unit2_housing' => 'Houses %s Zombies.',
+            'revenants_unit3_housing' => 'Houses %s Greater Zombies.',
 
             'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',

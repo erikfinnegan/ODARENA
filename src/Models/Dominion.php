@@ -681,6 +681,9 @@ class Dominion extends AbstractModel
                         or $perkKey == 'troll_unit2_housing'
                         or $perkKey == 'troll_unit4_housing'
                         or $perkKey == 'vampires_unit1_housing'
+                        or $perkKey == 'revenants_unit1_housing'
+                        or $perkKey == 'revenants_unit2_housing'
+                        or $perkKey == 'revenants_unit3_housing'
 
                         or $perkKey == 'spy_housing'
                         or $perkKey == 'wizard_housing'

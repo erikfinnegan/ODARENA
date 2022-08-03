@@ -1701,6 +1701,18 @@ wizard_dome:
     wizard_housing: 50
     housing: 0
 
+enclosure:
+  name: Enclosure
+  exclusive_races:
+    - Revenants
+  land_type: swamp
+  perks:
+    revenants_unit1_housing: 40
+    revenants_unit2_housing: 25
+    revenants_unit3_housing: 15
+    jobs: 30
+    housing: 0
+
 # BARBARIAN
 
 shed:
