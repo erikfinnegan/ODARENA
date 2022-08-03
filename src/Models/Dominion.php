@@ -1243,6 +1243,7 @@ class Dominion extends AbstractModel
         #$multiplier += $this->getDeityPerkMultiplier('improvements'); # Breaks
         $multiplier += $this->race->getPerkMultiplier('improvements_max');
         $multiplier += $this->realm->getArtefactPerkMultiplier('improvements');
+        $multiplier += $this->getDecreePerkMultiplier('improvements'); 
 
         if($this->race->getPerkValue('improvements_from_souls'))
         {

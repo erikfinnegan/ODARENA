@@ -2325,40 +2325,45 @@ class MilitaryCalculator
     public function getSpellMultiplier(Dominion $dominion, Dominion $target = null, string $power): float
     {
 
-      $multiplier = 0;
+        $multiplier = 0;
 
-      if($power == 'offense')
-      {
-          $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
+        if($power == 'offense')
+        {
+            $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
 
-          // Spell: Retribution (+20% OP)
-          # Condition: target must have invaded $dominion's realm in the last six hours.
-          if ($dominion->getSpellPerkValue('offensive_power_on_retaliation') and $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
-          {
-              $multiplier += $dominion->getSpellPerkMultiplier('offensive_power_on_retaliation');
-          }
+            # Retaliation spells (only vs. self in deathmatches)
+            if($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration' or $dominion->round->mode == 'artefacts')
+            {
+                if ($this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
+                {
+                    $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+                }
+            }
+            elseif($dominion->round->mode == 'deathmatch' or $dominion->round->mode == 'deathmatch-duration')
+            {
+                if ($this->isSelfRecentlyInvadedByTarget($dominion, $target))
+                {
+                    $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+                }
+            }
 
-          #dump($dominion->getSpellPerkValue('offensive_power_on_retaliation'), $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target));
+        }
+        elseif($power == 'defense')
+        {
+            $multiplier += $dominion->getSpellPerkMultiplier('defensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
 
-      }
-      elseif($power == 'defense')
-      {
-          $multiplier += $dominion->getSpellPerkMultiplier('defensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
+            // Spell: Chitin
+            if(isset($target))
+            {
+                if ($dominion->getSpellPerkValue('defensive_power_vs_insect_swarm') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
+                {
+                    $multiplier += $dominion->getSpellPerkValue('defensive_power_vs_insect_swarm');
+                }
+            }
 
-          #dd($dominion->getSpellPerkMultiplier('defensive_power'));
+        }
 
-          // Spell: Chitin
-          if(isset($target))
-          {
-              if ($dominion->getSpellPerkValue('defensive_power_vs_insect_swarm') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
-              {
-                  $multiplier += $dominion->getSpellPerkValue('defensive_power_vs_insect_swarm');
-              }
-          }
-
-      }
-
-      return $multiplier;
+        return $multiplier;
 
     }
 
