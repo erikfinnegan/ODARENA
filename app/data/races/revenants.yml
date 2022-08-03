@@ -44,7 +44,7 @@ units:
       strength_conversion: 6,2,3 # threshold,under,over
       some_win_into: 2,3 # ratio, slot
 
-  - name: Great Zombie
+  - name: Greater Zombie
     training_time: 12
     type:
       - mindless
