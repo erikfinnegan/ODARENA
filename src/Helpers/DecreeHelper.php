@@ -39,8 +39,8 @@ class DecreeHelper
             'xp_generation_mod' => '%s%% XP generation.',
             'xp_gains' => '%s%% XP gains.',
 
-            'building_gold_mine_production_mod' => '%s%% gold mine production.',
-            'building_gold_quarry_production_mod' => '%s%% gold quarry production.',
+            'building_gold_mine_production_mod' => '%s%% production from Gold Mines.',
+            'building_gold_quarry_production_mod' => '%s%% production from Gold Quarries.',
 
             'exchange_rate' => '%s%% exchange rates.',
 
