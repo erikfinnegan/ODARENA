@@ -20,6 +20,7 @@ use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RealmHelper;
 use OpenDominion\Services\Dominion\BarbarianService;
 use Illuminate\Support\Carbon;
@@ -40,6 +41,7 @@ class RealmController extends AbstractDominionController
         $dominionHelper = app(DominionHelper::class);
         $landHelper = app(LandHelper::class);
         $deityHelper = app(DeityHelper::class);
+        $raceHelper = app(RaceHelper::class);
         $realmHelper = app(RealmHelper::class);
         $barbarianService = app(BarbarianService::class);
         $statsService = app(StatsService::class);
@@ -184,6 +186,7 @@ class RealmController extends AbstractDominionController
             'artefactHelper',
             'deityHelper',
             'landHelper',
+            'raceHelper',
             'realmHelper',
             'alignmentNoun',
             'alignmentAdjective',

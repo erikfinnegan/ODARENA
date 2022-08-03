@@ -47,7 +47,7 @@ units:
       defense: 5
     perks:
       casualties: -50
-      offense_from_pairing: 4,0.01 #,1 # slot, amount, num required
+      offense_from_pairing: 4,1,0.01 #,1 # slot, amount, num required
 
   - name: Hailstorm Cannon
     training_time: 12

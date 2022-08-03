@@ -203,7 +203,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        {{ $dominion->race->name }}
+                                        <span data-toggle="tooltip" data-placement="top" title="{!! $raceHelper->getRacePerksHelpString($dominion->race) !!}">
+                                            {{ $dominion->race->name }}
+                                        </span>
                                     </td>
                                     <td class="text-center">
                                         @if($dominion->hasDeity())
