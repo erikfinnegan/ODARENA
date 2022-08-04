@@ -19,6 +19,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\MoraleCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -153,6 +154,7 @@ class InsightController extends AbstractDominionController
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
+            'moraleCalculator' => app(MoraleCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
