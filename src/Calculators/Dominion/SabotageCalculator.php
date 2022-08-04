@@ -74,8 +74,8 @@ class SabotageCalculator
         $multiplier += $target->realm->getArtefactPerkMultiplier('sabotage_damage_suffered');
         $multiplier += $target->realm->getArtefactPerkMultiplier($attribute . '_sabotage_damage_suffered');
 
-        $multiplier += $target->title->getPerkMultiplier('sabotage_damage_suffered');
-        $multiplier += $target->title->getPerkMultiplier($attribute . '_sabotage_damage_suffered');
+        $multiplier += $target->title->getPerkMultiplier('sabotage_damage_suffered') * $target->getTitlePerkMultiplier();
+        $multiplier += $target->title->getPerkMultiplier($attribute . '_sabotage_damage_suffered') * $target->getTitlePerkMultiplier();
 
         return $multiplier;
     }
@@ -102,8 +102,8 @@ class SabotageCalculator
         $multiplier += $saboteur->realm->getArtefactPerkMultiplier('sabotage_damage_dealt');
         $multiplier += $saboteur->realm->getArtefactPerkMultiplier($attribute . '_sabotage_damage_dealt');
 
-        $multiplier += $saboteur->title->getPerkMultiplier('sabotage_damage_dealt');
-        $multiplier += $saboteur->title->getPerkMultiplier($attribute . '_sabotage_damage_dealt');
+        $multiplier += $saboteur->title->getPerkMultiplier('sabotage_damage_dealt') * $saboteur->getTitlePerkMultiplier();
+        $multiplier += $saboteur->title->getPerkMultiplier($attribute . '_sabotage_damage_dealt') * $saboteur->getTitlePerkMultiplier();
 
         return $multiplier;
     }

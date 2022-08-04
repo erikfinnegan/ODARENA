@@ -454,7 +454,7 @@ class ResourceCalculator
 
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
+            $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption_mod') * $dominion->getTitlePerkMultiplier();
         }
 
         $consumption *= $multiplier;

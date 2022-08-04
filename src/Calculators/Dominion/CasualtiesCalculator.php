@@ -287,8 +287,8 @@ class CasualtiesCalculator
         $multiplier =  0;
 
         # Title perks
-        $multiplier += $dominion->title->getPerkMultiplier('casualties');
-        $multiplier += $dominion->title->getPerkMultiplier('casualties_on_' . $mode);
+        $multiplier += $dominion->title->getPerkMultiplier('casualties') * $dominion->getTitlePerkMultiplier();
+        $multiplier += $dominion->title->getPerkMultiplier('casualties_on_' . $mode) * $dominion->getTitlePerkMultiplier();
 
         # Faction perks
         $multiplier += $dominion->race->getPerkMultiplier('casualties');
