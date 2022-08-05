@@ -59,10 +59,10 @@
                         <a href="{{ route('dominion.advancements') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span>
 
                         @if($techCalculator->maxLevelAfforded($selectedDominion) !== 0)
-                            <span class="pull-right-container"><small class="label pull-right bg-green">{{ $techCalculator->maxLevelAfforded($selectedDominion) }}</small></span></a></li>
+                            <span class="pull-right-container"><small class="label pull-right bg-green">{{ $techCalculator->maxLevelAfforded($selectedDominion) }}</small></span></a>
+                        @else
+                            </a>
                         @endif
-
-                        </a>
                     </li>
                 @endif
 

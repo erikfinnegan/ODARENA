@@ -51,7 +51,7 @@
                                             <button type="submit" class="btn btn-block btn-danger" {{ !$decreeCalculator->canDominionRevokeDecree($selectedDominion, $decree) ? 'disabled' : ''}}>
                                                 Revoke decree
                                                 @if($ticksUntilCanRevoke)
-                                                    <small>({{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }} until you can revoke)</small>
+                                                    <br><small>({{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }} until you can revoke)</small>
                                                 @endif
                                             </button>
                                         </form>                                        
@@ -68,16 +68,18 @@
                                     <div class="box-header">
                                         @if($isIssued and $dominionDecreeState->decree_state_id === $decreeState->id)
                                             <button type="button" class="btn btn-block btn-success" {{ $isIssued ? 'disabled' : ''}}>
+                                                {{ $decreeState->name }}
+                                            </button>
                                         @else
                                             <form action="{{ route('dominion.decrees.issue-decree') }}" method="post" role="form">
                                                 @csrf
                                                 <input type="hidden" name="decree" value="{{ $decree->id }}">
                                                 <input type="hidden" name="decreeState" value="{{ $decreeState->id }}">
                                                 <button type="submit" class="btn btn-block btn-primary">
+                                                    {{ $decreeState->name }}
+                                                </button>
                                             </form>
                                         @endif
-                                            {{ $decreeState->name }}
-                                        </button>
                                     </div>
                                 </div>
 
