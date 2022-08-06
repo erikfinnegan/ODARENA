@@ -282,8 +282,10 @@ class WorldNewsHelper
         }
 
         $string = sprintf(
-            '%s has been elected governor of their realm.',
+            '%s %s governor of %s realm.',
             $this->generateDominionString($monarch, 'neutral', $viewer),
+            in_array($realm->round->mode, ['deathmatch', 'deathmatch-duration']) ? 'is now the' : 'has been elected',
+            in_array($realm->round->mode, ['deathmatch', 'deathmatch-duration']) ? 'the' : 'their', 
           );
 
         return $string;

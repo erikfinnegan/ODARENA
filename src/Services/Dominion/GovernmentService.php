@@ -33,7 +33,7 @@ class GovernmentService
 
     public function getRealmMonarch(Realm $realm)
     {
-        return Dominion::findOrFail($realm->monarch_dominion_id) ?? null;
+        return $realm->monarch_dominion_id ? Dominion::findOrFail($realm->monarch_dominion_id) : null;
     }
 
     /**
@@ -89,7 +89,7 @@ class GovernmentService
      * @param Realm $realm
      * @param int $monarch_dominion_id
      */
-    protected function setRealmMonarch(Realm $realm, ?int $monarch_dominion_id)
+    public function setRealmMonarch(Realm $realm, ?int $monarch_dominion_id)
     {
         if(isset($monarch_dominion_id))
         {

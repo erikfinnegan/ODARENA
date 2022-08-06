@@ -547,7 +547,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -930,20 +930,25 @@ class InvadeActionService
     protected function handleDeathmatchGovernorshipChanges(Dominion $attacker, Dominion $target): void
     {
         # Do nothing if invasion is not successful, land ratio is under 0.60, or target is not a monarch.
-        if (!$this->invasionResult['result']['success'] or $this->invasion['land_ratio'] < 0.60 or !$target->isMonarch() or !($attacker->round->mode == 'deathmatch' or $attacker->round->mode == 'deathmatch-duration'))
+        if (!$this->invasionResult['result']['success'] or $this->invasionResult['land_ratio'] < 0.60 or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']))
         {
+            #dump('what', $attacker->round->mode);
             return;
         }
 
         # If there is no governor, attacker becomes governor if the target is in the same realm (i.e. not a Barbarian)
-        if(!$this->governmentService->getRealmMonarch($attacker->realm) and $attacker->realm->name == $target->realm->id)
+        if(!$this->governmentService->getRealmMonarch($attacker->realm) and $attacker->realm->id == $target->realm->id)
         {
             $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
+            #dump('attacker (' . $attacker->name . ') becomes governor because there was none');
         }
-        elseif($this->governmentService->getRealmMonarch($attacker->realm) == $target)
+        # If there is a governor, the attacker becomes governor if the target is (was) governor.
+        elseif($this->governmentService->getRealmMonarch($attacker->realm)->id == $target->id)
         {
             $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
+            #dump('attacker (' . $attacker->name . ') takes governorship from ' . $target->name);
         }
+
     }
 
 

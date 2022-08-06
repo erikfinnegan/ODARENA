@@ -200,7 +200,7 @@
 </div>
 @endif
 
-@if(!$selectedDominion->race->getPerkValue('cannot_vote'))
+@if(!$selectedDominion->race->getPerkValue('cannot_vote') and !($selectedDominion->round->mode == 'deathmatch' or $selectedDominion->round->mode =='deathmatch-duration'))
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
