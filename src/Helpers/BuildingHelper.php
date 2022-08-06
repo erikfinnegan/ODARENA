@@ -209,6 +209,8 @@ class BuildingHelper
             # Construction and Rezoning
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'construction_time' => 'Construction time decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            
 
             # Espionage and Wizardry
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%%.',
