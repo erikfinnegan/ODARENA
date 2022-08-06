@@ -922,7 +922,7 @@ class InvadeActionService
 
 
     /**
-     * If $target is monarch, invasion is successful, and land_ratio is at least 0.60, then attacker becomes monarch and target ceases to be monarch.
+     * If $target is monarch and invasion is successful, then attacker becomes monarch and target ceases to be monarch.
      * 
      * @param Dominion $dominion
      * @param Dominion $target
@@ -930,7 +930,7 @@ class InvadeActionService
     protected function handleDeathmatchGovernorshipChanges(Dominion $attacker, Dominion $target): void
     {
         # Do nothing if invasion is not successful, land ratio is under 0.60, or target is not a monarch.
-        if (!$this->invasionResult['result']['success'] or $this->invasionResult['land_ratio'] < 0.60 or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']))
+        if (!$this->invasionResult['result']['success'] or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']))
         {
             #dump('what', $attacker->round->mode);
             return;
