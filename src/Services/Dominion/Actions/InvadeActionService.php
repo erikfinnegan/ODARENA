@@ -929,10 +929,11 @@ class InvadeActionService
      */
     protected function handleDeathmatchGovernorshipChanges(Dominion $attacker, Dominion $target): void
     {
+        $this->invasionResult['result']['governor_changed'] = false;
+        
         # Do nothing if invasion is not successful, land ratio is under 0.60, or target is not a monarch.
         if (!$this->invasionResult['result']['success'] or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']) or $target->race->name == 'Barbarian')
         {
-            #dump('what', $attacker->round->mode);
             return;
         }
 
@@ -940,14 +941,14 @@ class InvadeActionService
         if(!$this->governmentService->getRealmMonarch($attacker->realm) and $attacker->realm->id == $target->realm->id)
         {
             $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
-            #dump('attacker (' . $attacker->name . ') becomes governor because there was none');
         }
         # If there is a governor, the attacker becomes governor if the target is (was) governor.
         elseif($this->governmentService->getRealmMonarch($attacker->realm)->id == $target->id)
         {
             $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
-            #dump('attacker (' . $attacker->name . ') takes governorship from ' . $target->name);
         }
+
+        $this->invasionResult['result']['governor_changed'] = true;
 
     }
 
