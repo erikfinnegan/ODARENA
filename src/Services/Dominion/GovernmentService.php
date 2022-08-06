@@ -109,9 +109,9 @@ class GovernmentService
             GameEvent::create([
                 'round_id' => $realm->round_id,
                 'source_type' => Realm::class,
-                'source_id' => $annexedDominion->id,
-                'target_type' => NULL,
-                'target_id' => $NULL,
+                'source_id' => $realm->id,
+                'target_type' => Dominion::class,
+                'target_id' => $monarch_dominion_id,
                 'type' => 'no_governor',
                 'data' => NULL,
                 'tick' => $realm->round->ticks
