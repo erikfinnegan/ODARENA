@@ -930,7 +930,7 @@ class InvadeActionService
     protected function handleDeathmatchGovernorshipChanges(Dominion $attacker, Dominion $target): void
     {
         # Do nothing if invasion is not successful, land ratio is under 0.60, or target is not a monarch.
-        if (!$this->invasionResult['result']['success'] or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']))
+        if (!$this->invasionResult['result']['success'] or !in_array($attacker->round->mode,['deathmatch','deathmatch-duration']) or $target->race->name == 'Barbarian')
         {
             #dump('what', $attacker->round->mode);
             return;
