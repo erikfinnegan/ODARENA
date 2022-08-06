@@ -684,7 +684,9 @@ class SpellHelper
                         foreach($nestedValue as $key => $value)
                         {
                             $nestedValue[$key] = ucwords(str_replace('level','level ',str_replace('_', ' ',$value)));
+                            $perkValue[$key] = (is_numeric($value) and $value > 0) ? '+' . $value : $value;
                         }
+
                         $effectStrings[] = vsprintf($spellEffects[$perk->key], $nestedValue);
                     }
                 }
@@ -694,13 +696,17 @@ class SpellHelper
                     foreach($perkValue as $key => $value)
                     {
                         $perkValue[$key] = ucwords(str_replace('_', ' ',$value));
+                        $perkValue[$key] = (is_numeric($value) and $value > 0) ? '+' . $value : $value;
                     }
+
                     $effectStrings[] = vsprintf($spellEffects[$perk->key], $perkValue);
                 }
             }
             else
             {
                 $perkValue = str_replace('_', ' ',ucwords($perkValue));
+
+                $perkValue = $perkValue > 0 ? '+' . $perkValue : $perkValue;
                 $effectStrings[] = sprintf($spellEffects[$perk->key], $perkValue);
             }
         }

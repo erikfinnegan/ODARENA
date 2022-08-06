@@ -137,13 +137,12 @@ class DeityHelper
                 $perkValue = $perk->pivot->value;
             }
 
-            if($perkValue > 0)
-            {
-                $perkValue = '+' . $perkValue;
-            }
+            
 
             $perkValue = str_replace('_', ' ',ucwords($perkValue));
-            $effectStrings[] = sprintf($deityEffects[$perk->key], display_number_format($perkValue, 4));
+            $perkValue = $perkValue > 0 ? '+' . display_number_format($perkValue, 4) : display_number_format($perkValue, 4);
+
+            $effectStrings[] = sprintf($deityEffects[$perk->key], $perkValue);
         }
 
         return $effectStrings;
