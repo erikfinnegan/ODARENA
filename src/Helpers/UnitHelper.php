@@ -11,6 +11,7 @@ use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 #use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
@@ -22,6 +23,7 @@ class UnitHelper
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
         #$this->militaryCalculator = app(MilitaryCalculator::class);
 
         $this->queueService = app(QueueService::class);
@@ -904,7 +906,6 @@ class UnitHelper
                     }
                     else
                     {
-                        #var_dump($perkValue);
                         foreach($perkValue as $key => $value)
                         {
                             $perkValue[$key] = str_replace('Level','level',str_replace(' And', ' and',ucwords(str_replace('_', ' ',$value))));
@@ -1017,7 +1018,6 @@ class UnitHelper
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'total_land_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'archmage_limit') or
-            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'net_victories_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'amount_limit')
           )
@@ -1031,6 +1031,8 @@ class UnitHelper
     public function getUnitMaxCapacity(Dominion $dominion, int $slotLimited): int
     {
         $maxCapacity = 0;
+
+        $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
 
         $limitMultiplier = 1;
         $limitMultiplier += $dominion->getImprovementPerkMultiplier('unit_pairing');
@@ -1072,7 +1074,15 @@ class UnitHelper
 
             $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKeyLimitedTo)->first());
 
+            # SNOW ELF
+            if($dominion->getBuildingPerkValue($raceKey . '_unit' . $slotLimited . '_production_raw_capped') and $dominion->race->name == 'Snow Elf')
+            {
+                # Hardcoded 20% production cap
+                $limitingBuildings = $this->landCalculator->getTotalLand($dominion) * 0.20;
+            }
+
             $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $limitMultiplier);
+
         }
 
         # Unit:land limit
