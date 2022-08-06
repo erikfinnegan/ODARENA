@@ -81,7 +81,7 @@ class SpellHelper
 
             'tech_production' => '%s%% XP generation',
 
-            'alchemy_production' => '+%s gold production per alchemy',
+            'alchemy_production' => '%s gold production per alchemy',
 
             'food_production_raw' => '%s%% raw food production',
 
@@ -103,9 +103,9 @@ class SpellHelper
             'resource_lost_on_invasion' => '%1s%% of %2$s if invaded (excluding overwhelmed invasions).',
 
             // Military
-            'drafting' => '+%s%% drafting',
+            'drafting' => '%s%% drafting',
             'training_time_raw' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
-            'training_costs' => '+%s%% military unit training costs',
+            'training_costs' => '%s%% military unit training costs',
             'unit_gold_costs' => '%s%% military unit gold costs',
             'unit_ore_costs' => '%s%% military unit ore costs',
             'unit_lumber_costs' => '%s%% military unit lumber costs',
@@ -150,7 +150,7 @@ class SpellHelper
             // Population
             'population_growth' => '%s%% population growth rate',
             'kill_peasants' => 'Kills %1$s%% of the target\'s peasants.',
-            'peasants_converted' => '+%s%% peasants killed in Mass Graves',
+            'peasants_converted' => '%s%% peasants killed in Mass Graves',
 
             // Resources
             'destroy_resource' => 'Destroys %2$s%% of the target\'s %1$s.',
@@ -198,9 +198,9 @@ class SpellHelper
             'convert_peasants_to_prestige' => 'Sacrifice %1$s peasants for %2$ss prestige.',
 
             // Casualties
-            'increases_enemy_draftee_casualties' => '+%s%% enemy draftee casualties',
-            'increases_enemy_casualties_on_offense' => '+%s%% enemy casualties when invading',
-            'increases_enemy_casualties_on_defense' => '+%s%% enemy casualties when defending',
+            'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
+            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
+            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
 
             'casualties' => '%s%% casualties',
             'offensive_casualties' => '%s%% casualties suffered when invading',

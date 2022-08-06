@@ -42,9 +42,9 @@ class DeityHelper
             'xp_gains' => '%s%% XP per acre gained',
 
             // Military
-            'drafting' => '+%s%% drafting',
+            'drafting' => '%s%% drafting',
             'training_time_raw' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
-            'training_costs' => '+%s%% military unit training costs',
+            'training_costs' => '%s%% military unit training costs',
             'unit_gold_costs' => '%s%% military unit gold costs',
             'unit_ore_costs' => '%s%% military unit ore costs',
             'unit_lumber_costs' => '%s%% military unit lumber costs',
@@ -136,8 +136,6 @@ class DeityHelper
             {
                 $perkValue = $perk->pivot->value;
             }
-
-            
 
             $perkValue = str_replace('_', ' ',ucwords($perkValue));
             $perkValue = $perkValue > 0 ? '+' . display_number_format($perkValue, 4) : display_number_format($perkValue, 4);
