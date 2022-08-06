@@ -24,7 +24,6 @@ class GovernmentController extends AbstractDominionController
     public function getIndex()
     {
         $dominion = $this->getSelectedDominion();
-        #$governmentService = app(GovernmentService::class);
 
         $dominions = $dominion->realm->dominions()
             ->with([
@@ -58,7 +57,20 @@ class GovernmentController extends AbstractDominionController
         $governmentActionService = app(GovernmentActionService::class);
 
         $vote = $request->get('monarch');
-        $governmentActionService->voteForMonarch($dominion, $vote);
+
+        try
+        {
+            $result = $governmentActionService->voteForMonarch($dominion, $vote);
+        }
+        catch (GameException $e)
+        {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        
+        
 
         $request->session()->flash('alert-success', 'Your vote has been cast!');
         return redirect()->route('dominion.government');

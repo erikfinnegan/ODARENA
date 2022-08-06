@@ -63,6 +63,11 @@ class GovernmentActionService
             throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
+        if($dominion->round->mode == 'deathmatch' or $dominion->round->mode == 'deathmatch-duration')
+        {
+            throw new GameException('You cannot vote for governor in deathmatches.');
+        }
+
         if(!$this->governmentCalculator->canVote($dominion))
         {
             throw new GameException('You cannot vote.');

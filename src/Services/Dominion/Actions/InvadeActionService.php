@@ -34,6 +34,7 @@ use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
@@ -89,6 +90,7 @@ class InvadeActionService
         $this->dominionCalculator = app(DominionCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
+        $this->governmentService = app(GovernmentService::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->notificationService = app(NotificationService::class);
@@ -373,6 +375,7 @@ class InvadeActionService
 
             $this->handleMoraleChanges($dominion, $target, $landRatio, $units);
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
+            $this->handleDeathmatchGovernorshipChanges($dominion, $target);
             $this->handleResearchPoints($dominion, $target, $units);
 
             # Dwarg
@@ -914,6 +917,32 @@ class InvadeActionService
                 $unitKey = 'military_' . $slot;
             }
             $dominion->{$unitKey} += $amount;
+        }
+    }
+
+
+    /**
+     * If $target is monarch, invasion is successful, and land_ratio is at least 0.60, then attacker becomes monarch and target ceases to be monarch.
+     * 
+     * @param Dominion $dominion
+     * @param Dominion $target
+     */
+    protected function handleDeathmatchGovernorshipChanges(Dominion $attacker, Dominion $target): void
+    {
+        # Do nothing if invasion is not successful, land ratio is under 0.60, or target is not a monarch.
+        if (!$this->invasionResult['result']['success'] or $this->invasion['land_ratio'] < 0.60 or !$target->isMonarch() or !($attacker->round->mode == 'deathmatch' or $attacker->round->mode == 'deathmatch-duration'))
+        {
+            return;
+        }
+
+        # If there is no governor, attacker becomes governor if the target is in the same realm (i.e. not a Barbarian)
+        if(!$this->governmentService->getRealmMonarch($attacker->realm) and $attacker->realm->name == $target->realm->id)
+        {
+            $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
+        }
+        elseif($this->governmentService->getRealmMonarch($attacker->realm) == $target)
+        {
+            $this->governmentService->setRealmMonarch($attacker->realm, $attacker->id);
         }
     }
 

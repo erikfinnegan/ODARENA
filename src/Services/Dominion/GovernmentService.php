@@ -31,6 +31,11 @@ class GovernmentService
         return $results;
     }
 
+    public function getRealmMonarch(Realm $realm)
+    {
+        return Dominion::findOrFail($realm->monarch_dominion_id) ?? null;
+    }
+
     /**
      * Check if a new monarch has been elected for a Realm.
      *
