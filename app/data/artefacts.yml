@@ -12,7 +12,7 @@ azk_hurums_blood_purifier:
 
 barathu_bints_ledger:
   name: Barathu Bint's Ledger
-  description: Barathu Bint kept a careful log of trade routes and guidelines for fair and effective negotiations.
+  description: Barathu Bint kept a careful log of trade routes and a guide for fair and effective negotiations.
   deity: barathu_bint
   base_power: 500000
   excluded_races:
@@ -94,7 +94,7 @@ ixs_contraption:
 
 ixs_schematics:
   name: Ix's Schematics
-  description: Handwritten notes unlocking new way of understanding technologies.
+  description: Handwritten notes unlocking new way of understanding the interconnectedness of complex systems.
   deity: ix
   base_power: 500000
   perks:
@@ -114,7 +114,7 @@ kinthys_disembowler:
 
 mirnons_pickaxe:
   name: Mirnon's Pickaxe
-  description: What made Mirnon great was not only enormous and deep mines, but the handcraft in refining minerals and gems.
+  description: What made Mirnon the greatest was not only enormous and deep mines, but also the artful skill in refining minerals and gems.
   deity: mirnon
   base_power: 500000
   excluded_races:
