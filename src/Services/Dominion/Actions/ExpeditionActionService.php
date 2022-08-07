@@ -18,6 +18,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 
+use OpenDominion\Calculators\Dominion\ArtefactCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ExpeditionCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -25,6 +26,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Services\Dominion\ArtefactService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -43,12 +45,16 @@ class ExpeditionActionService
 
     public function __construct()
     {
-        $this->landCalculator = app(LandCalculator::class);
+        $this->artefactCalculator = app(ArtefactCalculator::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->expeditionCalculator = app(ExpeditionCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+
+
         $this->landHelper = app(LandHelper::class);
 
-        $this->expeditionCalculator = app(ExpeditionCalculator::class);
-        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->artefactService = app(ArtefactService::class);
         $this->notificationService = app(NotificationService::class);
         $this->protectionService = app(ProtectionService::class);
         $this->statsService = app(StatsService::class);
@@ -240,6 +246,7 @@ class ExpeditionActionService
             $this->handlePrestigeChanges($dominion, $this->expeditionResult['land_discovered_amount'], $this->expeditionResult['land_size'], $units);
             $this->handleXp($dominion, $this->expeditionResult['land_discovered_amount']);
             #$this->handleDuringExpeditionUnitPerks($dominion, $units);
+            $this->handleArtefactsDiscovery($dominion);
             $this->handleReturningUnits($dominion, $units);
 
             $this->statsService->updateStat($dominion, 'land_discovered', $this->expeditionResult['land_discovered_amount']);
@@ -332,6 +339,27 @@ class ExpeditionActionService
 
         $this->expeditionResult['xp'] = $xpGained;
 
+    }
+
+    protected function handleArtefactsDiscovery($dominion)
+    {
+        $this->expeditionResult['artefact']['found'] = false;
+        
+        if(random_chance($this->artefactCalculator->getChanceToDiscoverArtefactOnExpedition($dominion, $this->expeditionResult)))
+        {
+            $artefact = $this->artefactService->getRandomArtefact($dominion->round);
+
+            $this->queueService->queueResources(
+                'artefact',
+                $dominion,
+                [$artefact->key => 1],
+                12
+            );
+            $this->expeditionResult['artefact']['found'] = true;
+            $this->expeditionResult['artefact']['id'] = $artefact->id;
+            $this->expeditionResult['artefact']['key'] = $artefact->key;
+            $this->expeditionResult['artefact']['name'] = $artefact->name;
+        }
     }
 
     # Unit Return 2.0

@@ -68,6 +68,12 @@ class NotificationHelper
                 'route' => route('dominion.expedition'),
                 'iconClass' => 'fas fa-hiking text-green',
             ],
+            'artefact_completed' => [
+                'label' => 'Units returned with an artefact',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.expedition'),
+                'iconClass' => 'ra ra-alien-fire text-green',
+            ],
             'theft_completed' => [
                 'label' => 'Units returned from theft',
                 'defaults' => ['email' => false, 'ingame' => true],

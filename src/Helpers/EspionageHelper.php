@@ -19,7 +19,7 @@ class EspionageHelper
             'hostile'   => 'Hostile'
         ];
 
-        return $scopes[$$spyop->scope];
+        return $scopes[$spyop->scope];
     }
 
     public function getSpyopEffectsString(Spyop $spyop): array

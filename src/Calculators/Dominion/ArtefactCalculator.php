@@ -6,7 +6,9 @@ namespace OpenDominion\Calculators\Dominion;
 #use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\ArtefactHelper;
+use OpenDominion\Models\Artefact;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Realm;
 
 class ArtefactCalculator
 {
@@ -26,11 +28,15 @@ class ArtefactCalculator
 
     public function getChanceToDiscoverArtefactOnExpedition(Dominion $dominion, array $expedition): float
     {
-        $chance = 0;
 
+        if(!$expedition['land_discovered_amount'])
+        {
+            return 0;
+        }
         
+        return 1;
 
-        return $chance;
+        return log($dominion->round->ticks) / 10 * $expedition['land_discovered_amount'] / 100;
     }
 
     public function getChanceToDiscoverArtefactOnInvasion(Dominion $dominion, array $invasion): float

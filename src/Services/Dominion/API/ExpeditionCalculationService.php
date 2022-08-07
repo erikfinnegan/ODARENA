@@ -39,10 +39,11 @@ class ExpeditionCalculationService
         'home_dpa' => 0,
         'max_op' => 0,
         'min_dp' => 0,
-        'land_discovered' => 0,
+        'land_discovered_amount' => 0,
         'land_ratio' => 0.5,
         'spell_bonus' => null,
         'units_sent' => 0,
+        'artefact_discovery_chance' => 0,
         'units' => [ // home, away, raw OP, raw DP
             '1' => ['dp' => 0, 'op' => 0],
             '2' => ['dp' => 0, 'op' => 0],
@@ -139,10 +140,9 @@ class ExpeditionCalculationService
         $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * (4/3);
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
 
-        $this->calculationResult['land_discovered'] = $this->expeditionCalculator->getLandDiscoveredAmount($dominion, $this->calculationResult['away_offense']);
+        $this->calculationResult['land_discovered_amount'] = $this->expeditionCalculator->getLandDiscoveredAmount($dominion, $this->calculationResult['away_offense']);
 
-
-        $this->calculationResult['chance_to_discover_artefact'] = $this->artefactCalculator->getChanceToDiscoverArtefactOnExpedition($dominion, $this->calculationResult);
+        $this->calculationResult['artefact_discovery_chance'] = $this->artefactCalculator->getChanceToDiscoverArtefactOnExpedition($dominion, $this->calculationResult) * 100;
 
         #if(isset($target))
         #{

@@ -29,6 +29,7 @@ use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Models\Artefact;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
@@ -41,6 +42,7 @@ use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Dominion\Tick;
 
+use OpenDominion\Services\ArtefactService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
@@ -82,6 +84,7 @@ class TickService
         $this->unitHelper = app(UnitHelper::class);
         $this->roundHelper = app(RoundHelper::class);
 
+        $this->artefactService = app(ArtefactService::class);
         $this->deityService = app(DeityService::class);
         $this->insightService = app(InsightService::class);
         $this->protectionService = app(ProtectionService::class);
@@ -153,6 +156,9 @@ class TickService
 
                     if(static::EXTENDED_LOGGING){ Log::debug('** Updating deities for ' . $dominion->name); }
                     $this->handleDeities($dominion);
+
+                    if(static::EXTENDED_LOGGING){ Log::debug('** Updating artefacts for ' . $dominion->name); }
+                    $this->handleArtefacts($dominion);
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians:'); }
                     # NPC Barbarian: invasion, training, construction
@@ -1492,6 +1498,35 @@ class TickService
         }
 
         $this->resourceService->updateResources($dominion, $resourcesNetChange);
+    }
+
+    # Take artefacts that are one tick away from finished and create or increment RealmArtefact.
+    private function handleArtefacts(Dominion $dominion): void
+    {
+        $finishedArtefactsInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('source', 'artefact')
+                                        ->where('hours',1)
+                                        ->get();
+        foreach($finishedArtefactsInQueue as $finishedArtefactInQueue)
+        {
+            $deityKey = $finishedArtefactInQueue->resource;
+            $amount = 1;
+            $artefact = Artefact::where('key', $deityKey)->first();
+            $this->artefactService->addArtefactToRealm($dominion->realm, $artefact);
+
+            GameEvent::create([
+                'round_id' => $dominion->round_id,
+                'source_type' => Artefact::class,
+                'source_id' => $artefact->id,
+                'target_type' => Realm::class,
+                'target_id' => $dominion->realm->id,
+                'type' => 'artefact_completed',
+                'data' => ['dominion_id' => $dominion->id],
+                'tick' => $dominion->round->ticks
+            ]);
+        }
 
     }
+
 }

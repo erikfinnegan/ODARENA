@@ -182,8 +182,14 @@
                                             </tr>
                                             <tr>
                                                 <td>Land discovered:</td>
-                                                <td id="invasion-land-discovered" data-amount="0">0</td>
+                                                <td id="invasion-land-discovered-amount" data-amount="0">0</td>
                                             </tr>
+                                            @if($selectedDominion->round->mode == 'artefacts')
+                                            <tr>
+                                                <td><i class="ra ra-alien-fire"></i> Chance to discover artefact:</td>
+                                                <td id="artefact-discovery-chance" data-amount="0">0</td>
+                                            </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -332,7 +338,8 @@
             var homeForcesDPRawElement = $('#home-forces-dp-raw');
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
-            var invasionLandDiscoveredElement = $('#invasion-land-discovered');
+            var invasionLandDiscoveredElement = $('#invasion-land-discovered-amount');
+            var artefactDiscoveryChanceElement = $('#artefact-discovery-chance');
 
             var invasionForceCountElement = $('#invasion-total-units');
 
@@ -372,23 +379,25 @@
                             invasionForceOPElement.data('amount', response.away_offense);
                             invasionForceDPElement.data('amount', response.away_defense);
                             invasionForceMaxOPElement.data('amount', response.max_op);
-                            invasionLandDiscoveredElement.data('amount', response.land_discovered);
+                            invasionLandDiscoveredElement.data('amount', response.land_discovered_amount);
                             homeForcesOPElement.data('amount', response.home_offense);
                             homeForcesDPElement.data('amount', response.home_defense);
                             homeForcesDPRawElement.data('amount', response.home_defense_raw);
                             homeForcesMinDPElement.data('amount', response.min_dp);
                             homeForcesDPAElement.data('amount', response.home_dpa);
+                            artefactDiscoveryChanceElement.data('amount', response.artefact_discovery_chance);
 
                             // Update OP / DP display
                             invasionForceOPElement.text(response.away_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceDPElement.text(response.away_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceMaxOPElement.text(response.max_op.toLocaleString(undefined, {maximumFractionDigits: 2}));
-                            invasionLandDiscoveredElement.text(response.land_discovered.toLocaleString(undefined, {maximumFractionDigits: 2}));
+                            invasionLandDiscoveredElement.text(response.land_discovered_amount.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesOPElement.text(response.home_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPElement.text(response.home_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPRawElement.text(response.home_defense_raw.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesMinDPElement.text(response.min_dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPAElement.text(response.home_dpa.toLocaleString(undefined, {maximumFractionDigits: 3}));
+                            artefactDiscoveryChanceElement.text(response.artefact_discovery_chance.toLocaleString(undefined, {maximumFractionDigits: 2}) + '%');
 
                             invasionForceCountElement.text(response.units_sent);
 
