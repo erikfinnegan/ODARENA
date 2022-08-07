@@ -313,7 +313,7 @@ wizardry:
     - Nox
     - Qur
     - Reptilians
-    - Revenant
+    - Revenants
     - Sylvan
     - Swarm
     - Troll
@@ -365,7 +365,7 @@ wizardry_reptilians:
 wizardry_undead:
   name: Wizardry
   exclusive_races:
-    - Revenant
+    - Revenants
     - Undead
   perks:
     wizard_strength: 45,5000
