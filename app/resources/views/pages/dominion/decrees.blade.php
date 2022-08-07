@@ -34,7 +34,7 @@
                         </div>
                         @if($isIssued)
                             <div class="col-lg-4">
-                                <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span>
+                                {{-- <span class="label label-success">Issued on tick {{ number_format($dominionDecreeState->tick) }}</span> --}}
                                 @if($ticksUntilCanRevoke)
                                     <span class="label label-danger">Cooldown: {{ $ticksUntilCanRevoke . ' ' . str_plural('tick', $ticksUntilCanRevoke) }}</span>
                                 @endif
