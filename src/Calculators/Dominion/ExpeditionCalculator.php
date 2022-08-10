@@ -58,6 +58,10 @@ class ExpeditionCalculator
         {
             $deityMultiplier -= $dominion->deity->range_multiplier;
         }
+        elseif($dominion->hasPendingDeitySubmission())
+        {
+            $deityMultiplier -= $dominion->getPendingDeitySubmission()->range_multiplier;
+        }
 
         return floor($baseGain * $deityMultiplier);
     }
