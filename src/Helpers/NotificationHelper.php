@@ -3,6 +3,7 @@
 namespace OpenDominion\Helpers;
 
 use LogicException;
+use OpenDominion\Models\Artefact;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Resource;
@@ -71,7 +72,7 @@ class NotificationHelper
             'artefact_completed' => [
                 'label' => 'Units returned with an artefact',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.expedition'),
+                'route' => route('dominion.artefacts'),
                 'iconClass' => 'ra ra-alien-fire text-green',
             ],
             'theft_completed' => [
@@ -424,6 +425,14 @@ class NotificationHelper
                     '%s %s returned from expedition',
                     number_format($units),
                     str_plural('unit', $units)
+                );
+
+            case 'hourly_dominion.artefact_completed':
+                $artefact = Artefact::where('key', key($data))->first();
+
+                return sprintf(
+                    'Your units return with the %s artefact for the realm.',
+                    $artefact->name
                 );
 
             case 'hourly_dominion.theft_completed':

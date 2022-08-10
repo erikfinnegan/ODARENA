@@ -213,11 +213,6 @@ class ArtefactActionService
                 {
                     throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
                 }
-
-                if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
-                {
-                    throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
-                }
             }
 
             foreach($units as $slot => $amount)
@@ -288,13 +283,6 @@ class ArtefactActionService
             $this->invasionResult['log']['initiated_at'] = $now;
             $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
 
-            // Handle pre-invasion
-            $this->handleBeforeInvasionPerks($dominion);
-
-            // Handle invasion results
-            $this->checkInvasionSuccess($dominion, $target, $units);
-            $this->checkOverwhelmed();
-
             $attackerCasualties = $this->casualtiesCalculator->getInvasionCasualties($dominion, $this->invasionResult['attacker']['units_sent'], $target, $this->invasionResult, 'offense');
             $defenderCasualties = $this->casualtiesCalculator->getInvasionCasualties($target, $this->invasionResult['defender']['units_defending'], $dominion, $this->invasionResult, 'defense');
 
@@ -303,9 +291,7 @@ class ArtefactActionService
 
             $this->handleCasualties($dominion, $target, $this->invasionResult['attacker']['units_lost'], 'offense');
             $this->handleCasualties($target, $dominion, $this->invasionResult['defender']['units_lost'], 'defense');
-            $this->handleDefensiveDiesIntoPerks($target);
-
-            $this->handleAnnexedDominions($dominion, $target, $units);
+            #$this->handleDefensiveDiesIntoPerks($target);
 
             if (!isset($this->invasionResult['result']['ignoreDraftees']))
             {
@@ -346,17 +332,10 @@ class ArtefactActionService
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio, $units);
-            $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
             # Dwarg
-            $this->handleStun($dominion, $target, $units, $landRatio);
-
-            # Demon
-            $this->handlePeasantCapture($dominion, $target, $units, $landRatio);
-
-            # Demon
-            $this->handlePeasantKilling($dominion, $target, $units, $landRatio);
+            #$this->handleStun($dominion, $target, $units, $landRatio);
 
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);
@@ -379,17 +358,11 @@ class ArtefactActionService
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['surviving_units'], $offensiveConversions, $defensiveConversions);
             $this->handleDefensiveConversions($target, $defensiveConversions);
 
-            # Afflicted
-            $this->handleInvasionSpells($dominion, $target);
-
             # Handle dies_into_resource, dies_into_resources, kills_into_resource, kills_into_resources
             $this->handleResourceConversions($dominion, $target, $landRatio);
 
-            # Salvage and Plunder
-            $this->handleSalvagingAndPlundering($dominion, $target);
-
             # Imperial Crypt
-            $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['surviving_units'], $offensiveConversions, $defensiveConversions);
+            #$this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['surviving_units'], $offensiveConversions, $defensiveConversions);
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -416,73 +389,13 @@ class ArtefactActionService
                 dd($this->invasionResult);
             }
 
-            # LEGION ANNEX SUPPORT EVENTS
-            $legion = null;
-            if($this->spellCalculator->hasAnnexedDominions($dominion))
-            {
-                $legion = $dominion;
-                $legionString = 'attacker';
-                $type = 'invasion_support';
-                $targetId = $legion->id;
-
-                if($target->race->name == 'Barbarian')
-                {
-                    $legion = null;
-                }
-            }
-            elseif($this->spellCalculator->hasAnnexedDominions($target))
-            {
-                $legion = $target;
-                $legionString = 'defender';
-                $type = 'defense_support';
-                $targetId = $target->id;
-
-                if($dominion->race->name == 'Barbarian')
-                {
-                    $legion = null;
-                }
-            }
-
-            if($legion)
-            {
-                if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0 and $this->invasionResult['result']['op_dp_ratio'] >= 0.85)
-                {
-                    foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
-                    {
-                        # If there are troops to send
-                        if(array_sum($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominionId]['units_sent']) > 0)
-                        {
-                            $annexedDominion = Dominion::findorfail($annexedDominionId);
-
-                            $this->invasionEvent = GameEvent::create([
-                                'round_id' => $annexedDominion->round_id,
-                                'source_type' => Dominion::class,
-                                'source_id' => $annexedDominion->id,
-                                'target_type' => Dominion::class,
-                                'target_id' => $targetId,
-                                'type' => $type,
-                                'data' => NULL,
-                                'tick' => $annexedDominion->round->ticks
-                            ]);
-
-                            $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
-                        }
-                    }
-                }
-            }
-            # LIBERATION
-            elseif(isset($this->invasionResult['attacker']['liberation']) and $this->invasionResult['attacker']['liberation'])
-            {
-                $this->spellActionService->breakSpell($target, 'annexation', $this->invasionResult['attacker']['liberation']);
-            }
-
             $this->invasionResult['log']['finished_at'] = time();
 
             $this->invasionEvent = GameEvent::create([
                 'round_id' => $dominion->round_id,
                 'source_type' => Dominion::class,
                 'source_id' => $dominion->id,
-                'target_type' => Dominion::class,
+                'target_type' => RealmArtefact::class,
                 'target_id' => $target->id,
                 'type' => 'invasion',
                 'data' => $this->invasionResult,
@@ -701,137 +614,7 @@ class ArtefactActionService
     protected function handleMoraleChanges(Dominion $attacker, Dominion $defender, float $landRatio, array $units): void
     {
 
-        $landRatio *= 100;
-        # For successful invasions...
-        if($this->invasionResult['result']['success'])
-        {
-            # Drop 10% morale for hits under 60%.
-            if($landRatio < 60)
-            {
-                $attackerMoraleChange = -15;
-            }
-            # No change for hits in lower RG (60-75).
-            elseif($landRatio < 75)
-            {
-                $attackerMoraleChange = 0;
-            }
-            # Increase 15% for hits 75-85%.
-            elseif($landRatio < 85)
-            {
-                $attackerMoraleChange = 15;
-            }
-            # Increase 20% for hits 85-100%
-            elseif($landRatio < 100)
-            {
-                $attackerMoraleChange = 20;
-            }
-            # Increase 25% for hits 100% and up.
-            else
-            {
-                $attackerMoraleChange = 25;
-            }
-            # Defender gets the inverse of attacker morale change,
-            # if it greater than 0.
-            if($attackerMoraleChange > 0)
-            {
-                $defenderMoraleChange = $attackerMoraleChange*-1;
-            }
-            else
-            {
-                $defenderMoraleChange = 0;
-            }
-
-            $attackerMoraleChangeMultiplier = 1;
-            $attackerMoraleChangeMultiplier += $attacker->getBuildingPerkMultiplier('morale_gains');
-            $attackerMoraleChangeMultiplier += $attacker->race->getPerkMultiplier('morale_change_invasion');
-            $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $attacker->getTitlePerkMultiplier();
-
-            # Look for lowers_target_morale_on_successful_invasion
-            for ($slot = 1; $slot <= 4; $slot++)
-            {
-                if(
-                    $increasesMoraleGainsPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
-                    isset($units[$slot]) and
-                    $this->invasionResult['result']['success']
-                    )
-                {
-                    $attackerMoraleChangeMultiplier += ($this->invasionResult['attacker']['units_sent'][$slot] / array_sum($this->invasionResult['attacker']['units_sent'])) * $increasesMoraleGainsPerk;
-                }
-            }
-
-            $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
-
-            $defenderMoraleChangeMultiplier = 1;
-            $defenderMoraleChangeMultiplier += $defender->race->getPerkMultiplier('morale_change_invasion');
-
-            $defenderMoraleChange *= $defenderMoraleChangeMultiplier;
-
-            # Look for lowers_target_morale_on_successful_invasion
-            for ($slot = 1; $slot <= 4; $slot++)
-            {
-                if(
-                    $lowersTargetMoralePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
-                    isset($units[$slot]) and
-                    $this->invasionResult['result']['success']
-                    )
-                {
-                    $defenderMoraleChange -= $this->invasionResult['attacker']['units_sent'][$slot] * $lowersTargetMoralePerk;
-                }
-            }
-
-        }
-        # For failed invasions...
-        else
-        {
-            # If overwhelmed, attacker loses 20%, defender gets nothing.
-            if($this->invasionResult['result']['overwhelmed'])
-            {
-                $attackerMoraleChange = -20;
-                $defenderMoraleChange = 0;
-            }
-            # Otherwise, -10% for attacker and +5% for defender
-            else
-            {
-                $attackerMoraleChange = -10;
-                $defenderMoraleChange = 10;
-            }
-        }
-
-        # Round
-        $attackerMoraleChange = round($attackerMoraleChange);
-        $defenderMoraleChange = round($defenderMoraleChange);
-
-        # Look for no_morale_changes
-        if($attacker->race->getPerkValue('no_morale_changes'))
-        {
-            $attackerMoraleChange = 0;
-        }
-        
-        if($defender->race->getPerkValue('no_morale_changes'))
-        {
-            $defenderMoraleChange = 0;
-        }
-
-        # Change attacker morale.
-
-        // Make sure it doesn't go below 0.
-        if(($attacker->morale + $attackerMoraleChange) < 0)
-        {
-            $attackerMoraleChange = 0;
-        }
-        $attacker->morale += $attackerMoraleChange;
-
-        # Change defender morale.
-
-        // Make sure it doesn't go below 0.
-        if(($defender->morale + $defenderMoraleChange) < 0)
-        {
-            $defenderMoraleChange = ($defender->morale * -1);
-        }
-        $defender->morale += $defenderMoraleChange;
-
-        $this->invasionResult['attacker']['morale_change'] = $attackerMoraleChange;
-        $this->invasionResult['defender']['morale_change'] = $defenderMoraleChange;
+        $this->invasionResult['attacker']['morale_change'] = 0;
 
     }
 
@@ -1369,73 +1152,6 @@ class ArtefactActionService
         }
     }
 
-    /**
-     * Handles spells cast after invasion.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target (here becomes $defender)
-     */
-    protected function handleInvasionSpells(Dominion $attacker, Dominion $defender): void
-    {
-
-        $isInvasionSpell = True;
-
-        /*
-            Spells to check for:
-            [AFFLICTED]
-              - [ATTACKER] Pestilence: Within 50% of target's DP? Cast.
-              - [ATTACKER] Great Fever: Is Invasion successful? Cast.
-              - [DEFENDER] Unhealing Wounds: Is target Afflicted? Cast.
-            [/AFFLICTED]
-        */
-
-        if($attacker->race->name == 'Afflicted')
-        {
-            # Pestilence
-            if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
-            {
-                $this->spellActionService->castSpell($attacker, 'pestilence', $defender, $isInvasionSpell);
-                $this->invasionResult['attacker']['invasion_spell'][] = 'pestilence';
-            }
-
-            # Great Fever
-            if($this->invasionResult['result']['success'])
-            {
-                $this->spellActionService->castSpell($attacker, 'great_fever', $defender, $isInvasionSpell);
-                $this->invasionResult['attacker']['invasion_spell'][] = 'great_fever';
-            }
-        }
-
-        if($defender->race->name == 'Afflicted')
-        {
-            # Festering Wounds
-            $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
-            $result['attacker']['invasion_spell'][] = 'festering_wounds';
-
-            # Not an invasion spell, but this goes here for now (Miasmic Charges)
-            if($defender->getSpellPerkValue('resource_lost_on_invasion') and !$this->invasionResult['result']['overwhelmed'])
-            {
-                $spell = Spell::where('key', 'miasmic_charges')->first();
-                $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, 'resource_lost_on_invasion');
-
-                $ratio = (float)$perkValueArray[0] / 100;
-                $resourceKey = (string)$perkValueArray[1];
-                $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
-                $resourceAmountLost = $resourceAmountOwned * ($ratio * -1);
-
-                $this->invasionResult['defender']['resources_lost'][$resourceKey] = $resourceAmountLost;
-
-                $this->resourceService->updateResources($defender, [$resourceKey => ($resourceAmountOwned * -1)]);
-            }
-        }
-
-        if($attacker->race->name == 'Legion' and $defender->race->name == 'Barbarian' and $this->invasionResult['result']['success'])
-        {
-            $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
-            $this->invasionResult['result']['annexation'] = true;
-        }
-    }
-
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void
     {
         foreach($attacker->race->resources as $resourceKey)
@@ -1784,321 +1500,6 @@ class ArtefactActionService
         }
 
     }
-
-    /**
-     * Handles the salvaging of lumber, ore, and gem costs of units.
-     * Also handles plunders unit perk. Because both use the same queue value.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-    protected function handleSalvagingAndPlundering(Dominion $attacker, Dominion $defender): void
-    {
-        foreach($attacker->race->resources as $resourceKey)
-        {
-            $result['attacker']['plunder'][$resourceKey] = 0;
-        }
-
-        $result['attacker']['salvage']['ore'] = 0;
-        $result['attacker']['salvage']['lumber'] = 0;
-        $result['attacker']['salvage']['gems'] = 0;
-
-        $result['defender']['salvage']['ore'] = 0;
-        $result['defender']['salvage']['lumber'] = 0;
-        $result['defender']['salvage']['gems'] = 0;
-
-        # Defender: Salvaging
-        if($salvaging = $defender->race->getPerkMultiplier('salvaging'))
-        {
-            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
-            foreach($this->invasionResult['defender']['units_lost'] as $slot => $amountLost)
-            {
-                if($slot !== 'draftees' and $slot !== 'peasants')
-                {
-                    $unitType = 'unit'.$slot;
-                    $unitOreCost = isset($unitCosts[$unitType]['ore']) ? $unitCosts[$unitType]['ore'] : 0;
-                    $unitLumberCost = isset($unitCosts[$unitType]['lumber']) ? $unitCosts[$unitType]['lumber'] : 0;
-                    $unitGemCost = isset($unitCosts[$unitType]['gems']) ? $unitCosts[$unitType]['gems'] : 0;
-
-                    $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
-                    $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
-                    $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
-                }
-            }
-
-            # Update statistics
-            $this->statsService->updateStat($defender, 'ore_salvaged', $result['defender']['salvage']['ore']);
-            $this->statsService->updateStat($defender, 'lumber_salvaged', $result['defender']['salvage']['lumber']);
-            $this->statsService->updateStat($defender, 'gems_salvaged', $result['defender']['salvage']['gems']);
-        }
-
-        # Attacker gets no salvage or plunder if attack fails.
-        if(!$this->invasionResult['result']['success'])
-        {
-            return;
-        }
-
-        # Attacker: Salvaging
-        if($salvaging = $attacker->race->getPerkMultiplier('salvaging'))
-        {
-            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($attacker);
-            foreach($this->invasionResult['attacker']['units_lost'] as $slot => $amountLost)
-            {
-                $unitType = 'unit'.$slot;
-                $unitOreCost = isset($unitCosts[$unitType]['ore']) ? $unitCosts[$unitType]['ore'] : 0;
-                $unitLumberCost = isset($unitCosts[$unitType]['lumber']) ? $unitCosts[$unitType]['lumber'] : 0;
-                $unitGemCost = isset($unitCosts[$unitType]['gems']) ? $unitCosts[$unitType]['gems'] : 0;
-
-                $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
-                $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
-                $result['attacker']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
-
-                # Update statistics
-                $this->statsService->updateStat($attacker, 'ore_salvaged', $result['attacker']['salvage']['ore']);
-                $this->statsService->updateStat($attacker, 'lumber_salvaged', $result['attacker']['salvage']['lumber']);
-                $this->statsService->updateStat($attacker, 'gems_salvaged', $result['attacker']['salvage']['gems']);
-            }
-        }
-
-        # Attacker: Plundering
-        foreach($this->invasionResult['attacker']['surviving_units'] as $slot => $amount)
-        {
-            if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunders'))
-            {
-                foreach($plunderPerk as $plunder)
-                {
-                    $resourceToPlunder = $plunder[0];
-                    $amountPlunderedPerUnit = (float)$plunder[1];
-
-                    $amountToPlunder = $amount * $amountPlunderedPerUnit;
-                    $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
-                }
-
-                #dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
-            }
-
-            if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunder'))
-            {
-                $resourceToPlunder = $plunderPerk[0];
-                $amountPlunderedPerUnit = (float)$plunderPerk[1];
-
-                $amountToPlunder = $amount * $amountPlunderedPerUnit;
-                $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
-
-                #dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
-            }
-        }
-
-        # Remove plundered resources from defender.
-        foreach($result['attacker']['plunder'] as $resourceKey => $amount)
-        {
-            if($amount > 0)
-            {
-                $result['attacker']['plunder'][$resourceKey] = min($amount, $this->resourceCalculator->getAmount($defender, $resourceKey));
-                $this->resourceService->updateResources($defender, [$resourceKey => ($result['attacker']['plunder'][$resourceKey] * -1)]);
-            }
-        }
-
-        # Add salvaged resources to defender.
-        foreach($result['defender']['salvage'] as $resourceKey => $amount)
-        {
-            if($amount > 0)
-            {
-                $this->resourceService->updateResources($defender, [$resourceKey => $amount]);
-            }
-        }
-
-        # Queue plundered and salvaged resources to attacker.
-        foreach($result['attacker']['plunder'] as $resourceKey => $amount)
-        {
-            if($amount > 0)
-            {
-                # If the resource is ore, lumber, or gems, also check for salvaged resources.
-                if(in_array($resourceKey, ['ore', 'lumber', 'gems']))
-                {
-                    $amount += $result['attacker']['salvage'][$resourceKey];
-                }
-
-                $this->queueService->queueResources(
-                    'invasion',
-                    $attacker,
-                    [
-                        'resource_'.$resourceKey => $amount
-                    ]
-                );
-
-                $this->statsService->updateStat($attacker, ($resourceKey . '_plundered'), $amount);
-            }
-        }
-
-        $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
-        $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
-        $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
-    }
-
-    /**
-     * Check for events that take place before the invasion:
-     *  Beastfolk Ambush
-     *
-     * @param Dominion $attacker
-     * @return void
-     */
-    protected function handleBeforeInvasionPerks(Dominion $attacker): void
-    {
-        # Check for Ambush
-        $this->isAmbush = false;
-
-        if($this->militaryCalculator->getRawDefenseAmbushReductionRatio($attacker) > 0)
-        {
-            $this->isAmbush = true;
-        }
-
-        $this->invasionResult['attacker']['ambush'] = $this->isAmbush;
-    }
-
-    /**
-     * Check whether the invasion is successful.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     * @return void
-     */
-    protected function checkInvasionSuccess(Dominion $dominion, Dominion $target, array $units): void
-    {
-        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true);
-        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
-        $this->invasionResult['attacker']['op'] = $attackingForceOP;
-        $this->invasionResult['defender']['dp'] = $targetDP;
-        $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
-        $this->invasionResult['result']['op_dp_ratio'] = $attackingForceOP / $targetDP;
-
-        $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
-        $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
-
-        if(request()->getHost() === 'odarena.com')
-        {
-            $day = $dominion->round->start_date->subDays(1)->diffInDays(now());
-            $day = sprintf('%02d', $day);
-            $this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
-        }
-
-
-        if($this->invasionResult['result']['success'])
-        {
-            $this->statsService->setStat($target, 'dp_failure_max', max($this->invasionResult['defender']['dp'], $this->statsService->getStat($dominion, 'dp_failure_max')));
-        }
-        else
-        {
-            $this->statsService->setStat($target, 'dp_success_max', max($this->invasionResult['defender']['dp'], $this->statsService->getStat($dominion, 'dp_success_max')));
-        }
-    }
-
-    /**
-     * Check whether the attackers got overwhelmed by the target's defending army.
-     *
-     * Overwhelmed attackers have increased casualties, while the defending
-     * party has reduced casualties.
-     *
-     */
-    protected function checkOverwhelmed(): void
-    {
-        // Never overwhelm on successful invasions
-        $this->invasionResult['result']['overwhelmed'] = false;
-
-        if ($this->invasionResult['result']['success'])
-        {
-            return;
-        }
-
-        $attackingForceOP = $this->invasionResult['attacker']['op'];
-        $targetDP = $this->invasionResult['defender']['dp'];
-
-        $this->invasionResult['result']['overwhelmed'] = ((1 - $attackingForceOP / $targetDP) >= (static::OVERWHELMED_PERCENTAGE / 100));
-    }
-
-
-
-    /*
-    *   0) Add OP from annexed dominions (already done when calculating attacker's OP)
-    *   1) Remove OP units from annexed dominions.
-    *   2) Incur 10% casualties on annexed units.
-    *   3) Queue returning units.
-    *   4) Save data to $this->invasionResult to create pretty battle report
-    */
-    protected function handleAnnexedDominions(Dominion $attacker, Dominion $defender, array $units): void
-    {
-
-        $casualties = 0.10; # / because we want to invert the ratio
-
-        $legion = null;
-        if($this->spellCalculator->hasAnnexedDominions($attacker))
-        {
-            $legion = $attacker;
-            $legionString = 'attacker';
-            $casualties /= $this->invasionResult['result']['op_dp_ratio'];
-        }
-        elseif($this->spellCalculator->hasAnnexedDominions($defender))
-        {
-            $legion = $defender;
-            $legionString = 'defender';
-            $casualties *= $this->invasionResult['result']['op_dp_ratio'];
-
-            if($this->invasionResult['result']['overwhelmed'])
-            {
-                $casualties = 0;
-            }
-        }
-
-        if($defender->race->getPerkValue('does_not_kill'))
-        {
-            $casualties = 0;
-        }
-
-        $casualties = min(max(0, $casualties), 0.20);
-
-        if($legion and $this->invasionResult['result']['op_dp_ratio'] >= 0.85)
-        {
-            $this->invasionResult[$legionString]['annexation'] = [];
-            $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] = count($this->spellCalculator->getAnnexedDominions($legion));
-            $this->invasionResult[$legionString]['annexation']['annexedDominions'] = [];
-
-            foreach($this->spellCalculator->getAnnexedDominions($legion) as $annexedDominion)
-            {
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id] = [];
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['units_sent'] = [1 => $annexedDominion->military_unit1, 2 => 0, 3 => 0, 4 => $annexedDominion->military_unit4];
-
-                # If there are troops to send and if defender is not a Barbarian
-                if(array_sum($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['units_sent']) > 0 and $defender->race->name !== 'Barbarian')
-                {
-                    # Incur casualties
-                    $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['units_lost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
-                    $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['units_returning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
-
-                    # Remove the units
-                    $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
-                    $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
-
-                    # Queue the units
-                    foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['units_returning'] as $slot => $returning)
-                    {
-                        $unitType = 'military_unit' . $slot;
-
-                        $this->queueService->queueResources(
-                            'invasion',
-                            $annexedDominion,
-                            [$unitType => $returning],
-                            12
-                        );
-                    }
-
-                    $annexedDominion->save();
-                }
-            }
-        }
-    }
-
     /**
      * Check if dominion is sending out at least *some* OP.
      *
@@ -2186,21 +1587,6 @@ class ArtefactActionService
     }
 
     /**
-     * Check if an invasion passes the 4:3-rule.
-     *
-     * @param Dominion $dominion
-     * @param array $units
-     * @return bool
-     */
-    protected function passesMinimumDpaCheck(Dominion $dominion, Dominion $target, float $landRatio, array $units): bool
-    {
-        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-
-        return ($attackingForceOP > $this->landCalculator->getTotalLand($target) * static::MINIMUM_DPA);
-    }
-
-
-    /**
      * Returns the amount of hours a military unit (with a specific slot) takes
      * to return home after battle.
      *
@@ -2270,36 +1656,5 @@ class ArtefactActionService
         return $hours;
     }
 
-    protected function getDefensivePowerWithTemples(
-      Dominion $attacker,
-      Dominion $target,
-      array $units,
-      float $landRatio,
-      bool $isAmbush
-      ): float
-    {
-        // Values (percentages)
-        $ignoreDraftees = false;
-
-        $dpMultiplierReduction = $this->militaryCalculator->getDefensiveMultiplierReduction($attacker);
-
-        // Void: Spell (remove DP reduction from Temples)
-        if ($target->getSpellPerkValue('immune_to_temples'))
-        {
-            $dpMultiplierReduction = 0;
-        }
-
-        return $this->militaryCalculator->getDefensivePower(
-                                                            $target,
-                                                            $attacker,
-                                                            $landRatio,
-                                                            null,
-                                                            $dpMultiplierReduction,
-                                                            $ignoreDraftees,
-                                                            $this->isAmbush,
-                                                            false,
-                                                            $units, # Becomes $invadingUnits
-                                                          );
-    }
-
+    
 }

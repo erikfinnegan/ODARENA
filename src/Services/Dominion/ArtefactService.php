@@ -79,9 +79,9 @@ class ArtefactService
 
     public function updateRealmArtefactPower(Realm $realm, Artefact $artefact, int $powerChange): void
     {
-        if($amount >= 0)
+        if($powerChange >= 0)
         {
-            DB::transaction(function () use ($dominion, $improvement, $amount)
+            DB::transaction(function () use ($realm, $artefact, $powerChange)
             {
                 RealmArtefact::where('realm_id', $realm->id)->where('artefact_id', $artefact->id)
                 ->increment('power', $powerChange);
@@ -89,7 +89,7 @@ class ArtefactService
         }
         else
         {
-            DB::transaction(function () use ($dominion, $improvement, $amount)
+            DB::transaction(function () use ($realm, $artefact, $powerChange)
             {
                 RealmArtefact::where('realm_id', $realm->id)->where('artefact_id', $artefact->id)
                 ->decrement('power', $powerChange);

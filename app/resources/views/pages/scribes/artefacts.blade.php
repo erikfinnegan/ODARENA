@@ -45,7 +45,7 @@
                                   @if($artefact->deity)
                                       {{ $artefact->deity->name }}
                                   @else
-                                      No
+                                      <em class="text-muted">No</em>
                                   @endif
                               </td>
                               <td>

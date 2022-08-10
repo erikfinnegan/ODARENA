@@ -137,6 +137,12 @@
                                     <input type="checkbox" name="no_multis" required> <span class="label label-danger">Special rule:</span> This is deathmatch round and clause 3.2 of the Terms and Conditions does not apply. No multis are allowed this round.
                                 </label>
                             </div>
+                        @elseif($round->mode == 'artefacts')
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="limited_multis" required> <span class="label label-danger">Special rule:</span> This is an Artefacts round and clause 3.2 of the Terms and Conditions is limited: you are only allowed one multi (two total dominions) this round.
+                                </label>
+                            </div>
                         @endif
                     </div>
                 </div>

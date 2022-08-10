@@ -255,7 +255,7 @@ class ExpeditionActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                dd($this->expeditionResult);
+                #dd($this->expeditionResult);
             }
 
             $this->invasionEvent = GameEvent::create([

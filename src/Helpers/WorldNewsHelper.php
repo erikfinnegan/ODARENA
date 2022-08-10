@@ -4,13 +4,14 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 
-use OpenDominion\Models\Decree;
+use OpenDominion\Models\Artefact;
 use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\RealmArtefact;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
 
@@ -43,6 +44,9 @@ class WorldNewsHelper
         {
             case 'abandon_dominion':
                 return $this->generateAbandonString($event->source, $event, $viewer);
+
+            case 'artefact_completed':
+                return $this->generateArtefactCompletedString($event->target, $event->source, $viewer);
 
             case 'barbarian_invasion':
                 return $this->generateBarbarianInvasionString($event->source, $event, $viewer);
@@ -91,7 +95,7 @@ class WorldNewsHelper
                 return 'No string defined for event type <code>' . $event->type . '</code>.';
         }
     }
-
+    
     public function generateAbandonString(Dominion $dominion, GameEvent $event, Dominion $viewer): string
     {
         /*
@@ -101,6 +105,24 @@ class WorldNewsHelper
         $string = sprintf(
             '%s was abandoned.',
             $this->generateDominionString($dominion, 'neutral', $viewer)
+          );
+
+        return $string;
+    }
+
+    public function generateArtefactCompletedString(Realm $realm, Artefact $artefact, Dominion $viewer): string
+    {
+        /*
+            Mirnon has accepted the devotion of Dark Elf (#3).
+        */
+
+        $artefactClass = $this->getSpanClass('info');
+
+        $string = sprintf(
+            '<span class="%s">%s</span> has been brought to the %s.',
+            $artefactClass,
+            $artefact->name,
+            $this->generateRealmOnlyString($realm)
           );
 
         return $string;
@@ -259,12 +281,30 @@ class WorldNewsHelper
             $mode = 'green';
         }
 
-        $string = sprintf(
-            'An expedition sent out by %s discovered <strong class="%s">%s</strong> land.',
-            $this->generateDominionString($dominion, 'neutral', $viewer),
-            $this->getSpanClass($mode),
-            number_format($expedition['data']['land_discovered_amount'])
-          );
+        if($expedition['data']['artefact']['found'])
+        {
+
+            $string = sprintf(
+                'An expedition sent out by %s discovered <strong class="%s">%s</strong> land and found an artefact: <span class="%s">%s</span>.',
+                $this->generateDominionString($dominion, 'neutral', $viewer),
+                $this->getSpanClass($mode),
+                number_format($expedition['data']['land_discovered_amount']),
+                $this->getSpanClass('info'),
+                Artefact::findOrFail($expedition['data']['artefact']['id'])->name
+              );
+
+        }
+        else
+        {
+
+            $string = sprintf(
+                'An expedition sent out by %s discovered <strong class="%s">%s</strong> land.',
+                $this->generateDominionString($dominion, 'neutral', $viewer),
+                $this->getSpanClass($mode),
+                number_format($expedition['data']['land_discovered_amount'])
+              );
+
+        }
 
         return $string;
     }

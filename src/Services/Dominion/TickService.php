@@ -42,8 +42,8 @@ use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Dominion\Tick;
 
-use OpenDominion\Services\ArtefactService;
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Services\Dominion\ArtefactService;
 use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use Throwable;
@@ -672,7 +672,7 @@ class TickService
 
         foreach ($incomingQueue as $row)
         {
-            if($row->source !== 'deity' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')
+            if($row->source !== 'deity' and $row->source !== 'artefact' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')
             {
                 $tick->{$row->resource} += $row->amount;
                 // Temporarily add next hour's resources for accurate calculations
@@ -1054,7 +1054,7 @@ class TickService
 
         foreach ($incomingQueue as $row)
         {
-            if($row->source !== 'deity' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')
+            if($row->source !== 'deity' and $row->source !== 'artefact' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')
             {
                 // Reset current resources in case object is saved later
                 $dominion->{$row->resource} -= $row->amount;
@@ -1510,9 +1510,9 @@ class TickService
                                         ->get();
         foreach($finishedArtefactsInQueue as $finishedArtefactInQueue)
         {
-            $deityKey = $finishedArtefactInQueue->resource;
+            $artefactKey = $finishedArtefactInQueue->resource;
             $amount = 1;
-            $artefact = Artefact::where('key', $deityKey)->first();
+            $artefact = Artefact::where('key', $artefactKey)->first();
             $this->artefactService->addArtefactToRealm($dominion->realm, $artefact);
 
             GameEvent::create([

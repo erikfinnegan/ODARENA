@@ -13,7 +13,7 @@
                         <i class="fas fa-drafting-compass"></i> Expedition
                     </h3>
                 </div>
-                <div class="box-bod no-padding">
+                <div class="box-body no-padding">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="text-center">
@@ -164,4 +164,31 @@
             </div>
         </div>
     </div>
+
+    @if($event->data['artefact']['found'])
+    @php
+        $artefact = OpenDominion\Models\Artefact::findOrFail($event->data['artefact']['id']);
+    @endphp
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ra ra-alien-fire"></i> Artefact
+                    </h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="col-xs-12 col-sm-12">
+                        You have discovered an artefact!
+
+                        <h3>{{ $artefact->name }}</h3>
+
+                        Add artefact perks...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
 @endsection

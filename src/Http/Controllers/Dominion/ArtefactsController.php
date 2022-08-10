@@ -39,6 +39,15 @@ class ArtefactsController extends AbstractDominionController
         foreach($dominion->round->realms as $realm)
         {
             $realmIds[] = $realm->id;
+
+            if($realm->id == $dominion->realm->id)
+            {
+                $ownRealmArtefacts = RealmArtefact::where('realm_id', '=', $realm->id)->get();
+            }
+            else
+            {
+                $otherRealmArtefacts = RealmArtefact::where('realm_id', '!=', $realm->id)->get();
+            }
         }
 
         $realmArtefacts = RealmArtefact::whereIn('realm_id', $realmIds)->get();
@@ -67,6 +76,8 @@ class ArtefactsController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
 
             'realmArtefacts' => $realmArtefacts,
+            'ownRealmArtefacts' => $ownRealmArtefacts,
+            'otherRealmArtefacts' => $otherRealmArtefacts,
             'spells' => $spells,
         ]);
     }
