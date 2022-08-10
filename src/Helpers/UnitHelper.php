@@ -1078,7 +1078,7 @@ class UnitHelper
             if($dominion->getBuildingPerkValue($raceKey . '_unit' . $slotLimited . '_production_raw_capped') and $dominion->race->name == 'Snow Elf')
             {
                 # Hardcoded 20% production cap
-                $limitingBuildings = $this->landCalculator->getTotalLand($dominion) * 0.20;
+                $limitingBuildings =min($limitingBuildings, $this->landCalculator->getTotalLand($dominion) * 0.20);
             }
 
             $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $limitMultiplier);
