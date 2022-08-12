@@ -92,9 +92,9 @@ class TheftActionService
                 throw new GameException('Nice try, but you steal from invade yourself.');
             }
 
-            if ($resource->key == 'mana')
+            if(!$this->theftHelper->canDominionStealResource($thief, $resource))
             {
-                throw new GameException('You do not currently have the ability to steal ' . $resource->name . '.');
+                throw new GameException('You cannot steal ' . $resource->name . '.');
             }
 
             if (!in_array($resource->key, $thief->race->resources))

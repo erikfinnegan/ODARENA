@@ -1,10 +1,15 @@
 name: Advanced Research
 cooldown: 96
-description: Dedicate your dominion's best and brightest to research.
+description: You are one of few factions able to dedicate your dominion to highly focused research of technologies.
 exclusive_races:
+  - Black Orc
+  - Dark Elf
+  - Gnome
   - Human
   - Kerranad
-  - Nomad
+  - Orc
+  - Sacred Order
+  - Vampires
 states:
   - name: Enabled
     perks:

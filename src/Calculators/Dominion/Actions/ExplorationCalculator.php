@@ -177,9 +177,6 @@ class ExplorationCalculator
     {
         $ticks = 12;
 
-        # Title: Pathfinder
-        $ticks += $dominion->title->getPerkValue('explore_time') * $dominion->getTitlePerkMultiplier();
-
         # Ugly, doesn't show up in land advisor if greater than 12
         $ticks += $dominion->race->getPerkValue('explore_time');
 

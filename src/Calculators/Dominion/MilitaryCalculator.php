@@ -2566,6 +2566,8 @@ class MilitaryCalculator
         $reduction += $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
         $reduction += $attacker->getImprovementPerkMultiplier('target_defensive_power_mod');
         $reduction += $attacker->getDeityPerkMultiplier('target_defensive_power_mod');
+        $reduction += $attacker->getDecreePerkMultiplier('target_defensive_power_mod');
+        $reduction += $attacker->realm->getArtefactPerkMultiplier('target_defensive_power_mod');
 
         return $reduction;
     }

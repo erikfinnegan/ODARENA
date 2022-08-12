@@ -1,0 +1,45 @@
+<?php
+
+namespace OpenDominion\Http\Controllers\Dominion;
+
+use OpenDominion\Exceptions\GameException;
+use OpenDominion\Http\Requests\Dominion\Actions\AdvancementActionRequest;
+
+use OpenDominion\Calculators\Dominion\AdvancementCalculator;
+
+use OpenDominion\Helpers\AdvancementHelper;
+
+use OpenDominion\Models\Advancement;
+
+use OpenDominion\Services\Dominion\Actions\AdvancementActionService;
+
+class AdvancementController extends AbstractDominionController
+{
+    public function getAdvancements()
+    {
+        return view('pages.dominion.advancements2', [
+            'advancements' => Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'advancementHelper' => app(AdvancementHelper::class),
+            'advancementCalculator' => app(AdvancementCalculator::class),
+        ]);
+    }
+
+    public function postAdvancements(AdvancementActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $advancementActionService = app(AdvancementActionService::class);
+        $advancement = Advancement::findOrFail($request->get('advancement_id'));
+
+        try {
+            $result = $advancementActionService->levelUp($dominion, $advancement);
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+
+        $request->session()->flash('alert-success', $result['message']);
+        return redirect()->route('dominion.advancements2');
+    }
+}

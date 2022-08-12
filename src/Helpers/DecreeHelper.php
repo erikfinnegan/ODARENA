@@ -53,6 +53,8 @@ class DecreeHelper
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
 
+            'target_defensive_power_mod' => '%s%% defensive modifier for target.',
+
             'increases_enemy_casualties' => '%s%% enemy casualties.',
             'increases_enemy_casualties_on_defense' => '%s%% enemy casualties on defense.',
             'increases_enemy_casualties_on_offense' => '%s%% enemy casualties on offense.',
@@ -96,6 +98,7 @@ class DecreeHelper
             # Espionage and Wizardry
             'spy_losses' => '%s%% spy losses.',
             'spell_damage' => '%s%% spell damage.',
+            'spy_cost' => '%s%% spy costs.',
             'wizard_cost' => '%s%% wizard costs.',
             'spell_cost' => '%s%% spell costs.',
 

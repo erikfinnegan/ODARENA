@@ -1,5 +1,5 @@
 name: Hills
-cooldown: 12
+cooldown: 0
 description: Spread over the hills...
 exclusive_races:
   - Growth

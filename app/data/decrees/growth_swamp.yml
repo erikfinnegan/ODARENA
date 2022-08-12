@@ -1,5 +1,5 @@
 name: Swamp
-cooldown: 12
+cooldown: 0
 description: Dictate the growth on the swamps.
 exclusive_races:
   - Growth

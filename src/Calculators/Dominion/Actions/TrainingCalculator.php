@@ -408,6 +408,9 @@ class TrainingCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('spy_cost');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('spy_cost');
+
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('spy_cost');
 

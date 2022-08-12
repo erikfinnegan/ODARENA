@@ -1,5 +1,5 @@
 name: Water
-cooldown: 12
+cooldown: 0
 description: Grow the tissue or filter in water through gills to feeed the growth.
 exclusive_races:
   - Growth

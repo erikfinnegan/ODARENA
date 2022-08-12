@@ -60,7 +60,7 @@
                                                     $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
                                                 @endphp
 
-                                                @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
+                                                @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft') and $theftHelper->canDominionStealResource($selectedDominion, $resource))
                                                     <option value="{{ $resource->id }}" {{ $selectedDominion->most_recent_theft_resource  == $resource->key ? 'selected' : '' }}>
                                                         {{ $resource->name }}
                                                     </option>
@@ -192,11 +192,13 @@
                             @php
                                 $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
                             @endphp
-                            <tr>
-                                <td>{{ $resource->name }}</td>
-                                <td>{{ number_format($theftHelper->getMaxCarryPerSpyForResource($resource),2) }}</td>
-                                <td>{{ number_format($theftCalculator->getMaxCarryPerSpyForResource($selectedDominion, $resource),2) }}</td>
-                            </tr>
+                            @if($theftHelper->canDominionStealResource($selectedDominion, $resource))
+                                <tr>
+                                    <td>{{ $resource->name }}</td>
+                                    <td>{{ number_format($theftHelper->getMaxCarryPerSpyForResource($resource),2) }}</td>
+                                    <td>{{ number_format($theftCalculator->getMaxCarryPerSpyForResource($selectedDominion, $resource),2) }}</td>
+                                </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>

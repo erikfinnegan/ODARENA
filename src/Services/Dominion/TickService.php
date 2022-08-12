@@ -905,8 +905,22 @@ class TickService
             if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
             {
                 $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * (1 + $attritionMultiplier));
-                #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
+
+                if($attritionProtection = $dominion->getBuildingPerkValue('attrition_protection'))
+                {
+                    $slot = $attritionProtection[0];
+                    $amountProtected = $attritionProtection[1];
+                    $amountProtected *= 1 + $dominion->getImprovementPerkMultiplier('attrition_protection');
+
+                    if($slot == $attritionProtection[0])
+                    {
+                        $unitAttritionAmount -= $amountProtected;
+                    }
+                }
+
                 $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
+
+                # Look for static attrition protection.
 
                 if($slot == 1)
                 {

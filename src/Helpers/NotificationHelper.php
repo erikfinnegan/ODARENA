@@ -475,9 +475,10 @@ class NotificationHelper
             # CULT
 
             case 'hourly_dominion.attrition_occurred':
+                dd($data);
                 $units = array_sum($data);
                 return sprintf(
-                    '%s %s have disappeared.',
+                    '%s %s have %s.',
                     number_format($units),
                     str_plural('unit', $units)
                 );

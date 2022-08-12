@@ -194,14 +194,7 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>Select target, resource, and number of spies you wish to send. Below is a table showing how much of each resource each spy unit can carry. It takes six ticks for the units and stolen resources to return.</p>
-                <p>Theft costs spy strength. The cost is calculated as number of spy units you send relative to the total number of spy units that you have.</p>
-                <p>You currently have
-                      <strong>{{ number_format($selectedDominion->spy_strength) }}%</strong> spy strength,
-                      <strong>{{ number_format($militaryCalculator->getTotalSpyUnits($selectedDominion)) }}</strong> total spy units, and
-                      <strong>{{ number_format($militaryCalculator->getTotalSpyUnitsAtHome($selectedDominion)) }}</strong> spy units at home.
-                      You can at most send <strong>{{ number_format($militaryCalculator->getMaxSpyUnitsSendable($selectedDominion)) }}</strong> spy units.
-                </p>
+                <p>You can at most send <strong>{{ number_format($militaryCalculator->getMaxSpyUnitsSendable($selectedDominion)) }}</strong> spy units.</p>
             </div>
         </div>
     </div>

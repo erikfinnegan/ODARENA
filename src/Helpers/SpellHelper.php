@@ -170,6 +170,8 @@ class SpellHelper
             'wizard_strength' => '%s%% wizard strength',
             'reset_spell_cooldowns' => 'Resets spell cooldowns.',
 
+            'spreads_spell' => 'Spreads %s to any dominion which invades or is invaded by this dominion.',
+
             // Espionage
             'disband_spies' => 'Disbands %s%% of enemy spies.',
             'spy_strength' => '%s%% spy strength',
@@ -671,6 +673,14 @@ class SpellHelper
 
                 $perkValue = [number_format(intval(1/$unitsPerAcre)), ucwords($landType)];
                 #$nestedArrays = false;
+            }
+
+            // Special case for spread_spell
+            if($perk->key === 'spread_spell')
+            {
+                $spellKey = (string)$perkValue[0];
+
+                $perkValue = Spell::where('key', $spellKey)->first()->name;
             }
 
             /*****/

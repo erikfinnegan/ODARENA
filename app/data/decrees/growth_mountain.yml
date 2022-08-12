@@ -1,5 +1,5 @@
 name: Mountain
-cooldown: 12
+cooldown: 0
 description: What should grow on the mountains?
 exclusive_races:
   - Growth

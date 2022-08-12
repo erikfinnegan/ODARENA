@@ -3,11 +3,12 @@
 namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
 
 class TheftHelper
 {
-    public function getMaxCarryPerSpyForResource(Resource $resource): float
+    public function getMaxCarryPerSpyForResource(Resource $resource): int
     {
         # Default values
         switch ($resource->key)
@@ -42,5 +43,9 @@ class TheftHelper
 
     }
 
+    public function canDominionStealResource(Dominion $thief, Resource $resource): bool
+    {
+        return $this->getMaxCarryPerSpyForResource($resource) > 0;
+    }
 
 }

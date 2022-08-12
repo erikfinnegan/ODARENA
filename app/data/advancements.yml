@@ -1,97 +1,85 @@
 # MILITARY
 
-casualties:
+tactics:
   name: Tactics
   perks:
     casualties_on_offense: -3.75
     casualties_on_defense: -3.75
 
-unit_costs:
+anvils:
   name: Anvils
   perks:
     unit_gold_costs: -2.5
     unit_ore_costs: -2.5
     unit_lumber_costs: -2.5
 
-unit_costs_food:
+lean_mass:
   name: Lean Mass
   perks:
     unit_food_costs: -1.75
 
-unit_costs_mana:
+magical_weapons:
   name: Magical Weapons
   perks:
     unit_mana_costs: -2.5
 
-offensive_power:
+strategy:
   name: Strategy
   perks:
     offensive_power: 2.5
 
-defensive_power:
+fortifications:
   name: Fortifications
   perks:
     defensive_power: 2.5
 
-prestige_gains:
+honour:
   name: Honour
   perks:
     prestige_gains: 5
 
 # LAND AND BUILDINGS
 
-construction_rezone:
+architecture:
   name: Architecture
   perks:
     construction_cost: -5
     rezone_cost: -5
 
-construction_time:
+foundations:
   name: Foundations
   multiplier: 5
   perks:
-    construction_time: -5
-
-# EXPLORE
-
-explore_cost:
-  name: Scouting
-  perks:
-    explore_cost: -5
-
-explore_time:
-  name: Compasses
-  perks:
-    explore_time: 5
+    construction_time: -2.5
 
 # ESPIONAGE
 
-spy_cost:
+undercover:
   name: Undercover
   perks:
     spy_cost: -5
     spy_losses: -5
 
-spy_strength:
+intelligence:
   name: Intelligence
   perks:
     spy_strength: 2.5
     spy_strength_recovery: 0.25
 
-spy_carry:
+deep_pockets:
   name: Deep Pockets
   perks:
     amount_stolen: 5
 
 # WIZARDRY
 
-wizard_cost:
+wizardry_tradition:
   name: Wizardry Tradition
   perks:
     wizard_cost: -5
     spell_cost: -5
 
-wizard_cost:
+concentration:
   name: Concentration
   perks:
     wizard_strength: -2.5
@@ -99,81 +87,91 @@ wizard_cost:
 
 # PRODUCTION
 
-food_production:
+agriculture:
   name: Agriculture
   perks:
-    food_production: 2.5
+    food_production_mod: 2.5
 
-gems_production:
+drills:
   name: Drills
   perks:
-    gems_production: 2.5
+    gems_production_mod: 2.5
 
-lumber_production:
+mills:
   name: Mills
   perks:
-    lumber_production: 2.5
+    lumber_production_mod: 2.5
 
-mana_production:
+invocations:
   name: Invocations
   perks:
-    mana_production: 2.5
+    mana_production_mod: 2.5
 
-ore_production:
-  name: Quarries
+mining_equipment:
+  name: Mining Equipment
   perks:
-    ore_production: 2.5
+    ore_production_mod: 2.5
 
-gold_production:
+minting:
   name: Minting
   perks:
-    gold_production: 2.5
+    gold_production_mod: 2.5
+
+molluscs:
+  name: Molluscs
+  exclusive_races:
+    - Glimjir
+  perks:
+    pearls_production_mod: 2.5
 
 # POPULATION
 
-max_population:
+housing:
   name: Minting
   perks:
     max_population: 1.25
 
-drafting:
+conscription:
   name: Conscription
   perks:
     drafting: 2.5
 
-military_housing:
-  name: Military Heritage
+lodging:
+  name: Lodging
   perks:
     military_housing: 1.25
 
-employment:
+craftsmanship:
   name: Craftsmanship
   perks:
     jobs_per_building: 2.5
 
 # IMPROVEMENTS
 
-improvements:
+infrastructure:
   name: Infrastructure
   perks:
     drafting: 5
 
-gem_improvements:
+gemcutting:
   name: Gemcutting
   perks:
-    gem_improvements: 2.5
+    gems_improvement_points: 2.5
 
-ore_improvements:
-  name: Masonry
+stoneworks:
+  name: Stoneworks
   perks:
-    ore_improvements: 5
+    ore_improvement_points: 5
 
-lumber_improvements:
+woodworks:
   name: Woodworks
   perks:
-    lumber_improvements: 5
+    lumber_improvement_points: 5
 
-gold_improvements:
+budget:
   name: Budget
   perks:
-    gold_improvements: 12.5
+    gold_improvement_points: 12.5
+
+# FACTION SPECIFIC
+

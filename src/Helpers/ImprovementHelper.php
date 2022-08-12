@@ -98,6 +98,8 @@ class ImprovementHelper
 
             'unit_pairing' => 'unit limit pairing',
 
+            'attrition_protection' => 'attrition protection',
+
             'improvement_points' => 'improvement points value from investments',
 
             'title_bonus' => 'ruler title bonus'

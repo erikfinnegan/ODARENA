@@ -72,7 +72,7 @@ units:
       wizard: 1
     power:
       offense: 4
-      defense: 6
+      defense: 6 # 0/7?
     perks:
       strength_conversion: 4,2,3 # threshold,under,over
       immortal_wizard: 1

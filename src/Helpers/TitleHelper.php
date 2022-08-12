@@ -69,6 +69,15 @@ class TitleHelper
                 $description = 'Exploration time:';
                 $valueType = ' ticks';
                 break;
+            case 'expedition_land_gains':
+                $negativeBenefit = false;
+                $description = 'Expedition land gains:';
+                break;
+            case 'expedition_time':
+                $negativeBenefit = true;
+                $description = 'Expedition time:';
+                $valueType = ' ticks';
+                break;
             case 'explore_prestige_per_acre':
                 $negativeBenefit = false;
                 $description = 'Prestige per explored acre:';

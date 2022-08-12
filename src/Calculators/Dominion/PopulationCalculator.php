@@ -197,6 +197,9 @@ class PopulationCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('max_population');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('max_population');
+
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 

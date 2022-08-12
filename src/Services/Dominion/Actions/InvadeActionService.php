@@ -7,6 +7,7 @@ use Log;
 use OpenDominion\Exceptions\GameException;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
@@ -2203,6 +2204,20 @@ class InvadeActionService
 
                 $this->resourceService->updateResources($defender, [$resourceKey => ($resourceAmountOwned * -1)]);
             }
+        }
+
+        # If defender has Pestilence, attacker gets Lesser Pestilence if attacker is not Afflicted and does not have Pestilence or Lesser Pestilence
+        if($this->spellCalculator->isSpellActive($defender, 'pestilence') and $attacker->race->name !== 'Afflicted' and !$this->spellCalculator->isSpellActive($attacker, 'pestilence') and !$this->spellCalculator->isSpellActive($attacker, 'pestilence'))
+        {
+            $caster = $this->spellCalculator->getCaster($defender, 'pestilence');
+            $this->spellActionService->castSpell($attacker, 'lesser_pestilence', $caster, $isInvasionSpell);
+        }
+
+        # If attacker has Pestilence, defender gets Lesser Pestilence if defender is not Afflicted and does not have Pestilence or Lesser Pestilence
+        if($this->spellCalculator->isSpellActive($attacker, 'pestilence') and $defender->race->name !== 'Afflicted' and !$this->spellCalculator->isSpellActive($defender, 'pestilence') and !$this->spellCalculator->isSpellActive($defender, 'pestilence'))
+        {
+            $caster = $this->spellCalculator->getCaster($attacker, 'pestilence');
+            $this->spellActionService->castSpell($defender, 'lesser_pestilence', $caster, $isInvasionSpell);
         }
 
         if($attacker->race->name == 'Legion' and $defender->race->name == 'Barbarian' and $this->invasionResult['result']['success'])

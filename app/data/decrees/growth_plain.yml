@@ -1,5 +1,5 @@
 name: Plains
-cooldown: 12
+cooldown: 0
 description: Steer your growth on the plains.
 exclusive_races:
   - Growth

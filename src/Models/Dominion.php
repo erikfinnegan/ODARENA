@@ -304,6 +304,18 @@ class Dominion extends AbstractModel
         );
     }
 
+    public function advancements()
+    {
+        return $this->belongsToMany(
+            Advancement::class,
+            'dominion_advancements',
+            'dominion_id',
+            'advancement_id'
+        )
+            ->withTimestamps()
+            ->withPivot('level');
+    }
+
 
     public function queues()
     {
@@ -1031,6 +1043,19 @@ class Dominion extends AbstractModel
                 {
                     $perk = (float)$perkValueString;
                 }
+                elseif($perkKey == 'attrition_protection')
+                {
+                    $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                    $amount = (float)$perkValues[0];
+                    $slot = (int)$perkValues[1];
+                    $raceName = (string)$perkValues[2];
+
+                    if($this->race->name == $raceName)
+                    {
+                        return [$building->pivot->owned * $amount, $slot];
+                    }
+                }
+
                 elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                 {
                     dd("[Error] Undefined building perk key (\$perkKey): $perkKey");
@@ -1475,31 +1500,6 @@ class Dominion extends AbstractModel
         }
         return 0;
     }
-    /*
-    public function getDecreePerkValue(string $perkKey)
-    {
-        $perk = 0;
-
-        foreach(DominionDecreeState::where('dominion_id', $this->id)->get() as $dominionDecreeState)
-        {
-            $decreeState = DecreeState::findOrFail($dominionDecreeState->decree_state_id);
-
-            $decreeStatePerkValue = $decreeState->getPerkValue($perkKey);
-
-            if(is_numeric($decreeStatePerkValue))
-            {
-                $perk += $decreeStatePerkValue;
-            }
-            else
-            {
-                return $decreeStatePerkValue;
-            }
-            
-        }
-
-        return $perk;
-    }
-    */
 
     public function getDecreePerkMultiplier(string $key): float
     {
@@ -1515,5 +1515,42 @@ class Dominion extends AbstractModel
             }
         );
     }
+
+    # TECHS
+
+    protected function getAdvancementPerks()
+    {
+        return $this->advancements->flatMap(
+            function ($advancement) {
+                return $advancement->perks;
+            }
+        );
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getAdvancementPerkValue(string $key): float
+    {
+        $perks = $this->getAdvancementPerks()->groupBy('key');
+
+        if (isset($perks[$key]))
+        {
+            return $perks[$key]->sum('pivot.value');
+        }
+        return 0;
+        /*
+        if (isset($perks[$key])) {
+            $max = (float)$perks[$key]->max('pivot.value');
+            if ($max < 0) {
+                return (float)$perks[$key]->min('pivot.value');
+            }
+            return $max;
+        }
+        return 0;
+        */
+    }
+
 
 }

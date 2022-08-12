@@ -1360,6 +1360,19 @@ pestilence:
     - Afflicted
   perks:
     kill_peasants_and_converts_for_caster_unit: 0.25,1 # 0.25% die and become unit1
+    spreads_spell: lesser_pestilence
+
+lesser_pestilence:
+  name: Lesser Pestilence
+  scope: hostile
+  class: invasion
+  cost: 0
+  duration: 96
+  cooldown: 0
+  exclusive_races:
+    - Afflicted
+  perks:
+    kill_peasants_and_converts_for_caster_unit: 0.05,1 # 0.25% die and become unit1
 
 great_fever:
   name: Great Fever

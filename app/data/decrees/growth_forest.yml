@@ -1,5 +1,5 @@
 name: Forest
-cooldown: 12
+cooldown: 0
 description: Spread across and under roots and leaves.
 exclusive_races:
   - Growth

@@ -11,6 +11,7 @@ states:
     perks:
       exchange_rate: 5
       population_growth: 20
+
   - name: Closed
     perks:
       exchange_rate: -10

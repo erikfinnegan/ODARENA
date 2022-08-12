@@ -6,6 +6,9 @@ use DB;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use OpenDominion\Console\Commands\CommandInterface;
+use OpenDominion\Models\Advancement;
+use OpenDominion\Models\AdvancementPerk;
+use OpenDominion\Models\AdvancementPerkType;
 use OpenDominion\Models\Artefact;
 use OpenDominion\Models\ArtefactPerk;
 use OpenDominion\Models\ArtefactPerkType;
@@ -77,6 +80,7 @@ class DataSyncCommand extends Command implements CommandInterface
     public function handle(): void
     {
         DB::transaction(function () {
+            $this->syncAdvancements();
             $this->syncDeities();
             $this->syncRaces();
             $this->syncTechs();
@@ -1281,6 +1285,82 @@ class DataSyncCommand extends Command implements CommandInterface
         }
 
         $this->info('Decrees synced.');
+    }
+
+    /**
+     * Syncs advancement and perk data from .yml file to the database.
+     */
+    protected function syncAdvancements()
+    {
+        $fileContents = $this->filesystem->get(base_path('app/data/advancements.yml'));
+
+        $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+        foreach ($data as $advancementKey => $advancementData) {
+            #dd($advancementData);
+            // Advancement
+            $advancement = Advancement::firstOrNew(['key' => $advancementKey])
+                ->fill([
+                    'name' => $advancementData->name,
+                    'enabled' => object_get($advancementData, 'enabled', 1),
+                    'excluded_races' => object_get($advancementData, 'excluded_races', []),
+                    'exclusive_races' => object_get($advancementData, 'exclusive_races', []),
+                ]);
+
+            if (!$advancement->exists) {
+                $this->info("Adding advancement {$advancementData->name}");
+            } else {
+                $this->info("Processing advancement {$advancementData->name}");
+
+                $newValues = $advancement->getDirty();
+
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $advancement->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
+
+                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                }
+            }
+
+            $advancement->save();
+
+            $advancement->refresh();
+
+            // Advancement Perks
+            $advancementPerksToSync = [];
+
+            foreach (object_get($advancementData, 'perks', []) as $perk => $value) {
+                $value = (float)$value;
+
+                $advancementPerkType = AdvancementPerkType::firstOrCreate(['key' => $perk]);
+
+                $advancementPerksToSync[$advancementPerkType->id] = ['value' => $value];
+
+                $advancementPerk = AdvancementPerk::query()
+                    ->where('advancement_id', $advancement->id)
+                    ->where('advancement_perk_type_id', $advancementPerkType->id)
+                    ->first();
+
+                if ($advancementPerk === null) {
+                    $this->info("[Add Advancement Perk] {$perk}: {$value}");
+                } elseif ($advancementPerk->value != $value) {
+                    $this->info("[Change Advancement Perk] {$perk}: {$advancementPerk->value} -> {$value}");
+                }
+            }
+
+            $advancement->perks()->sync($advancementPerksToSync);
+        }
+
+        $this->info('Advancements synced.');
     }
 
 }

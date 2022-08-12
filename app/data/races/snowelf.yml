@@ -88,3 +88,4 @@ units:
       building_limit: gryphon_nest,2
       food_consumption_raw: 3.5
       casualties: -75
+      attrition: 10

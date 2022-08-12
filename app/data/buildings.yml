@@ -550,6 +550,7 @@ gryphon_nest:
   land_type: mountain
   perks:
     snow_elf_unit4_production_raw_capped: 0.04,20
+    attrition_protection: 2,4,Snow Elf # amount, slot, faction
 
 # END SNOW ELF
 
@@ -1706,7 +1707,7 @@ enclosure:
   exclusive_races:
     - Revenants
   land_type: swamp
-  perks:
+  perks:  # Rethink the housing spread (mostly get unit2s)
     revenants_unit1_housing: 40
     revenants_unit2_housing: 25
     revenants_unit3_housing: 15

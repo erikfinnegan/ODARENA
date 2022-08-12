@@ -398,6 +398,7 @@ gryphonry:
     - Snow Elf
   perks:
     unit_pairing: 100,10000
+    attrition_protection: 100,1000
 
 armoury:
   name: Armoury

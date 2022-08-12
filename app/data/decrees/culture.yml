@@ -4,13 +4,16 @@ description: Decide what type of culture you want your dominion to have.
 states:
   - name: Artistic
     perks:
-      improvements: 10
       base_morale: 20
 
   - name: Community
     perks:
       population: 2.5
       population_growth: 10
+
+  - name: Engineering
+    perks:
+      improvements: 10
 
   - name: Espionage
     perks:
@@ -24,7 +27,7 @@ states:
 
   - name: Religious
     perks:
-      deity_power: 2.5
+      deity_power: 7.5
 
   - name: Scientific
     perks:

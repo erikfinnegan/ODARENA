@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
+use OpenDominion\Helpers\AdvancementHelper;
 use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\DecreeHelper;
@@ -22,6 +23,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Artefact;
 use OpenDominion\Models\Decree;
 use OpenDominion\Models\Deity;
@@ -198,6 +200,14 @@ class ScribesController extends AbstractController
             'techs' => $techs,
             'techNames' => $techNames,
             'techHelper' => app(TechHelper::class),
+        ]);
+    }
+
+    public function getAdvancements2()
+    {
+        return view('pages.scribes.advancements2', [
+            'advancements' => Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'advancementHelper' => app(AdvancementHelper::class),
         ]);
     }
 

@@ -177,6 +177,7 @@ class BuildingHelper
             'land_discovered' => 'Land discovered during invasions increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'reduces_attrition' => 'Reduces unit attrition by %2$s%% for every %1$s%%.',
+            'attrition_protection' => 'Keeps %1$s %2$s from attrition.',
 
             'reduces_conversions' => 'Reduces conversions for enemies by %2$s%% for every %1$s%%.',
 
@@ -298,6 +299,24 @@ class BuildingHelper
                 #$resourcesString = str_replace(' And ', ' and ', $resourcesString);
 
                 $perkValue = [$ratio, $resourcesString];
+                $nestedArrays = false;
+
+            }
+
+            if($perk->key === 'attrition_protection')
+            {
+                $amount = (float)$perkValue[0];
+                $slot = (int)$perkValue[1];
+                $raceName = (string)$perkValue[2];
+
+                $race = Race::where('name', $raceName)->firstOrFail();
+
+                $unit = $race->units->filter(function ($unit) use ($slot)
+                {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $perkValue = [$amount, str_plural($unit->name, $amount)];
                 $nestedArrays = false;
 
             }
