@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionAdvancement;
+use OpenDominion\Models\Race;
 
 class AdvancementCalculator
 {
@@ -105,6 +106,28 @@ class AdvancementCalculator
         }
 
         return $dominionAdvancement->level >= $level;
+    }
+
+    public function isAdvancementAvailableToDominion(Dominion $dominion, Advancement $advancement): bool
+    {
+        return $this->isAdvancementAvailableToRace($dominion->race, $advancement);
+    }
+
+    public function isAdvancementAvailableToRace(Race $race, Advancement $advancement): bool
+    {
+        $isAvailable = true;
+
+        if(count($advancement->exclusive_races) > 0 and !in_array($race->name, $advancement->exclusive_races))
+        {
+            $isAvailable = false;
+        }
+
+        if(count($advancement->excluded_races) > 0 and in_array($race->name, $advancement->excluded_races))
+        {
+            $isAvailable = false;
+        }
+
+        return $isAvailable;
     }
 
 }

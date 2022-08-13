@@ -76,6 +76,12 @@ class AdvancementActionService
             throw new GameException('You cannot level up this advancement.');
         }
 
+        // Check if available to dominion
+        if(!$this->advancementCalculator->isAdvancementAvailableToDominion($dominion, $advancement))
+        {
+            throw new GameException('The advancement ' . $advancement->name . ' is not available to you.');
+        }
+
         # Null if not previously levelled up:
         $dominionAdvancement = DominionAdvancement::where('dominion_id', $dominion->id)
             ->where('advancement_id', $advancement->id)
