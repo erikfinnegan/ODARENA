@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="progress">
-                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement) == 0)
+                                        @if(!$advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
                                             <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="{{ $advancementCalculator->getDominionMaxLevel($selectedDominion) }}">No level</div>
                                         @else
-                                            <div class="progress-bar label-success" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}">Level {{ $currentLevel }} </div>
-                                            <div class="progress-bar label-warning" role="progressbar" style="width: {{ $remaining }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}"></div>
+                                            <div class="progress-bar label-success" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="25" aria-valuemin="25" aria-valuemax="{{ $maxLevel }}">Level {{ $currentLevel }} </div>
+                                            <div class="progress-bar label-warning" role="progressbar" style="width: {{ $remaining }}%" aria-valuenow="25" aria-valuemin="25" aria-valuemax="{{ $maxLevel }}"></div>
                                         @endif
                                     </div>
 
@@ -140,7 +140,13 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>DESSY LEMON</p>
+                <p>Advancements are levelled up spending XP.</p>
+                <p>The higher the level, the higher the perk becomes.</p>
+                <ul>
+                    <li>Levels up to and including 6: <code>[Base Perk] * [Level]</code></li>
+                    <li>Levels 7 through 10:  <code>[Base Perk] * ( ( ( 6 - [Level] ) / 2 ) + 6 )</code></li>
+                </ul>
+                <p>The cost of levelling up Advancements is based on your land size.</p>
             </div>
         </div>
     </div>

@@ -8,13 +8,15 @@
     <div class="col-sm-12 col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h2 class="box-title">{{ $race->name }}</h2>
+                <div class="col-sm-3">
+                    <h2 class="box-title">{{ $race->name }}</h2>
 
-                @if($race->experimental)
-                    <span class="label label-danger">Experimental</span>
-                @endif
+                    @if($race->experimental)
+                        <span class="label label-danger">Experimental</span>
+                    @endif
+                </div>
 
-                <span>
+                <div class="col-sm-6">
                     <a href="#units">Units</a> |
                     <a href="#resources">Resources</a> |
                     <a href="#buildings">Buildings</a> |
@@ -24,9 +26,9 @@
                     @endif
                     <a href="#spells">Spells</a> |
                     <a href="#spy_ops">Spy Ops</a>
-                </span>
+                </div>
 
-                <span class="pull-right">
+                <div class="col-sm-3">
                     Difficulty:
                     @if($race->skill_level === 1)
                         <span class="label label-success">Comfortable</span>
@@ -35,7 +37,7 @@
                     @elseif($race->skill_level === 3)
                         <span class="label label-danger">Advanced</span>
                     @endif
-                </span>
+                </div>
             </div>
             <div>
 
