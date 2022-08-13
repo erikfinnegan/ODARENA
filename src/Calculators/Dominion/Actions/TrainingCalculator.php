@@ -366,7 +366,7 @@ class TrainingCalculator
     {
         $multiplier = 0;
 
-        // Techs
+        // Advancements
         $multiplier += $dominion->getAdvancementPerkMultiplier('spy_cost');
 
         // Buildings
@@ -400,7 +400,7 @@ class TrainingCalculator
     {
         $multiplier = 0;
 
-        // Techs
+        // Advancements
         $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_cost');
 
         // Buildings
@@ -409,7 +409,7 @@ class TrainingCalculator
         // Decree
         $multiplier += $dominion->getDecreePerkMultiplier('wizard_cost');
 
-        // Cap $multiplier at -50% from techs and buildings
+        // Cap $multiplier at -50% from advancements, decrees, and buildings
         $multiplier = max($multiplier, -0.50);
 
         // Deity

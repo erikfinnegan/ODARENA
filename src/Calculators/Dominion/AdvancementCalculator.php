@@ -99,7 +99,8 @@ class AdvancementCalculator
             ->where('advancement_id', $advancement->id)
             ->first();
 
-        if($dominionAdvancement === null) {
+        if(!$dominionAdvancement)
+        {
             return false;
         }
 

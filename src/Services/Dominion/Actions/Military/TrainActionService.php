@@ -8,15 +8,16 @@ use Throwable;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
-use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
+use OpenDominion\Calculators\Dominion\AdvancementCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -33,12 +34,12 @@ class TrainActionService
     use DominionGuardsTrait;
 
     public function __construct(
+        AdvancementCalculator $advancementCalculator,
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
         MilitaryCalculator $militaryCalculator,
         LandCalculator $landCalculator,
-        PopulationCalculator $populationCalculator,
-        TechCalculator $techCalculator
+        PopulationCalculator $populationCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -51,12 +52,12 @@ class TrainActionService
         $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
 
+        $this->advancementCalculator = $advancementCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
-        $this->techCalculator = $techCalculator;
     }
 
     /**
@@ -206,16 +207,16 @@ class TrainActionService
             $advancementsLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'advancements_required_to_train');
             if($advancementsLimit)
             {
-                $advancementKeys = explode(';',$advancementsLimit);
-                $advancements = [];
-
-                foreach ($advancementKeys as $index => $advancementKey)
+                foreach ($advancementsLimit as $index => $advancementLevel)
                 {
-                    $advancement = Tech::where('key', $advancementKey)->firstOrFail();
-                    if(!$this->techCalculator->hasTech($dominion, $advancement))
+                    $advancementKey = (string)$advancementLevel[0];
+                    $levelRequired = (int)$advancementLevel[1];
+
+                    $advancement = Advancement::where('key', $advancementKey)->firstOrFail();
+                    if(!$this->advancementCalculator->hasAdvancementLevel($dominion, $advancement, $levelRequired))
                     {
                         throw new GameException('You do not have the required advancements to train this unit.');
-                    }
+                    }                    
                 }
             }
             # Advancements check complete.

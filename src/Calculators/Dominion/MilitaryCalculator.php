@@ -1497,18 +1497,18 @@ class MilitaryCalculator
             return 0;
         }
 
-        foreach($advancementPerkData as $advancementSet);
+        foreach($advancementPerkData as $advancementSet)
         {
-            $advancementKey = (string)$advancementSet[0];
+            $advancementKey = $advancementSet[0];
             $levelRequired = (int)$advancementSet[1];
             $power = (float)$advancementSet[2];
-            $advancement = Advancement::where('key', $advancementKey)->first();
+
+            $advancement = Advancement::where('key', $advancementKey)->firstOrFail();
 
             if($this->advancementCalculator->hasAdvancementLevel($dominion, $advancement, $levelRequired))
             {
                 $powerFromPerk += $power;
             }
-
         }
 
         return $powerFromPerk;

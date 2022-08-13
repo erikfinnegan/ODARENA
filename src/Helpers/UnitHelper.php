@@ -817,22 +817,6 @@ class UnitHelper
                         $perkValue[] = [$advancement->name, $levelRequired];
                         unset($perkValue[$index]);
                     }
-                    /*
-                    $advancementKeys = explode(';',$perkValue);
-                    $advancements = [];
-
-                    foreach ($advancementKeys as $index => $advancementKey)
-                    {
-                        $advancement = Tech::where('key', $advancementKey)->firstOrFail();
-
-                        $advancements[$index] = $advancement->name . ' level ' . $advancement->level;
-                    }
-
-                    $advancementsString = generate_sentence_from_array($advancements);
-
-                    $perkValue = $advancementsString;
-                    #$nestedArrays = false;
-                    */
                 }
 
                 if($perk->key === 'offense_from_advancements' or $perk->key === 'defense_from_advancements')
