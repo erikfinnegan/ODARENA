@@ -143,8 +143,8 @@
                 <p>Advancements are levelled up spending XP.</p>
                 <p>The higher the level, the higher the perk becomes.</p>
                 <ul>
-                    <li>Levels up to and including 6: <code>[Base Perk] * [Level]</code></li>
-                    <li>Levels 7 through 10:  <code>[Base Perk] * ( ( ( 6 - [Level] ) / 2 ) + 6 )</code></li>
+                    <li>Levels up to and including 6:><br><code>[Base Perk]*[Level]</code></li>
+                    <li>Levels 7 through 10:<br><code>[Base Perk]*(((6-[Level])/2)+6)</code></li>
                 </ul>
                 <p>The cost of levelling up Advancements is based on your land size.</p>
             </div>
