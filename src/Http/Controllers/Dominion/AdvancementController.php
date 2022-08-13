@@ -17,10 +17,14 @@ class AdvancementController extends AbstractDominionController
 {
     public function getAdvancements()
     {
+        $dominion = $this->getSelectedDominion();
+        $advancementCalculator = app(AdvancementCalculator::class);
+        $advancementHelper = app(AdvancementHelper::class);
+
         return view('pages.dominion.advancements', [
-            'advancements' => Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'advancements' => $advancementHelper->getAdvancementsByRace($dominion->race), #Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'advancementHelper' => app(AdvancementHelper::class),
-            'advancementCalculator' => app(AdvancementCalculator::class),
+            'advancementCalculator' => $advancementCalculator,
         ]);
     }
 

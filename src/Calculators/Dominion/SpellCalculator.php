@@ -53,7 +53,7 @@ class SpellCalculator
         $multiplier = 1;
 
         $multiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
-        $multiplier += $dominion->getAdvancementPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spell_costs');
         $multiplier += $dominion->getImprovementPerkMultiplier('spell_cost');
         $multiplier += $dominion->getDeityPerkMultiplier('spell_cost');
         $multiplier += $dominion->getSpellPerkMultiplier('spell_cost');

@@ -367,7 +367,7 @@ class TrainingCalculator
         $multiplier = 0;
 
         // Advancements
-        $multiplier += $dominion->getAdvancementPerkMultiplier('spy_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spy_costs');
 
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('spy_cost');
@@ -401,7 +401,7 @@ class TrainingCalculator
         $multiplier = 0;
 
         // Advancements
-        $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_costs');
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_cost');

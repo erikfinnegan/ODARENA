@@ -55,7 +55,7 @@ foundations:
 undercover:
   name: Undercover
   perks:
-    spy_cost: -5
+    spy_costs: -5
     spy_losses: -5
 
 intelligence:
@@ -74,8 +74,8 @@ deep_pockets:
 wizardry_tradition:
   name: Wizardry Tradition
   perks:
-    wizard_cost: -5
-    spell_cost: -5
+    wizard_costs: -5
+    spell_costs: -5
 
 concentration:
   name: Concentration
