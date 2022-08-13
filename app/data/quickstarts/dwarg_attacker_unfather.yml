@@ -72,19 +72,10 @@ spells:
     sazals_charge: 0,96
     sazals_fog: 0,96
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - minting_level1
-    - minting_level2
-    - minting_level3
-    - minting_level4
-    - minting_level5
-    - minting_level6
-    - quarters_level1
-    - quarters_level2
+advancements:
+    anvils: 4
+    minting: 6
+    housing: 2
 
 units:
     draftees: 720

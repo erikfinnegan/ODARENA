@@ -61,17 +61,8 @@ spells:
     sazals_fog: 0,108
     gaias_watch: 36,0
 
-techs:
-    - anvils_level1
-    - anvils_level10
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - anvils_level5
-    - anvils_level6
-    - anvils_level7
-    - anvils_level8
-    - anvils_level9
+advancements:
+    anvils: 10
 
 units:
     draftees: 4763

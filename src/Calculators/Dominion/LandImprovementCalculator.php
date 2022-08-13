@@ -29,7 +29,7 @@ class LandImprovementCalculator
         if($dominion->race->getPerkValue('land_improvements'))
         {
             $bonus = 1;
-            $bonus += $dominion->getTechPerkMultiplier('improvements');
+            $bonus += $dominion->getAdvancementPerkMultiplier('improvements');
             $bonus *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 

@@ -8,17 +8,17 @@ use Auth;
 use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionAdvancement;
 use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\DominionDeity;
 use OpenDominion\Models\DominionSpell;
-use OpenDominion\Models\DominionTech;
 use OpenDominion\Models\Pack;
 use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
-use OpenDominion\Models\Tech;
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Title;
 use OpenDominion\Models\User;
 use OpenDominion\Models\Deity;
@@ -760,13 +760,14 @@ class DominionFactory
             });
         }
 
-        foreach($quickstart->techs as $techKey)
+        foreach($quickstart->advancements as $advancementKey => $level)
         {
-            DB::transaction(function () use ($dominion, $techKey)
+            DB::transaction(function () use ($dominion, $advancementKey, $level)
             {
-                DominionTech::create([
+                DominionAdvancement::create([
                     'dominion_id' => $dominion->id,
-                    'tech_id' => Tech::where('key',$techKey)->first()->id,
+                    'advancement_id' => Advancement::where('key',$advancementKey)->first()->id,
+                    'level' => $level,
                 ]);
             });
         }

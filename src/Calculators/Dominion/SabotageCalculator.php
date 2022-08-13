@@ -65,8 +65,8 @@ class SabotageCalculator
         $multiplier += $target->getSpellPerkMultiplier('sabotage_damage_suffered');
         $multiplier += $target->getSpellPerkMultiplier($attribute . '_sabotage_damage_suffered');
 
-        $multiplier += $target->getTechPerkMultiplier('sabotage_damage_suffered');
-        $multiplier += $target->getTechPerkMultiplier($attribute . '_sabotage_damage_suffered');
+        $multiplier += $target->getAdvancementPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->getAdvancementPerkMultiplier($attribute . '_sabotage_damage_suffered');
 
         $multiplier += $target->race->getPerkMultiplier('sabotage_damage_suffered');
         $multiplier += $target->race->getPerkMultiplier($attribute . '_sabotage_damage_suffered');
@@ -93,8 +93,8 @@ class SabotageCalculator
         $multiplier += $saboteur->getSpellPerkMultiplier('sabotage_damage_dealt');
         $multiplier += $saboteur->getSpellPerkMultiplier($attribute . '_sabotage_damage_dealt');
 
-        $multiplier += $saboteur->getTechPerkMultiplier('sabotage_damage_dealt');
-        $multiplier += $saboteur->getTechPerkMultiplier($attribute . '_sabotage_damage_dealt');
+        $multiplier += $saboteur->getAdvancementPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->getAdvancementPerkMultiplier($attribute . '_sabotage_damage_dealt');
 
         $multiplier += $saboteur->race->getPerkMultiplier('sabotage_damage_dealt');
         $multiplier += $saboteur->race->getPerkMultiplier($attribute . '_sabotage_damage_dealt');
@@ -176,7 +176,7 @@ class SabotageCalculator
         $spiesKilledMultiplier -= $dominion->getBuildingPerkMultiplier('spy_losses');
 
         # Techs
-        $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
+        $spiesKilledMultiplier += $dominion->getAdvancementPerkMultiplier('spy_losses');
 
         // Improvements
         $spiesKilledMultiplier += $dominion->getImprovementPerkMultiplier('spy_losses');

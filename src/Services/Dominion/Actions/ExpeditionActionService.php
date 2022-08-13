@@ -292,7 +292,7 @@ class ExpeditionActionService
         $prestigeChangeMultiplier = 1;
         $prestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
-        $prestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->getAdvancementPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->getBuildingPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->getImprovementPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->getSpellPerkMultiplier('prestige_gains');
@@ -651,7 +651,7 @@ class ExpeditionActionService
 
         $ticks -= (int)$unit->getPerkValue('faster_return');
         $ticks -= (int)$dominion->getSpellPerkValue('faster_return');
-        $ticks -= (int)$dominion->getTechPerkValue('faster_return');
+        $ticks -= (int)$dominion->getAdvancementPerkValue('faster_return');
         $ticks -= (int)$dominion->realm->getArtefactPerkValue('faster_return');
 
         return min(max(1, $ticks), 12);

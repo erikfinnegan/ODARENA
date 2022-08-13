@@ -77,18 +77,9 @@ spells:
     gaias_watch: 14,0
     miners_sight: 21,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - anvils_level5
-    - anvils_level6
-    - gemcutting_level1
-    - gemcutting_level2
-    - gemcutting_level3
-    - gemcutting_level4
-    - gemcutting_level5
+advancements:
+    anvils: 6
+    gemcutting: 5
 
 units:
     draftees: 7632

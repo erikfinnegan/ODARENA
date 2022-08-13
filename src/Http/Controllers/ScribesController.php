@@ -177,6 +177,7 @@ class ScribesController extends AbstractController
         ]);
     }
 
+    /*
     public function getAdvancements()
     {
 
@@ -202,10 +203,11 @@ class ScribesController extends AbstractController
             'techHelper' => app(TechHelper::class),
         ]);
     }
+    */
 
-    public function getAdvancements2()
+    public function getAdvancements()
     {
-        return view('pages.scribes.advancements2', [
+        return view('pages.scribes.advancements', [
             'advancements' => Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'advancementHelper' => app(AdvancementHelper::class),
         ]);

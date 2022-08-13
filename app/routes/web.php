@@ -116,12 +116,9 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('improvements')->uses('Dominion\ImprovementController@getImprovements')->name('improvements');
             $router->post('improvements')->uses('Dominion\ImprovementController@postImprovements');
 
-            // Techs
-            $router->get('advancements')->uses('Dominion\TechController@getTechs')->name('advancements');
-            $router->post('advancements')->uses('Dominion\TechController@postTechs');
             // Advancements 
-            $router->get('advancements2')->uses('Dominion\AdvancementController@getAdvancements')->name('advancements2');
-            $router->post('advancements2')->uses('Dominion\AdvancementController@postAdvancements');
+            $router->get('advancements')->uses('Dominion\AdvancementController@getAdvancements')->name('advancements');
+            $router->post('advancements')->uses('Dominion\AdvancementController@postAdvancements');
 
             // Military
             $router->get('military')->uses('Dominion\MilitaryController@getMilitary')->name('military');
@@ -260,7 +257,6 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
     $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
     $router->get('advancements')->uses('ScribesController@getAdvancements')->name('advancements');
-    $router->get('advancements2')->uses('ScribesController@getAdvancements2')->name('advancements2');
     $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
     $router->get('sabotage')->uses('ScribesController@getSabotage')->name('sabotage');
     $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');

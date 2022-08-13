@@ -795,32 +795,55 @@
             @slot('noPadding', true)
 
             @if(count($data['advancements']) > 0)
-                <table class="table">
-                    <colgroup>
-                        <col width="150">
-                        <col>
-                        <col>
-                    </colgroup>
-                    <thead>
+
+            <table class="table">
+                <colgroup>
+                    <col width="150">
+                    <col width="50">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Advancement</th>
+                        <th>Level</th>
+                        <th>Perks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data['advancements'] as $advancementId => $advancementData)
+                        @php
+                            $advancement = OpenDominion\Models\Advancement::findOrFail($advancementId);
+                        @endphp
                         <tr>
-                            <th>Advancement</th>
-                            <th>Level</th>
-                            <th>Description</th>
+                            <td>{{ $advancementData['name'] }}</td>
+                            <td>{{ $advancementData['level'] }}</td>
+                            <td>
+                                @foreach($data['advancements'][$advancement->id]['perks'] as $perkKey => $perkValue)
+                                    @php
+                                        $spanClass = 'text-muted';
+
+                                        if($perkValue)#$data['advancements'][$perk->key]['effect'])
+                                        {
+                                            $spanClass = '';
+                                        }
+                                    @endphp
+
+                                    <span class="{{ $spanClass }}">
+                                        @if($perkValue > 0)
+                                            +{{ number_format($perkValue * 100, 2) }}%
+                                        @else
+                                            {{ number_format($perkValue * 100, 2) }}%
+                                        @endif
+
+                                        {{ $advancementHelper->getAdvancementPerkDescription($perkKey) }} <br>
+                                    </span>
+
+                                @endforeach
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data['advancements'] as $advancement)
-                            @php
-                                $tech = OpenDominion\Models\Tech::where('key', $advancement['key'])->firstOrFail();
-                            @endphp
-                            <tr>
-                                <td>{{ $advancement['name'] }}</td>
-                                <td>{{ $advancement['level'] }}</td>
-                                <td>{{ $techHelper->getTechDescription($tech) }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    @endforeach
+                </tbody>
+            </table>
             @else
                 <div class="box-body">
                     <p>There are currently no advancements affecting this dominion.</p>

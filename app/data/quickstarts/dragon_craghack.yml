@@ -62,13 +62,8 @@ spells:
     mining_strength: 6,0
     gaias_watch: 24,0
 
-techs:
-    - drills_level1
-    - drills_level2
-    - drills_level3
-    - drills_level4
-    - drills_level5
-    - drills_level6
+advancements:
+    drills: 6
 
 units:
     draftees: 519

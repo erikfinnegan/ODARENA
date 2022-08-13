@@ -49,16 +49,9 @@ spells:
     sazals_fog: 0,96
     voidspell: 48,96
 
-techs:
-    - invocations_level1
-    - invocations_level2
-    - invocations_level3
-    - invocations_level4
-    - invocations_level5
-    - invocations_level6
-    - magical_weapons_level1
-    - magical_weapons_level2
-    - magical_weapons_level3
+advancements:
+    invocations: 6
+    magical_weapons: 3
 
 units:
     draftees: 0

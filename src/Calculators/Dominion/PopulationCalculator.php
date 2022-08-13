@@ -203,7 +203,7 @@ class PopulationCalculator
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
-        return (1 + $multiplier) * (1 + $dominion->getTechPerkMultiplier('max_population')) * (1 + $prestigeMultiplier);
+        return (1 + $multiplier) * (1 + $dominion->getAdvancementPerkMultiplier('max_population')) * (1 + $prestigeMultiplier);
     }
 
     /*
@@ -213,10 +213,10 @@ class PopulationCalculator
     {
         $militaryHousingMultiplier = 0;
         $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('extra_barracks_housing');
-        $militaryHousingMultiplier += $dominion->getTechPerkMultiplier('barracks_housing');
+        $militaryHousingMultiplier += $dominion->getAdvancementPerkMultiplier('barracks_housing');
 
         $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('military_housing');
-        $militaryHousingMultiplier += $dominion->getTechPerkMultiplier('military_housing');
+        $militaryHousingMultiplier += $dominion->getAdvancementPerkMultiplier('military_housing');
         $militaryHousingMultiplier += $dominion->getDecreePerkMultiplier('military_housing');
 
         return round(($dominion->getBuildingPerkValue('military_housing') + $dominion->getBuildingPerkValue('military_housing_increasing')) * (1 + $militaryHousingMultiplier) + $this->getAvailableHousingFromUnits($dominion));
@@ -264,7 +264,7 @@ class PopulationCalculator
 
         $multiplier = 1;
         $multiplier += $dominion->getImprovementPerkMultiplier('spy_housing');
-        $multiplier += $dominion->getTechPerkMultiplier('spy_housing');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spy_housing');
 
         return round($housing * $multiplier);
     }
@@ -281,7 +281,7 @@ class PopulationCalculator
 
         $multiplier = 1;
         $multiplier += $dominion->getImprovementPerkMultiplier('wizard_housing');
-        $multiplier += $dominion->getTechPerkMultiplier('wizard_housing');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_housing');
 
         return round($housing * $multiplier);
     }
@@ -519,7 +519,7 @@ class PopulationCalculator
         $multiplier += $dominion->getSpellPerkMultiplier('population_growth');
 
         // Advancement
-        $multiplier += $dominion->getTechPerkMultiplier('population_growth');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('population_growth');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('population_growth');
@@ -591,7 +591,7 @@ class PopulationCalculator
         $multiplier = 1;
 
         // Advancement: Conscription
-        $multiplier += $dominion->getTechPerkMultiplier('drafting');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('drafting');
 
         // Spell
         $multiplier += $dominion->getSpellPerkMultiplier('drafting');
@@ -675,7 +675,7 @@ class PopulationCalculator
         }
 
         $multiplier = 1;
-        $multiplier += $dominion->getTechPerkMultiplier('jobs_per_building');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('jobs_per_building');
         $multiplier += $dominion->getImprovementPerkMultiplier('jobs_per_building');
 
         $jobs *= $multiplier;

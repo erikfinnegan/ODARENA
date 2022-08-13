@@ -123,7 +123,7 @@ class SorceryCalculator
         $multiplier = 1;
 
         $multiplier += $dominion->getBuildingPerkMultiplier('sorcery_cost');
-        $multiplier += $dominion->getTechPerkMultiplier('sorcery_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('sorcery_cost');
         $multiplier += $dominion->getImprovementPerkMultiplier('sorcery_cost');
         $multiplier += $dominion->getDeityPerkMultiplier('sorcery_cost');
         $multiplier += $dominion->getSpellPerkMultiplier('sorcery_cost');

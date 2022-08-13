@@ -1,106 +1,178 @@
-@extends('layouts.master')
+@extends ('layouts.master')
 @section('title', 'Advancements')
 
 @section('content')
-    @php
-      $unlockedTechs = $selectedDominion->techs->pluck('key')->all()
-    @endphp
+<div class="row">
+    <div class="col-sm-12 col-md-9">
 
-    <div class="row">
-
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-flask"></i> Advancements</h3>
-                    <a href="{{ route('dominion.mentor.advancements') }}" class="pull-right"><span><i class="ra ra-help"></i> Mentor</span></a>
-                </div>
-                <form action="{{ route('dominion.advancements') }}" method="post" role="form">
-                    @csrf
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table table-striped">
-                            <colgroup>
-                                <col width="200">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>Advancement</th>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <th class="text-center">Level {{ $i }}</th>
-                                    @endfor
-                                </tr>
-                            </thead>
-                            @foreach ($techs as $tech)
-                                @if($tech->level == 1)
-                                    <tr>
-                                    <td>{{ $tech->name }}</td>
-                                @else
-                                @endif
-
-                                <td class="text-center">
-                                    <span data-toggle="tooltip" data-placement="top" title="<strong>{{$tech['name'] }} Level {{ $tech['level'] }}</strong><br>{{ $techHelper->getTechDescription($tech) }}<br>XP: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $tech->level)) }}" style="display:block;">
-
-                                @if(in_array($tech->key, $unlockedTechs))
-                                    <i class="fa fa-check text-green"></i>
-                                @elseif(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 and $techCalculator->canAffordTech($selectedDominion, $tech->level))
-                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}">
-                                @else
-                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" disabled>
-                                @endif
-                                    </span>
-                                </td>
-
-                                @if($tech->level == 10)
-                                    </tr>
-                                @endif
-                            @endforeach
-
-                        </table>
+        <!-- RESOURCE -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-flask"></i> Advancements</h3>
                     </div>
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" id="submit">Level Up</button>
+                    <div class="box-body">
+                    {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
+                    @php
+                        $numOfCols = 4;
+                        $rowCount = 0;
+                        $bootstrapColWidth = 12 / $numOfCols;
+                    @endphp
+
+                    <div class="row">
+
+                    @foreach($advancements as $advancement)
+                        @php
+                            $dominionAdvancement = OpenDominion\Models\DominionAdvancement::where('advancement_id', $advancement->id)->where('dominion_id', $selectedDominion->id)->first();
+                            $currentLevel = $advancementCalculator->getCurrentLevel($selectedDominion, $advancement);
+                            $maxLevel = $advancementCalculator->getDominionMaxLevel($selectedDominion);
+                            $maxedOut = ($currentLevel >= $maxLevel);
+                            $progress = $currentLevel / $maxLevel;
+                            $remaining = 1-$progress;
+                            $progress *= 100;
+                            $remaining *= 100;
+
+                            if($currentLevel)
+                            {
+                                $boxClass = 'box-warning';
+                                if($currentLevel == $maxLevel)
+                                {
+                                    $boxClass = 'box-success';
+                                }
+                            }
+                            else
+                            {
+                                $boxClass = '';
+                            }
+
+                        @endphp
+                        <div class="col-md-{{ $bootstrapColWidth }}">
+                            <div class="box {{ $boxClass }}">
+                                <div class="box-header with-border text-center">
+                                    <h4 class="box-title">{{ $advancement->name }}</h4>
+                                </div>
+                                <div class="box-body">
+                                    <div class="progress">
+                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement) == 0)
+                                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="{{ $advancementCalculator->getDominionMaxLevel($selectedDominion) }}">No level</div>
+                                        @else
+                                            <div class="progress-bar label-success" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}">Level {{ $currentLevel }} </div>
+                                            <div class="progress-bar label-warning" role="progressbar" style="width: {{ $remaining }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}"></div>
+                                        @endif
+                                    </div>
+
+                                    <div class="text-center">
+                                        <form action="{{ route('dominion.advancements')}}" method="post" role="form" id="advancements_form">
+                                            @csrf
+                                            <input type="hidden" id="advancement_id" name="advancement_id" value="{{ $advancement->id }}" required>
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-block"
+                                                    {{ ($selectedDominion->isLocked() or !$advancementCalculator->canLevelUp($selectedDominion, $advancement) or !$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement)) ? 'disabled' : null }}
+                                                    id="invade-button">
+                                                    @if($maxedOut)
+                                                        <i class="fas fa-check-circle"></i> Max level
+                                                    @elseif(!$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
+                                                        <i class="fas fa-ban"></i> Not enough XP
+                                                    @elseif($advancementCalculator->canLevelUp($selectedDominion, $advancement))
+                                                        <i class="fas fa-arrow-up"></i> Level up
+                                                    @else
+                                                        Hmm, this shouldn't be happening
+                                                    @endif
+                                            </button>
+                                            @if($advancementCalculator->canLevelUp($selectedDominion, $advancement) or !$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
+                                                <small class="text-muted">{{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, $dominionAdvancement)) }} XP required</small>
+                                            @else
+                                                &nbsp;
+                                            @endif
+                                        </form>
+                                    </div>
+                                    
+                                    <ul>
+                                        @foreach($advancement->perks as $perk)
+                                        @php
+                                            $advancementPerkBase = $selectedDominion->extractAdvancementPerkValues($perk->pivot->value);
+
+                                            $spanClass = 'text-muted';
+
+                                            if($advancementPerkMultiplier = $selectedDominion->getAdvancementPerkMultiplier($perk->key))
+                                            {
+                                                $spanClass = '';
+                                            }
+                                        @endphp
+
+                                        <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Base: {{ number_format($advancementPerkBase, 2) }}%">
+
+                                        @if($advancementPerkMultiplier > 0)
+                                            +{{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                        @else
+                                            {{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                        @endif
+
+                                         {{ $advancementHelper->getAdvancementPerkDescription($perk->key) }}<br></span>
+
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        @php
+                            $rowCount++;
+                        @endphp
+
+                        @if($rowCount % $numOfCols == 0)
+                            </div><div class="row">
+                        @endif
+
+                    @endforeach
                     </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-sm-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <h4>Cost</h4>
-                    <ul>
-                    @for ($i = 1; $i <= 10; $i++)
-                        <li>Level {{ $i }}: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $i)) }}</li>
-                    @endfor
-                    </ul>
-                    <p>You have <b>{{ number_format($selectedDominion->xp) }} XP</b>, which is increasing your ruler title bonus by {{ number_format(($selectedDominion->getTitlePerkMultiplier()-1)*100,2) }}%.</p>
-                    <p>Only the perks from the highest-level advancement counts. if you have Level 1 and Level 2, only Level 2 counts.</p>
-
-                    <a href="{{ route('scribes.advancements') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Advancements in the Scribes.</span></a>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
-@endsection
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                <p>DESSY LEMON</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+@endpush
 
 @push('page-scripts')
-{{--
-<script>
-    $(document).ready(function()
-    {
-        $('#submit').click(function()
-        {
-            var submit = $(this);
-            submit.prop('disabled', true);
-            setTimeout(function()
-            {
-                submit.prop('disabled', false);
-            },6000);
-        });
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
+@endpush
+
+@endsection
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/slider.css') }}">
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript">
+    $("form").submit(function () {
+        // prevent duplicate form submissions
+        $(this).find(":submit").attr('disabled', 'disabled');
     });
-</script>
---}}
+    </script>
 @endpush

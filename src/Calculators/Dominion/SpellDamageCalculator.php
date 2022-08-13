@@ -59,7 +59,7 @@ class SpellDamageCalculator
           $modifier += $target->getSpellPerkMultiplier('damage_from_spells');
 
           // Advancement — unused
-          $modifier += $target->getTechPerkMultiplier('damage_from_spells');
+          $modifier += $target->getAdvancementPerkMultiplier('damage_from_spells');
 
           for ($slot = 1; $slot <= 4; $slot++)
           {

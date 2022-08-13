@@ -76,21 +76,11 @@ spells:
     miners_sight: 17,0
     harmony: 36,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - drills_level1
-    - drills_level2
-    - fortifications_level1
-    - fortifications_level2
-    - fortifications_level3
-    - fortifications_level4
-    - fortifications_level5
-    - gemcutting_level1
-    - gemcutting_level2
-    - gemcutting_level3
+advancements:
+    anvils: 4
+    drills: 2
+    fortifications: 5
+    gemcutting: 3
 
 units:
     draftees: 1129

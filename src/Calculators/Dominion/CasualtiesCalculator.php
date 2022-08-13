@@ -295,8 +295,8 @@ class CasualtiesCalculator
         $multiplier += $dominion->race->getPerkMultiplier('casualties_on_' . $mode);
 
         # Advancements
-        $multiplier += $dominion->getTechPerkMultiplier('casualties');
-        $multiplier += $dominion->getTechPerkMultiplier('casualties_on_' . $mode);
+        $multiplier += $dominion->getAdvancementPerkMultiplier('casualties');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('casualties_on_' . $mode);
 
         # Spells
         $multiplier += $dominion->getSpellPerkMultiplier('casualties');
@@ -382,8 +382,8 @@ class CasualtiesCalculator
         $multiplier += $dominion->race->getPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
 
         # Advancements
-        $multiplier += $dominion->getTechPerkMultiplier('increases_enemy_casualties');
-        $multiplier += $dominion->getTechPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
+        $multiplier += $dominion->getAdvancementPerkMultiplier('increases_enemy_casualties');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
 
         # Spells: apply spell damage modifier
         $multiplier += $dominion->getSpellPerkMultiplier('increases_enemy_casualties') * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($enemy);

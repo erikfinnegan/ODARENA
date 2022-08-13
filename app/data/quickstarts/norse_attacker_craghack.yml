@@ -79,17 +79,9 @@ spells:
     mining_strength: 30,0
     gaias_watch: 30,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - minting_level1
-    - minting_level2
-    - minting_level3
-    - minting_level4
-    - minting_level5
-    - minting_level6
+advancements:
+    anvils: 4
+    minting: 6
 
 units:
     draftees: 2886

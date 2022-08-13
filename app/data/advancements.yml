@@ -127,7 +127,7 @@ molluscs:
 # POPULATION
 
 housing:
-  name: Minting
+  name: Quarters
   perks:
     max_population: 1.25
 

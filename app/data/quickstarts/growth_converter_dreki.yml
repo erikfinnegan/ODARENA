@@ -52,15 +52,9 @@ spells:
     gaias_watch: 14,0
     metabolism: 38,134
 
-techs:
-    - agriculture_level1
-    - agriculture_level2
-    - agriculture_level3
-    - agriculture_level4
-    - lean_mass_level1
-    - lean_mass_level2
-    - lean_mass_level3
-    - lean_mass_level4
+advancements:
+    agriculture: 4
+    lean_mass: 4
 
 units:
     draftees: 1869

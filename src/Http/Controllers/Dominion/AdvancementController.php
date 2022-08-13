@@ -17,7 +17,7 @@ class AdvancementController extends AbstractDominionController
 {
     public function getAdvancements()
     {
-        return view('pages.dominion.advancements2', [
+        return view('pages.dominion.advancements', [
             'advancements' => Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'advancementHelper' => app(AdvancementHelper::class),
             'advancementCalculator' => app(AdvancementCalculator::class),
@@ -40,6 +40,6 @@ class AdvancementController extends AbstractDominionController
 
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.advancements2');
+        return redirect()->route('dominion.advancements');
     }
 }

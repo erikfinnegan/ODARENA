@@ -81,16 +81,9 @@ spells:
     mining_strength: 14,0
     call_to_arms: 6,90
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - quarters_level1
-    - quarters_level2
-    - quarters_level3
-    - quarters_level4
-    - quarters_level5
+advancements:
+    anvils: 4
+    housing: 5
 
 units:
     draftees: 315

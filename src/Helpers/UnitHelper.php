@@ -2,6 +2,7 @@
 
 namespace OpenDominion\Helpers;
 
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
@@ -193,8 +194,8 @@ class UnitHelper
             'offense_from_spell' => 'Offense increased by %2$s if the spell %1$s is active.',
             'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
 
-            'offense_from_advancements' => 'Offense increased by %2$s if you unlock %1$s.',
-            'defense_from_advancements' => 'Defense increased by %2$s if you unlock %1$s.',
+            'offense_from_advancements' => '+%3$s offensive power from %1$s level %2$s.',
+            'defense_from_advancements' => '+%3$s defensive power from %1$s level %2$s.',
 
             'offense_from_title' => 'Offense increased by %2$s if ruled by a %1$s.',
             'defense_from_title' => 'Defense increased by %2$s if ruled by a %1$s.',
@@ -393,7 +394,7 @@ class UnitHelper
             'cannot_be_released' => 'Cannot be released',
             'reduces_unit_costs' => 'Reduces training costs by %1$s%% for every 1%% of population consisting of this unit. Max %2$s%% reduction.',
 
-            'advancements_required_to_train' => 'Must have %1$s to train this unit.',
+            'advancements_required_to_train' => 'Must have %1$s level %2$s to train this unit.',
 
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to number of %1$s at home.',
@@ -705,24 +706,6 @@ class UnitHelper
 
                 }
 
-                if($perk->key === 'advancements_required_to_train')
-                {
-                    $advancementKeys = explode(';',$perkValue);
-                    $advancements = [];
-
-                    foreach ($advancementKeys as $index => $advancementKey)
-                    {
-                        $advancement = Tech::where('key', $advancementKey)->firstOrFail();
-
-                        $advancements[$index] = $advancement->name . ' level ' . $advancement->level;
-                    }
-
-                    $advancementsString = generate_sentence_from_array($advancements);
-
-                    $perkValue = $advancementsString;
-                    #$nestedArrays = false;
-                }
-
                 if($perk->key === 'plunders')
                 {
                     foreach ($perkValue as $index => $plunder) {
@@ -822,6 +805,53 @@ class UnitHelper
                     $nestedArrays = false;
                 }
 
+                if($perk->key === 'advancements_required_to_train')
+                {
+                    foreach($perkValue as $index => $advancementSet)
+                    {
+                        $advancementKey = (string)$advancementSet[0];
+                        $levelRequired = (int)$advancementSet[1];
+    
+                        $advancement = Advancement::where('key', $advancementKey)->first();
+    
+                        $perkValue[] = [$advancement->name, $levelRequired];
+                        unset($perkValue[$index]);
+                    }
+                    /*
+                    $advancementKeys = explode(';',$perkValue);
+                    $advancements = [];
+
+                    foreach ($advancementKeys as $index => $advancementKey)
+                    {
+                        $advancement = Tech::where('key', $advancementKey)->firstOrFail();
+
+                        $advancements[$index] = $advancement->name . ' level ' . $advancement->level;
+                    }
+
+                    $advancementsString = generate_sentence_from_array($advancements);
+
+                    $perkValue = $advancementsString;
+                    #$nestedArrays = false;
+                    */
+                }
+
+                if($perk->key === 'offense_from_advancements' or $perk->key === 'defense_from_advancements')
+                {
+                    foreach($perkValue as $index => $advancementSet)
+                    {
+                        $advancementKey = (string)$advancementSet[0];
+                        $levelRequired = (int)$advancementSet[1];
+                        $power = (float)$advancementSet[2];
+    
+                        $advancement = Advancement::where('key', $advancementKey)->first();
+    
+                        $perkValue[] = [$advancement->name, $levelRequired, floatval($power)];
+                        unset($perkValue[$index]);
+                    }
+
+                    #$nestedArrays = false;
+                }
+               
                 // Special case for dies_into
                 if (
                         $perk->key === 'dies_into_multiple'

@@ -53,7 +53,7 @@ class SpellCalculator
         $multiplier = 1;
 
         $multiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
-        $multiplier += $dominion->getTechPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spell_cost');
         $multiplier += $dominion->getImprovementPerkMultiplier('spell_cost');
         $multiplier += $dominion->getDeityPerkMultiplier('spell_cost');
         $multiplier += $dominion->getSpellPerkMultiplier('spell_cost');
@@ -367,7 +367,7 @@ class SpellCalculator
         $amount = 4;
 
         $amount += $dominion->getBuildingPerkValue('wizard_strength_recovery');
-        $amount += $dominion->getTechPerkValue('wizard_strength_recovery');
+        $amount += $dominion->getAdvancementPerkValue('wizard_strength_recovery');
         $amount += $dominion->getSpellPerkValue('wizard_strength_recovery');
         $amount += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->getTitlePerkMultiplier();
 

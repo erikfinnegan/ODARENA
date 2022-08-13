@@ -46,7 +46,7 @@
                                                   $improvementMaxMultiplier = 1;
                                                   $improvementMaxMultiplier += $selectedDominion->getBuildingPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getBuildingPerkMultiplier('improvements_capped');
-                                                  $improvementMaxMultiplier += $selectedDominion->getTechPerkMultiplier('improvements');
+                                                  $improvementMaxMultiplier += $selectedDominion->getAdvancementPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getDeityPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getSpellPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getDecreePerkMultiplier('improvements');

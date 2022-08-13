@@ -82,16 +82,9 @@ spells:
     mining_strength: 12,0
     gaias_watch: 12,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - commerce_level1
-    - commerce_level2
-    - commerce_level3
-    - commerce_level4
-    - commerce_level5
+advancements:
+    anvils: 4
+    commerce: 5
 
 decree_states:
     - 10,17,0

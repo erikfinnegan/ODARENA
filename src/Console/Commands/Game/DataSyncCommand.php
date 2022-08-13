@@ -80,9 +80,10 @@ class DataSyncCommand extends Command implements CommandInterface
     public function handle(): void
     {
         DB::transaction(function () {
-            $this->syncAdvancements();
+            
             $this->syncDeities();
             $this->syncRaces();
+            $this->syncAdvancements();
             $this->syncTechs();
             $this->syncBuildings();
             $this->syncTitles();
@@ -1099,7 +1100,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'land' => object_get($data, 'land', []),
                     'resources' => object_get($data, 'resources', []),
                     'spells' => object_get($data, 'spells', []),
-                    'techs' => object_get($data, 'techs', []),
+                    'advancements' => object_get($data, 'advancements', []),
                     'decree_states' => object_get($data, 'decree_states', []),
                     'units' => object_get($data, 'units', []),
                 ]);

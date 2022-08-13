@@ -79,17 +79,10 @@ spells:
     mining_strength: 12,0
     gaias_watch: 12,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - anvils_level5
-    - anvils_level6
-    - conscription_level1
-    - conscription_level2
-    - minting_level1
-    - minting_level2
+advancements:
+    anvils: 6
+    conscription: 2
+    minting: 2
 
 decree_states:
     - 4,5,0

@@ -9,8 +9,8 @@ use Illuminate\Support\Collection;
 
 use OpenDominion\Exceptions\GameException;
 
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Decree;
-use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionDecreeState;
 use OpenDominion\Models\DominionInsight;
@@ -312,6 +312,25 @@ class InsightService
         }
 
         # Advancements
+        $data['advancements'] = [];
+
+        foreach($target->advancements as $dominionAdvancement)
+        {
+            $advancement = Advancement::findOrFail($dominionAdvancement->pivot->advancement_id);
+
+            $data['advancements'][$advancement->id] =
+                [
+                    'name' => $advancement->name,
+                    'level' => $dominionAdvancement->pivot->level,
+                ];
+                
+            foreach($advancement->perks as $perk)
+            {
+                $data['advancements'][$advancement->id]['perks'] = [$perk->key => $target->getAdvancementPerkMultiplier($perk->key)];
+            }
+        }
+
+        /*
         $advancements = [];
         $techs = $target->techs->sortBy('key');
         $techs = $techs->sortBy(function ($tech, $key)
@@ -332,6 +351,7 @@ class InsightService
         }
 
         $data['advancements'] = $advancements;
+        */
 
         # Land
         $data['land'] = [];

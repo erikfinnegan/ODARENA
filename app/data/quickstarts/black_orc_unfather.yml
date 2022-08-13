@@ -75,18 +75,10 @@ spells:
     mining_strength: 36,0
     imperial_duty: 3,63
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - fortifications_level1
-    - minting_level1
-    - minting_level2
-    - minting_level3
-    - minting_level4
-    - minting_level5
-    - minting_level6
+advancements:
+    anvils: 4
+    fortifications: 1
+    minting: 6
 
 units:
     draftees: 367

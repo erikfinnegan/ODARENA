@@ -465,7 +465,7 @@
                             <td>
                                 @foreach($improvement->perks as $perk)
                                     @php
-                                        $improvementPerkMax = $dominion->extractImprovementPerkValues($perk->pivot->value)[0] * (1 + $dominion->getBuildingPerkMultiplier('improvements') + $dominion->getBuildingPerkMultiplier('improvements_capped') + $dominion->getTechPerkMultiplier('improvements') + $dominion->getSpellPerkMultiplier('improvements') + $dominion->race->getPerkMultiplier('improvements_max'));
+                                        $improvementPerkMax = $dominion->extractImprovementPerkValues($perk->pivot->value)[0] * (1 + $dominion->getBuildingPerkMultiplier('improvements') + $dominion->getBuildingPerkMultiplier('improvements_capped') + $dominion->getAdvancementPerkMultiplier('improvements') + $dominion->getSpellPerkMultiplier('improvements') + $dominion->race->getPerkMultiplier('improvements_max'));
                                         $improvementPerkCoefficient = $dominion->extractImprovementPerkValues($perk->pivot->value)[1];
 
                                         $spanClass = 'text-muted';
@@ -885,29 +885,53 @@
             @slot('titleIconClass', 'fa fa-flask')
             @slot('noPadding', true)
 
-            @if(count($advancements) > 0)
+            @if($dominion->advancements->count() > 0)
                 <table class="table">
                     <colgroup>
                         <col width="150">
-                        <col>
+                        <col width="50">
                         <col>
                     </colgroup>
                     <thead>
                         <tr>
                             <th>Advancement</th>
                             <th>Level</th>
-                            <th>Description</th>
+                            <th>Effect</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($advancements as $advancement)
+                        @foreach ($dominionAdvancements as $dominionAdvancement)
                             @php
-                                $tech = OpenDominion\Models\Tech::where('key', $advancement['key'])->firstOrFail();
+                                $advancement = OpenDominion\Models\Advancement::findOrFail($dominionAdvancement->pivot->advancement_id);
                             @endphp
                             <tr>
-                                <td>{{ $advancement['name'] }}</td>
-                                <td>{{ $advancement['level'] }}</td>
-                                <td>{{ $techHelper->getTechDescription($tech) }}</td>
+                                <td>{{ $advancement->name }}</td>
+                                <td>{{ $dominionAdvancement->pivot->level }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach($advancement->perks as $perk)
+                                        @php
+                                            $advancementPerkBase = $selectedDominion->extractAdvancementPerkValues($perk->pivot->value);
+
+                                            $spanClass = 'text-muted';
+
+                                            if($advancementPerkMultiplier = $selectedDominion->getAdvancementPerkMultiplier($perk->key))
+                                            {
+                                                $spanClass = '';
+                                            }
+                                        @endphp
+                                        <li>
+                                            @if($advancementPerkMultiplier > 0)
+                                                +{{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                            @else
+                                                {{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                            @endif
+
+                                            {{ $advancementHelper->getAdvancementPerkDescription($perk->key) }}
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -927,7 +951,7 @@
             @slot('titleIconClass', 'fas fa-gavel')
             @slot('noPadding', true)
 
-            @if(count($advancements) > 0)
+            @if(count($dominionDecreeStates) > 0)
                 <table class="table">
                     <colgroup>
                         <col width="150">

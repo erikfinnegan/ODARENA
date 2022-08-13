@@ -55,14 +55,14 @@ class ImprovementCalculator
             $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_improvement_points');
 
             # Techs
-            if($resourceKey == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
+            if($resourceKey == 'gems' and $dominion->getAdvancementPerkMultiplier('gemcutting'))
             {
-                $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
+                $multiplier += $dominion->getAdvancementPerkMultiplier('gemcutting');
             }
 
             # Advancements
-            $multiplier += $dominion->getTechPerkMultiplier('invest_bonus');
-            $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_invest_bonus');
+            $multiplier += $dominion->getAdvancementPerkMultiplier('invest_bonus');
+            $multiplier += $dominion->getAdvancementPerkMultiplier($resourceKey . '_invest_bonus');
 
             # Spells
             $multiplier += $dominion->getSpellPerkMultiplier('invest_bonus');

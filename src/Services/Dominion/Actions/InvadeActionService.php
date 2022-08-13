@@ -648,7 +648,7 @@ class InvadeActionService
         // Racial perk
         $attackerPrestigeChangeMultiplier += $attacker->race->getPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($attacker, $units);
-        $attackerPrestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
+        $attackerPrestigeChangeMultiplier += $attacker->getAdvancementPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getImprovementPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getSpellPerkMultiplier('prestige_gains');
@@ -3186,7 +3186,7 @@ class InvadeActionService
 
         $ticks -= (int)$unit->getPerkValue('faster_return');
         $ticks -= (int)$dominion->getSpellPerkValue('faster_return');
-        $ticks -= (int)$dominion->getTechPerkValue('faster_return');
+        $ticks -= (int)$dominion->getAdvancementPerkValue('faster_return');
         $ticks -= (int)$dominion->realm->getArtefactPerkValue('faster_return');
 
         return min(max(1, $ticks), 12);

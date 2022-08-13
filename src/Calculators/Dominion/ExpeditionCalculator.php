@@ -70,7 +70,7 @@ class ExpeditionCalculator
     {
         $multiplier = 1;
         $multiplier += $dominion->getSpellPerkMultiplier('expedition_land_gains');
-        $multiplier += $dominion->getTechPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('expedition_land_gains');
         $multiplier += $dominion->getImprovementPerkMultiplier('expedition_land_gains');
         $multiplier += $dominion->race->getPerkMultiplier('expedition_land_gains');
         $multiplier += $dominion->title->getPerkMultiplier('expedition_land_gains') * $dominion->getTitlePerkMultiplier();

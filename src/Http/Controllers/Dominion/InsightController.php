@@ -27,6 +27,7 @@ use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
+use OpenDominion\Helpers\AdvancementHelper;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\DecreeHelper;
 use OpenDominion\Helpers\DeityHelper;
@@ -105,32 +106,15 @@ class InsightController extends AbstractDominionController
             sort($landImprovementPerks);
         }
 
-        $advancements = [];
-        $techs = $dominion->techs->sortBy('key');
-        $techs = $techs->sortBy(function ($tech, $key)
-        {
-            return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
-        });
-
-        foreach($techs as $tech)
-        {
-            $advancement = $tech['name'];
-            $key = $tech['key'];
-            $level = (int)$tech['level'];
-            $advancements[$advancement] = [
-                'key' => $key,
-                'name' => $advancement,
-                'level' => (int)$level,
-                ];
-        }
-
+        $dominionAdvancements = $dominion->advancements()->get()->sortBy('name');
 
         return view('pages.dominion.insight.show', [
-            'advancements' => $advancements,
             'dominion' => $dominion,
+            'dominionAdvancements' => $dominionAdvancements,
             'landImprovementPerks' => $landImprovementPerks,
             'dominionDecreeStates' => DominionDecreeState::where('dominion_id', $dominion->id)->get(),
 
+            'advancementHelper' => app(AdvancementHelper::class),
             'buildingHelper' => app(BuildingHelper::class),
             'decreeHelper' => app(DecreeHelper::class),
             'deityHelper' => app(DeityHelper::class),
@@ -212,6 +196,7 @@ class InsightController extends AbstractDominionController
             'dominion' => $target,
             'dominionInsights' => $dominionInsights,
 
+            'advancementHelper' => app(AdvancementHelper::class),
             'buildingHelper' => app(BuildingHelper::class),
             'decreeHelper' => app(DecreeHelper::class),
             'deityHelper' => app(DeityHelper::class),

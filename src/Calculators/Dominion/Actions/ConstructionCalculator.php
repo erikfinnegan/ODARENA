@@ -198,7 +198,7 @@ class ConstructionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('construction_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('construction_cost');
 
         // Spell
         $multiplier += $dominion->getSpellPerkMultiplier('construction_cost');

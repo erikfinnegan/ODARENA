@@ -1129,8 +1129,8 @@ class Dominion extends AbstractModel
             # Get the dominion spell object
 
             $dominionSpell = DominionSpell::where('spell_id',$spell->id)->where(function($query) {
-            		$query->where('caster_id','=',$this->id)
-            		      ->orWhere('dominion_id','=',$this->id);
+                    $query->where('caster_id','=',$this->id)
+                          ->orWhere('dominion_id','=',$this->id);
             })
             ->first();
 

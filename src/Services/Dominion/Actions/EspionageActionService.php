@@ -594,7 +594,7 @@ class EspionageActionService
 
         # The stealer can increase
         $thiefModifier = 1;
-        $thiefModifier += $dominion->getTechPerkMultiplier('amount_stolen');
+        $thiefModifier += $dominion->getAdvancementPerkMultiplier('amount_stolen');
         $thiefModifier += $dominion->getDeityPerkMultiplier('amount_stolen');
         $thiefModifier += $dominion->race->getPerkMultiplier('amount_stolen');
 
@@ -1143,7 +1143,7 @@ class EspionageActionService
       $spiesKilledMultiplier += $dominion->getBuildingPerkMultiplier('spy_losses');
 
       # Techs
-      $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
+      $spiesKilledMultiplier += $dominion->getAdvancementPerkMultiplier('spy_losses');
 
       // Improvements
       $spiesKilledMultiplier += $dominion->getImprovementPerkMultiplier('spy_losses');

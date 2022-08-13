@@ -62,7 +62,7 @@ class ExplorationCalculator
         $multiplier = 0;
 
         // Techs (returns negative value)
-        $multiplier += $dominion->getTechPerkMultiplier('explore_gold_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('explore_gold_cost');
 
         // Title (returns negative value)
         if(isset($dominion->title))
@@ -120,7 +120,7 @@ class ExplorationCalculator
         $modifier = 0;
 
         // Techs
-        $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
+        $modifier += $dominion->getAdvancementPerkValue('explore_draftee_cost');
 
         return round($modifier);
     }

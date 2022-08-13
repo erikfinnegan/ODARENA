@@ -13,7 +13,7 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Spell;
-use OpenDominion\Models\Tech;
+use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\DeityCalculator;
@@ -33,6 +33,7 @@ class MilitaryCalculator
 
     public function __construct()
     {
+        $this->advancementCalculator = app(AdvancementCalculator::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->governmentService = app(GovernmentService::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
@@ -42,7 +43,6 @@ class MilitaryCalculator
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
-        $this->techCalculator = app(TechCalculator::class);
         $this->landImprovementCalculator = app(LandImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
     }
@@ -200,7 +200,7 @@ class MilitaryCalculator
         }
 
         // Techs
-        $multiplier += $attacker->getTechPerkMultiplier('offense');
+        $multiplier += $attacker->getAdvancementPerkMultiplier('offense');
 
         // Advancements
         $multiplier += $attacker->getAdvancementPerkMultiplier('offensive_power');
@@ -432,7 +432,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier('defensive_power');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('defense');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('defense');
 
         // Advancements
         $multiplier += $dominion->getAdvancementPerkMultiplier('defensive_power');
@@ -1487,31 +1487,32 @@ class MilitaryCalculator
 
 
 
-      protected function getUnitPowerFromAdvancement(Dominion $dominion, Unit $unit, string $powerType): float
-      {
+    protected function getUnitPowerFromAdvancement(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $advancementPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_advancements", null);
+        $powerFromPerk = 0;
 
-          $advancementPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_advancements", null);
-          $powerFromPerk = 0;
+        if (!$advancementPerkData)
+        {
+            return 0;
+        }
 
-          if (!$advancementPerkData)
-          {
-              return 0;
-          }
+        foreach($advancementPerkData as $advancementSet);
+        {
+            $advancementKey = (string)$advancementSet[0];
+            $levelRequired = (int)$advancementSet[1];
+            $power = (float)$advancementSet[2];
+            $advancement = Advancement::where('key', $advancementKey)->first();
 
-          foreach($advancementPerkData as $advancementSet)
-          {
-                $key = $advancementSet[0];
-                $power = (float)$advancementSet[1];
-                $tech = Tech::where('key', $key)->first();
+            if($this->advancementCalculator->hasAdvancementLevel($dominion, $advancement, $levelRequired))
+            {
+                $powerFromPerk += $power;
+            }
 
-                if($this->techCalculator->hasTech($dominion, $tech))
-                {
-                    $powerFromPerk += $power;
-                }
-          }
+        }
 
-          return $powerFromPerk;
-      }
+        return $powerFromPerk;
+    }
 
       protected function getUnitPowerFromRulerTitle(Dominion $dominion, Unit $unit, string $powerType): float
       {
@@ -1747,7 +1748,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier('spy_strength');
 
         // Tech
-        $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spy_strength');
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('spy_strength');
@@ -1777,7 +1778,7 @@ class MilitaryCalculator
     public function getSpyStrengthRegen(Dominion $dominion): float
     {
         $regen = 4;
-        $regen += $dominion->getTechPerkValue('spy_strength_recovery');
+        $regen += $dominion->getAdvancementPerkValue('spy_strength_recovery');
         $regen += $dominion->getImprovementPerkValue('spy_strength_recovery');
         $regen += $dominion->getSpellPerkValue('spy_strength_recovery');
         $regen += $dominion->getBuildingPerkValue('spy_strength_recovery');
@@ -1890,7 +1891,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier('wizard_strength');
 
         // Tech
-        $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_strength');
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('wizard_strength');

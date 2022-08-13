@@ -292,75 +292,45 @@ class TrainingCalculator
     {
         $multiplier = 0;
 
-        # Smithies: discount Gold (for all) and Ore (for non-Gnomes)
-        # Armory: discounts Gold and Ore (for all)
-        # Techs: discounts Gold, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
-
-        // Only discount these resources.
-        $discountableResourceTypesByTech = ['gold', 'ore', 'lumber'];
-        $discountableResourceTypesByUnitBonus = ['gold', 'ore', 'lumber', 'mana', 'food'];
-
-        $discountableResourceTypesByTechFood = ['food'];
-        $discountableResourceTypesByTechMana = ['mana'];
-
-        // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
-
-        // Improvements
-        $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
-
         // Faction perk: unit_gold_costs_reduced_by_prestige
         if($dominion->race->getPerkValue('unit_' . $resourceType . '_costs_reduced_by_prestige'))
         {
             $multiplier -= $dominion->prestige / 10000;
         }
 
-        // Techs
-        if(in_array($resourceType,$discountableResourceTypesByTech))
-        {
-            $multiplier += $dominion->getTechPerkMultiplier('military_cost');
-        }
-
         // Units
-        if(in_array($resourceType,$discountableResourceTypesByUnitBonus))
+        $reducingUnits = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
         {
-            $reducingUnits = 0;
-            for ($slot = 1; $slot <= 4; $slot++)
+            if($reducesUnitCosts = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_unit_costs'))
             {
-                if($reducesUnitCosts = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_unit_costs'))
-                {
-                    $reductionPerPercentOfUnit = (float)$reducesUnitCosts[0];
-                    $maxReduction = (float)$reducesUnitCosts[1] / 100;
-                    $unitMultiplier = min(($dominion->{'military_unit'.$slot} / $this->populationCalculator->getPopulation($dominion)) * $reductionPerPercentOfUnit, $maxReduction);
-                    $multiplier -= $unitMultiplier;
-                }
+                $reductionPerPercentOfUnit = (float)$reducesUnitCosts[0];
+                $maxReduction = (float)$reducesUnitCosts[1] / 100;
+                $unitMultiplier = min(($dominion->{'military_unit'.$slot} / $this->populationCalculator->getPopulation($dominion)) * $reductionPerPercentOfUnit, $maxReduction);
+                $multiplier -= $unitMultiplier;
             }
         }
 
+        // Advancements
+        $multiplier += $dominion->getAdvancementPerkMultiplier('unit_' . $resourceType . '_costs');
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
+        // Improvements
+        $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
         // Title
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->getTitlePerkMultiplier();
         }
 
-        if(in_array($resourceType, $discountableResourceTypesByTechFood))
-        {
-            $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
-        }
-
-        if(in_array($resourceType, $discountableResourceTypesByTechMana))
-        {
-            $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
-        }
-
-        // Artefacts
-        $multiplier += $dominion->realm->getArtefactPerkMultiplier('unit_' . $resourceType . '_costs');
-
         // Decrees
         $multiplier += $dominion->getDecreePerkMultiplier('unit_' . $resourceType . '_costs');
 
         # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
+
+        // Artefacts: can take reduction below 50%!
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Spells: can take reduction below 50%!
         $multiplier += $dominion->getSpellPerkMultiplier('unit_' . $resourceType . '_costs');
@@ -397,7 +367,7 @@ class TrainingCalculator
         $multiplier = 0;
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('spy_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('spy_cost');
 
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('spy_cost');
@@ -431,7 +401,7 @@ class TrainingCalculator
         $multiplier = 0;
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('wizard_cost');
+        $multiplier += $dominion->getAdvancementPerkMultiplier('wizard_cost');
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_cost');

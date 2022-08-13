@@ -68,17 +68,9 @@ spells:
     sazals_fog: 0,96
     gaias_watch: 24,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - minting_level1
-    - minting_level2
-    - minting_level3
-    - minting_level4
-    - minting_level5
-    - minting_level6
+advancements:
+    anvils: 4
+    minting: 6
 
 units:
     draftees: 1038

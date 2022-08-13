@@ -38,7 +38,7 @@ class Quickstart extends AbstractModel
         'land' => 'array',
         'resources' => 'array',
         'spells' => 'array',
-        'techs' => 'array',
+        'advancements' => 'array',
         'decree_states' => 'array',
         'units' => 'array',
     ];

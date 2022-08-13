@@ -116,12 +116,12 @@ class TheftCalculator
 
         # The stealer can increase
         $thiefModifier = 1;
-        $thiefModifier += $thief->getTechPerkMultiplier('amount_stolen');
+        $thiefModifier += $thief->getAdvancementPerkMultiplier('amount_stolen');
         $thiefModifier += $thief->getDeityPerkMultiplier('amount_stolen');
         $thiefModifier += $thief->getImprovementPerkMultiplier('amount_stolen');
         $thiefModifier += $thief->race->getPerkMultiplier('amount_stolen');
 
-        $thiefModifier += $thief->getTechPerkMultiplier($resource->key . '_amount_stolen');
+        $thiefModifier += $thief->getAdvancementPerkMultiplier($resource->key . '_amount_stolen');
         $thiefModifier += $thief->getDeityPerkMultiplier($resource->key . '_amount_stolen');
         $thiefModifier += $thief->getImprovementPerkMultiplier($resource->key . '_amount_stolen');
 
@@ -206,7 +206,7 @@ class TheftCalculator
         $spiesKilledMultiplier -= $dominion->getBuildingPerkMultiplier('spy_losses');
 
         # Techs
-        $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
+        $spiesKilledMultiplier += $dominion->getAdvancementPerkMultiplier('spy_losses');
 
         // Improvements
         $spiesKilledMultiplier += $dominion->getImprovementPerkMultiplier('spy_losses');

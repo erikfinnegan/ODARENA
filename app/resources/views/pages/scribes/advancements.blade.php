@@ -10,39 +10,52 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Advancements give benefits to your dominion. There are {{ count($techNames) }} Advancements, each one having 10 levels. Levels 1 through 6 have the same increment; levels 7 and 8 have half the originel increment and levels 9 and 10 are halved again.</p>
-                    <p>You level up Advancements by spending XP, which is generated each tick based on your prestige. You can also earn XP from invasions, exploring, and by successuflly performing hostile spy ops and casting hostile spells on other dominions.</p>
-                    <p>The cost of levelling up Advancements is based on your land size. For every level, the cost is increased by 10%.</p>
-                    @foreach($techNames as $techName)
-                        <a href="#{{ $techName }}">{{ $techName }}</a> |
+                    <p>Advancements are areas of scientific discovery and expertise which can benefit to your dominion. There are in total {{ count($advancements) }} advancements.</p>
+                    <p>Advancements are levelled up spending XP, which is generated each tick based on your prestige. You can also earn XP from invasions, expeditions, and by successuflly performing hostile spy ops and casting hostile spells on other dominions.</p>
+                    <p>The higher the level, the higher the base perk value (shown below here) becomes.</p>
+                    <ul>
+                        <li>Levels up to and including 6: <code>[Base Perk] * [Level]</code></li>
+                        <li>Levels 7 through 10:  <code>[Base Perk] * ( ( ( 6 - [Level] ) / 2 ) + 6 )</code></li>
+                    </ul>
+                    <p>The cost of levelling up Advancements is based on your land size.</p>
+                    @foreach($advancements as $advancement)
+                        <a href="#{{ $advancement->name }}">{{ $advancement->name }}</a> |
                     @endforeach
 
                 </div>
             </div>
         </div>
     </div>
-    @foreach ($techs as $tech)
-        @if($tech->level == 1)
-        <a id="{{ $tech->name }}"></a>
+        @foreach ($advancements as $advancement)
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ $tech->name }}</h3>
+                <a id="{{ $advancement->name }}"></a><h3 class="box-title">{{ $advancement->name }}</h3>
+
+                @if($advancementHelper->hasExclusivity($advancement))
+                    {!! $advancementHelper->getExclusivityString($advancement) !!}
+                @endif
             </div>
-            <div class="box-body table-responsive">
-                <table class="table">
-                    <tr>
-        @endif
+            <div class="row">
+                <div class="box-body">        
+                    <ul>
+                        @foreach($advancement->perks as $perk)
+                        @php
+                            $advancementPerkBase = $selectedDominion->extractAdvancementPerkValues($perk->pivot->value) / 100;
+                        @endphp
+                        <li>
+                            @if($advancementPerkBase > 0)
+                                +{{ number_format($advancementPerkBase * 100, 2) }}%
+                            @else
+                                {{ number_format($advancementPerkBase * 100, 2) }}%
+                            @endif
 
-        <td>
-            <strong>Level {{ $tech->level }}</strong><br>
-            {{ $techHelper->getTechDescription($tech) }}
-        </td>
+                            {{ $advancementHelper->getAdvancementPerkDescription($perk->key) }}
+                        </li>
 
-        @if($tech->level == 10)
-                    </tr>
-                </table>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
-        @endif
     @endforeach
 @endsection

@@ -78,18 +78,10 @@ spells:
     sazals_fog: 0,96
     mining_strength: 19,0
 
-techs:
-    - fortifications_level1
-    - minting_level1
-    - minting_level2
-    - minting_level3
-    - minting_level4
-    - minting_level5
-    - minting_level6
-    - quarters_level1
-    - quarters_level2
-    - quarters_level3
-    - quarters_level4
+advancements:
+    fortifications: 1
+    minting: 6
+    housing: 4
 
 units:
     draftees: 0

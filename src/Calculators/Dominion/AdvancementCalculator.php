@@ -20,7 +20,7 @@ class AdvancementCalculator
     }
 
     /**
-     * Returns the Dominion's current experience point cost to unlock a new tech.
+     * Returns the Dominion's current XP cost to level up a specific advancement.
      *
      * @param Dominion $dominion
      * @return int
@@ -72,13 +72,38 @@ class AdvancementCalculator
         return 10;
     }
 
+    public function canAffordToLevelUpAdvancement(Dominion $dominion, Advancement $advancement)
+    {
+        $dominionAdvancement = DominionAdvancement::where('dominion_id', $dominion->id)
+            ->where('advancement_id', $advancement->id)
+            ->first();
+
+        $cost = $this->getLevelUpCost($dominion, $dominionAdvancement);
+
+        return $dominion->xp >= $cost;
+    }
+
     public function canLevelUp(Dominion $dominion, Advancement $advancement): bool
     {
         if($currentLevel = $this->getCurrentLevel($dominion, $advancement))
         {
+            # Not checking for canAffordToeveUp, for UI purposes
             return ($currentLevel < $this->getDominionMaxLevel($dominion));
         }
         return true;
+    }
+
+    public function hasAdvancementLevel(Dominion $dominion, Advancement $advancement, int $level): bool
+    {
+        $dominionAdvancement = DominionAdvancement::where('dominion_id', $dominion->id)
+            ->where('advancement_id', $advancement->id)
+            ->first();
+
+        if($dominionAdvancement === null) {
+            return false;
+        }
+
+        return $dominionAdvancement->level >= $level;
     }
 
 }

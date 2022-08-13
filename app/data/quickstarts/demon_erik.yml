@@ -77,18 +77,10 @@ spells:
     sazals_fog: 0,96
     feast_of_azk_hurum: 48,0
 
-techs:
-    - anvils_level1
-    - anvils_level2
-    - anvils_level3
-    - anvils_level4
-    - anvils_level5
-    - anvils_level6
-    - fortifications_level1
-    - fortifications_level2
-    - quarters_level1
-    - quarters_level2
-    - quarters_level3
+advancements:
+    anvils: 6
+    fortifications: 2
+    housing: 3
 
 units:
     draftees: 1540
