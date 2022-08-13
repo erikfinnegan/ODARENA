@@ -40,7 +40,7 @@
                     <ul>
                         @foreach($advancement->perks as $perk)
                         @php
-                            $advancementPerkBase = number_format($advancementHelper->extractAdvancementPerkValuesForScribes($perk->pivot->value)[0]);
+                            $advancementPerkBase = $advancementHelper->extractAdvancementPerkValuesForScribes($perk->pivot->value) / 100;
                         @endphp
                         <li>
                             @if($advancementPerkBase > 0)

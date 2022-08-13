@@ -197,4 +197,9 @@ class AdvancementHelper
         return (count($advancement->exclusive_races) or count($advancement->excluded_races));
     }
 
+    public function extractAdvancementPerkValuesForScribes(string $perkValue)
+    {
+        return $perkValue;
+    }
+
 }
