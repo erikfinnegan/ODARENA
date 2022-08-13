@@ -11,6 +11,104 @@ use OpenDominion\Models\DominionAdvancement;
 class AdvancementHelper
 {
 
+    # IMPROVEMENTS 2.0
+
+    public function getAdvancementPerkDescription(string $improvementPerk): string
+    {
+
+        $improvementPerkDescriptions = [
+            'gold_production_mod' => 'gold production',
+            'ore_production_mod' => 'ore production',
+            'lumber_production_mod' => 'lumber production',
+            'gems_production_mod' => 'gem production',
+            'mana_production_mod' => 'mana production',
+            'food_production_mod' => 'food production',
+            'horse_production_mod' => 'horse taming',
+            'blood_production_mod' => 'horse taming',
+            'marshling_production_mod' => 'marshling spawning',
+            'miasma_production_mod' => 'miasma extraction',
+            'sapling_production_mod' => 'sapling growth',
+            'thunderstone_production_mod' => 'thunderstone discovery',
+
+            'food_consumption_mod' => 'food consumption',
+
+            'xp_generation_mod' => 'XP generation',
+
+            'exchange_rate' => 'exchange rate',
+            'resource_conversion' => 'resource conversion (passive and automatic conversion, not exchanged resources)',
+
+            'xp_gains' => 'XP gained',
+            'advancement_costs' => 'advancements costs',
+
+            'population' => 'population',
+            'population_growth' => 'population growth',
+            'unit_specific_housing' => 'unit specific housing',
+
+            'jobs_per_building' => 'jobs per building',
+
+            'construction_cost' => 'construction costs',
+            'rezone_cost' => 'rezoning costs',
+            'construction_time' => 'construction time',
+
+            'explore_gold_cost' => 'exploration gold costs',
+            'land_discovered' => 'land discovered',
+
+            'unit_gold_costs' => 'unit gold costs',
+            'unit_ore_costs' => 'unit ore costs',
+            'unit_lumber_costs' => 'unit lumber costs',
+            'unit_gem_costs' => 'unit gem costs',
+            'unit_mana_costs' => 'unit mana costs',
+            'unit_food_costs' => 'unit food costs',
+
+            'training_time_mod' => 'unit training time',
+            'chance_of_instant_return' => 'chance of units returning instantly from invasion',
+
+            'offensive_power' => 'offensive power',
+            'defensive_power' => 'defensive power',
+
+            'casualties' => 'own casualties',
+            'casualties_on_offense' => 'own offensive casualties',
+            'casualties_on_defense' => 'own defensive casualties',
+            'increases_enemy_casualties' => 'enemy casualties',
+
+            'target_defensive_power_mod' => 'defensive modifiers for target',
+
+            'prestige_gains' => 'prestige gains',
+            'base_morale' => 'morale',
+
+            'spy_strength' => 'spy strength',
+            'spy_losses' => 'spy losses',
+            'spy_housing' => 'spy units housing',
+
+            'wizard_strength' => 'wizard strength',
+            'wizard_losses' => 'wizard losses',
+            'spell_damage' => 'spell damage',
+            'wizard_housing' => 'wizard units housing',
+
+            'gold_theft' => 'gold theft',
+            'ore_theft' => 'ore theft',
+            'lumber_theft' => 'lumber theft',
+            'gems_theft' => 'gem theft',
+            'mana_theft' => 'mana theft',
+            'food_theft' => 'food theft',
+            'horse_theft' => 'horse theft',
+
+            'theft_protection' => 'theft protection (affects buildings that reduce theft, otherwise no effect)',
+            'amount_stolen' => 'amount stolen',
+
+            'unit_pairing' => 'unit limit pairing',
+
+            'attrition_protection' => 'attrition protection',
+
+            'improvement_points' => 'improvement points value from investments',
+
+            'title_bonus' => 'ruler title bonus'
+
+        ];
+
+        return isset($improvementPerkDescriptions[$improvementPerk]) ? $improvementPerkDescriptions[$improvementPerk] : 'Missing description';
+    }
+
     public function getAdvancementPerksString(Advancement $advancement, DominionAdvancement $dominionAdvancement = null): array
     {
         $effectStrings = [];

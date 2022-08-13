@@ -41,8 +41,8 @@
                     @endif
                     <tr>
                         <td>Advancements:</td>
-                        <td>{{ number_format($selectedDominion->getTechPerkMultiplier('offense') * 100, 2) }}%</td>
-                        <td>{{ number_format($selectedDominion->getTechPerkMultiplier('defense') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getAdvancementPerkMultiplier('offensive_power') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getAdvancementPerkMultiplier('defensive_power') * 100, 2) }}%</td>
                     </tr>
                     <tr>
                         <td>Spell:</td>

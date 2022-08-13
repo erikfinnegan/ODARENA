@@ -1518,39 +1518,87 @@ class Dominion extends AbstractModel
 
     # TECHS
 
+    # IMPROVEMENTS
+
     protected function getAdvancementPerks()
     {
         return $this->advancements->flatMap(
-            function ($advancement) {
+            function ($advancement)
+            {
                 return $advancement->perks;
             }
         );
+    }
+
+   /**
+    * @param string $key
+    * @return float
+    */
+    public function getAdvancementPerkValue(string $perkKey): float
+    {
+        $perk = 0;
+
+        foreach ($this->advancements as $advancement)
+        {
+            if($perkValueString = $advancement->getPerkValue($perkKey))
+            {
+                $level = $this->advancements()->where('advancement_id', $advancement->id)->first()->pivot->level;
+                $levelMultiplier = $this->getAdvancementLevelMultiplier($level);
+
+                $perk += $perkValueString * $levelMultiplier;
+             }
+        }
+
+        $perk *= $this->getAdvancementsMod();
+
+        return $perk;
+    }
+
+    public function getAdvancementsMod(): float
+    {
+
+        $multiplier = 1;
+        $multiplier += $this->getBuildingPerkMultiplier('advancements');
+        $multiplier += $this->getBuildingPerkMultiplier('advancements_capped');
+        $multiplier += $this->getSpellPerkMultiplier('advancements');
+        $multiplier += $this->getImprovementPerkMultiplier('advancements');
+        $multiplier += $this->race->getPerkMultiplier('advancements_max');
+        $multiplier += $this->realm->getArtefactPerkMultiplier('advancements');
+        $multiplier += $this->getDecreePerkMultiplier('advancements'); 
+
+        $multiplier = max(0, $multiplier);
+
+        return $multiplier;
     }
 
     /**
      * @param string $key
      * @return float
      */
-    public function getAdvancementPerkValue(string $key): float
+    public function getAdvancementPerkMultiplier(string $key): float
     {
-        $perks = $this->getAdvancementPerks()->groupBy('key');
-
-        if (isset($perks[$key]))
-        {
-            return $perks[$key]->sum('pivot.value');
-        }
-        return 0;
-        /*
-        if (isset($perks[$key])) {
-            $max = (float)$perks[$key]->max('pivot.value');
-            if ($max < 0) {
-                return (float)$perks[$key]->min('pivot.value');
-            }
-            return $max;
-        }
-        return 0;
-        */
+        return ($this->getAdvancementPerkValue($key) / 100);
     }
 
+    public function extractAdvancementPerkValues(string $perkValue)
+    {
+        return $perkValue;
+    }
 
+    public function getAdvancementLevelMultiplier(int $level): float
+    {
+        
+        if($level <= 6)
+        {
+            return $level;
+        }
+        elseif($level <= 10)
+        {
+            return ($level - 6)/2 + 6;
+        }
+        else
+        {
+            return ($level - 10)/3 + 10;
+        }
+    }
 }

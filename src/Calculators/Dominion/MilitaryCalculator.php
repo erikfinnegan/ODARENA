@@ -202,6 +202,9 @@ class MilitaryCalculator
         // Techs
         $multiplier += $attacker->getTechPerkMultiplier('offense');
 
+        // Advancements
+        $multiplier += $attacker->getAdvancementPerkMultiplier('offensive_power');
+
         // Spell
         $multiplier += $attacker->getSpellPerkMultiplier('offensive_power');
 
@@ -430,6 +433,9 @@ class MilitaryCalculator
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('defense');
+
+        // Advancements
+        $multiplier += $dominion->getAdvancementPerkMultiplier('defensive_power');
 
         // Spell
         $multiplier += $this->getSpellMultiplier($dominion, $attacker, 'defense');

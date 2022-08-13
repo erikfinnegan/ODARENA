@@ -45,10 +45,9 @@
                                             <div class="progress-bar label-success" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}">Level {{ $currentLevel }} </div>
                                             <div class="progress-bar label-warning" role="progressbar" style="width: {{ $remaining }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="{{ $maxLevel }}"></div>
                                         @endif
-                                        </div>
-                                    <ul>
-                                    </ul>
-                                    <div class="box-footer text-center">
+                                    </div>
+
+                                    <div class="text-center">
                                         <form action="{{ route('dominion.advancements2')}}" method="post" role="form" id="advancements_form">
                                             @csrf
                                             <input type="hidden" id="advancement_id" name="advancement_id" value="{{ $advancement->id }}" required>
@@ -64,9 +63,37 @@
                                             </button>
                                             @if($advancementCalculator->canLevelUp($selectedDominion, $advancement))
                                                 <small class="text-muted">{{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, $dominionAdvancement)) }} XP required</small>
+                                            @else
+                                                &nbsp;
                                             @endif
                                         </form>
                                     </div>
+                                    
+                                    <ul>
+                                        @foreach($advancement->perks as $perk)
+                                        @php
+                                            $advancementPerkBase = $selectedDominion->extractAdvancementPerkValues($perk->pivot->value)[0];
+
+                                            $spanClass = 'text-muted';
+
+                                            if($advancementPerkMultiplier = $selectedDominion->getAdvancementPerkMultiplier($perk->key))
+                                            {
+                                                $spanClass = '';
+                                            }
+                                        @endphp
+
+                                        <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Base: {{-- number_format($advancementPerkBase,2) --}}%">
+
+                                        @if($advancementPerkMultiplier > 0)
+                                            +{{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                        @else
+                                            {{ number_format($advancementPerkMultiplier * 100, 2) }}%
+                                        @endif
+
+                                         {{ $advancementHelper->getAdvancementPerkDescription($perk->key) }}<br></span>
+
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </div>

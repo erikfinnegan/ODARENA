@@ -76,7 +76,7 @@ class AdvancementCalculator
     {
         if($currentLevel = $this->getCurrentLevel($dominion, $advancement))
         {
-            return ($currentLevel + 1 < $this->getDominionMaxLevel($dominion));
+            return ($currentLevel < $this->getDominionMaxLevel($dominion));
         }
         return true;
     }
