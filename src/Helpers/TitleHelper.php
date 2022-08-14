@@ -73,6 +73,10 @@ class TitleHelper
                 $negativeBenefit = false;
                 $description = 'Expedition land gains:';
                 break;
+            case 'expedition_prestige_gains':
+                $negativeBenefit = false;
+                $description = 'Expedition prestige gains:';
+                break;
             case 'expedition_time':
                 $negativeBenefit = true;
                 $description = 'Expedition time:';

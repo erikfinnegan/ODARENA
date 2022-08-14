@@ -34,8 +34,8 @@ investigator:
 pathfinder:
   name: Pathfinder
   perks:
-    expedition_land_gains: 15
-    expedition_time: -2
+    expedition_land_gains: 20
+    expedition_prestige_gains: 20
 
 excavator:
   name: Excavator
