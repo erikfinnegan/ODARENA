@@ -149,7 +149,7 @@ craftsmanship:
 infrastructure:
   name: Infrastructure
   perks:
-    drafting: 5
+    improvements: 5
 
 gemcutting:
   name: Gemcutting
