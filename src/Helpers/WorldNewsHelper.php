@@ -188,7 +188,7 @@ class WorldNewsHelper
         if(!$viewerInvolved)
         {
             return sprintf(
-                'A new decree has been issued in %s realm.',
+                'A new decree has been issued in the %s realm.',
                 $this->generateRealmOnlyString($issuer->realm)
               );
         }
@@ -216,7 +216,7 @@ class WorldNewsHelper
         if(!$viewerInvolved)
         {
             return sprintf(
-                'A decree has been revoked in %s realm.',
+                'A decree has been revoked in the %s realm.',
                 $this->generateRealmOnlyString($issuer->realm)
               );
         }
@@ -322,7 +322,7 @@ class WorldNewsHelper
         }
 
         $string = sprintf(
-            '%s %s governor of %s realm.',
+            '%s %s governor of the %s realm.',
             $this->generateDominionString($monarch, 'neutral', $viewer),
             in_array($realm->round->mode, ['deathmatch', 'deathmatch-duration']) ? 'is now the' : 'has been elected',
             in_array($realm->round->mode, ['deathmatch', 'deathmatch-duration']) ? 'the' : 'their', 
