@@ -4,11 +4,11 @@ description: Decide what type of culture you want your dominion to have.
 states:
   - name: Artistic
     perks:
-      base_morale: 20
+      base_morale: 10
 
   - name: Community
     perks:
-      population: 2.5
+      max_population: 2.5
       population_growth: 10
 
   - name: Engineering
