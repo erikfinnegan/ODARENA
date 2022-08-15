@@ -122,6 +122,11 @@ molluscs:
   perks:
     pearls_production_mod: 2.5
 
+commerce:
+  name: Commerce
+  perks:
+    exchange_rate: 2.5
+
 # POPULATION
 
 housing:
@@ -163,6 +168,8 @@ stoneworks:
 
 woodworks:
   name: Woodworks
+  excluded_races:
+    - Wood Elf
   perks:
     lumber_improvement_points: 5
 
