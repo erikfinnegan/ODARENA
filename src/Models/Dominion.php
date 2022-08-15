@@ -1549,26 +1549,7 @@ class Dominion extends AbstractModel
              }
         }
 
-        $perk *= $this->getAdvancementsMod();
-
         return $perk;
-    }
-
-    public function getAdvancementsMod(): float
-    {
-
-        $multiplier = 1;
-        $multiplier += $this->getBuildingPerkMultiplier('advancements');
-        $multiplier += $this->getBuildingPerkMultiplier('advancements_capped');
-        $multiplier += $this->getSpellPerkMultiplier('advancements');
-        $multiplier += $this->getImprovementPerkMultiplier('advancements');
-        $multiplier += $this->race->getPerkMultiplier('advancements_max');
-        $multiplier += $this->realm->getArtefactPerkMultiplier('advancements');
-        $multiplier += $this->getDecreePerkMultiplier('advancements'); 
-
-        $multiplier = max(0, $multiplier);
-
-        return $multiplier;
     }
 
     /**
