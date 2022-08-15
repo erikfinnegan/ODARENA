@@ -4,6 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Http\Requests\Dominion\Actions\NotesActionRequest;
 use OpenDominion\Services\Dominion\QuickstartService;
+use OpenDominion\Services\Dominion\QueueService;
 
 use OpenDominion\Helpers\DecreeHelper;
 
@@ -19,6 +20,7 @@ class QuickstartController extends AbstractDominionController
         return view('pages.dominion.quickstart', [
             'quickstart' => $quickstartService->generateQuickstartFile($dominion),
             'decreeHelper' => app(DecreeHelper::class),
+            'queueService' => app(QueueService::class),
         ]);
     }
 }

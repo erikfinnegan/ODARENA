@@ -22,7 +22,6 @@
                     <a href="{{ route(Route::currentRouteName()) }}" class="btn btn-primary">
                         <i class="fas fa-redo fa-fw"></i> Refresh
                     </a>
-                    <p class="text-red"><strong>Note that anything in queue (units in training, unfinished buildings) will not be included in the quickstart.</strong></p>
                 </div>
             </div>
         </div>

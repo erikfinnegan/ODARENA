@@ -29,7 +29,9 @@ use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 use OpenDominion\Services\Dominion\DeityService;
+use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
 
 class DominionFactory
@@ -43,8 +45,10 @@ class DominionFactory
         $this->barbarianCalculator = app(BarbarianCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
+
         $this->deityService = app(DeityService::class);
         $this->resourceService = app(ResourceService::class);
+        $this->queueService = app(QueueService::class);
     }
 
     /**
@@ -785,6 +789,18 @@ class DominionFactory
                     'tick' => $dominion->round->ticks,
                 ]);
             });
+        }
+
+        foreach($quickstart->queues as $queueRow)
+        {
+            $queueRow = explode(',', $queueRow);
+
+            $source = $queueRow[0];
+            $resource = $queueRow[1];
+            $hours = $queueRow[2];
+            $amount = $queueRow[3];
+
+            $this->queueService->queueResources($source, $dominion, [$resource => $amount], $hours);
         }
 
         return $dominion;

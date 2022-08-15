@@ -394,7 +394,6 @@
                 </div>
                     <div class="box-body">
                         <p>Click the button below to generate a quickstart based on the current state of your dominion.</p>
-                        <p class="text-red"><strong>Note that anything in queue (units in training, unfinished buildings) will not be included in the quickstart.</strong></p>
                         <a href="{{ route('dominion.quickstart') }}" class="btn btn-warning">
                             <i class="fas fa-fast-forward fa-fw"></i> Generate Quickstart
                         </a>
