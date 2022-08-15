@@ -51,6 +51,8 @@ class SettingsController extends AbstractController
             }
         }
 
+        #dd($request->input());
+
         $this->updateUser($request->input());
         $this->updateNotifications($request->input());
         $this->updateSettings($request->input());
@@ -212,8 +214,6 @@ class SettingsController extends AbstractController
 
         $settings = ($user->settings ?? []);
 
-        #dd($settings, $data);
-
         if(!isset($data['notification_digest']))
         {
             $data['notification_digest'] = 'hourly';
@@ -221,7 +221,11 @@ class SettingsController extends AbstractController
 
         $settings['notification_digest'] = $data['notification_digest'];
 
+        #dump($user->settings);
+
         $user->settings = $settings;
         $user->save();
+        #dd($user->settings);
+
     }
 }

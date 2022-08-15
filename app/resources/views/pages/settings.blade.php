@@ -17,7 +17,6 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#account" data-toggle="tab">Account</a></li>
                     <li><a href="#notifications" data-toggle="tab">Notifications</a></li>
-                    <li><a href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
                 <div class="tab-content">
 
@@ -55,14 +54,6 @@
                                             <option value="skin-dark-red" {{ Auth::user()->skin == 'skin-dark-red' ? 'selected' : null }}>Dark</option>
                                         </select>
                                         <p class="help-block">Select a new color scheme for the website.</p>
-                                    </div>
-                                </div>
-
-                                {{-- Barbarian Events --}}
-                                <div class="form-group">
-                                    <label for="skin" class="col-sm-3 control-label">Hide Barbarian events from the World News <small class="pull-right text-muted">&nbsp;NYI</small></label>
-                                    <div class="col-sm-9">
-                                        <input type="checkbox" name="settings[hide_barbarian_world_news]" value=1>
                                     </div>
                                 </div>
 
@@ -136,59 +127,6 @@
                                                     </td>
                                                     <td class="text-center">
                                                         @if ($notification['onlyemail'] ?? false)
-                                                            &nbsp;
-                                                        @else
-                                                            <input type="checkbox" name="notifications[{{ $category }}][{{ $type }}][ingame]" {{ array_get($notificationSettings, "{$category}.{$type}.ingame", $notification['defaults']['ingame']) ? 'checked' : null }} data-check-all-type="ingame">
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane" id="notifications">
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                                <h2 class="page-header">Settings</h2>
-
-                                @foreach ($settingHelper->getNotificationCategories() as $category => $settings)
-                                    <table class="table table-striped table-hover">
-                                        <colgroup>
-                                            <col>
-                                            <col width="100">
-                                            <col width="100">
-                                        </colgroup>
-                                        <thead>
-                                            <tr>
-                                                <th>{{ $settingHelper->getNotificationTypeLabel($category) }}</th>
-                                                <th class="text-center">Email</th>
-                                                <th class="text-center">Ingame</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><em>All {{ $settingHelper->getNotificationTypeLabel($category) }}</em></td>
-                                                <td class="text-center">
-                                                    <input type="checkbox" data-check-all data-check-all-type="email" {{ collect($notificationSettings[$category] ?? [])->map(function ($notification) { return $notification['email'] ?? false; })->reduce(function ($carry, $item) { return (($carry || ($carry === null)) && $item); }) ? 'checked' : null }}>
-                                                </td>
-                                                <td class="text-center">
-                                                    <input type="checkbox" data-check-all data-check-all-type="ingame" {{ collect($notificationSettings[$category] ?? [])->map(function ($notification) { return $notification['ingame'] ?? false; })->reduce(function ($carry, $item) { return (($carry || ($carry === null)) && $item); }) ? 'checked' : null }}>
-                                                </td>
-                                            </tr>
-                                            @foreach ($settings as $type => $setting)
-                                                <tr>
-                                                    <td>{{ $setting['label'] }}</td>
-                                                    <td class="text-center">
-                                                        <input type="checkbox" name="notifications[{{ $category }}][{{ $type }}][email]" {{ array_get($notificationSettings, "{$category}.{$type}.email", $notification['defaults']['email']) ? 'checked' : null }} data-check-all-type="email">
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @if ($setting['onlyemail'] ?? false)
                                                             &nbsp;
                                                         @else
                                                             <input type="checkbox" name="notifications[{{ $category }}][{{ $type }}][ingame]" {{ array_get($notificationSettings, "{$category}.{$type}.ingame", $notification['defaults']['ingame']) ? 'checked' : null }} data-check-all-type="ingame">

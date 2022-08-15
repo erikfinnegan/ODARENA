@@ -42,6 +42,7 @@
 <hr>
 <hr>
 <hr>
+
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
@@ -76,7 +77,5 @@
         </div>
     </div>
 </div>
-
-
 @endsection
 

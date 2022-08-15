@@ -397,7 +397,6 @@ class SettingHelper
             # CULT
 
             case 'hourly_dominion.attrition_occurred':
-                dd($data);
                 $units = array_sum($data);
                 return sprintf(
                     '%s %s have disappeared.',
