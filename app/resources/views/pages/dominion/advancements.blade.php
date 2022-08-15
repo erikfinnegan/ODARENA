@@ -147,7 +147,7 @@
                     <li>Levels 7 through 10:<br><code>[Base Perk]*(((6-[Level])/2)+6)</code></li>
                 </ul>
                 <p>The cost of levelling up Advancements is based on your land size.</p>
-                <p>You currently have <strong>{{ number_format($dominion->xp) }} XP</strong>.</p>
+                <p>You currently have <strong>{{ number_format($selectedDominion->xp) }} XP</strong>.</p>
             </div>
         </div>
     </div>
