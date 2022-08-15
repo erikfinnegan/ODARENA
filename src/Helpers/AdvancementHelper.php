@@ -103,7 +103,7 @@ class AdvancementHelper
             'target_defensive_power_mod' => 'defensive modifiers for target',
 
             // Espionage
-            'spy_costs' => 'spy strength',
+            'spy_costs' => 'spy costs',
             'spy_housing' => 'spy units housing',
             'spy_losses' => 'spy losses',
             'spy_strength' => 'spy strength',
@@ -121,7 +121,7 @@ class AdvancementHelper
             'horse_theft' => 'horse theft',
 
             // Wizardry
-            'wizard_costs' => 'wizard strength',
+            'wizard_costs' => 'wizard costs',
             'wizard_housing' => 'wizard units housing',
             'wizard_losses' => 'wizard losses',
             'wizard_strength' => 'wizard strength',
