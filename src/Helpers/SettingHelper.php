@@ -842,6 +842,10 @@ class SettingHelper
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
                         break;
 
+                    case 'lesser_pestilence':
+                        $resultString = "Our population has been afflicted by a Lesser Pestilence. Some of our people are dying.";
+                        break;
+
                     case 'great_fever':
                         $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and gold production are slowed.";
                         break;

@@ -475,7 +475,6 @@ class NotificationHelper
             # CULT
 
             case 'hourly_dominion.attrition_occurred':
-                dd($data);
                 $units = array_sum($data);
                 return sprintf(
                     '%s %s have %s.',
@@ -1053,6 +1052,10 @@ class NotificationHelper
                     # BEGIN Invasion Spells
                     case 'pestilence':
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
+                        break;
+
+                    case 'lesser_pestilence':
+                        $resultString = "Our population has been afflicted by a Lesser Pestilence. Some of our people are dying.";
                         break;
 
                     case 'great_fever':

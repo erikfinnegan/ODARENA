@@ -713,6 +713,22 @@ class TickService
 
             $populationPeasantGrowth -= $amountToDie;
         }
+        elseif ($this->spellCalculator->isSpellActive($dominion, 'lesser_pestilence'))
+        {
+            $spell = Spell::where('key', 'lesser_pestilence')->first();
+            $lesserPestilence = $spell->getActiveSpellPerkValues('lesser_pestilence', 'kill_peasants_and_converts_for_caster_unit');
+            $ratio = $lesserPestilence[0] / 100;
+            $slot = $lesserPestilence[1];
+            $caster = $this->spellCalculator->getCaster($dominion, 'lesser_pestilence');
+
+            $amountToDie = $dominion->peasants * $ratio * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'lesser_pestilence')->first(), null);
+            $amountToDie *= $this->conversionCalculator->getConversionReductionMultiplier($dominion);
+            $amountToDie = (int)round($amountToDie);
+
+            $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
+
+            $populationPeasantGrowth -= $amountToDie;
+        }
 
         # Check for resource_conversion
         if($peasantConversionData = $dominion->getBuildingPerkValue('peasants_conversion'))
