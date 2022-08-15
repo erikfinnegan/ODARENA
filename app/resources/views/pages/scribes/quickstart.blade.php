@@ -234,13 +234,13 @@
                     <col>
                 </colgroup>
                 <tbody>
-                    @foreach($quickstart->techs as $techKey)
+                    @foreach($quickstart->advancements as $advancementKey => $advancementLevel)
                         @php
-                            $tech = OpenDominion\Models\Tech::where('key', $techKey)->first();
+                            $advancement = OpenDominion\Models\Advancement::where('key', $advancementKey)->first();
                         @endphp
                         <tr>
-                            <td>{{ $tech->name }}:</td>
-                            <td>level {{ $tech->level }}</td>
+                            <td>{{ $advancement->name }}:</td>
+                            <td>level {{ $advancementLevel }}</td>
                         </tr>
                     @endforeach
                 </tbody>
