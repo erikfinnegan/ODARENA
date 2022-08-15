@@ -24,24 +24,14 @@
                         <div class="row form-horizontal">
                             <div class="col-md-6">
 
-                                <h2 class="page-header">Basic Information</h2>
-
-                                {{-- Display Name --}}
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Display Name</label>
-                                    <div class="col-sm-9">
-                                        <p class="form-control-static">{{ $user->display_name }}</p>
-                                        <p class="help-block">Visible on your <a href="#">public profile</a>.</p>
-                                        <p class="help-block">Your display name cannot be changed.</p>
-                                    </div>
-                                </div>
+                                <h2 class="page-header">Settings</h2>
 
                                 {{-- Email --}}
                                 <div class="form-group">
                                     <label for="email" class="col-sm-3 control-label">Email</label>
                                     <div class="col-sm-9">
                                         <input type="email" name="account_email" id="email" class="form-control" value="{{ $user->email }}" readonly>
-                                        <p class="help-block">Your email address cannot be changed at the moment.</p>
+                                        <p class="help-block">To change your email address, please contact admin.</p>
                                     </div>
                                 </div>
 
@@ -53,7 +43,19 @@
                                             <option value="skin-red">Default</option>
                                             <option value="skin-dark-red" {{ Auth::user()->skin == 'skin-dark-red' ? 'selected' : null }}>Dark</option>
                                         </select>
-                                        <p class="help-block">Select a new color scheme for the website.</p>
+                                        <p class="help-block">Select a new color scheme for the website. <em>The game is optimised for default.</em></p>
+                                    </div>
+                                </div>
+
+                                {{-- World News --}}
+                                <div class="form-group">
+                                    <label for="skin" class="col-sm-3 control-label">Skin</label>
+                                    <div class="col-sm-9">
+                                        <select name="skin" id="skin" class="form-control">
+                                            <option value="skin-red">Default</option>
+                                            <option value="skin-dark-red" {{ Auth::user()->skin == 'skin-dark-red' ? 'selected' : null }}>Dark</option>
+                                        </select>
+                                        <p class="help-block">Select a new color scheme for the website. <em>The game is optimised for default.</em></p>
                                     </div>
                                 </div>
 
@@ -148,41 +150,6 @@
 
         </form>
       </div>
-</div>
-{{--
-<div class="row">
-    <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="ra ra-player"></i> Patreon</h3>
-            </div>
-            <div class="box-body">
-                @if($user->patreon_access_token == NULL or now()->diffInDays($user->patreon_access_token_last_updated) >= 30)
-                    <p>If you support ODARENA by becoming a Patreon, you get access to a some special features.</p>
-                    <p>Click the button below to associate this account (<strong>{{ $user->display_name }}</strong>) to Patreon and receive benefits.</p>
-                    <p>You can only associate one ODARENA account to your Patreon account. <em>This lasts for 30 days.</em></p>
-                    <p>If you have done this already but still see this message, it means at least 30 days have passed since you last associated your account with Patreon.</p>
-                    <form action="https://www.patreon.com/oauth2/authorize" method="get" enctype="multipart/form-data" role="form" id="patreon">
-                            <button type="submit" class="btn btn-primary" form="patreon">Link your Patreon account</button>
-                            <input type="hidden" name="response_type" value="code">
-                            <input type="hidden" name="client_id" value="zmWG1cS3XRWBJeBZThMpC-YEBt0rRv-1wfuKnXs7hEh5tNzkBpSs5gHYDkegI3Gd" form="patreon">
-                            @if(request()->getHost() == 'odarena.local')
-                                <input type="hidden" name="redirect_uri" value="http://odarena.local/patreon">
-                            @else
-                                <input type="hidden" name="redirect_uri" value="https://odarena.com/patreon">
-                            @endif
-                    </form>
-                @else
-                    <form action="patreon/pledge" method="get" enctype="multipart/form-data" role="form" id="patreon">
-                            <button type="submit" class="btn btn-primary" form="patreon">Update Pledge</button>
-                    </form>
-                @endif
-
-              </div>
-          </div>
-      </div>
---}}
-
 </div>
 
 @endsection
