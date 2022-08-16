@@ -911,11 +911,11 @@
                                     <ul>
                                         @foreach($advancement->perks as $perk)
                                         @php
-                                            $advancementPerkBase = $selectedDominion->extractAdvancementPerkValues($perk->pivot->value);
+                                            $advancementPerkBase = $dominion->extractAdvancementPerkValues($perk->pivot->value);
 
                                             $spanClass = 'text-muted';
 
-                                            if($advancementPerkMultiplier = $selectedDominion->getAdvancementPerkMultiplier($perk->key))
+                                            if($advancementPerkMultiplier = $dominion->getAdvancementPerkMultiplier($perk->key))
                                             {
                                                 $spanClass = '';
                                             }
