@@ -13,6 +13,7 @@ use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Unit;
 
+use OpenDominion\Helpers\TheftHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -43,7 +44,7 @@ class TheftActionService
         $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
 
-
+        $this->theftHelper = app(TheftHelper::class);
         $this->unitHelper = app(UnitHelper::class);
     }
 
