@@ -76,12 +76,10 @@
                                                         <i class="fas fa-ban"></i> Not enough XP
                                                     @elseif($advancementCalculator->canLevelUp($selectedDominion, $advancement))
                                                         @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
-                                                            <span data-toggle="tooltip" data-placement="top" title="Next level:
-                                                                                                                    <ul>
-                                                                                                                        @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
-                                                                                                                            <li>{{ $perkValue }}</li>
-                                                                                                                        @endforeach
-                                                                                                                    </ul>
+                                                            <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
+                                                                                                                    @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
+                                                                                                                        {{ $perkValue }}<br>
+                                                                                                                    @endforeach
                                                                                                                 ">
                                                                 <i class="fas fa-arrow-up"></i> Level up
                                                             </span>
