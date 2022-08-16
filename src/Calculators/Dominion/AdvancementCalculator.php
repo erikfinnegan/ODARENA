@@ -2,22 +2,21 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
-use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionAdvancement;
 use OpenDominion\Models\Race;
 
+use OpenDominion\Helpers\AdvancementHelper;
+
 class AdvancementCalculator
 {
 
-    public function __construct(
-        LandCalculator $landCalculator,
-        ImprovementCalculator $improvementCalculator)
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->improvementCalculator = $improvementCalculator;
+        $this->landCalculator = app(LandCalculator::class);
+
+        $this->advancementHelper = app(AdvancementHelper::class);
     }
 
     /**
@@ -128,6 +127,27 @@ class AdvancementCalculator
         }
 
         return $isAvailable;
+    }
+
+    public function getNextLevelPerks(Dominion $dominion, Advancement $advancement): array
+    {
+        $perks = [];
+
+        if($dominionAdvancement = DominionAdvancement::where('dominion_id', $dominion->id)->where('advancement_id', $advancement->id)->first())
+        {
+            $dominion = $dominionAdvancement->dominion;
+            $advancement = $dominionAdvancement->advancement;
+            $currentLevel = $dominionAdvancement->level;
+            $nextLevel = min($currentLevel + 1, $this->getDominionMaxLevel($dominion));
+
+            foreach($advancement->perks as $perk)
+            {
+                $perks[] = $perk->pivot->value * $dominion->getAdvancementLevelMultiplier($nextLevel) . '% ' . $this->advancementHelper->getAdvancementPerkDescription($perk->key);
+            }
+        }
+
+        return $perks;
+
     }
 
 }

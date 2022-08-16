@@ -75,7 +75,19 @@
                                                     @elseif(!$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
                                                         <i class="fas fa-ban"></i> Not enough XP
                                                     @elseif($advancementCalculator->canLevelUp($selectedDominion, $advancement))
-                                                        <i class="fas fa-arrow-up"></i> Level up
+                                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
+                                                            <span data-toggle="tooltip" data-placement="top" title="Next level:
+                                                                                                                    <ul>
+                                                                                                                        @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
+                                                                                                                            <li>{{ $perkValue }}</li>
+                                                                                                                        @endforeach
+                                                                                                                    </ul>
+                                                                                                                ">
+                                                                <i class="fas fa-arrow-up"></i> Level up
+                                                            </span>
+                                                        @else
+                                                            <i class="fas fa-arrow-up"></i> Level up
+                                                        @endif
                                                     @else
                                                         Hmm, this shouldn't be happening
                                                     @endif
