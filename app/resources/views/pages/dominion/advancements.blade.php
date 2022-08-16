@@ -73,7 +73,17 @@
                                                     @if($maxedOut)
                                                         <i class="fas fa-check-circle"></i> Max level
                                                     @elseif(!$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
-                                                        <i class="fas fa-ban"></i> Not enough XP
+                                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
+                                                            <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
+                                                                                                                    @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
+                                                                                                                        {{ $perkValue }}<br>
+                                                                                                                    @endforeach
+                                                                                                                ">
+                                                                <i class="fas fa-ban"></i> Not enough XP
+                                                            </span>
+                                                        @else
+                                                            <i class="fas fa-ban"></i> Not enough XP
+                                                        @endif
                                                     @elseif($advancementCalculator->canLevelUp($selectedDominion, $advancement))
                                                         @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
                                                             <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
