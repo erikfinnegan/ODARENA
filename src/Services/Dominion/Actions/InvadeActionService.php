@@ -548,7 +548,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -2210,14 +2210,14 @@ class InvadeActionService
         if($this->spellCalculator->isSpellActive($defender, 'pestilence') and $attacker->race->name !== 'Afflicted' and !$this->spellCalculator->isSpellActive($attacker, 'pestilence') and !$this->spellCalculator->isSpellActive($attacker, 'pestilence'))
         {
             $caster = $this->spellCalculator->getCaster($defender, 'pestilence');
-            $this->spellActionService->castSpell($attacker, 'lesser_pestilence', $caster, $isInvasionSpell);
+            $this->spellActionService->castSpell($caster, 'lesser_pestilence', $attacker, $isInvasionSpell);
         }
 
         # If attacker has Pestilence, defender gets Lesser Pestilence if defender is not Afflicted and does not have Pestilence or Lesser Pestilence
         if($this->spellCalculator->isSpellActive($attacker, 'pestilence') and $defender->race->name !== 'Afflicted' and !$this->spellCalculator->isSpellActive($defender, 'pestilence') and !$this->spellCalculator->isSpellActive($defender, 'pestilence'))
         {
             $caster = $this->spellCalculator->getCaster($attacker, 'pestilence');
-            $this->spellActionService->castSpell($defender, 'lesser_pestilence', $caster, $isInvasionSpell);
+            $this->spellActionService->castSpell($caster, 'lesser_pestilence', $defender, $isInvasionSpell);
         }
 
         if($attacker->race->name == 'Legion' and $defender->race->name == 'Barbarian' and $this->invasionResult['result']['success'])
