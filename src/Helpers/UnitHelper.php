@@ -13,7 +13,6 @@ use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
-#use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
@@ -25,7 +24,6 @@ class UnitHelper
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
-        #$this->militaryCalculator = app(MilitaryCalculator::class);
 
         $this->queueService = app(QueueService::class);
         $this->statsService = app(StatsService::class);
@@ -1281,6 +1279,93 @@ class UnitHelper
 
         return 0;
 
+    }
+
+    public function getUnitCostString(Race $race, array $trainingCosts): string
+    {
+        $costString = '';
+        $costs = [];
+        foreach($trainingCosts as $costType => $value)
+        {
+            if($value != 0)
+            {
+                switch ($costType)
+                {
+                    case 'gems':
+                        $costs[] = number_format($value) . ' ' . str_plural('gems', $value);
+                        break;
+
+                    case 'elk':
+                    case 'horse':
+                    case 'prisoner':
+                    case 'sapling':
+                    case 'yak':
+                        $costs[] = number_format($value) . ' ' . str_plural($costType, $value);
+                        break;
+
+                    case 'prestige':
+                        $costs[] = number_format($value) . ' Prestige';
+                        break;
+
+                    case 'soul':
+                        $costs[] = number_format($value) . ' ' . str_plural('soul', $value);
+                        break;
+
+                    case 'unit1':
+                    case 'unit2':
+                    case 'unit3':
+                    case 'unit4':
+                        $costs[] = number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $race), $value);
+                        break;
+
+                    case 'morale':
+                        $costs[] = number_format($value) . '% morale';
+                        break;
+
+                    case 'spy':
+                    case 'spies':
+                        $costs[] = number_format($value) . ' ' . str_plural('Spy', $value);
+                        break;
+
+                    case 'wizard':
+                    case 'wizards':
+                        $costs[] = number_format($value) . ' ' . str_plural('Wizard', $value);
+                        break;
+
+                    case 'archmage':
+                    case 'archmages':
+                        $costs[] = number_format($value) . ' ' . str_plural('Archmage', $value);
+                        break;
+
+                    case 'spy_strength':
+                        $costs[] = number_format($value) . '% Spy Strength ';
+                        break;
+
+                    case 'wizard_strength':
+                        $costs[] = number_format($value) . '% Wizard Strength ';
+                        break;
+
+                    case 'draftees':
+                        break;
+
+                    default:
+                        $costs[] = number_format($value) . ' ' . $costType;
+                        break;
+                }
+            }
+        }
+        $costsCount = count($costs)-1;
+        #$i = 1;
+        foreach($costs as $index => $cost)
+        {
+            $costString .= $cost;
+            if($index < $costsCount)
+            {
+                $costString .= ', <br>';
+            }
+        }
+
+        return $costString;
     }
 
 }

@@ -23,7 +23,7 @@
                           <thead>
                               <tr>
                                   <th>Improvement</th>
-                                  <th>Invest</th>
+                                  <th class="text-center">Invest</th>
                                   <th>Perks</th>
                                   <th class="text-center">Invested</th>
                               </tr>
@@ -89,7 +89,7 @@
                                   </tr>
                               @endforeach
                                   <tr>
-                                      <td colspan="4" class="text-right"><strong>Total</strong></td>
+                                      <td colspan="3" class="text-right"><strong>Total</strong></td>
                                       <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementTotalAmountInvested($selectedDominion)) }}</td>
                                   </tr>
 
@@ -104,7 +104,7 @@
 
                               @if($totalSabotaged > 0)
                                   <tr>
-                                      <td colspan="4" class="text-right"><strong>Sabotaged</strong><br><small class="text-muted">Will be restored automatically</small></td>
+                                      <td colspan="3" class="text-right"><strong>Sabotaged</strong><br><small class="text-muted">Will be restored automatically</small></td>
                                       <td class="text-center">{{ number_format($totalSabotaged) }}</td>
                                   </tr>
                               @endif
