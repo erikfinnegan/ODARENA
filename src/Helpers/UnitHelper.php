@@ -1315,7 +1315,7 @@ class UnitHelper
                     case 'unit2':
                     case 'unit3':
                     case 'unit4':
-                        $costs[] = number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $race), $value);
+                        $costs[] = number_format($value) . ' ' . str_plural($this->getUnitName($costType, $race), $value);
                         break;
 
                     case 'morale':
