@@ -94,12 +94,24 @@
                                                   @endif
                                               </td>
                                           @endif
-                                        <td class="text-center">  <!-- Train -->
+                                        <!-- Train -->
+                                        {{--
+                                        <td class="text-center">  
                                             @if (!$unitHelper->isUnitTrainableByDominion($unit, $selectedDominion))
                                                 &mdash;
                                             @else
                                                 <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="{{ $trainingCalculator->getMaxTrainable($selectedDominion)[$unitType] }}" size="8" style="min-width:5em;" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             @endif
+                                        </td>
+                                        --}}
+
+                                        <td class="text-center">
+                                            <div class="input-group">
+                                                <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $trainingCalculator->getMaxTrainable($selectedDominion)[$unitType] }}" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default train-max" data-type="military_{{ $unitType }}" type="button">Max</button>
+                                                </span>
+                                            </div>
                                         </td>
 
                                         <td class="text-center">  <!-- Cost -->
@@ -700,21 +712,16 @@
 @endif
 @endsection
 
-@push('page-scripts')
-{{--
-<script>
-    $(document).ready(function()
-    {
-        $('#submit').click(function()
-        {
-            var submit = $(this);
-            submit.prop('disabled', true);
-            setTimeout(function()
-            {
-                submit.prop('disabled', false);
-            },6000);
-        });
-    });
-</script>
---}}
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            $('.train-max').click(function(e) {
+                var troopType = $(this).data('type');
+                var troopInput = $('input[name=train\\['+troopType+'\\]]');
+                var maxAmount = troopInput.attr('max');
+                $('input[name^=train]').val('');
+                troopInput.val(maxAmount);
+            });
+        })(jQuery);
+    </script>
 @endpush

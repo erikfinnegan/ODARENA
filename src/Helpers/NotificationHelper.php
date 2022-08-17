@@ -1055,7 +1055,7 @@ class NotificationHelper
                         break;
 
                     case 'lesser_pestilence':
-                        $resultString = "Our population has been afflicted by a Lesser Pestilence. Some of our people are dying.";
+                        $resultString = "Our army has come in contact with a dominion suffering from Pestilence and now a Lesser Pestilence is spreading across our lands. Some of our people are dying.";
                         break;
 
                     case 'great_fever':

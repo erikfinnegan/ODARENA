@@ -17,14 +17,13 @@
                           <colgroup>
                               <col width="150">
                               <col width="150">
-                              <col width="50">
                               <col>
                               <col width="100">
                           </colgroup>
                           <thead>
                               <tr>
                                   <th>Improvement</th>
-                                  <th colspan="2">Invest</th>
+                                  <th>Invest</th>
                                   <th>Perks</th>
                                   <th class="text-center">Invested</th>
                               </tr>
@@ -33,12 +32,23 @@
                               @foreach ($improvementHelper->getImprovementsByRace($selectedDominion->race) as $improvement)
                                   <tr>
                                       <td><span data-toggle="tooltip" data-placement="top"> {{ $improvement->name }}</span></td>
+                                      
+                                      {{-- 
                                       <td class="text-center">
                                           <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                       </td>
                                       <td>
                                           <button class="btn btn-default improve-max" data-type="{{ $improvement->key }}" type="button" style="width:4em;">Max</button>
                                       </td>
+                                      --}}
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default improve-max" data-type="{{ $improvement->key }}" type="button" style="width:4em;">Max</button>
+                                                </span>
+                                            </div>
+                                        </td>
                                       <td>
                                           @foreach($improvement->perks as $perk)
                                               @php
