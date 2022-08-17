@@ -171,7 +171,7 @@
                                                         </span>
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ min($constructionCalculator->getMaxAfford($selectedDominion), $landCalculator->getTotalBarrenLandByLandType($selectedDominion, 'mountain')) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
