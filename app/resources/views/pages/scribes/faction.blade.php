@@ -8,7 +8,7 @@
     <div class="col-sm-12 col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <div class="col-sm-3">
+                <div class="col-sm-2 text-center">
                     <h2 class="box-title">{{ $race->name }}</h2>
 
                     @if($race->experimental)
@@ -16,7 +16,7 @@
                     @endif
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-8 text-center">
                     <a href="#units">Units</a> |
                     <a href="#resources">Resources</a> |
                     <a href="#buildings">Buildings</a> |
@@ -25,10 +25,10 @@
                         <a href="#land_improvements">Land Perks</a> |
                     @endif
                     <a href="#spells">Spells</a> |
-                    <a href="#spy_ops">Spy Ops</a>
+                    <a href="#sabotage">Sabotage</a>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-sm-2 text-center">
                     Difficulty:
                     @if($race->skill_level === 1)
                         <span class="label label-success">Comfortable</span>
@@ -873,16 +873,14 @@
     </div>
 </div>
 
-
 <div class="row">
-    <a id="spy_ops"></a>
+    <a id="sabotage"></a>
     <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Spy Ops</h3>
+                <h3 class="box-title">Sabotage</h3>
             </div>
             <div class="box-body">
-                <h4>Hostile</h4>
                 <table class="table table-striped">
                     <colgroup>
                         <col width="200">
