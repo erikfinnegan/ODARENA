@@ -159,7 +159,7 @@
                 </ul>
                 <h4>Cost</h4>
                 <ul>
-                @for ($level = 0; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
+                @for ($level = 1; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
                     <li>Level {{ $level }}: {{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</li>
                 @endfor
                 </ul>
