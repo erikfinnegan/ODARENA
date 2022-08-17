@@ -131,7 +131,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{!! $landHelper->getLandTypeIconHtml('') !!} Mountains</h3>
+                            <h3 class="box-title">{!! $landHelper->getLandTypeIconHtml('mountain') !!} Mountains</h3>
                             <span class="pull-right barren-land">Barren: <strong>{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, 'mountain')) }}</strong></span>
                         </div>
 

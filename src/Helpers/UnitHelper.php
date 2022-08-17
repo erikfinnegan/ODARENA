@@ -1338,13 +1338,14 @@ class UnitHelper
                         break;
 
                     case 'spy_strength':
-                        $costs[] = number_format($value) . '% Spy Strength ';
+                        $costs[] = number_format($value) . '% Spy Strength';
                         break;
 
                     case 'wizard_strength':
-                        $costs[] = number_format($value) . '% Wizard Strength ';
+                        $costs[] = number_format($value) . '% Wizard Strength';
                         break;
 
+                    case 'draftee':
                     case 'draftees':
                         break;
 
