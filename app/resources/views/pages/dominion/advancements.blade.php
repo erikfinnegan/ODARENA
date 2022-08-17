@@ -66,6 +66,14 @@
                                         <form action="{{ route('dominion.advancements')}}" method="post" role="form" id="advancements_form">
                                             @csrf
                                             <input type="hidden" id="advancement_id" name="advancement_id" value="{{ $advancement->id }}" required>
+
+                                            @if($advancementCalculator->canLevelUp($selectedDominion, $advancement) and $advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
+                                            <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
+                                                                                                    @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
+                                                                                                        {{ $perkValue }}<br>
+                                                                                                    @endforeach
+                                                                                                ">
+                                            @endif
                                             <button type="submit"
                                                     class="btn btn-primary btn-block"
                                                     {{ ($selectedDominion->isLocked() or !$advancementCalculator->canLevelUp($selectedDominion, $advancement) or !$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement)) ? 'disabled' : null }}
@@ -73,33 +81,16 @@
                                                     @if($maxedOut)
                                                         <i class="fas fa-check-circle"></i> Max level
                                                     @elseif(!$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
-                                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
-                                                            <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
-                                                                                                                    @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
-                                                                                                                        {{ $perkValue }}<br>
-                                                                                                                    @endforeach
-                                                                                                                ">
-                                                                <i class="fas fa-ban"></i> Not enough XP
-                                                            </span>
-                                                        @else
-                                                            <i class="fas fa-ban"></i> Not enough XP
-                                                        @endif
+                                                        <i class="fas fa-ban"></i> Not enough XP
                                                     @elseif($advancementCalculator->canLevelUp($selectedDominion, $advancement))
-                                                        @if($advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
-                                                            <span data-toggle="tooltip" data-placement="top" title="<b>Next level:</b><br>
-                                                                                                                    @foreach($advancementCalculator->getNextLevelPerks($selectedDominion, $advancement) as $perkValue)
-                                                                                                                        {{ $perkValue }}<br>
-                                                                                                                    @endforeach
-                                                                                                                ">
-                                                                <i class="fas fa-arrow-up"></i> Level up
-                                                            </span>
-                                                        @else
-                                                            <i class="fas fa-arrow-up"></i> Level up
-                                                        @endif
+                                                        <i class="fas fa-arrow-up"></i> Level up
                                                     @else
                                                         Hmm, this shouldn't be happening
                                                     @endif
                                             </button>
+                                            @if($advancementCalculator->canLevelUp($selectedDominion, $advancement) and $advancementCalculator->getCurrentLevel($selectedDominion, $advancement))
+                                                </span>
+                                            @endif
                                             @if($advancementCalculator->canLevelUp($selectedDominion, $advancement) or !$advancementCalculator->canAffordToLevelUpAdvancement($selectedDominion, $advancement))
                                                 <small class="text-muted">{{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, $dominionAdvancement)) }} XP required</small>
                                             @else
