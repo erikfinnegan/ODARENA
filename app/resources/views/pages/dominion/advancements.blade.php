@@ -160,7 +160,7 @@
                 <h4>Cost</h4>
                 <ul>
                 @for ($level = 0; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
-                    <li>Level {{ $i }}: {{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</li>
+                    <li>Level {{ $level }}: {{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</li>
                 @endfor
                 </ul>
                 <p>You have <b>{{ number_format($selectedDominion->xp) }} XP</b>, which is increasing your ruler title bonus by {{ number_format(($selectedDominion->getTitlePerkMultiplier()-1)*100,2) }}%.</p>
