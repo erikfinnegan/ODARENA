@@ -157,7 +157,7 @@
                     <li>Levels up to and including 6:<br><code>[Base Perk]*[Level]</code></li>
                     <li>Levels 7 through 10:<br><code>[Base Perk]*(((6-[Level])/2)+6)</code></li>
                 </ul>
-                <h4>Cost</h4>
+                <h4>Level Up Cost</h4>
                 <ul>
                 @for ($level = 1; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
                     <li>Level {{ $level }}: {{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</li>

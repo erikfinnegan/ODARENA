@@ -969,7 +969,7 @@ class TickService
             $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
             # Check bodies available in the crypt
-            $bodiesAvailable = max(0, floor($this->resoureCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
+            $bodiesAvailable = max(0, floor($this->resourceCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
 
             # Break down the spell perk
             $raisersPerRaisedUnit = (int)$spellPerkValues[0];
@@ -990,7 +990,7 @@ class TickService
             $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
             # Check bodies available in the crypt
-            $bodiesAvailable = max(0, floor($this->resoureCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
+            $bodiesAvailable = max(0, floor($this->resourceCalculator->getRealmAmount($dominion->realm, 'body') - $tick->crypt_bodies_spent));
 
             # Break down the spell perk
             $raisersPerRaisedUnit = (int)$spellPerkValues[0];
