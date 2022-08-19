@@ -339,7 +339,8 @@
                                             <td>DP:</td>
                                             <td id="invasion-force-dp" data-amount="0">0</td>
                                         </tr>
-                                        <tr>
+                                        --}}
+                                        <tr style="display: none;">
                                             <td>
                                                 Max OP:
                                                 <i class="fa fa-question-circle"
@@ -349,7 +350,6 @@
                                             </td>
                                             <td id="invasion-force-max-op" data-amount="0">0</td>
                                         </tr>
-                                        --}}
                                         <tr>
                                             <td>
                                                 Target DP:

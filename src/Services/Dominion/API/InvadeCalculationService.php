@@ -154,39 +154,41 @@ class InvadeCalculationService
         if(isset($target))
         {
             $this->calculationResult['land_conquered'] = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio*100);
+
+            $dpMultiplierReduction = $this->militaryCalculator->getDefensiveMultiplierReduction($dominion);
+
+            // Void: immunity to DP mod reductions
+            if ($target->getSpellPerkValue('immune_to_temples'))
+            {
+                $dpMultiplierReduction = 0;
+            }
+            
+            $this->calculationResult['is_ambush'] = ($this->militaryCalculator->getRawDefenseAmbushReductionRatio($dominion) > 0);
+    
+            if($target->getSpellPerkValue('fog_of_war'))
+            {
+                $this->calculationResult['target_dp'] = 'Unknown due to Sazal\'s Fog';
+            }
+            else
+            {
+                $this->calculationResult['target_dp'] = $this->militaryCalculator->getDefensivePower(
+                    $target,
+                    $dominion,
+                    $landRatio,
+                    null,
+                    $dpMultiplierReduction,
+                    false, # ignoreDraftees
+                    $this->calculationResult['is_ambush'],
+                    false,
+                    $units, # Becomes $invadingUnits
+                  );
+    
+                # Round up.
+                $this->calculationResult['target_dp'] = ceil($this->calculationResult['target_dp']);
+            }
         }
 
-        $dpMultiplierReduction = $this->militaryCalculator->getDefensiveMultiplierReduction($dominion);
 
-        // Void: immunity to DP mod reductions
-        if ($target->getSpellPerkValue('immune_to_temples'))
-        {
-            $dpMultiplierReduction = 0;
-        }
-        
-        $this->calculationResult['is_ambush'] = ($this->militaryCalculator->getRawDefenseAmbushReductionRatio($dominion) > 0);
-
-        if($target->getSpellPerkValue('fog_of_war'))
-        {
-            $this->calculationResult['target_dp'] = 'Unknown due to Sazal\'s Fog';
-        }
-        else
-        {
-            $this->calculationResult['target_dp'] = $this->militaryCalculator->getDefensivePower(
-                $target,
-                $dominion,
-                $landRatio,
-                null,
-                $dpMultiplierReduction,
-                false, # ignoreDraftees
-                $this->calculationResult['is_ambush'],
-                false,
-                $units, # Becomes $invadingUnits
-              );
-
-            # Round up.
-            $this->calculationResult['target_dp'] = ceil($this->calculationResult['target_dp']);
-        }
 
         return $this->calculationResult;
     }
