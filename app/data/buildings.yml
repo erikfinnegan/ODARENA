@@ -39,8 +39,8 @@ farm:
     - Dragon
     - Growth
     - Icekin
-    - Lux
     - Glimjir
+    - Lux
     - Monster
     - Myconid
     - Reptilians
@@ -360,6 +360,7 @@ dock:
     - Monster
     - Myconid
     - Reptilians
+    - Troll
     - Void
     - Swarm
   land_type: water

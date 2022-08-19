@@ -320,8 +320,8 @@
                             <div class="box-body table-responsive no-padding">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="50%">
-                                        <col width="50%">
+                                        <col width="30%">
+                                        <col width="70%">
                                     </colgroup>
                                     <tbody>
                                         <tr>
@@ -333,12 +333,12 @@
                                         <tr>
                                             <td>Morale:</td>
                                             <td>{{ number_format($selectedDominion->morale) }}%</td>
-                                        </tr>                                            <!--
+                                        </tr>
+                                        {{-- 
                                         <tr>
                                             <td>DP:</td>
                                             <td id="invasion-force-dp" data-amount="0">0</td>
                                         </tr>
-                                      -->
                                         <tr>
                                             <td>
                                                 Max OP:
@@ -348,6 +348,13 @@
                                                    title="You may send out a maximum of 133% of your new home DP in OP. (4:3 rule)"></i>
                                             </td>
                                             <td id="invasion-force-max-op" data-amount="0">0</td>
+                                        </tr>
+                                        --}}
+                                        <tr>
+                                            <td>
+                                                Target DP:
+                                            </td>
+                                            <td id="target-dp" data-amount="0">0</td>
                                         </tr>
                                         <tr>
                                             <td>Land conquered:</td>
@@ -412,13 +419,13 @@
 
                         <div class="box">
                             <div class="box-header with-border">
-                                <h3 class="box-title"><i class="fa fa-home"></i> Status At Home</h3>
+                                <h3 class="box-title"><i class="fa fa-home"></i> Military At Home</h3>
                             </div>
                             <div class="box-body table-responsive no-padding">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="50%">
-                                        <col width="50%">
+                                        <col width="30%">
+                                        <col width="70%">
                                     </colgroup>
                                     <tbody>
                                         {{--
@@ -657,6 +664,7 @@
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
             var invasionLandConqueredElement = $('#invasion-land-conquered');
+            var targetDpElement = $('#target-dp');
 
             var invasionForceCountElement = $('#invasion-total-units');
 
@@ -711,6 +719,7 @@
                             homeForcesDPRawElement.data('amount', response.home_defense_raw);
                             homeForcesMinDPElement.data('amount', response.min_dp);
                             homeForcesDPAElement.data('amount', response.home_dpa);
+                            targetDpElement.data('amount', response.target_dp);
 
                             // Update OP / DP display
                             invasionForceOPElement.text(response.away_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
@@ -722,6 +731,7 @@
                             homeForcesDPRawElement.text(response.home_defense_raw.toLocaleString(undefined, {maximumFractionDigits: 0}));
                             homeForcesMinDPElement.text(response.min_dp.toLocaleString(undefined, {maximumFractionDigits: 0}));
                             homeForcesDPAElement.text(response.home_dpa.toLocaleString(undefined, {maximumFractionDigits: 0}));
+                            targetDpElement.text(response.target_dp.toLocaleString(undefined, {maximumFractionDigits: 0}));
 
                             invasionForceCountElement.text(response.units_sent);
 
