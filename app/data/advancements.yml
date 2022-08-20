@@ -80,8 +80,8 @@ wizardry_tradition:
 concentration:
   name: Concentration
   perks:
-    wizard_strength: -2.5
-    wizard_strength_recovery: -0.25
+    wizard_strength: 2.5
+    wizard_strength_recovery: 0.25
 
 # PRODUCTION
 
