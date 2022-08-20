@@ -340,7 +340,7 @@
                                             <td id="invasion-force-dp" data-amount="0">0</td>
                                         </tr>
                                         --}}
-                                        <tr style="display: none;">
+                                        <tr>
                                             <td>
                                                 Max OP:
                                                 <i class="fa fa-question-circle"
