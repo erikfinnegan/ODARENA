@@ -1498,22 +1498,15 @@ class Dominion extends AbstractModel
                 'generate_building_swamp',
                 'generate_building_water',
             ];
-
-        if(in_array($key, $buildingGenerationPerks))
+   
+        if (isset($perks[$key]))
         {
-            if (isset($perks[$key]))
+            if(in_array($key, $buildingGenerationPerks))
             {
                 return $perks[$key]->pluck('pivot.value')->first();
             }
-        }
-        else
-        {
-            if (isset($perks[$key])) {
-                #$max = (float)$perks[$key]->max('pivot.value');
-                #if ($max < 0) {
-                #    return (float)$perks[$key]->min('pivot.value');
-                #}
-                #return $max;
+            else
+            {
                 return $perks[$key]->sum('pivot.value');
             }
         }

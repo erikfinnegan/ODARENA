@@ -22,7 +22,6 @@ class Decree extends AbstractModel
     protected $casts = [
         'enabled' => 'integer',
         'cooldown' => 'integer',
-        #'states' => 'array',
         'default' => 'string',
         'excluded_races' => 'array',
         'exclusive_races' => 'array',

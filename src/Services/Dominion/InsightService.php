@@ -265,7 +265,10 @@ class InsightService
 
         $this->queueService->getConstructionQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
             $buildingKey = str_replace('building_', '', $row->resource);
-            $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
+            if(isset($data['buildings']['constructing'][$buildingKey][$row->hours]))
+            {
+                $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
+            }
             $totalConstructingLand += (int)$row->amount;
         });
 
