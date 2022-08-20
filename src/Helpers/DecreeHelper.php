@@ -231,6 +231,8 @@ class DecreeHelper
     {
         $isAvailable = true;
 
+        #dd($decree->exclusive_races, $decree->excluded_races);
+
         if(count($decree->exclusive_races) > 0 and !in_array($race->name, $decree->exclusive_races))
         {
             return false;

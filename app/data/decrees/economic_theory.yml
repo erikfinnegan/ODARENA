@@ -1,7 +1,7 @@
 name: Economic Theory
 cooldown: 384
 description: Determine the type of military tradition you want your dominion to have.
-excluded_factions:
+excluded_races:
   - Firewalker
   - Lux
   - Swarm
