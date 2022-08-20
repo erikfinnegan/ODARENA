@@ -1393,6 +1393,7 @@ class TickService
                         #$this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKeyToGenerate => $barrenLand]);
                         $this->queueService->queueResources('construction', $dominion, [('building_' . $buildingKeyToGenerate) => $barrenLand], 12);
                     }
+                    #dd($buildingKeyToGenerate);
                 }
             }
         }

@@ -1,6 +1,8 @@
 name: Culture
 cooldown: 768
 description: Decide what type of culture you want your dominion to have.
+excluded_races:
+  - Growth
 states:
   - name: Artistic
     perks:

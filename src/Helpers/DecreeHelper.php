@@ -233,12 +233,12 @@ class DecreeHelper
 
         if(count($decree->exclusive_races) > 0 and !in_array($race->name, $decree->exclusive_races))
         {
-            $isAvailable = false;
+            return false;
         }
 
         if(count($decree->excluded_races) > 0 and in_array($race->name, $decree->excluded_races))
         {
-            $isAvailable = false;
+            return false;
         }
 
         return $isAvailable;

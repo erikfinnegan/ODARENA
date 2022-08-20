@@ -1486,18 +1486,38 @@ class Dominion extends AbstractModel
         );
     }
 
-    public function getDecreePerkValue(string $key): float
+    public function getDecreePerkValue(string $key)
     {
         $perks = $this->getDecreeStatePerks()->groupBy('key');
 
-        if (isset($perks[$key])) {
-            #$max = (float)$perks[$key]->max('pivot.value');
-            #if ($max < 0) {
-            #    return (float)$perks[$key]->min('pivot.value');
-            #}
-            #return $max;
-            return $perks[$key]->sum('pivot.value');
+        $buildingGenerationPerks = [
+                'generate_building_forest',
+                'generate_building_hill',
+                'generate_building_mountain',
+                'generate_building_plain',
+                'generate_building_swamp',
+                'generate_building_water',
+            ];
+
+        if(in_array($key, $buildingGenerationPerks))
+        {
+            if (isset($perks[$key]))
+            {
+                return $perks[$key]->pluck('pivot.value')->first();
+            }
         }
+        else
+        {
+            if (isset($perks[$key])) {
+                #$max = (float)$perks[$key]->max('pivot.value');
+                #if ($max < 0) {
+                #    return (float)$perks[$key]->min('pivot.value');
+                #}
+                #return $max;
+                return $perks[$key]->sum('pivot.value');
+            }
+        }
+
         return 0;
     }
 
