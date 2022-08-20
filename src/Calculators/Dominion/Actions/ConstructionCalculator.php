@@ -234,6 +234,7 @@ class ConstructionCalculator
         $multiplier = 1;
         $multiplier -= $dominion->getImprovementPerkMultiplier('construction_time');
         $multiplier -= $dominion->getBuildingPerkMultiplier('construction_time');
+        $multiplier -= $dominion->getAdvancementPerkMultiplier('construction_time');
 
         $ticks *= $multiplier;
 
