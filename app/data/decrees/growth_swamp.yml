@@ -6,7 +6,7 @@ exclusive_races:
 states:
   - name: Tissue
     perks:
-      generate_building_swamp: tissue
+      generate_building_swamp: tissue_swamp
   - name: Sac
     perks:
       generate_building_swamp: sac
