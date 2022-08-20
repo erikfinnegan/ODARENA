@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Image;
 use OpenDominion\Helpers\NotificationHelper;
+use OpenDominion\Helpers\WorldNewsHelper;
 use OpenDominion\Helpers\SettingHelper;
 use OpenDominion\Models\User;
 use RuntimeException;
@@ -27,15 +28,36 @@ class SettingsController extends AbstractController
 
         $notificationSettings = $user->settings['notifications'] ?? $notificationHelper->getDefaultUserNotificationSettings();
 
-
         $settingHelper = app(SettingHelper::class);
 
         $settingSettings = $user->settings['settings'] ?? $settingHelper->getDefaultUserNotificationSettings();
+
+        $worldNewsEventKeys = [
+            'abandon_dominion',
+            'artefact_completed',
+            'barbarian_invasion',
+            'decree_issued',
+            'decree_revoked',
+            'deity_completed',
+            'deity_renounced',
+            'expedition',
+            'governor',
+            'invasion',
+            'invasion_support',
+            'new_dominion',
+            'round_countdown_duration',
+            'round_countdown',
+            'sabotage',
+            'sorcery',
+            'theft',
+        ];
 
         return view('pages.settings', [
             'notificationHelper' => $notificationHelper,
             'notificationSettings' => $notificationSettings,
             'settingHelper' => $settingHelper,
+            'worldNewsHelper' => app(WorldNewsHelper::class),
+            'worldNewsEventKeys' => $worldNewsEventKeys,
         ]);
     }
 
@@ -51,12 +73,11 @@ class SettingsController extends AbstractController
             }
         }
 
-        #dd($request->input());
-
         $this->updateUser($request->input());
         $this->updateNotifications($request->input());
         $this->updateSettings($request->input());
         $this->updateNotificationSettings($request->input());
+        $this->updateWorldNewsSettings($request->input());
 
         $request->session()->flash('alert-success', 'Your settings have been updated.');
         return redirect()->route('settings');
@@ -221,11 +242,59 @@ class SettingsController extends AbstractController
 
         $settings['notification_digest'] = $data['notification_digest'];
 
-        #dump($user->settings);
 
         $user->settings = $settings;
         $user->save();
-        #dd($user->settings);
 
+    }
+
+    protected function updateWorldNewsSettings(array $data)
+    {
+        if (!isset($data['world_news']) || empty($data['world_news'])) {
+            return;
+        }
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        /** @var NotificationHelper $notificationHelper */
+        $notificationHelper = app(NotificationHelper::class);
+        $notificationCategories = $notificationHelper->getNotificationCategories();
+
+        $notificationKeys = [];
+        $enabledNotificationKeys = [];
+        $newNotifications = [];
+
+        // Get list of all ingame notifications (for default values)
+        foreach ($notificationCategories as $key => $types) {
+            foreach ($types as $type => $channels) {
+                $notificationKeys["{$key}.{$type}.ingame"] = false;
+            }
+        }
+
+        // Set checked boxes to true
+        foreach ($data['notifications'] as $key => $types) {
+            foreach ($types as $type => $channels) {
+                foreach ($channels as $channel => $enabled) {
+                    if ($enabled === 'on') {
+                        $enabledNotificationKeys["{$key}.{$type}.{$channel}"] = true;
+                        array_set($newNotifications, "{$key}.{$type}.{$channel}", true);
+                    }
+                }
+            }
+        }
+
+        // Set other types to false
+        foreach ($notificationKeys as $key => $value) {
+            if (!isset($enabledNotificationKeys[$key])) {
+                array_set($newNotifications, $key, false);
+            }
+        }
+
+        $settings = ($user->settings ?? []);
+        $settings['notifications'] = $newNotifications;
+
+        $user->settings = $settings;
+        $user->save();
     }
 }

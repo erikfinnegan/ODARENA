@@ -70,10 +70,10 @@ class NetworthCalculator
             $networth += $totalUnitsOfType * $this->getUnitNetworth($dominion, $unit);
         }
 
-        $networth += ($dominion->military_spies * 5);
-        $networth += ($dominion->military_wizards * 5);
-        $networth += ($dominion->military_archmages * 10);
-
+        $networth += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies') * 5;
+        $networth += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards') * 5;
+        $networth += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages') * 10;
+        
         $networth += ($this->landCalculator->getTotalLand($dominion) * 20);
         $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * 5);
 

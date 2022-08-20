@@ -741,4 +741,63 @@ class WorldNewsHelper
 
         return 'conquered';
     }
+
+    public function getWorldNewsEventDescription(string $eventKey): string
+    {
+        switch ($eventKey)
+        {
+            case 'abandon_dominion':
+                return 'Dominion abandoned';
+
+            case 'artefact_completed':
+                return 'Artefact arrival';
+
+            case 'barbarian_invasion':
+                return 'Barbarian invasion';
+
+            case 'decree_issued':
+                return 'Decree issued';
+
+            case 'decree_revoked':
+                return 'Decree revoked';
+
+            case 'deity_completed':
+                return 'Deity completed';
+
+            case 'deity_renounced':
+                return 'Deity renounced';
+
+            case 'expedition':
+                return 'Expedition';
+
+            case 'governor':
+                return 'Governor appointment';
+
+            case 'invasion':
+                return 'Invasion';
+
+            case 'invasion_support':
+                return 'Invasion support';
+
+            case 'new_dominion':
+                return 'New dominion';
+
+            case 'round_countdown_duration':
+            case 'round_countdown':
+                return 'Round countdown';
+
+            case 'sabotage':
+                return 'Sabotage';
+
+            case 'sorcery':
+                return 'Sorcery';
+
+            case 'theft':
+                return 'Theft';
+
+            default:
+                return $eventKey;
+        }
+    }
+
 }
