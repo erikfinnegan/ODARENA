@@ -125,4 +125,12 @@ class WorldNewsService
         return $events;
     }
 
+    public function getUnreadNewsCount(Dominion $dominion)
+    {
+        return $this->getWorldNewsForDominion($dominion)->filter(function($event) use ($dominion)
+        {
+            return $event->created_at >= $dominion->news_last_read;
+        })->count();
+    }
+
 }

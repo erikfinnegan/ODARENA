@@ -111,7 +111,12 @@
                     <a href="{{ route('dominion.world-news') }}">
                         <i class="far fa-newspaper fa-fw"></i>
                         <span>World News</span>
-                        {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}
+                        @if($newsUnreadCount > 0)
+                            @php
+                                $newsUnreadCount = $newsUnreadCount > 99 ? '99+' : $newsUnreadCount;
+                            @endphp
+                            <span class="pull-right-container"><small class="label pull-right bg-green">{{ $newsUnreadCount }}</small></span>
+                        @endif
                     </a>
                 </li>
                 <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fas fa-comments ra-fw"></i>

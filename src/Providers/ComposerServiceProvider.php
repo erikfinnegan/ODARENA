@@ -14,9 +14,9 @@ use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
-use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Models\GameEvent;
+use OpenDominion\Services\Dominion\WorldNewsService;
+#use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use Carbon\Carbon;
 use OpenDominion\Helpers\RaceHelper;
@@ -43,6 +43,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $techCalculator = app(TechCalculator::class);
             $resourceCalculator = app(ResourceCalculator::class);
             #$productionCalculator = app(ProductionCalculator::class);
+            $worldNewsService = app(WorldNewsService::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
                 return;
@@ -52,11 +53,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $dominion = $selectorService->getUserSelectedDominion();
 
             $councilLastRead = $dominion->council_last_read;
-            $newsLastRead = $dominion->news_last_read;
-            if($newsLastRead == null)
-            {
-                $newsLastRead = $dominion->created_at;
-            }
+            $newsLastRead = $dominion->news_last_read ?? $dominion->created_at;
 
             $councilUnreadCount = $dominion->realm
                 ->councilThreads()
@@ -75,11 +72,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-            $newsUnreadCount = GameEvent::query()
-                ->select('id')
-                ->where('round_id', $dominion->round->id)
-                ->where('created_at', '>', $newsLastRead)
-                ->count();
+            $newsUnreadCount = $worldNewsService->getUnreadNewsCount($dominion);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('newsUnreadCount', $newsUnreadCount);
