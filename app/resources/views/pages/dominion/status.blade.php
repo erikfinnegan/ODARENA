@@ -334,10 +334,10 @@
             <div class="col-sm-12 col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-exchange-alt fa-fw text-red"></i> Change Title</h3>
+                        <h3 class="box-title"><i class="fa fa-exchange-alt fa-fw text-red"></i> Change Ruler Title</h3>
                     </div>
                     <div class="box-body">
-                        <p><strong class="text-red">You can only change title before you have taken an action.</strong> As soon as you take any action, this option goes away.</p>
+                        <p><strong class="text-red">You can only change ruler title before you have taken an action.</strong> As soon as you take any action, this option goes away.</p>
                         <form action="{{ route('dominion.status.change-title') }}" method="post" role="form" id="tick_form">
                             @csrf
                             <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
@@ -357,7 +357,7 @@
                                     @endforeach
                                 </select>
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-block btn-warning">Change title</button>
+                                    <button type="submit" class="btn btn-block btn-warning">Change ruler title</button>
                                 </span>
                             </div>
                         </form>
