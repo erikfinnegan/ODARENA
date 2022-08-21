@@ -25,12 +25,11 @@ class SettingsController extends AbstractController
 
         /** @var NotificationHelper $notificationHelper */
         $notificationHelper = app(NotificationHelper::class);
+        $settingHelper = app(SettingHelper::class);
+        $worldNewsHelper = app(WorldNewsHelper::class);
 
         $notificationSettings = $user->settings['notifications'] ?? $notificationHelper->getDefaultUserNotificationSettings();
-
-        $settingHelper = app(SettingHelper::class);
-
-        $settingSettings = $user->settings['settings'] ?? $settingHelper->getDefaultUserNotificationSettings();
+        $worldNewsSettings = $user->settings['world_news'] ?? $worldNewsHelper->getDefaultUserWorldNewsSettings();
 
         $worldNewsEventKeys = [
             'abandon_dominion',
@@ -58,6 +57,7 @@ class SettingsController extends AbstractController
             'settingHelper' => $settingHelper,
             'worldNewsHelper' => app(WorldNewsHelper::class),
             'worldNewsEventKeys' => $worldNewsEventKeys,
+            'worldNewsSettings' => $worldNewsSettings,
         ]);
     }
 
@@ -258,41 +258,29 @@ class SettingsController extends AbstractController
         $user = Auth::user();
 
         /** @var NotificationHelper $notificationHelper */
-        $notificationHelper = app(NotificationHelper::class);
-        $notificationCategories = $notificationHelper->getNotificationCategories();
+        $worldNewsHelper = app(WorldNewsHelper::class);
+        $eventScopes = ['own', 'other'];
+ 
+        $defaultWorldEvents = $worldNewsHelper->getDefaultUserWorldNewsSettings();
+        $newWorldNewsSettings = [];
 
-        $notificationKeys = [];
-        $enabledNotificationKeys = [];
-        $newNotifications = [];
+        // Get list of all world events (for default values)
 
-        // Get list of all ingame notifications (for default values)
-        foreach ($notificationCategories as $key => $types) {
-            foreach ($types as $type => $channels) {
-                $notificationKeys["{$key}.{$type}.ingame"] = false;
+        foreach($defaultWorldEvents as $eventKey => $defaultValue)
+        {
+            if(isset($data['world_news'][$eventKey]))
+            {
+                $newWorldNewsSettings[$eventKey] = ($data['world_news'][$eventKey] == 'on' ? true : false);
+            }
+            else
+            {
+                $newWorldNewsSettings[$eventKey] = false;
             }
         }
 
-        // Set checked boxes to true
-        foreach ($data['notifications'] as $key => $types) {
-            foreach ($types as $type => $channels) {
-                foreach ($channels as $channel => $enabled) {
-                    if ($enabled === 'on') {
-                        $enabledNotificationKeys["{$key}.{$type}.{$channel}"] = true;
-                        array_set($newNotifications, "{$key}.{$type}.{$channel}", true);
-                    }
-                }
-            }
-        }
-
-        // Set other types to false
-        foreach ($notificationKeys as $key => $value) {
-            if (!isset($enabledNotificationKeys[$key])) {
-                array_set($newNotifications, $key, false);
-            }
-        }
 
         $settings = ($user->settings ?? []);
-        $settings['notifications'] = $newNotifications;
+        $settings['world_news'] = $newWorldNewsSettings;
 
         $user->settings = $settings;
         $user->save();

@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\GameEventService;
+use OpenDominion\Services\Dominion\WorldNewsService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\WorldNewsHelper;
@@ -29,7 +30,10 @@ class WorldNewsController extends AbstractDominionController
             $realm = null;
         }
 
+        $worldNewsService = app(WorldNewsService::class);
+
         $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
+        $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
 
         $gameEvents = $townCrierData['gameEvents'];
         $dominionIds = $townCrierData['dominionIds'];
