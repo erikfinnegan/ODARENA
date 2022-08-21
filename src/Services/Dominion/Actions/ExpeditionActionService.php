@@ -246,7 +246,10 @@ class ExpeditionActionService
             $this->handlePrestigeChanges($dominion, $this->expeditionResult['land_discovered_amount'], $this->expeditionResult['land_size'], $units);
             $this->handleXp($dominion, $this->expeditionResult['land_discovered_amount']);
             #$this->handleDuringExpeditionUnitPerks($dominion, $units);
-            #$this->handleArtefactsDiscovery($dominion);
+            if($dominion->round->mode == 'artefacts')
+            {
+                $this->handleArtefactsDiscovery($dominion);
+            }
             $this->handleReturningUnits($dominion, $units);
 
             $this->statsService->updateStat($dominion, 'land_discovered', $this->expeditionResult['land_discovered_amount']);
