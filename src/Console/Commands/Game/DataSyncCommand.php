@@ -5,7 +5,10 @@ namespace OpenDominion\Console\Commands\Game;
 use DB;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Console\Commands\CommandInterface;
+
 use OpenDominion\Models\Advancement;
 use OpenDominion\Models\AdvancementPerk;
 use OpenDominion\Models\AdvancementPerkType;
@@ -29,12 +32,14 @@ use OpenDominion\Models\Quickstart;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\RacePerk;
 use OpenDominion\Models\RacePerkType;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\SpellPerk;
 use OpenDominion\Models\SpellPerkType;
 use OpenDominion\Models\Spyop;
 use OpenDominion\Models\SpyopPerk;
 use OpenDominion\Models\SpyopPerkType;
+use OpenDominion\Models\Stat;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\TechPerk;
 use OpenDominion\Models\TechPerkType;
@@ -45,19 +50,13 @@ use OpenDominion\Models\Unit;
 use OpenDominion\Models\UnitPerk;
 use OpenDominion\Models\UnitPerkType;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
-use OpenDominion\Models\Stat;
-use OpenDominion\Models\Resource;
-
-
 class DataSyncCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:data:sync';
 
     /** @var string The console command description. */
-    protected $description = '';
+    protected $description = 'Sync game data';
 
     /** @var Filesystem */
     protected $filesystem;

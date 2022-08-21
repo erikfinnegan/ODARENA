@@ -22,7 +22,7 @@ class RoundOpenCommand extends Command implements CommandInterface
                              {--leagueId= : League ID (optional)}';
 
     /** @var string The console command description. */
-    protected $description = 'Creates a new round which starts in 5 days';
+    protected $description = 'Creates a new round which starts in 2 days';
 
     /** @var RealmFactory */
     protected $realmFactory;

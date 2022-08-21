@@ -16,7 +16,7 @@ class TickCommand extends Command implements CommandInterface
     protected $signature = 'game:tick';
 
     /** @var string The console command description. */
-    protected $description = 'Ticks the game';
+    protected $description = 'Ticks the game (all active rounds)';
 
     /** @var TickService */
     protected $tickService;

@@ -319,7 +319,6 @@
             </div>
         </div>
 
-
         @if ($selectedDominion->realm->motd && ($selectedDominion->realm->motd_updated_at > now()->subDays(3)))
             <div class="col-sm-12 col-md-9">
                 <div class="panel panel-warning">
@@ -331,76 +330,93 @@
             </div>
         @endif
 
-        @if ($dominionProtectionService->canTick($selectedDominion) or $dominionProtectionService->canDelete($selectedDominion))
-        <div class="col-sm-12 col-md-6">
-            @if ($dominionProtectionService->canTick($selectedDominion))
+        @if($titleCalculator->canChangeTitle($selectedDominion))
+            <div class="col-sm-12 col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Protection</h3>
+                        <h3 class="box-title"><i class="fas fa-fast-forward fa-fw text-orange"></i> Change Title</h3>
                     </div>
-                      <div class="box-body">
-                          <p>You are under a magical state of protection. You have <b>{{ $selectedDominion->protection_ticks }}</b> protection {{ str_plural('tick', $selectedDominion->protection_ticks) }} left.</p>
-                          <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
-                          <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
-                          <p>Click the button below to proceed to the next tick. <em>There is no undo option so make sure you are ready to proceed.</em> </p>
-                          <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
-                          @csrf
-                          <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
-                          <select class="btn btn-warning" name="ticks">
-                              @for ($i = 1; $i <= min(24, $selectedDominion->protection_ticks); $i++)
-                              <option value="{{ $i }}">{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                          <button type="submit"
-                                  class="btn btn-info"
-                                  {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                  id="tick-button">
-                              <i class="ra ra-shield"></i>
-                              Proceed tick(s) ({{ $selectedDominion->protection_ticks }} {{ str_plural('tick', $selectedDominion->protection_ticks) }} left)
-                        </form>
-                      </div>
-                </div>
-            @endif
-            @if ($dominionProtectionService->canDelete($selectedDominion))
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-broken-shield text-red"></i> Delete Dominion</h3>
-                    </div>
-                      <div class="box-body">
-                          <p>You can delete your dominion and create a new one.</p>
-                          <p><strong>There is no way to undo this action.</strong></p>
-                          <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
-                              @csrf
-                              <div class="form-group">
-                                  <select class="form-control">
-                                      <option value="0">Delete?</option>
-                                      <option value="1">Confirm Delete</option>
-                                  </select>
-                                  <p>
-                                    <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
-                                  </p>
-                              </div>
-                          </form>
-                      </div>
-                </div>
-            @endif
-        </div>
-
-        <div class="col-sm-12 col-md-3">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fas fa-fast-forward fa-fw text-orange"></i> Quickstart</h3>
-                </div>
                     <div class="box-body">
                         <p>Click the button below to generate a quickstart based on the current state of your dominion.</p>
                         <a href="{{ route('dominion.quickstart') }}" class="btn btn-warning">
                             <i class="fas fa-fast-forward fa-fw"></i> Generate Quickstart
                         </a>
                     </div>
+                </div>
             </div>
-        </div>      
+        @endif
+        
+        @if ($dominionProtectionService->canTick($selectedDominion))
+            <div class="col-sm-12 col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Protection</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>You are under a magical state of protection. You have <b>{{ $selectedDominion->protection_ticks }}</b> protection {{ str_plural('tick', $selectedDominion->protection_ticks) }} left.</p>
+                        <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
+                        <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
+                        <p>Select number of ticks and click the button below to proceed that many ticks. <em>There is no undo or Go Back option so make sure you are ready to proceed.</em> </p>
+                        <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
+                        @csrfxw
+                        <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
+                        <select class="btn btn-warning" name="ticks">
+                            @for ($i = 1; $i <= min(24, $selectedDominion->protection_ticks); $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
 
+                        <button type="submit"
+                                class="btn btn-info"
+                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                id="tick-button">
+                            <i class="ra ra-shield"></i>
+                            Proceed tick(s) ({{ $selectedDominion->protection_ticks }} {{ str_plural('tick', $selectedDominion->protection_ticks) }} left)
+                    </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if ($dominionProtectionService->canDelete($selectedDominion))
+            <div class="col-sm-12 col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-broken-shield text-red"></i> Delete Dominion</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>You can delete your dominion and create a new one.</p>
+                        <p><strong>There is no way to undo this action.</strong></p>
+                        <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option value="0">Delete?</option>
+                                    <option value="1">Confirm Delete</option>
+                                </select>
+                                <p>
+                                <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if(!$selectedDominion->round->hasStarted() or $dominionProtectionService->canTick($selectedDominion))
+            <div class="col-sm-12 col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fas fa-fast-forward fa-fw text-orange"></i> Quickstart</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>Click the button below to generate a quickstart based on the current state of your dominion.</p>
+                        <a href="{{ route('dominion.quickstart') }}" class="btn btn-warning">
+                            <i class="fas fa-fast-forward fa-fw"></i> Generate Quickstart
+                        </a>
+                    </div>
+                </div>
+            </div>
         @endif
 
         <div class="col-sm-12 col-md-9">

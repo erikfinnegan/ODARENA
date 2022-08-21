@@ -28,18 +28,6 @@ class PrecalculateCommand extends Command implements CommandInterface
         $this->tickService = app(TickService::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-#    public function handle(): void
-#    {
-#        $this->tickService->tickHourly();
-#
-#        if (now()->hour === 0) {
-#            $this->tickService->tickDaily();
-#        }
-#    }
-
     public function handle(): void
     {
         $activeRounds = Round::active()->get();

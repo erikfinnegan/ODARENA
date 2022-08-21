@@ -18,5 +18,9 @@ trait DominionGuardsTrait
         if ($dominion->isLocked()) {
             throw new RuntimeException("Dominion {$dominion->name} is locked");
         }
+        
+        if ($dominion->isAbandoned()) {
+            throw new RuntimeException("Dominion {$dominion->name} is abandoned");
+        }
     }
 }

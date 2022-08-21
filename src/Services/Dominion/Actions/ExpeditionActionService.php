@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 use DB;
 use Log;
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\Traits\DominionGuardsTrait;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
@@ -35,6 +36,8 @@ use OpenDominion\Services\Dominion\StatsService;
 
 class ExpeditionActionService
 {
+    use DominionGuardsTrait;
+
     /**
      * @var int The minimum morale required to initiate an invasion
      */
@@ -76,6 +79,7 @@ class ExpeditionActionService
      */
     public function send(Dominion $dominion, array $units): array
     {
+        $this->guardLockedDominion($dominion);
 
         DB::transaction(function () use ($dominion, $units)
         {

@@ -281,7 +281,7 @@ class WorldNewsHelper
             $mode = 'green';
         }
 
-        if($expedition['data']['artefact']['found'])
+        if(isset($expedition['data']['artefact']) and $expedition['data']['artefact']['found'])
         {
 
             $string = sprintf(
