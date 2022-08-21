@@ -17,7 +17,7 @@ class WorldNewsController extends AbstractDominionController
     public function getIndex(int $realmNumber = null)
     {
         $gameEventService = app(GameEventService::class);
-        $worldNewsService = app(WorldNewsService::class);
+        #$worldNewsService = app(WorldNewsService::class);
         $dominion = $this->getSelectedDominion();
 
         $this->updateDominionNewsLastRead($dominion);
@@ -30,12 +30,12 @@ class WorldNewsController extends AbstractDominionController
             ->first();
 
 
-            $worldNewsData = $worldNewsService->getWorldNewsForRealm($realm);
+            #$worldNewsData = $worldNewsService->getWorldNewsForRealm($realm);
         }
         else
         {
             $realm = null;
-            $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
+            #$worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
         }
 
         $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
