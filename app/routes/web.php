@@ -79,6 +79,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Status
             $router->get('status')->uses('Dominion\StatusController@getStatus')->name('status');
             $router->post('status')->uses('Dominion\StatusController@postTick');
+            $router->post('status/change-title')->uses('Dominion\StatusController@postChangeTitle')->name('status.change-title');
 
             # Resources
             $router->get('resources')->uses('Dominion\ResourcesController@getResources')->name('resources');

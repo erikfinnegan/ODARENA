@@ -3,6 +3,7 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\TitleChangeActionRequest;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\DominionCalculator;
@@ -14,6 +15,8 @@ use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\TitleCalculator;
+
+use OpenDominion\Models\Title;
 
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -34,6 +37,12 @@ class StatusController extends AbstractDominionController
         $selectedDominion = $this->getSelectedDominion();
 
         $notifications = $selectedDominion->notifications()->paginate($resultsPerPage);
+
+        $titles = Title::query()
+            ->with(['perks'])
+            ->where('enabled',1)
+            ->orderBy('name')
+            ->get();
 
         return view('pages.dominion.status', [
             'title' => 'STATUS',
@@ -57,7 +66,8 @@ class StatusController extends AbstractDominionController
             'titleHelper' => app(TitleHelper::class),
             'statsService' => app(StatsService::class),
             'unitHelper' => app(UnitHelper::class),
-            'notifications' => $notifications
+            'notifications' => $notifications,
+            'titles' => $titles,
         ]);
     }
 
@@ -86,6 +96,20 @@ class StatusController extends AbstractDominionController
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
         return redirect()->to(route($request->returnTo));
 
+    }
+
+    public function postChangeTitle(TitleChangeActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $title = Title::findOrFail($request->input('title_id'));
+        $dominion->title_id = $title->id;
+        $dominion->save();
+        return redirect()
+            ->to(route('dominion.status'))
+            ->with(
+                'alert-success',
+                'Your title has been changed.'
+            );
     }
 
 }

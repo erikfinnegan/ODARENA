@@ -334,13 +334,33 @@
             <div class="col-sm-12 col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fas fa-fast-forward fa-fw text-orange"></i> Change Title</h3>
+                        <h3 class="box-title"><i class="fa fa-exchange-alt fa-fw text-red"></i> Change Title</h3>
                     </div>
                     <div class="box-body">
-                        <p>Click the button below to generate a quickstart based on the current state of your dominion.</p>
-                        <a href="{{ route('dominion.quickstart') }}" class="btn btn-warning">
-                            <i class="fas fa-fast-forward fa-fw"></i> Generate Quickstart
-                        </a>
+                        <p><strong class="text-red">You can only change title before you have taken an action.</strong> As soon as you take any action, this option goes away.</p>
+                        <form action="{{ route('dominion.status.change-title') }}" method="post" role="form" id="tick_form">
+                            @csrf
+                            <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
+                            <div class="input-group">
+                                <select name="title_id" id="title" class="form-control select2" data-placeholder="Select a title" required>
+                                <option></option>
+                                    @foreach ($titles as $title)
+                                        <option value="{{ $title->id }}">
+                                            {{ $title->name }}
+                                            (@foreach ($title->perks as $perk)
+                                                @php
+                                                    $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
+                                                @endphp
+                                                    {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
+                                            @endforeach)
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-block btn-warning">Change title</button>
+                                </span>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -358,7 +378,7 @@
                         <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
                         <p>Select number of ticks and click the button below to proceed that many ticks. <em>There is no undo or Go Back option so make sure you are ready to proceed.</em> </p>
                         <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
-                        @csrfxw
+                        @csrf
                         <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
                         <select class="btn btn-warning" name="ticks">
                             @for ($i = 1; $i <= min(24, $selectedDominion->protection_ticks); $i++)
@@ -385,17 +405,17 @@
                     </div>
                     <div class="box-body">
                         <p>You can delete your dominion and create a new one.</p>
-                        <p><strong>There is no way to undo this action.</strong></p>
+                        <p><strong>There is instant and cannot be undone.</strong></p>
                         <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
                             @csrf
-                            <div class="form-group">
+                            <div class="input-group">
                                 <select class="form-control">
                                     <option value="0">Delete?</option>
                                     <option value="1">Confirm Delete</option>
                                 </select>
-                                <p>
-                                <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
-                                </p>
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-block btn-danger" disabled>Delete my dominion</button>
+                                </span>
                             </div>
                         </form>
                     </div>
@@ -484,3 +504,56 @@
          })(jQuery);
      </script>
  @endpush
+
+
+@if($titleCalculator->canChangeTitle($selectedDominion))
+    @push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
+    @endpush
+
+    @push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    @endpush
+
+    @push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            $('#title').select2({
+                templateResult: select2Template,
+                templateSelection: select2Template,
+            });
+            @if (session('title'))
+                $('#title').val('{{ session('title') }}').trigger('change.select2').trigger('change');
+            @endif
+        })(jQuery);
+
+
+        (function ($) {
+            $('#faction').select2({
+                templateResult: select2Template,
+                templateSelection: select2Template,
+            });
+            @if (session('faction'))
+                $('#faction').val('{{ session('faction') }}').trigger('change.select2').trigger('change');
+            @endif
+        })(jQuery);
+
+        function select2Template(state)
+        {
+            if (!state.id)
+            {
+                return state.text;
+            }
+
+            const current = state.element.dataset.current;
+            const experimental = state.element.dataset.experimental;
+            const maxPerRound = state.element.dataset.maxperround;
+
+            return $(`
+                <div class="pull-left">${state.text}</div>
+                <div style="clear: both;"></div>
+            `);
+        }
+    </script>
+    @endpush
+@endif

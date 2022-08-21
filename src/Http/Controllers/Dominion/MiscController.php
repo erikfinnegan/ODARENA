@@ -14,7 +14,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
-use OpenDominion\Models\Realm;
+use OpenDominion\Models\Title;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
@@ -193,7 +193,6 @@ class MiscController extends AbstractDominionController
             'ruler_title' => $dominion->title->name
         ];
 
-
         # Remove votes
         DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
         DB::table('realms')->where('monarch_dominion_id', '=', $dominion->id)->update(['monarch_dominion_id' => null]);
@@ -233,6 +232,5 @@ class MiscController extends AbstractDominionController
                 'Your dominion has been abandoned.'
             );
     }
-
 
 }
