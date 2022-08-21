@@ -746,7 +746,7 @@ class WorldNewsHelper
     {
         return [
             'abandon_dominion' => 'Dominion abandoned',
-            #'artefact_completed' => 'Artefact arrival',
+            'artefact_completed' => 'Artefact arrival',
             'barbarian_invasion' =>'Barbarian invasion',
             'decree_issued' => 'Decree issued',
             'decree_revoked' => 'Decree revoked',

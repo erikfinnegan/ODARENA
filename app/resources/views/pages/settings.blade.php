@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-@section('page-header', 'Settings')
 @section('title', 'Settings')
 
 @section('content')
@@ -49,16 +48,47 @@
 
                                 {{-- World News --}}
                                 <div class="form-group">
-                                    <label for="skin" class="col-sm-3 control-label">Skin</label>
+                                    <label for="skin" class="col-sm-3 control-label">World News</label>
                                     <div class="col-sm-9">
-                                        <select name="skin" id="skin" class="form-control">
-                                            <option value="skin-red">Default</option>
-                                            <option value="skin-dark-red" {{ Auth::user()->skin == 'skin-dark-red' ? 'selected' : null }}>Dark</option>
-                                        </select>
-                                        <p class="help-block">Select a new color scheme for the website. <em>The game is optimised for default.</em></p>
+                                        <table class="table table-striped" style="margin-bottom: 0">
+                                            <colgroup>
+                                                <col>
+                                                <col width="25%">
+                                                <col width="25%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>Event</th>
+                                                    <th class="text-center">My Realm</th>
+                                                    <th class="text-center">Other Realms</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><em>All</em></td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" data-check-all data-check-all-type="own">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" data-check-all data-check-all-type="other">
+                                                    </td>
+                                                </tr>
+                                                @foreach($worldNewsEventKeys as $eventKey)
+                                                    @php
+                                                        $ownChecked = ($worldNewsSettings['own.'.$eventKey] ?? false) ? 'checked' : null;
+                                                        $otherChecked = ($worldNewsSettings['other.'.$eventKey] ?? false) ? 'checked' : null;
+
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{ $worldNewsHelper->getWorldNewsEventDescription($eventKey) }}</td>
+                                                        <td class="text-center"><input type="checkbox" name="world_news[own.{{ $eventKey }}]" {{ $ownChecked }} data-check-all-type="own"></td>
+                                                        <td class="text-center"><input type="checkbox" name="world_news[other.{{ $eventKey }}]"  {{ $otherChecked }}  data-check-all-type="other"></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-md-6">
 

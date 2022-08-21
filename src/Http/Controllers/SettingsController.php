@@ -31,25 +31,11 @@ class SettingsController extends AbstractController
         $notificationSettings = $user->settings['notifications'] ?? $notificationHelper->getDefaultUserNotificationSettings();
         $worldNewsSettings = $user->settings['world_news'] ?? $worldNewsHelper->getDefaultUserWorldNewsSettings();
 
-        $worldNewsEventKeys = [
-            'abandon_dominion',
-            'artefact_completed',
-            'barbarian_invasion',
-            'decree_issued',
-            'decree_revoked',
-            'deity_completed',
-            'deity_renounced',
-            'expedition',
-            'governor',
-            'invasion',
-            'invasion_support',
-            'new_dominion',
-            'round_countdown_duration',
-            'round_countdown',
-            'sabotage',
-            'sorcery',
-            'theft',
-        ];
+        $worldNewsEventKeys = [];
+        foreach($worldNewsHelper->getWorldNewsEventKeyDescriptions() as $eventKey => $eventDescription)
+        {
+            $worldNewsEventKeys[] = $eventKey;
+        }
 
         return view('pages.settings', [
             'notificationHelper' => $notificationHelper,

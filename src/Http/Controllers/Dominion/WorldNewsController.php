@@ -4,7 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Services\GameEventService;
+#use OpenDominion\Services\GameEventService;
 use OpenDominion\Services\Dominion\WorldNewsService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RoundHelper;
@@ -16,8 +16,8 @@ class WorldNewsController extends AbstractDominionController
 
     public function getIndex(int $realmNumber = null)
     {
-        $gameEventService = app(GameEventService::class);
-        #$worldNewsService = app(WorldNewsService::class);
+        #$gameEventService = app(GameEventService::class);
+        $worldNewsService = app(WorldNewsService::class);
         $dominion = $this->getSelectedDominion();
 
         $this->updateDominionNewsLastRead($dominion);
@@ -29,19 +29,21 @@ class WorldNewsController extends AbstractDominionController
             ])
             ->first();
 
-
-            #$worldNewsData = $worldNewsService->getWorldNewsForRealm($realm);
+            $worldNewsData = $worldNewsService->getWorldNewsForRealm($realm, $viewer = $dominion);
         }
         else
         {
             $realm = null;
-            #$worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
+            $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
         }
 
-        $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
-        $gameEvents = $townCrierData['gameEvents'];
+        
 
-        #$gameEvents = $worldNewsData;
+        #$townCrierData = $gameEventService->getTownCrier($dominion, $realm);
+
+        #$gameEvents = $townCrierData['gameEvents'];
+
+        $gameEvents = $worldNewsData;
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 

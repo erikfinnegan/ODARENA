@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\User;
 
 use OpenDominion\Helpers\WorldNewsHelper;
 
@@ -23,22 +24,27 @@ class WorldNewsService
         $this->worldNewsHelper = app(WorldNewsHelper::class);
     }
 
+    # The default view, contains all news for the current round.
+    # forDominion = visible for this dominion (regardless of realm, subject to own preferences)
     public function getWorldNewsForDominion(Dominion $dominion, string $worldNewsScope = 'default', $maxTicksAgo = 192): Collection
     {
         $user = Auth::user();
         if($user->id !== $dominion->user->id)
         {
-            dd('Eh, you can\'t see this');
+            abort(403);
         }
+
+        $worldNewsSettings = $user->settings['world_news'] ?? $this->worldNewsHelper->getDefaultUserWorldNewsSettings();
 
         $events = $dominion->round->gameEvents()
                                     ->where('tick', '>=', ($dominion->round->ticks - $maxTicksAgo))
                                     ->orderBy('created_at', 'desc')
                                     ->get();
 
+        # Works but is slow.
         foreach($events as $index => $event)
         {
-            foreach($user->settings['world_news'] as $eventScopeKey => $view)
+            foreach($worldNewsSettings as $eventScopeKey => $view)
             {
                 $settingScope = explode('.',$eventScopeKey)[0];
                 $settingEventKey = explode('.',$eventScopeKey)[1];
@@ -53,23 +59,32 @@ class WorldNewsService
         return $events;
     }
 
-    public function getWorldNewsForRealm(Realm $realm, string $worldNewsScope = 'default', $maxTicksAgo = 192): Collection
+    public function getWorldNewsForRealm(Realm $realm, Dominion $viewer, $maxTicksAgo = 192): Collection
     {
         $user = Auth::user();
+
+        if($user->id !== $viewer->user->id)
+        {
+            abort(403);
+        }
+
+        $worldNewsSettings = $user->settings['world_news'] ?? $this->worldNewsHelper->getDefaultUserWorldNewsSettings();
 
         $events = $realm->round->gameEvents()
                                     ->where('tick', '>=', ($realm->round->ticks - $maxTicksAgo))
                                     ->orderBy('created_at', 'desc')
                                     ->get();
+        
+        $events = $this->filterRealmEvents($events, $realm);
 
         foreach($events as $index => $event)
         {
-            foreach($user->settings['world_news'] as $eventScopeKey => $view)
+            foreach($worldNewsSettings as $eventScopeKey => $view)
             {
                 $settingScope = explode('.',$eventScopeKey)[0];
                 $settingEventKey = explode('.',$eventScopeKey)[1];
 
-                if($this->getRealmScopeRelation($user, $event) == $settingScope and $event->type == $settingEventKey and !$view)
+                if($this->getDominionScopeRelation($viewer, $event) == $settingScope and $event->type == $settingEventKey and !$view)
                 {
                     $events->forget($index);
                 }
@@ -96,22 +111,18 @@ class WorldNewsService
         }
     }
 
-    private function getRealmScopeRelation(User $user, GameEvent $event)
+    private function filterRealmEvents(Collection $events, Realm $realm)
     {
-        $dominion = $this->roundService->getUserDominionFromRound($round);
-        
-        if(
-            $event->source_type == Dominion::class and Dominion::findOrFail($event->source_id)->realm->id == $realm->id or
-            $event->target_type == Dominion::class and Dominion::findOrFail($event->target_id)->realm->id == $realm->id or
-            $event->target_type == Realm::class and $event->target_id == $realm->id or
-            $event->target_type == Realm::class and $event->target_id == $realm->id
-        )
-        {
-            return 'own';
-        }
-        else
-        {
-            return 'other';
-        }
+        $events = $events->filter(function($event) use ($realm) {
+            return (
+                $event->source_type == Dominion::class and Dominion::findOrFail($event->source_id)->realm->id == $realm->id or
+                $event->target_type == Dominion::class and Dominion::findOrFail($event->target_id)->realm->id == $realm->id or
+                $event->target_type == Realm::class and $event->target_id == $realm->id or
+                $event->target_type == Realm::class and $event->target_id == $realm->id
+            );
+        });
+
+        return $events;
     }
+
 }
