@@ -1,5 +1,3 @@
-
-
 <aside class="main-sidebar">
     <section class="sidebar">
 
@@ -104,7 +102,20 @@
                     <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
+
+                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}">
+                    <a href="{{ route('dominion.realm') }}">
+                        <i class="fas fa-map-signs fa-fw"></i>
+                        <span>The World</span>
+                        <span class="pull-right-container">
+                            <span href="#realms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-angle-down"></i></span>
+                            <ul class="collapse" id="realms">
+                                @foreach($selectedDominion->round->realms()->get() as $realm)
+                                    <li>&nbsp;<a href="{{ route('dominion.realm', $realm->number) }}">{{ $realmHelper->getAlignmentNoun($realm->alignment) }} (# {{ $realm->number }})</a></li>
+                                @endforeach
+                            </ul>
+                        </span>
+                    </a>
                 </li>
 
                 <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
