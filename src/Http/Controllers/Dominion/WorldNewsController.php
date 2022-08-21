@@ -4,7 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Services\GameEventService;
+#use OpenDominion\Services\GameEventService;
 use OpenDominion\Services\Dominion\WorldNewsService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RoundHelper;
@@ -16,8 +16,10 @@ class WorldNewsController extends AbstractDominionController
 
     public function getIndex(int $realmNumber = null)
     {
-        $gameEventService = app(GameEventService::class);
+        #$gameEventService = app(GameEventService::class);
+        $worldNewsService = app(WorldNewsService::class);
         $dominion = $this->getSelectedDominion();
+
         $this->updateDominionNewsLastRead($dominion);
 
         if ($realmNumber !== null) {
@@ -26,17 +28,20 @@ class WorldNewsController extends AbstractDominionController
                 'number' => $realmNumber,
             ])
             ->first();
-        } else {
+
+
+            $worldNewsData = $worldNewsService->getWorldNewsForRealm($realm);
+        }
+        else
+        {
             $realm = null;
+            $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
         }
 
-        $worldNewsService = app(WorldNewsService::class);
+        #$townCrierData = $gameEventService->getTownCrier($dominion, $realm);
+        #$gameEvents = $townCrierData['gameEvents'];
 
-        $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
-        #$worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
-
-        $gameEvents = $townCrierData['gameEvents'];
-        $dominionIds = $townCrierData['dominionIds'];
+        $gameEvents = $worldNewsData;
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
@@ -47,7 +52,6 @@ class WorldNewsController extends AbstractDominionController
 
         return view('pages.dominion.world-news', compact(
             'worldNewsHelper',
-            'dominionIds',
             'gameEvents',
             'realm',
             'realmCount',
