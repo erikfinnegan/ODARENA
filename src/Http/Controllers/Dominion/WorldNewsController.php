@@ -38,10 +38,10 @@ class WorldNewsController extends AbstractDominionController
             $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
         }
 
-        #$townCrierData = $gameEventService->getTownCrier($dominion, $realm);
-        #$gameEvents = $townCrierData['gameEvents'];
+        $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
+        $gameEvents = $townCrierData['gameEvents'];
 
-        $gameEvents = $worldNewsData;
+        #$gameEvents = $worldNewsData;
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
