@@ -100,16 +100,32 @@ class StatusController extends AbstractDominionController
 
     public function postChangeTitle(TitleChangeActionRequest $request)
     {
+        $titleCalculator = app(TitleCalculator::class);
         $dominion = $this->getSelectedDominion();
-        $title = Title::findOrFail($request->input('title_id'));
-        $dominion->title_id = $title->id;
-        $dominion->save();
-        return redirect()
-            ->to(route('dominion.status'))
-            ->with(
-                'alert-success',
-                'Your title has been changed.'
-            );
+
+        if($titleCalculator->canChangeTitle($dominion))
+        {
+            $title = Title::findOrFail($request->input('title_id'));
+            $dominion->title_id = $title->id;
+            $dominion->save();
+            return redirect()
+                ->to(route('dominion.status'))
+                ->with(
+                    'alert-success',
+                    'Your title has been changed.'
+                );
+        }
+        else
+        {
+            return redirect()
+                ->to(route('dominion.status'))
+                ->with(
+                    'alert-danger',
+                    'You cannot change your title anymore.'
+                );
+        }
+
+
     }
 
 }
