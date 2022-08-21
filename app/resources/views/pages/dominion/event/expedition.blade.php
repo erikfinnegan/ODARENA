@@ -165,7 +165,7 @@
         </div>
     </div>
 
-    @if($event->data['artefact']['found'])
+    @if(isset($event->data['artefact']) and $event->data['artefact']['found'])
     @php
         $artefact = OpenDominion\Models\Artefact::findOrFail($event->data['artefact']['id']);
     @endphp
