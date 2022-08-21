@@ -33,7 +33,7 @@ class WorldNewsController extends AbstractDominionController
         $worldNewsService = app(WorldNewsService::class);
 
         $townCrierData = $gameEventService->getTownCrier($dominion, $realm);
-        $worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
+        #$worldNewsData = $worldNewsService->getWorldNewsForDominion($dominion);
 
         $gameEvents = $townCrierData['gameEvents'];
         $dominionIds = $townCrierData['dominionIds'];
