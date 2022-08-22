@@ -49,6 +49,7 @@ class InvadeCalculationService
             ],
         'target_dp' => 0,
         'is_ambush' => 0,
+        'target_fog' => 0,
     ];
 
     /**
@@ -133,7 +134,7 @@ class InvadeCalculationService
         $this->calculationResult['op_multiplier'] = $this->militaryCalculator->getOffensivePowerMultiplier($dominion);
 
         $this->calculationResult['away_defense'] = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $this->calculationResult['away_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, $calc);
+        $this->calculationResult['away_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true); #$this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, $calc);
 
         $unitsHome = [
             0 => $dominion->military_draftees,
@@ -168,6 +169,9 @@ class InvadeCalculationService
             if($target->getSpellPerkValue('fog_of_war'))
             {
                 $this->calculationResult['target_dp'] = 'Unknown due to Sazal\'s Fog';
+                $this->calculationResult['target_fog'] = 1;
+                $this->calculationResult['away_offense'] = number_format($this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, $calc));
+                $this->calculationResult['away_offense'] .= ' (may be inaccurate due to Sazal\'s Fog)';
             }
             else
             {
@@ -187,8 +191,6 @@ class InvadeCalculationService
                 $this->calculationResult['target_dp'] = ceil($this->calculationResult['target_dp']);
             }
         }
-
-
 
         return $this->calculationResult;
     }
