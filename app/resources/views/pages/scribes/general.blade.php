@@ -142,7 +142,7 @@
         </div>
         
         <div class="col-sm-12 col-md-12">
-            <a id="expeditions"></a>
+            <a id="governor"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Governor</h2>
@@ -260,7 +260,7 @@
         </div>
         
         <div class="col-sm-12 col-md-12">
-            <a id="sabotage"></a>
+            <a id="rounds"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Rounds</h2>
