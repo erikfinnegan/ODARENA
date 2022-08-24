@@ -163,6 +163,8 @@ gemcutting:
 
 stoneworks:
   name: Stoneworks
+  excluded_races:
+    - Dwarg
   perks:
     ore_improvement_points: 5
 

@@ -9,7 +9,6 @@ minimum_rounds_played: 2
 
 resources:
   - gold
-  - food
   - lumber
   - gems
   - mana

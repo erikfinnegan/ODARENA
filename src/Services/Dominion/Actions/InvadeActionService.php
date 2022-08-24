@@ -1076,37 +1076,20 @@ class InvadeActionService
             # Drop 10% morale for hits under 60%.
             if($landRatio < 60)
             {
-                $attackerMoraleChange = -15;
+                $attackerMoraleChange = -15+(-60-$landRatio);
+                $defenderMoraleChange = $attackerMoraleChange*-1;
             }
-            # No change for hits in lower RG (60-75).
+            # No change for hits in 60-75%
             elseif($landRatio < 75)
             {
                 $attackerMoraleChange = 0;
+                $defenderMoraleChange = $attackerMoraleChange*-0.60;;
             }
-            # Increase 15% for hits 75-85%.
-            elseif($landRatio < 85)
+            # Sliding scale for 75% and up
+            elseif($landRatio >= 75)
             {
-                $attackerMoraleChange = 15;
-            }
-            # Increase 20% for hits 85-100%
-            elseif($landRatio < 100)
-            {
-                $attackerMoraleChange = 20;
-            }
-            # Increase 25% for hits 100% and up.
-            else
-            {
-                $attackerMoraleChange = 25;
-            }
-            # Defender gets the inverse of attacker morale change,
-            # if it greater than 0.
-            if($attackerMoraleChange > 0)
-            {
-                $defenderMoraleChange = $attackerMoraleChange*-1;
-            }
-            else
-            {
-                $defenderMoraleChange = 0;
+                $attackerMoraleChange = 10 * ($landRatio/75) * (1 + $landRatio/100);
+                $defenderMoraleChange = $attackerMoraleChange*-0.60;
             }
 
             $attackerMoraleChangeMultiplier = 1;

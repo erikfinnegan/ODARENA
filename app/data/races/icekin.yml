@@ -100,6 +100,7 @@ units:
     perks:
       offense_from_title: commander,2 # title, op
       offense_from_wizard_ratio: 2
+      defense_from_wizard_ratio: 3
       plunder: mana,20
       casualties_from_title: conjurer,-50 # title, reduction
       no_draftee: 1
