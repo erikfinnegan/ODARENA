@@ -10,6 +10,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\AdvancementHelper;
 use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\ConversionHelper;
 use OpenDominion\Helpers\DecreeHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\EspionageHelper;
@@ -74,10 +75,7 @@ class ScribesController extends AbstractController
     public function getGeneral()
     {
         return view('pages.scribes.general', [
-            'decreeHelper' => app(DecreeHelper::class),
-            'raceHelper' => app(RaceHelper::class),
-            'roundHelper' => app(RoundHelper::class),
-            'unitHelper' => app(UnitHelper::class),
+            'conversionHelper' => app(ConversionHelper::class),
         ]);
     }
 

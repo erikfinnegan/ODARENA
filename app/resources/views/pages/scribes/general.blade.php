@@ -9,7 +9,7 @@
         <div class="box">
             <ul class="sidebar-menu" data-widget="tree">
                 <li><span class="btn btn-block"><a href="#casualties">Casualties</a></span></li>
-                <li><span class="btn btn-block"><a href="#conversions">Community</a></span></li>
+                <li><span class="btn btn-block"><a href="#community">Community</a></span></li>
                 <li><span class="btn btn-block"><a href="#conversions">Conversions</a></span></li>
                 <li><span class="btn btn-block"><a href="#expeditions">Expeditions</a></span></li>
                 <li><span class="btn btn-block"><a href="#governor">Governor</a></span></li>
@@ -34,7 +34,43 @@
                 </div>
     
                 <div class="box-body">
-                    <p>Sometimes units die and I think that's sad.</p>
+                    <p>For each unit, casualties are calculated as follows:<p>
+                    <ol>
+                    <li>Is the unit immortal (including situations like “immortal on victory” and the dominion is victorious)? If yes, nothing else happens, casualties are zero. If no, continue.</li>
+                    <li>A base of 10% (on Offense) or 5% (on Defense) is set.</li>
+                    <li>Check for any of the following:
+                        <ol>
+                            <li>If attacker is overwhelmed, 2x the base.</li>
+                            <li>If attacker is successful, divide the base by the OP/DP ratio (effectively only incurring casualties on as many units as were required to break).</li>
+                            <li>For defender, multiply base by land ratio: <code>min(1, [Defender size]/[Attacker size])</code></li>
+                            <li>If defender is successful, multiply the base by the OP/DP ratio (effectively only incurring casualties on as many units as were required to fend off).</li>
+                            <li>If defender is unsuccessful, multiply the base by the OP/DP ratio: <code>min(1.50, [Attacker OP]/[Defender DP])</code>, effectively meaning you can incur up to 50% extra base casualties on defense this way.</li>
+                        </ol>
+                    </li>
+                    <li>Check for <samp>only_dies_vs_raw_power</samp> perk:
+                        <ol>
+                            <li>Check if any of the enemy’s units have the required strength to kill the unit.</li>
+                            <li>If an enemy unit does, calculate how much of the raw enemy military power came from this unit relative to the total raw military power of the enemy.</li>
+                            <li>For example, if two units are strong enough but a third isn’t, a calculation could look like this:</li>
+                            <li>Total raw DP: 24,000 DP</li>
+                            <li>Unit 1: 8 DP each</li>
+                            <li>Unit 2: 12 DP each</li>
+                            <li>Unit 3: 4 DP each</li>
+                            <li>Unit composition and DP calculation: <code>8*1,000+12*1,000+4*1,000=24,000</code></li>
+                            <li>Minimum DP to kill: 6</li>
+                            <li>The power ratio from killing units is then: <code>(8*1,000+12*1,000)/24,000=0.8333</code></li>
+                            <li>The base is then multiplied by 0.8333 directly, <code>(5%*0.8333 or 10%*0.8333</code> before other casualty reduction perks are added).</li>
+                        </ol>
+                    </li>
+                    <li>After <samp>only_dies_vs_raw_power</samp>, with the base lowered (or even zero), we continue with summing up casualty basic casualties perk multipliers (perks from title, faction, advancements, spells, improvements, buildings, deity).</li>
+                    <li>Add perks from this specific unit (i.e. unit casualty perks).</li>
+                    <li>Add perks from other units (i.e. <samp>reduces_casualties</samp> and <samp>increases_own_casualties</samp>).</li>
+                    <li>Combine all perks and multiply them with casualty perks from the enemy (<samp>increases_enemy_casualties</samp>).</li>
+                    <li>Apply multiplier on the base (the 10% or 5%).</li>
+                    </ol>
+                    <h4>Formula</h4>
+                    <p><code>([Base] * [Base Reduction From Only Dies vs. Raw Power Perk]) * ([Basic Perks] + [Unit Perks] + [Perks From Other Units]) * [Perk From Enemy Units]</code></p>
+                    <p>Casualty perks are clamped between -90% and +100%. The only exceptions are immortality (-100%), overwhelmed bounced (+100% on the base, which can be increased by a further +100%), and fixed casualties (always whatever the fixed number is, no perks apply).</p>
                 </div>
             </div>
         </div>
@@ -65,7 +101,29 @@
                 </div>
     
                 <div class="box-body">
-                    <p>Sometimes units nearly die but they come back as something else.</p>
+                    <p>If multiple units are involved in the battle, the amount converted is calculated proportionately to how much each unit provided in raw OP (on offense) or raw DP (on defense).</p>
+                    <p>For example, if you have 200 units with 10 OP each and 100 unit with 5 OP, the 200 units with 10 OP each will convert 80% of the qualifying enemy casualties, and the unit with 50 OP will convert 20% of the qualifying enemy casualties.</p>
+                    <h4>Qualifying Casualties</h4>
+                    <p>Casualties by units which die (i.e. are not immortal) qualify for conversion, unless they have any of the following Unit Attributes or Unit Perks.</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <p><strong>Attributes</strong></p>
+                            <ul>
+                            @foreach($conversionHelper->getUnconvertibleAttributes() as $attribute)
+                                <li>{{ ucwords($attribute) }}</li>
+                            @endforeach
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6">
+                            <p><strong>Perks</strong></p>
+                            <ul>
+                            @foreach($conversionHelper->getUnconvertiblePerks() as $perk)
+                                <li><samp>{{ ($perk) }}</samp></li>
+                            @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -316,7 +374,23 @@
                 </div>
     
                 <div class="box-body">
-                    <p>Stealing is the coolest crime.</p>
+                    <ol>
+                        <li>Select a target (normal range conditions).</li>
+                        <li>Select resource to steal.</li>
+                        <li>Select how many spies and/or spy units to send.</li>
+                        <li>Steal!</li>
+                    </ol>
+                    <p>The number of spies you select correspond to a value of 0% to 100% of your available spies, which is also the amount of spy strength that is drained when stealing. Send half your spies, and it costs 50% spy strength. (This number is rounded up, so sending 1 unit even if you have 100,000 spy units costs 1% Spy Strength).</p>
+                    <p>Your Spy Strength limits how many of your current spies and spy units you can send. If you have 25% Spy Strength, you can only send out 25% of your total spies and spy units.</p>
+                    <p>The spies arrive immediately at the target and try to steal as much of the resource as possible.<p>
+                    <p>Amount stolen is based on the max carry per spy:</p>
+                    <p><code>[Amount Stolen] = ([Number of Spy Units] * [Mod Max Carry Per Spy]) * MAX(MIN((1-([Target SPA] / [Thief SPA])*0.5)),1),0)</code></p>
+                    <p>The Amount Stolen is reduced by <code>min([Target SPA], 4) * -0.25</code>, which means that 1 SPA is 25% reduction and 4 SPA is 100% reduction.</p>
+                    <p>Spy units take a base of 1% casualties:</p>
+                    <p><code>[Units Killed] = 0.01 * (1 + ([Target SPA] / [Thief SPA]) * [Spy Losses Perk]</code></p>
+                    <p>If <code>[Target SPA] / [Thief SPA]</code> is equal to or less than 0.25, there is a one in <code>(1/([Target SPA] / [Thief SPA])</code> chance that no spy units are killed. — Basically, if you have at least 4x the SPA of the target, there’s an increasing chance your spies go unharmed.</p>
+                    <p>It takes 6 ticks for units to return home with the stolen resources.</p>
+                    <p>You need at least 20% Spy Strength to send out spies (but you can send less than 20% Spy Strength's worth of spies).</p>
                 </div>
             </div>
         </div>

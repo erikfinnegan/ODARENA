@@ -32,6 +32,8 @@ class ConversionCalculator
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
+
+        $this->conversionHelper = app(ConversionHelper::class);
         $this->unitHelper = app(UnitHelper::class);
     }
 
@@ -1185,43 +1187,16 @@ class ConversionCalculator
     {
         if(empty($unconvertibleAttributes))
         {
-            $unconvertibleAttributes = [
-                'ammunition',
-                'aspect',
-                'equipment',
-                'fused',
-                'immobile',
-                'magical',
-                'massive',
-                'machine',
-                'ship'
-              ];
+            $unconvertibleAttributes = $this->conversionHelper->getUnconvertibleAttributes($isPsionic);
         }
 
         if(empty($unconvertiblePerks))
         {
-            $unconvertiblePerks = [
-                'fixed_casualties',
-                'dies_into',
-                'dies_into_spy',
-                'dies_into_wizard',
-                'dies_into_archmage',
-                'dies_into_multiple',
-                'dies_into_resource',
-                'dies_into_resources',
-                'dies_into_multiple_on_offense',
-                'dies_into_on_offense',
-                'dies_into_multiple_on_victory'
-              ];
+            $unconvertiblePerks = $this->conversionHelper->getUnconvertiblePerks($isPsionic);
         }
 
         if($isPsionic)
-        {
-            unset($unconvertibleAttributes['aspect']);
-            unset($unconvertibleAttributes['fused']);
-            $unconvertibleAttributes[] = 'mindless';
-            $unconvertibleAttributes[] = 'wise';
-            
+        {   
             $unit = $slot;
             if(!in_array($slot, ['draftees',' peasants']))
             {
