@@ -18,6 +18,7 @@
                             <col>
                             <col>
                             <col>
+                            <col width="50">
                         </colgroup>
                         <thead>
                             <tr>
@@ -28,6 +29,7 @@
                                 <th class="">Networth</th>
                                 <th class="">DP</th>
                                 <th class="">Units Returning</th>
+                                <th class="">Unwatch</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,6 +112,13 @@
                                         @else
                                             <span class="text-gray">No</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('dominion.insight.unwatch-dominion', $dominion) }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="dominion_id" value="{{ $dominion->id }}">
+                                            <button class="btn btn-success btn-block" type="submit" id="capture"><i class="fas fa-eye-slash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
