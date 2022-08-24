@@ -13,7 +13,7 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
-use OpenDominion\Models\Unit;
+use OpenDominion\Models\WatchedDominion;
 
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\SpellHelper;
@@ -433,6 +433,9 @@ class InvadeActionService
 
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['surviving_units'], $this->invasionResult['attacker']['conversions'], $this->invasionResult['defender']['conversions']);
+
+            # Watched Dominions
+            $this->handleWatchedDominions($dominion, $target);
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -2850,6 +2853,40 @@ class InvadeActionService
 
         }
 
+    }
+
+    protected function handleWatchedDominions(Dominion $attacker, Dominion $defender): void
+    {
+        $attackerWatchers = WatchedDominion::where('dominion_id', $attacker->id)->get();
+        $defenderWatchers = WatchedDominion::where('dominion_id', $defender->id)->get();
+
+        foreach($attackerWatchers as $attackerWatcher)
+        {
+            if($attackerWatcher->id !== $attacker->id and $attackerWatcher->id !== $defender->id)
+            {
+                # Queue notification
+                $this->notificationService->queueNotification('watched_dominion_invasion', [
+                    '_routeParams' => [(string)$this->invasionEvent->id],
+                    'attackerDominionId' => $attacker->id,
+                    'defenderDominionId' => $defender->id,
+                    'land_conquered' => $this->landLost
+                ]);
+            }
+        }
+
+        foreach($defenderWatchers as $defenderWatcher)
+        {
+            if($defenderWatcher->id !== $attacker->id and $defenderWatcher->id !== $defender->id)
+            {
+                # Queue notification
+                $this->notificationService->queueNotification('watched_dominion_invaded', [
+                    '_routeParams' => [(string)$this->invasionEvent->id],
+                    'attackerDominionId' => $attacker->id,
+                    'defenderDominionId' => $defender->id,
+                    'land_lost' => $this->landLost
+                ]);
+            }
+        }
     }
 
     /**

@@ -256,18 +256,19 @@ $router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router 
 
 // Scribes
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
-    $router->get('factions')->uses('ScribesController@getRaces')->name('factions');
-    $router->get('buildings')->uses('ScribesController@getBuildings')->name('buildings');
-    $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
-    $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
     $router->get('advancements')->uses('ScribesController@getAdvancements')->name('advancements');
-    $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
-    $router->get('sabotage')->uses('ScribesController@getSabotage')->name('sabotage');
-    $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
-    $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
-    $router->get('resources')->uses('ScribesController@getResources')->name('resources');
+    $router->get('buildings')->uses('ScribesController@getBuildings')->name('buildings');
     $router->get('decrees')->uses('ScribesController@getDecrees')->name('decrees');
+    $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
+    $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
+    $router->get('factions')->uses('ScribesController@getRaces')->name('factions');
+    $router->get('general')->uses('ScribesController@getGeneral')->name('general');
+    $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
+    $router->get('resources')->uses('ScribesController@getResources')->name('resources');
+    $router->get('sabotage')->uses('ScribesController@getSabotage')->name('sabotage');
+    $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
+    $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
 
     $router->get('quickstarts')->uses('ScribesController@getQuickstarts')->name('quickstarts');
     $router->get('quickstart/{quickstart}')->uses('ScribesController@getQuickstart')->name('quickstart');

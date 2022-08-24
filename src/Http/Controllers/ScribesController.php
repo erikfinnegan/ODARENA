@@ -16,10 +16,11 @@ use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\ResourceHelper;
 use OpenDominion\Helpers\TitleHelper;
-use OpenDominion\Helpers\TechHelper;
+#use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 
@@ -66,6 +67,16 @@ class ScribesController extends AbstractController
             'quickstart' => Quickstart::findOrFail($quickstartId),
             'decreeHelper' => app(DecreeHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'unitHelper' => app(UnitHelper::class),
+        ]);
+    }
+
+    public function getGeneral()
+    {
+        return view('pages.scribes.general', [
+            'decreeHelper' => app(DecreeHelper::class),
+            'raceHelper' => app(RaceHelper::class),
+            'roundHelper' => app(RoundHelper::class),
             'unitHelper' => app(UnitHelper::class),
         ]);
     }
