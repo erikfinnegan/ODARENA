@@ -32,7 +32,6 @@
                 <div class="box-header with-border">
                     <h2 class="box-title">Casualties</h2>
                 </div>
-    
                 <div class="box-body">
                     <p>For each unit, casualties are calculated as follows:<p>
                     <ol>
