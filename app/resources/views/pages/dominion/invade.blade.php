@@ -605,6 +605,7 @@
         </div>
 
         @include('partials.dominion.military-power-modifiers')
+        @include('partials.dominion.watched-dominions')
     </div>
 
 </div>

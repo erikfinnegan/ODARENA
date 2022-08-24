@@ -46,6 +46,9 @@ class HistoryService
     public const EVENT_ISSUE_DECREE = 'decree issued';
     public const EVENT_REVOKE_DECREE = 'decree revoked';
 
+    public const EVENT_WATCH_DOMINION = 'watched dominion';
+    public const EVENT_UNWATCH_DOMINION = 'unwatched dominion';
+
 
     /**
      * Returns a cloned dominion instance with state at a certain time.

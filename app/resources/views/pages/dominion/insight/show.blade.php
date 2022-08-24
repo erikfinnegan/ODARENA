@@ -40,6 +40,26 @@
             </div>
         </div>
     </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-body text-center">
+                @if($selectedDominion->isWatchingDominion($dominion))
+                    <form action="{{ route('dominion.insight.unwatch-dominion', $dominion) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="dominion_id" value="{{ $dominion->id }}">
+                        <button class="btn btn-success btn-block" type="submit" id="capture"><i class="fas fa-eye-slash"></i> Unwatch Dominion</button>
+                    </form>
+                @else
+                    <form action="{{ route('dominion.insight.watch-dominion', $dominion) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="dominion_id" value="{{ $dominion->id }}">
+                        <button class="btn btn-primary btn-block" type="submit" id="capture"><i class="fas fa-eye"></i> Watch Dominion</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 @else
 <div class="row">
@@ -246,6 +266,26 @@
                           <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a> ({{ number_format($insightHelper->getArchiveCount($dominion, $selectedDominion)) }})
                       </p>
                   @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-body text-center">
+                @if($selectedDominion->isWatchingDominion($dominion))
+                    <form action="{{ route('dominion.insight.unwatch-dominion', $dominion) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="dominion_id" value="{{ $dominion->id }}">
+                        <button class="btn btn-success btn-block" type="submit" id="capture"><i class="fas fa-eye-slash"></i> Unwatch Dominion</button>
+                    </form>
+                @else
+                    <form action="{{ route('dominion.insight.watch-dominion', $dominion) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="dominion_id" value="{{ $dominion->id }}">
+                        <button class="btn btn-primary btn-block" type="submit" id="capture"><i class="fas fa-eye"></i> Watch Dominion</button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

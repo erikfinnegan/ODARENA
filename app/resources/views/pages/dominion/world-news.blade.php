@@ -91,7 +91,10 @@
                 </p>
             </div>
         </div>
+
+        @include('partials.dominion.watched-dominions')
     </div>
+    
 
 </div>
 @endsection

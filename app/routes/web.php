@@ -182,10 +182,13 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('council/post/{post}/delete')->uses('Dominion\CouncilController@postDeletePost');
 
             // Insight
-            $router->get('insight')->uses('Dominion\InsightController@getIndex')->name('insight');
+            $router->get('insight', function(){ return Redirect::to('dominion/status'); });#uses('Dominion\InsightController@getIndex')->name('insight');
+            $router->get('insight/watched-dominions')->uses('Dominion\InsightController@getWatchedDominions')->name('insight.watched-dominions');
             $router->get('insight/{dominion}')->uses('Dominion\InsightController@getDominion')->name('insight.show');
             $router->get('insight/{dominion}/archive')->uses('Dominion\InsightController@getDominionInsightArchive')->name('insight.archive');
             $router->post('insight/{dominion}/archive')->uses('Dominion\InsightController@postCaptureDominionInsight');
+            $router->post('insight/watch-dominion/{dominion}')->uses('Dominion\InsightController@watchDominion')->name('insight.watch-dominion');
+            $router->post('insight/unwatch-dominion/{dominion}')->uses('Dominion\InsightController@unwatchDominion')->name('insight.unwatch-dominion');
 
             // Government
             $router->get('government')->uses('Dominion\GovernmentController@getIndex')->name('government');
@@ -193,12 +196,12 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('government/deity')->uses('Dominion\GovernmentController@postDeity')->name('government.deity');
             $router->post('government/renounce')->uses('Dominion\GovernmentController@postRenounce')->name('government.renounce');
             $router->post('government/realm')->uses('Dominion\GovernmentController@postRealm')->name('government.realm');
-            $router->post('government/royal-guard/join')->uses('Dominion\GovernmentController@postJoinRoyalGuard')->name('government.royal-guard.join');
-            $router->post('government/elite-guard/join')->uses('Dominion\GovernmentController@postJoinEliteGuard')->name('government.elite-guard.join');
-            $router->post('government/royal-guard/leave')->uses('Dominion\GovernmentController@postLeaveRoyalGuard')->name('government.royal-guard.leave');
-            $router->post('government/elite-guard/leave')->uses('Dominion\GovernmentController@postLeaveEliteGuard')->name('government.elite-guard.leave');
-            $router->post('government/war/declare')->uses('Dominion\GovernmentController@postDeclareWar')->name('government.war.declare');
-            $router->post('government/war/cancel')->uses('Dominion\GovernmentController@postCancelWar')->name('government.war.cancel');
+            #$router->post('government/royal-guard/join')->uses('Dominion\GovernmentController@postJoinRoyalGuard')->name('government.royal-guard.join');
+            #$router->post('government/elite-guard/join')->uses('Dominion\GovernmentController@postJoinEliteGuard')->name('government.elite-guard.join');
+            #$router->post('government/royal-guard/leave')->uses('Dominion\GovernmentController@postLeaveRoyalGuard')->name('government.royal-guard.leave');
+            #$router->post('government/elite-guard/leave')->uses('Dominion\GovernmentController@postLeaveEliteGuard')->name('government.elite-guard.leave');
+            #$router->post('government/war/declare')->uses('Dominion\GovernmentController@postDeclareWar')->name('government.war.declare');
+            #$router->post('government/war/cancel')->uses('Dominion\GovernmentController@postCancelWar')->name('government.war.cancel');
 
             // Decrees
             $router->get('decrees')->uses('Dominion\DecreesController@getIndex')->name('decrees');
@@ -216,7 +219,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('notes')->uses('Dominion\NotesController@getNotes')->name('notes');
             $router->post('notes')->uses('Dominion\NotesController@postNotes');
 
-            // Notes
+            // Quickstart
             $router->get('quickstart')->uses('Dominion\QuickstartController@getQuickstart')->name('quickstart');
 
             // Misc

@@ -9,7 +9,9 @@ use OpenDominion\Services\Dominion\WorldNewsService;
 use OpenDominion\Helpers\WorldNewsHelper;
 #use OpenDominion\Helpers\RaceHelper;
 #use OpenDominion\Helpers\RoundHelper;
-#use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\NetworthCalculator;
 
 class WorldNewsController extends AbstractDominionController
 {
@@ -43,17 +45,21 @@ class WorldNewsController extends AbstractDominionController
         #$landCalculator = app(LandCalculator::class);
         #$raceHelper = app(RaceHelper::class);
         #$roundHelper = app(RoundHelper::class);
-        $worldNewsHelper = app(WorldNewsHelper::class);
 
-        return view('pages.dominion.world-news', compact(
-            'worldNewsHelper',
-            'gameEvents',
-            'realm',
-            'realmCount',
+
+        return view('pages.dominion.world-news', [
+            'worldNewsHelper' => app(WorldNewsHelper::class),
+            'gameEvents' => $gameEvents,
+            'realm' => $realm,
+            'realmCount' => $realmCount,
+            'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
             #'raceHelper',
             #'roundHelper',
             #'landCalculator'
-        ))->with('fromOpCenter', false);
+            ]
+        );
     }
 
     protected function updateDominionNewsLastRead(Dominion $dominion): void

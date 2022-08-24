@@ -227,6 +227,18 @@ class Dominion extends AbstractModel
         );
     }
 
+    public function watchedDominions()
+    {
+        return $this->hasManyThrough(
+            Dominion::class,
+            WatchedDominion::class,
+            'watcher_id',
+            'id',
+            'id',
+            'dominion_id'
+        );
+    }
+
     public function buildings()
     {
         return $this->belongsToMany(
@@ -1423,7 +1435,7 @@ class Dominion extends AbstractModel
 
             if($titlePerkData)
             {
-                $titleKey = $titlePerkData[0];
+                $deityKey = $titlePerkData[0];
                 $perkResource = $titlePerkData[1];
                 $perkAmount = $titlePerkData[2];
 
@@ -1594,5 +1606,15 @@ class Dominion extends AbstractModel
         {
             return ($level - 10)/3 + 10;
         }
+    }
+
+    public function isWatchingDominion(Dominion $dominion): bool
+    {
+        return $this->watchedDominions()->get()->contains($dominion);
+    }
+
+    public function isWatchingAnyDominion(): bool
+    {
+        return $this->watchedDominions()->get()->count() > 0;
     }
 }

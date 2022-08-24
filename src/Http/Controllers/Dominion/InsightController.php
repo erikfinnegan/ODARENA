@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Exceptions\GameException;
 
 use OpenDominion\Http\Requests\Dominion\Actions\InsightActionRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\WatchDominionActionRequest;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionInsight;
@@ -47,9 +48,15 @@ use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
+use OpenDominion\Services\Dominion\Actions\WatchDominionActionService;
+
+
+
+
 
 class InsightController extends AbstractDominionController
 {
+    /*
     public function getIndex()
     {
         $protectionService = app(ProtectionService::class);
@@ -85,6 +92,59 @@ class InsightController extends AbstractDominionController
             'spellCalculator' => app(SpellCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
+    }
+    */
+
+    public function getWatchedDominions()
+    {
+        $selectedDominion = $this->getSelectedDominion();
+
+        return view('pages.dominion.insight.watched-dominions', [
+            'landCalculator' => app(LandCalculator::class),
+            'protectionService' => app(ProtectionService::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+            'spellCalculator' => app(SpellCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
+            'selectedDominion' => $selectedDominion,
+        ]);
+    }
+
+    public function watchDominion(WatchDominionActionRequest $request)
+    {
+        $watcher = $this->getSelectedDominion();
+        $watchDominionActionService = app(WatchDominionActionService::class);
+        $dominion = Dominion::findOrFail($request->get('dominion_id'));
+
+        try {
+            $result = $watchDominionActionService->watchDominion($watcher, $dominion);
+
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+        return redirect()->to($result['redirect'] ?? route('dominion.insight.show', $dominion));
+    }
+
+    public function unwatchDominion(WatchDominionActionRequest $request)
+    {
+        $watcher = $this->getSelectedDominion();
+        $watchDominionActionService = app(WatchDominionActionService::class);
+        $dominion = Dominion::findOrFail($request->get('dominion_id'));
+
+        try {
+            $result = $watchDominionActionService->unwatchDominion($watcher, $dominion);
+
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+        return redirect()->to($result['redirect'] ?? route('dominion.insight.show', $dominion));
     }
 
     public function getDominion(Dominion $dominion)
@@ -155,7 +215,7 @@ class InsightController extends AbstractDominionController
     public function postCaptureDominionInsight(InsightActionRequest $request)
     {
         $insightService = app(InsightService::class);
-        $protectionService = app(ProtectionService::class);
+        #$protectionService = app(ProtectionService::class);
 
         $target = Dominion::findOrFail($request->get('target_dominion_id'));
         $source = $this->getSelectedDominion();
@@ -178,7 +238,7 @@ class InsightController extends AbstractDominionController
 
     public function getDominionInsightArchive(Dominion $dominion)
     {
-        $insightService = app(InsightService::class);
+        #$insightService = app(InsightService::class);
         $target = $dominion;
         $source = $this->getSelectedDominion();
 

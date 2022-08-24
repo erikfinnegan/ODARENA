@@ -117,7 +117,7 @@ class MiscController extends AbstractDominionController
         DB::table('dominion_techs')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('dominion_advancements')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('dominion_tick')->where('dominion_id', '=', $dominion->id)->delete();
-        #DB::table('dominion_tick_states')->where('dominion_id', '=', $dominion->id)->delete();
+        
         DB::table('dominion_stats')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('realm_history')->where('dominion_id', '=', $dominion->id)->delete();
 
@@ -126,6 +126,9 @@ class MiscController extends AbstractDominionController
 
         DB::table('info_ops')->where('source_dominion_id', '=', $dominion->id)->delete();
         DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
+
+        DB::table('watched_dominions')->where('dominion_id', '=', $dominion->id)->delete();
+        DB::table('watched_dominions')->where('watcher_id', '=', $dominion->id)->delete();
 
         DB::table('dominions')->where('id', '=', $dominion->id)->delete();
 
