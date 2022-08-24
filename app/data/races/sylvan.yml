@@ -50,7 +50,6 @@ units:
     perks:
       no_draftee: 1
       offense_if_recently_invaded: 2,24
-      dies_into_resource: 1,sapling
       counts_as_spy: 0.5
       immortal_spy: 1
 
@@ -69,7 +68,6 @@ units:
     perks:
       no_draftee: 1
       counts_as_wizard_defense: 0.25
-      dies_into_resource: 1,sapling
 
   - name: Dryad
     training_time: 12
@@ -87,7 +85,6 @@ units:
       no_draftee: 1
       counts_as_wizard: 0.125
       immortal_wizard: 1
-      dies_into_resource: 1,sapling
 
   - name: Spriggan
     training_time: 12
@@ -105,4 +102,3 @@ units:
       no_draftee: 1
       offense_if_recently_invaded: 2,24
       defense_if_recently_invaded: 1,24
-      dies_into_resource: 1,sapling
