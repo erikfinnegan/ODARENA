@@ -36,6 +36,8 @@
                     <p>These notes are only visible to you.</p>
                 </div>
             </div>
+
+            @include('partials.dominion.watched-dominions')
         </div>
 
     </div>
