@@ -5,7 +5,9 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Http\Requests\Dominion\Actions\NotesActionRequest;
 use OpenDominion\Services\Dominion\HistoryService;
 
-use OpenDominion\Models\Dominion;
+use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class NotesController extends AbstractDominionController
 {
@@ -14,6 +16,9 @@ class NotesController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         return view('pages.dominion.notes', [
             'notes' => $dominion->notes,
+            'networthCalculator' => app(NetworthCalculator::class),
+            'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
     }
 
