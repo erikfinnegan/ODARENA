@@ -25,9 +25,9 @@
     </div>
 
     <div class="col-sm-12 col-md-9">
-
-        <a id="casualties"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="casualties"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Casualties</h2>
@@ -75,8 +75,8 @@
             </div>
         </div>
     
-        <a id="community"></a>
         <div class="col-sm-12 col-md-12">
+            <a id="community"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Community</h2>
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </div>
-
-        <a id="conversions"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="conversions"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Conversions</h2>
@@ -127,9 +127,9 @@
                 </div>
             </div>
         </div>
-    
-        <a id="expeditions"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="expeditions"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Expeditions</h2>
@@ -140,9 +140,9 @@
                 </div>
             </div>
         </div>
-    
-        <a id="expeditions"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="expeditions"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Governor</h2>
@@ -156,9 +156,9 @@
                 </div>
             </div>
         </div>
-    
-        <a id="morale"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="morale"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Morale</h2>
@@ -189,8 +189,9 @@
             </div>
         </div>
 
-        <a id="prestige"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="prestige"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Prestige</h2>
@@ -257,9 +258,9 @@
                 </div>
             </div>
         </div>
-    
-        <a id="sabotage"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="sabotage"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Rounds</h2>
@@ -317,8 +318,8 @@
             </div>
         </div>
     
-        <a id="sabotage"></a>
         <div class="col-sm-12 col-md-12">
+            <a id="sabotage"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Sabotage</h2>
@@ -337,8 +338,8 @@
             </div>
         </div>
 
-        <a id="sorcery"></a>
         <div class="col-sm-12 col-md-12">
+            <a id="sorcery"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Sorcery</h2>
@@ -366,8 +367,8 @@
             </div>
         </div>
     
-        <a id="theft"></a>
         <div class="col-sm-12 col-md-12">
+            <a id="theft"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Theft</h2>
@@ -394,9 +395,9 @@
                 </div>
             </div>
         </div>
-    
-        <a id="ticks"></a>
+        
         <div class="col-sm-12 col-md-12">
+            <a id="ticks"></a>
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title">Ticks</h2>
