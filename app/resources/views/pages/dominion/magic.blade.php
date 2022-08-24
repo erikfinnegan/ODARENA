@@ -191,7 +191,6 @@
                 </div>
                 <div class="box-body">
                     <p>You can cast spells on yourself and some factions can even cast spells on friendly dominions. These spells are always successful.</p>
-                    <p>For information gathering, see <a href="{{ route('dominion.insight') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
 
                     <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a>
                 </div>
