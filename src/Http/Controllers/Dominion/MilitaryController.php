@@ -13,6 +13,7 @@ use OpenDominion\Http\Requests\Dominion\Actions\ReleaseActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\ChangeDraftRateActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\TrainActionRequest;
 
+use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -68,6 +69,7 @@ class MilitaryController extends AbstractDominionController
             'raceHelper' => app(RaceHelper::class),
             'landCalculator' => app(LandCalculator::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
             'returningResources' => $returningResources,
             'spellCalculator' => app(SpellCalculator::class),
         ]);
