@@ -1,0 +1,13 @@
+name: Drafting
+cooldown: 0
+description: Standard drafting is 1% of your current peasants. You can issue a decree to slow down drafting.
+excluded_races:
+  - Growth
+states:
+  - name: Reserved
+    perks:
+      drafting: -50
+
+  - name: At Ease
+    perks:
+      drafting: -80

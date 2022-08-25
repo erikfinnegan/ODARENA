@@ -36,6 +36,7 @@ harmony:
     - Afflicted
     - Demon
     - Monster
+    - Undead
     - Void
   perks:
     population_growth: 50
