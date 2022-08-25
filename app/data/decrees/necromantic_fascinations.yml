@@ -8,7 +8,7 @@ states:
     perks:
       undead_unit1_production_raw: 1,0.04,4 # slot, amount, perUnit
 
-  - name: Wrath Bones
+  - name: Bone Hoarder's Horde
     perks:
       undead_unit2_production_raw: 2,1,4 # slot, amount, perUnit
       attrition_mod: -100

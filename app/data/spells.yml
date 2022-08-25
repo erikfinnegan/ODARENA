@@ -1148,12 +1148,12 @@ fine_arts:
 
 dark_rites:
   name: Dark Rites
+  enabled: 0
   scope: self
   class: passive
   cost: 10
   duration: 24
   cooldown: 0
-  enabled: 0
   exclusive_races:
     - Undead
   perks:
@@ -1161,6 +1161,7 @@ dark_rites:
 
 rites_of_zidur:
   name: Rites of Zidur
+  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -1173,6 +1174,7 @@ rites_of_zidur:
 
 rites_of_kinthys:
   name: Rites of Kinthys
+  enabled: 0
   scope: self
   class: passive
   cost: 10
