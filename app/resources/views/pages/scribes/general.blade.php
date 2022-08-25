@@ -221,6 +221,7 @@
 
             <div class="box-body">
                 <p>Gain land by sending units out on expeditions and claim lands. The amount of land gained is calculated based on your current land size and the amount of Offensive Power you send.</p>
+                <p>
             </div>
         </div>
     </div>

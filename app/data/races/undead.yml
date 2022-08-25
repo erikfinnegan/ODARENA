@@ -59,7 +59,7 @@ units:
       dies_into: 3
       increases_enemy_casualties_on_offense: 1
       increases_enemy_casualties_on_defense: 1
-      does_not_consume_food: 1
+      does_not_count_as_population: 1
 
   - name: Necromancer
     training_time: 6
