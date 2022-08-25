@@ -241,6 +241,10 @@ class TrainingCalculator
                     {
                         $trainableByCost[$type] = (int)floor($dominion->military_unit4 / $value);
                     }
+                    elseif($type == 'crypt_body')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->realm->crypt / $value);
+                    }
                     else
                     {
                         dd("Undefined cost parameter for \$type $type with \$value $value", $costs);

@@ -499,6 +499,10 @@ kelp_salvaged:
 kelp_plundered:
   name: Kelp plundered
 
+
+crypt_body_training:
+  name: Crypt bodies training
+
 # Land
 
 land_conquered:

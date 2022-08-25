@@ -2,7 +2,9 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
+use OpenDominion\Helpers\ConversionHelper;
 use OpenDominion\Helpers\UnitHelper;
+
 use OpenDominion\Models\Dominion;
 
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;

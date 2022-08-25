@@ -1473,8 +1473,6 @@ elskas_blur:
     blind_to_reptilian_spies_on_info: 1
     blind_to_reptilian_spies_on_theft: 1
 
-
-
 frozen_shores:
   name: Frozen Shores
   enabled: 0

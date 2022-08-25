@@ -283,6 +283,7 @@ mining:
     - Sylvan
     - Swarm
     - Troll
+    - Undead
     - Void
     - Wood Elf
   perks:
@@ -543,9 +544,9 @@ wizardry_undead:
       wizard_housing: 45,5000
 
 invocation:
-  name: Invocation
+  name: Invocations
   exclusive_races:
-    - Void
+    - Undead
   perks:
       mana_production_mod: 45,5000
 

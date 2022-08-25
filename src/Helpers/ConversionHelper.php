@@ -2,20 +2,11 @@
 
 namespace OpenDominion\Helpers;
 
-use DB;
-use Illuminate\Support\Collection;
-use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Round;
-
-use OpenDominion\Calculators\Dominion\LandCalculator;
-
-use OpenDominion\Services\Dominion\StatsService;
-
 class ConversionHelper
 {
     public function __construct()
     {
-        #
+        # Nothing...
     }
 
     public function getUnconvertibleAttributes(bool $isPsionic = false): array

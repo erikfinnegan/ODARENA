@@ -9,6 +9,7 @@
                         <li class="{{ Route::is('scribes.decrees') ? 'active' : null }}"><a href="{{ route('scribes.decrees') }}">Decrees</a></li>
                         <li class="{{ Route::is('scribes.deities') ? 'active' : null }}"><a href="{{ route('scribes.deities') }}">Deities</a></li>
                         <li class="{{ Route::is('scribes.factions') ? 'active' : null }}"><a href="{{ route('scribes.factions') }}">Factions</a></li>
+                        <li class="{{ Route::is('scribes.general') ? 'active' : null }}"><a href="{{ route('scribes.general') }}">General</a></li>
                         <li class="{{ Route::is('scribes.improvements') ? 'active' : null }}"><a href="{{ route('scribes.improvements') }}">Improvements</a></li>
                         <li class="{{ Route::is('scribes.quickstarts') ? 'active' : null }}"><a href="{{ route('scribes.quickstarts') }}">Quickstarts</a></li>
                         <li class="{{ Route::is('scribes.resources') ? 'active' : null }}"><a href="{{ route('scribes.resources') }}">Resources</a></li>

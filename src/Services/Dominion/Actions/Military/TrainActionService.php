@@ -120,6 +120,7 @@ class TrainActionService
             'unit2' => 0,
             'unit3' => 0,
             'unit4' => 0,
+            'crypt_body' => 0,
         ];
 
         # Resource costs
@@ -298,6 +299,11 @@ class TrainActionService
           {
             throw new GameException('Training failed due to insufficient wizard strength.');
           }
+
+          if($totalCosts['crypt_body'] > $dominion->realm->crypt)
+          {
+              throw new GameException('Insufficient bodies in the crypt to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+          }
       }
 
         $newDraftelessUnitsToHouse = 0;
@@ -335,6 +341,11 @@ class TrainActionService
             $dominion->military_archmages -= $totalCosts['archmage'];
             $dominion->spy_strength -= $totalCosts['spy_strength'];
             $dominion->wizard_strength -= $totalCosts['wizard_strength'];
+
+            if($totalCosts['crypt_body'] > 0)
+            {
+                $this->resourceService->updateRealmResources($dominion->realm, ['body' => (-$totalCosts['crypt_body'])]);
+            }
 
             # Update spending statistics.
             foreach($totalCosts as $resource => $amount)
@@ -575,9 +586,9 @@ class TrainActionService
         $trainingCostsString = ucwords($trainingCostsString);
         $trainingCostsString = str_replace(' Spy_strengths', '% Spy Strength', $trainingCostsString);
         $trainingCostsString = str_replace(' Wizard_strengths', '% Wizard Strength', $trainingCostsString);
+        $trainingCostsString = str_replace(' Crypt_bodies', ' bodies from the crypt', $trainingCostsString);
         $trainingCostsString = str_replace(' Morale', '% Morale', $trainingCostsString);
         $trainingCostsString = str_replace('And', 'and', $trainingCostsString);
-
 
         $message = sprintf(
             'Training of %s begun at a cost of %s.',

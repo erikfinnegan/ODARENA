@@ -9,41 +9,40 @@ minimum_rounds_played: 2
 
 resources:
   - gold
+  - food
   - lumber
   - gems
   - mana
 
 perks:
-  max_population: 30
-  mana_production_mod: 10
-  no_food_consumption: 1
   wizards_training_time: 6
   converts_executed_spies: 3 # into slot 3
 units:
-  - name: Skeleton
+  - name: Ghoul
     training_time: 12
     type:
       - mindless
       - magical
     power:
       offense: 3
-      defense: 1
+      defense: 2
     perks:
       cannot_be_trained: 1
-      housing_count: 0.1
-      does_not_consume_food: 1
+      housing_count: 0.25
 
-  - name: Ghoul
+  - name: Skeleton
     training_time: 12
     type:
       - mindless
     power:
-      offense: 0
-      defense: 3
+      offense: 2
+      defense: 1
     perks:
       cannot_be_trained: 1
-      housing_count: 0.1
-      does_not_consume_food: 1
+      does_not_count_as_population: 1
+      attrition: 10
+      fixed_casualtied_if_overwhelmed: 100
+      pairing_limit: 4,5 # Unit slot, amount
 
   - name: Wight
     training_time: 12
@@ -51,11 +50,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
-      mana: 8
+      mana: 400
+      crypt_body: 1
     power:
-      offense: 6
-      defense: 6
+      offense: 8
+      defense: 8
     perks:
       dies_into: 3
       increases_enemy_casualties_on_offense: 1
@@ -69,17 +68,13 @@ units:
       - intelligent
       - wise
     cost:
-      gold: 300
+      gold: 3500
       lumber: 1
-      mana: 18
-      wizard: 1
+      mana: 25
     power:
       offense: 0
       defense: 6
     perks:
       immortal_on_fending_off: 1
-      immortal_wizard: 1
-      no_draftee: 1
       counts_as_wizard_offense: 0.50
       counts_as_wizard_defense: 0.25
-      building_limit: wizard_guild,40 # building, buildings per unit, imp to increased

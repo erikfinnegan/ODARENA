@@ -83,8 +83,10 @@ class DecreeHelper
 
             'unit_pairing' => '%s%% unit pairing capacity.',
 
-            'undead_unit1_summoning' => 'Each %$2$s produces %$1$s per tick.',
-            'undead_unit2_summoning' => 'Each %$2$s produces %$1$s per tick.',
+            'undead_unit1_production_raw' => 'Each %3$s produces %2$s %1$s per tick.',
+            'undead_unit2_production_raw' => 'Each %3$s produces %2$s %1$s per tick.',
+            'undead_unit3_production_raw' => 'Each %3$s produces %2$s %1$s per tick.',
+            'undead_unit4_production_raw' => 'Each %3$s produces %2$s %1$s per tick.',
             
             'attrition_mod' => '%s%% attrition.',
 
@@ -178,6 +180,30 @@ class DecreeHelper
 
             }
 
+            if($perk->key === 'undead_unit1_production_raw' or
+                $perk->key === 'undead_unit2_production_raw' or
+                $perk->key === 'undead_unit3_production_raw' or
+                $perk->key === 'undead_unit4_production_raw'
+            )
+            {
+                $slotProduced = (int)$perkValue[0];
+                $amountProduced = (float)$perkValue[1];
+                $slotProducing = (int)$perkValue[2];
+                $race = Race::where('name', 'Undead')->first();
+
+                $unitProduced = $race->units->filter(static function ($unit) use ($slotProduced)
+                    {
+                        return ($unit->slot === $slotProduced);
+                    })->first();
+
+                $unitProducing = $race->units->filter(static function ($unit) use ($slotProducing)
+                    {
+                        return ($unit->slot === $slotProducing);
+                    })->first();
+
+                $perkValue = [str_plural($unitProduced->name, $amountProduced), floatval($amountProduced), $unitProducing->name];
+            }
+
             if (is_array($perkValue))
             {
                 if ($nestedArrays)
@@ -189,7 +215,7 @@ class DecreeHelper
                 }
                 else
                 {
-                    $perkValue = $perkValue > 0 ? '+' . $perkValue : $perkValue;
+                    #$perkValue = $perkValue > 0 ? '+' . $perkValue : $perkValue;
                     $helpStrings[$decreeState->name] .= '<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>';
                 }
             }

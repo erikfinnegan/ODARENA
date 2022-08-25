@@ -1510,10 +1510,21 @@ class Dominion extends AbstractModel
                 'generate_building_swamp',
                 'generate_building_water',
             ];
+
+        $unitGenerationPerks = [
+                'undead_unit1_production_raw',
+                'undead_unit2_production_raw',
+                'undead_unit3_production_raw',
+                'undead_unit4_production_raw',
+            ];
    
         if (isset($perks[$key]))
         {
             if(in_array($key, $buildingGenerationPerks))
+            {
+                return $perks[$key]->pluck('pivot.value')->first();
+            }
+            elseif(in_array($key, $unitGenerationPerks))
             {
                 return $perks[$key]->pluck('pivot.value')->first();
             }

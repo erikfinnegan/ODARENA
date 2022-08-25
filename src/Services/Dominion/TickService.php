@@ -848,8 +848,15 @@ class TickService
         if($dominion->race->name == 'Cult')
         {
             $attritionMultiplier -= ($dominion->military_unit3 + $dominion->military_unit4) / max($this->populationCalculator->getPopulationMilitary($dominion),1);
-            $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition');
         }
+
+        # Generic attrition perks
+        $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition'); # Positive value, hence -
+        $attritionMultiplier += $dominion->getImprovementPerkMultiplier('attrition_mod'); # Negative value, hence +
+        $attritionMultiplier += $dominion->getDecreePerkMultiplier('attrition_mod'); # Negative value, hence +
+        $attritionMultiplier += $dominion->getSpellPerkMultiplier('attrition_mod'); # Negative value, hence +
+
+        #dd($dominion->getDecreePerkMultiplier('attrition_mod'));
 
         # Cap at -100%
         $attritionMultiplier = max(-1, $attritionMultiplier);
@@ -960,6 +967,7 @@ class TickService
         # Imperial Crypt: Rites of Zidur, Rites of Kinthys
         $tick->crypt_bodies_spent = 0;
 
+        # Round 79: logic retired (temporarily?)
         # Version 1.4 (Round 50, no Necromancer pairing limit)
         # Version 1.3 (Round 42, Spells 2.0 compatible-r)
         if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
@@ -1005,44 +1013,91 @@ class TickService
             $tick->crypt_bodies_spent += $unitsRaised;
         }
 
-        # Passive unit generation from buildings
+        
         for ($slot = 1; $slot <= 4; $slot++)
         {
+            $unitsToSummon = 0;
             $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
-            $unitSummoningRaw = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw');
-            $unitSummoningRaw += $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw_capped');
 
-            $unitSummoningMultiplier = 1;
-            $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
-            $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
+            # Passive unit generation from buildings
+            $buildingUnitSummoningRaw = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw');
+            $buildingUnitSummoningRaw += $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw_capped');
 
-            if($unitProductionFromWizardRatioPerk = $dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
+            if($buildingUnitSummoningRaw > 0)
             {
-                $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / $unitProductionFromWizardRatioPerk;
+                $unitSummoningMultiplier = 1;
+                $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
+                $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
+    
+                if($unitProductionFromWizardRatioPerk = $dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
+                {
+                    $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / $unitProductionFromWizardRatioPerk;
+                }
+    
+                $unitSummoning = $buildingUnitSummoningRaw * $unitSummoningMultiplier;
+    
+                # Check for capacity limit
+                if($this->unitHelper->unitHasCapacityLimit($dominion, $slot))
+                {
+                    $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
+    
+                    $usedCapacity = $dominion->{'military_unit' . $slot};
+                    $usedCapacity += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slot);
+    
+                    $availableCapacity = max(0, $maxCapacity - $usedCapacity);
+    
+                    $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
+                }
+                # If no capacity limit
+                else
+                {
+                    $unitsToSummon = $unitSummoning;
+                }
             }
 
-            $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;
+            # Passive unit generation from decrees
+            $decreeUnitSummoningRaw = $dominion->getDecreePerkValue($raceKey . '_unit' . $slot . '_production_raw');
 
-            # Check for capacity limit
-            if($this->unitHelper->unitHasCapacityLimit($dominion, $slot))
+            if($decreeUnitSummoningRaw)
             {
-                $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
+                #dump($slot . ':' . $decreeUnitSummoningRaw);
+                $decreeUnitSummoningPerks = explode(',', $decreeUnitSummoningRaw);
+                
+                $slotProduced = (int)$decreeUnitSummoningPerks[0];
+                $amountProduced = (float)$decreeUnitSummoningPerks[1];
+                $slotProducing = (int)$decreeUnitSummoningPerks[2];
 
-                $usedCapacity = $dominion->{'military_unit' . $slot};
-                $usedCapacity += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slot);
-                $usedCapacity += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slot);
-                $usedCapacity += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slot);
-                $usedCapacity += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slot);
-                $usedCapacity += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slot);
+                $unitSummoningMultiplier = 1;
+                $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
+                $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
 
-                $availableCapacity = max(0, $maxCapacity - $usedCapacity);
-
-                $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
-            }
-            # If no capacity limit
-            else
-            {
-                $unitsToSummon = $unitSummoning;
+                $unitSummoning = $dominion->{'military_unit' . $slotProducing} * $amountProduced * $unitSummoningMultiplier;
+    
+                # Check for capacity limit
+                if($this->unitHelper->unitHasCapacityLimit($dominion, $slot))
+                {
+                    $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
+    
+                    $usedCapacity = $dominion->{'military_unit' . $slot};
+                    $usedCapacity += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slot);
+                    $usedCapacity += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slot);
+    
+                    $availableCapacity = max(0, $maxCapacity - $usedCapacity);
+    
+                    $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
+                }
+                # If no capacity limit
+                else
+                {
+                    $unitsToSummon = $unitSummoning;
+                }
             }
 
             # Because you never know...
@@ -1068,6 +1123,7 @@ class TickService
             $tick->attrition_unit3 += $unitsRemoved[3];
             $tick->attrition_unit4 += $unitsRemoved[4];
         }
+        
 
         # Use decimals as probability to round up
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
