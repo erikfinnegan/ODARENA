@@ -11,7 +11,7 @@ alchemy:
     - Human
   land_type: plain
   perks:
-    gold_production_mod: 1,4,20 # Every 1% gives +4% gem production, max +20%
+    gold_production_mod: 1,4,20 # Every 1% gives +4% gold production, max +20%
 
 gold_mine:
   name: Gold Mine

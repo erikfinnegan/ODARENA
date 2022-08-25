@@ -7,19 +7,20 @@
 <div class="row">
     <div class="col-md-12 col-md-3">
         <div class="box">
-            <ul class="sidebar-menu" data-widget="tree">
-                <li><span class="btn btn-block"><a href="#casualties">Casualties</a></span></li>
-                <li><span class="btn btn-block"><a href="#community">Community</a></span></li>
-                <li><span class="btn btn-block"><a href="#conversions">Conversions</a></span></li>
-                <li><span class="btn btn-block"><a href="#expeditions">Expeditions</a></span></li>
-                <li><span class="btn btn-block"><a href="#governor">Governor</a></span></li>
-                <li><span class="btn btn-block"><a href="#morale">Morale</a></span></li>
-                <li><span class="btn btn-block"><a href="#prestige">Prestige</a></span></li>
-                <li><span class="btn btn-block"><a href="#rounds">Rounds</a></span></li>
-                <li><span class="btn btn-block"><a href="#sabotage">Sabotage</a></span></li>
-                <li><span class="btn btn-block"><a href="#sorcery">Sorcery</a></span></li>
-                <li><span class="btn btn-block"><a href="#theft">Theft</a></span></li>
-                <li><span class="btn btn-block"><a href="#ticks">Ticks</a></span></li>
+            <ul style="list-style-type: none; margin:0; padding:0;">
+                <li><a class="btn btn-block" href="#casualties">Casualties</a></li>
+                <li><a class="btn btn-block" href="#community">Community</a></li>
+                <li><a class="btn btn-block" href="#conversions">Conversions</a></li>
+                <li><a class="btn btn-block" href="#crypt">Crypt</a></li>
+                <li><a class="btn btn-block" href="#expeditions">Expeditions</a></li>
+                <li><a class="btn btn-block" href="#governor">Governor</a></li>
+                <li><a class="btn btn-block" href="#morale">Morale</a></li>
+                <li><a class="btn btn-block" href="#prestige">Prestige</a></li>
+                <li><a class="btn btn-block" href="#rounds">Rounds</a></li>
+                <li><a class="btn btn-block" href="#sabotage">Sabotage</a></li>
+                <li><a class="btn btn-block" href="#sorcery">Sorcery</a></li>
+                <li><a class="btn btn-block" href="#theft">Theft</a></li>
+                <li><a class="btn btn-block" href="#ticks">Ticks</a></li>
             </ul>
         </div>
     </div>
@@ -32,8 +33,8 @@
             </div>
             <div class="box-body">
                 <p>This page contains information about several aspects of the game. It can at times be technical, but it is also a useful resource for players to learn about the game.</p>
+                <p>Other pages in the Scribes go into detail about specific aspects of the game. This page is focused on broader topics or game mechanics not elsewhere documented.</p>
                 <p>Questions are best asked on Discord, where other players can help give clarity on the game and its inner workings.</p>
-                <p>The general gist of the game is that you 
             </div>
         </div>
     </div>
@@ -138,6 +139,75 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <div class="box-footer">
+                <p class="text-muted">See also <a href="#crypt">Crypt</a>.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12 col-md-12">
+        <a id="crypt"></a>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h2 class="box-title">Crypt</h2>
+            </div>
+
+            <div class="box-body">
+                <p>In Standard and Standard (Duration) rounds, the Imperial realm will gather some dead bodies and place them in the crypt, whence the <a href="{{ route('scribes.faction', 'undead') }}">Undead</a> can raise certain units.</p>
+                <p>Only the bodies of units that would qualify for conversion are placed in the crypt. See <a href="#conversions">Conversions</a>.</p>
+
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="30%">
+                        <col width="35%">
+                        <col width="35%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Offense</th>
+                            <th>Defense</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Success</strong><br><small class="text-muted">When an Imperial dominion successfully defends or invades</small></td>
+                            <td>
+                                <ul>
+                                    <li>50% of Attacker's bodies</li>
+                                    <li>100% of Defender's bodies</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>100% of Attacker's bodies</li>
+                                    <li>100% of Defender's bodies</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Failure</strong><br><small class="text-muted">When an Imperial dominion fails an invasion or is invaded</small></td>
+                            <td>
+                                <ul>
+                                    <li>0% of Attacker's bodies</li>
+                                    <li>0% of Defender's bodies</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>None of Attacker's bodies</li>
+                                    <li>50% of Defender's bodies</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Bodies in the crypt decay at a rate of 1% per tick.</p>
+
             </div>
         </div>
     </div>

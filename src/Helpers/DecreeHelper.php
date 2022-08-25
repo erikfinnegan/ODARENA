@@ -83,6 +83,11 @@ class DecreeHelper
 
             'unit_pairing' => '%s%% unit pairing capacity.',
 
+            'undead_unit1_summoning' => 'Each %$2$s produces %$1$s per tick.',
+            'undead_unit2_summoning' => 'Each %$2$s produces %$1$s per tick.',
+            
+            'attrition_mod' => '%s%% attrition.',
+
             # OP/DP
             'offensive_power' => '%s%% offensive power.',
             'defensive_power' => '%s%% defensive power.',

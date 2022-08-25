@@ -82,6 +82,8 @@ class BuildingHelper
 
             'drafting' => 'Drafting increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
+            'crypt_bodies_decay_protection' => 'Protects %s crypt bodies from decay.',
+
             # Production
             'gold_production_raw' => 'Produces %s gold per tick.',
             'food_production_raw' => 'Produces %s food per tick.',

@@ -164,6 +164,11 @@ class CasualtiesCalculator
             {
                 $fixedCasualtiesPerk += $fixedCasualties;
             }
+
+            if($fixedCasualties = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties_if_overwhelmed') and $mode == 'offense' and $invasionData['result']['overwhelmed'])
+            {
+                $fixedCasualtiesPerk += $fixedCasualties;
+            }
         }
 
         return $fixedCasualties / 100;
@@ -176,7 +181,7 @@ class CasualtiesCalculator
         {
             $slot = (int)$unit->slot;
 
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties_if_overwhelmed'))
             {
                 return false;
             }

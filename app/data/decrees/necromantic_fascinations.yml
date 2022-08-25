@@ -1,0 +1,21 @@
+name: Necromantic Fascinations
+cooldown: 0
+description: Select the focus of your Necromancers.
+exclusive_races:
+  - Undead
+states:
+  - name: Mangled Flesh
+    perks:
+      undead_unit1_summoning: 0.04,4 # amount, perUnit
+
+  - name: Wrath Bones
+    perks:
+      undead_unit2_summoning: 1,4 # amount, perUnit
+
+  - name: An Army of The Damned
+    perks:
+      undead_unit1_summoning: 0.02,4 # amount, perUnit
+      attrition_mod: -90
+      wizard_strength: 30
+      mana_production_mod: 10
+      wizard_strength_recovery: 5

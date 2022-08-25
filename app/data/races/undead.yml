@@ -31,6 +31,7 @@ units:
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
+      does_not_consume_food: 1
 
   - name: Ghoul
     training_time: 12
@@ -38,10 +39,11 @@ units:
       - mindless
     power:
       offense: 0
-      defense: 2
+      defense: 3
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
+      does_not_consume_food: 1
 
   - name: Wight
     training_time: 12
@@ -58,9 +60,10 @@ units:
       dies_into: 3
       increases_enemy_casualties_on_offense: 1
       increases_enemy_casualties_on_defense: 1
+      does_not_consume_food: 1
 
   - name: Necromancer
-    training_time: 9
+    training_time: 6
     type:
       - sentient
       - intelligent
