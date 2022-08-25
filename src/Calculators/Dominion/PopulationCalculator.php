@@ -605,6 +605,9 @@ class PopulationCalculator
         // Faction Perk
         $multiplier += $dominion->race->getPerkValue('drafting');
 
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('drafting');
+
         $growthFactor *= $multiplier;
 
         if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)

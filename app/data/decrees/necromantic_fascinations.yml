@@ -6,16 +6,17 @@ exclusive_races:
 states:
   - name: Mangled Flesh
     perks:
-      undead_unit1_production_raw: 1,0.04,4 # slot, amount, perUnit
+      undead_unit1_production_raw: 1,0.06,4 # slot, amount, perUnit
 
   - name: Bone Hoarder's Horde
     perks:
+      undead_unit1_production_raw: 1,0.01,4 # slot, amount, perUnit
       undead_unit2_production_raw: 2,1,4 # slot, amount, perUnit
       attrition_mod: -100
 
   - name: An Army of The Damned
     perks:
-      undead_unit1_production_raw: 1,0.02,4 # amount, perUnit
+      undead_unit1_production_raw: 1,0.03,4 # amount, perUnit
       attrition_mod: -90
       wizard_strength: 30
       mana_production_mod: 10
