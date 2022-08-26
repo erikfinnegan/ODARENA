@@ -16,6 +16,8 @@
                 <li><a class="btn btn-block" href="#governor">Governor</a></li>
                 <li><a class="btn btn-block" href="#morale">Morale</a></li>
                 <li><a class="btn btn-block" href="#prestige">Prestige</a></li>
+                <li><a class="btn btn-block" href="#psionics">Psionics</a></li>
+                <li><a class="btn btn-block" href="#psionic_conversion">Psionic Conversion</a></li>
                 <li><a class="btn btn-block" href="#rounds">Rounds</a></li>
                 <li><a class="btn btn-block" href="#sabotage">Sabotage</a></li>
                 <li><a class="btn btn-block" href="#sorcery">Sorcery</a></li>
@@ -142,7 +144,7 @@
             </div>
 
             <div class="box-footer">
-                <p class="text-muted">See also <a href="#crypt">Crypt</a>.</p>
+                <p class="text-muted">See also <a href="#crypt">Crypt</a> and <a href="#psionic_conversion">Psionic Conversion</a></p>
             </div>
         </div>
     </div>
@@ -273,7 +275,58 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-sm-12 col-md-12">
+        <a id="psionics"></a>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h2 class="box-title">Psionics</h2>
+            </div>
 
+            <div class="box-body">
+                <p>Psionic strength is a measurement of the overall mental fortitude of a dominion. It is calculated as <code>([Base] * (1 + [Psionic Strength Perks] + [Psionic strength from units]) / [Population]</code>.</p>
+                <ul>
+                    <li>Base is 1.00 for everyone except Cult, whose base is 1.50.</li>
+                    <li>There are currently no psionic strength perks.</li>
+                    <li>Psionic strength from units is calculated for each unit as <code>([Amount of unit] * [Psionic strength from unit's attributes]) / [Population]</code>.</li>
+                    <li>Psionic strength from attributes is as follows:
+                        <ul>
+                            <li>Mindless: -0.5</li>
+                            <li>Intelligent: 0.5</li>
+                            <li>Wise: 2</li>
+                            <li>Psychic: 4</li>
+                            <li>Others/default: 0</li>
+                        </ul>
+                    </li>
+                    <li>For example, an Adept has the value 2.5 from Living (0) + Sentient (0) + Intelligent (0.5) + Wise (2) = 2.50.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12 col-md-12">
+        <a id="psionic_conversion"></a>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h2 class="box-title">Psionic Conversion</h2>
+            </div>
+
+            <div class="box-body">
+                <p>Psionic conversion is conversion of units through a combination of persuasion and tricks of the mind. It only works when the <a href="{{ route('scribes.faction', 'cult') }}">Cult</a> is successful (none on bounces or getting hit) and only on conscious, thinking enemy beings which survive the invasion and are not immortal.</p>
+                <p>It is based on regular conversion, but whereas regular conversion cannot convert units that have the attributes <samp>Aspect</samp> or </samp>Fused</samp>, psionic conversion can convert such units but cannot convert units with the attributes <samp>Wise</samp> or <samp>Mindless</samp>.</p>
+                <p>Psionic conversion is calculated as follows:</p>
+                <ul>
+                <li>Base ratio: 1% on offense (when Cult is invading you), 0.50% on defense (when you invade Cult)</li>
+                <li>Base ratio is multiplied by the OP:DP Ratio of the invasion (max 1.25).</li>
+                <li>A multiplier is calculated as: <code>0 + ([Cult Psionic Strength] / [Enemy Psionic Strength]) + [Enemy casualty reduction perk from Cult units]</code>. Cult and Enemy Psionic Strenghts are capped at 2 in this calculation.</li>
+                <li>Conversion ratio is <code>[Base Ratio] * [Multiplier]</code>.</li>
+                <li>The conversion ratio is applied to all eligible surviving enemy units and, on offense, peasants.</li>
+                <li>Units psionically converted are reduced by applicable casualty perks (you can never lose more units to psionic conversions than were killed).</li>
+                <li>The converted units are lost for the enemy and all become Thralls for the Cult.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     
     <div class="col-sm-12 col-md-12">
         <a id="prestige"></a>
