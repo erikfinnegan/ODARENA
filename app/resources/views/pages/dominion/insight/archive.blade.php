@@ -900,6 +900,23 @@
     </div>
 
 </div>
+<div class="row">
+
+    <div class="col-sm-12 col-md-6">
+        @component('partials.dominion.insight.box')
+            @slot('title', 'Data')
+            @slot('titleIconClass', 'fas fa-database')
+            @slot('noPadding', true)
+
+            <div class="box-body">
+                <button id="words" class="btn btn-primary btn-block" type="button" >Copy data</button>
+                <textarea id="text_copy" class="form-control" name="text_copy" rows="4" cols="8" readonly>{!! str_replace("\n",'',trim(json_encode($data))) !!}</textarea>
+            </div>
+
+        @endcomponent
+    </div>
+
+</div>
 
 <div class="box-footer">
     <div class="pull-right">
@@ -910,3 +927,18 @@
 @endif
 
 @endsection
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        document.querySelector("#words").onclick = function () {
+        document.querySelector("#text_copy").select();
+        document.execCommand("copy");
+        };
+
+        document.querySelector("#input-btn").onclick = function () {
+        document.querySelector("#input").select();
+        document.execCommand("copy");
+        };
+
+    </script>
+@endpush

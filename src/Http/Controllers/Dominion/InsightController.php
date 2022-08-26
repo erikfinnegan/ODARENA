@@ -209,6 +209,8 @@ class InsightController extends AbstractDominionController
             'protectionService' => app(ProtectionService::class),
             'statsService' => app(StatsService::class),
             'queueService' => app(QueueService::class),
+
+            'insightService' => app(InsightService::class),
         ]);
     }
 

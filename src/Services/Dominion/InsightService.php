@@ -70,7 +70,7 @@ class InsightService
 
     # $target = the dominion for whom Insight is being captured
     # $source = the dominion (if any) which is capturing the Insight
-    public function captureDominionInsight(Dominion $target, Dominion $source = null): array
+    public function captureDominionInsight(Dominion $target, Dominion $source = null, bool $returnInsightData = false): array
     {
 
         if($this->protectionService->isUnderProtection($target))
@@ -425,6 +425,11 @@ class InsightService
                 $data['land']['incoming'][$landType][$row->hours] += $row->amount;
             }
         });
+
+        if($returnInsightData)
+        {
+            return $data;
+        }
 
         $data = json_encode($data);
 
