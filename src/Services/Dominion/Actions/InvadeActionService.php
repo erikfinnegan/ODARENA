@@ -322,6 +322,11 @@ class InvadeActionService
             $this->invasionResult['log']['initiated_at'] = $now;
             $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
 
+            if($dominion->race->name == 'Legion' and $dominion->getDecreePerkValue('show_of_force_invading_annexed_barbarian') and $target->race->name == 'Barbarian' and $this->spellCalculator->isAnnexed($target))
+            {
+                $this->invasionResult['attacker']['show_of_force'] = true;
+            }
+
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
 
@@ -512,6 +517,13 @@ class InvadeActionService
             }
             # LIBERATION
             elseif(isset($this->invasionResult['attacker']['liberation']) and $this->invasionResult['attacker']['liberation'])
+            {
+                $annexationSpell = Spell::where('key', 'annexation')->first();
+                $this->spellActionService->breakSpell($target, $annexationSpell, $this->invasionResult['attacker']['liberation']);
+            }
+            
+            # Failed Show of Force
+            if(isset($this->invasionResult['attacker']['show_of_force']) and $this->invasionResult['attacker']['show_of_force'] and !$this->invasionResult['result']['success'])
             {
                 $annexationSpell = Spell::where('key', 'annexation')->first();
                 $this->spellActionService->breakSpell($target, $annexationSpell, $this->invasionResult['attacker']['liberation']);
@@ -756,6 +768,11 @@ class InvadeActionService
      */
     protected function handleCasualties(Dominion $dominion, Dominion $enemy, array $casualties = [], string $mode = 'offense'): void
     {
+        # No casualties for successful show of force.
+        if(isset($this->invasionResult['attacker']['show_of_force']) and $this->invasionResult['attacker']['show_of_force'] and $this->invasionResult['result']['success'])
+        {
+            return;
+        }
 
         if($mode == 'offense')
         {
@@ -967,8 +984,8 @@ class InvadeActionService
      */
     protected function handleLandGrabs(Dominion $dominion, Dominion $target, float $landRatio, array $units): void
     {
-        // Nothing to grab if invasion isn't successful :^)
-        if (!$this->invasionResult['result']['success'])
+        // Nothing to grab if invasion isn't successful :^) — or if it's a show of force
+        if (!$this->invasionResult['result']['success'] or (isset($this->invasionResult['attacker']['show_of_force']) and $this->invasionResult['attacker']['show_of_force']))
         {
             return;
         }
@@ -2210,6 +2227,12 @@ class InvadeActionService
         {
             $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
             $this->invasionResult['result']['annexation'] = true;
+        }
+
+        # Extend annexation
+        if($this->invasionResult['attacker']['show_of_force'] and $this->invasionResult['result']['success'])
+        {
+            $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
         }
     }
 

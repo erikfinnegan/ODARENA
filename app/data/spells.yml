@@ -1149,7 +1149,6 @@ fine_arts:
 
 dark_rites:
   name: Dark Rites
-  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -1158,7 +1157,7 @@ dark_rites:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 13,4,1,1 # every 13 unit4 creates one unit1
+    converts_crypt_bodies: 50,4,1 # every 50 unit4 creates one unit1
 
 rites_of_zidur:
   name: Rites of Zidur

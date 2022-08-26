@@ -117,9 +117,19 @@ class BarbarianService
     {
         $invade = false;
 
-        if($dominion->race->name !== 'Barbarian' or $this->spellCalculator->isAnnexed($dominion))
+        if($dominion->race->name !== 'Barbarian')
         {
             return;
+        }
+
+        if($this->spellCalculator->isAnnexed($dominion))
+        {
+            # Annexed dominions only invade if legion has issued Limited Self-Governance decree.
+            $legion = $this->spellCalculator->getCaster($dominion, 'annexation');
+            if(!$legion->getDecreePerkValue('autonomous_barbarians'))
+            {
+                return;
+            }
         }
 
         $oneLineLogString = '';

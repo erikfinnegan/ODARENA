@@ -136,6 +136,11 @@ class DecreeHelper
             'generate_building_swamp' => 'Generate %s in swamps',
             'generate_building_water' => 'Generate %s in water',
             'generate_building_forest' => 'Generate %s in the forest',
+
+            # Legion specific
+            'show_of_force_invading_annexed_barbarian' => '',
+            'distribute_discovered_land_to_annexed_dominions' => '',
+            'autonomous_barbarians' => '',
         ];
 
         foreach ($decreeState->perks as $perk)

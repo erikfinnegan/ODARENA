@@ -59,24 +59,31 @@ class RangeCalculator
         $selfModifier = $this->getRangeModifier($self);
         $targetModifier = $this->getRangeModifier($target, true);
 
+        # Legion out doing Show of Force can hit its own annexed barbarians.
+        if($self->getDecreePerkValue('show_of_force_invading_annexed_barbarian') and $this->spellCalculator->getAnnexedDominions($self)->contatins($target))
+        {
+            return true;
+        }
+
+        # Annexed Barbarians are not in range of (other) Empire dominions
         if ($this->spellCalculator->isAnnexed($target) and $self->realm->alignment == 'evil')
         {
             return false;
         }
 
+        # 12 ticks grace period following invasions.
+        if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, static::RECENTLY_INVADED_GRACE_PERIOD_TICKS))
+        {
+            return true;
+        }
+
         return (
-            (
+            
               ($targetLand >= ($selfLand * $selfModifier)) &&
               ($targetLand <= ($selfLand / $selfModifier)) &&
               ($selfLand >= ($targetLand * $targetModifier)) &&
               ($selfLand <= ($targetLand / $targetModifier))
-            )
-
-            # Or was recently invaded by the target in the last three hours.
-            or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, static::RECENTLY_INVADED_GRACE_PERIOD_TICKS)
-
-
-        );
+            );
     }
 
     /**
