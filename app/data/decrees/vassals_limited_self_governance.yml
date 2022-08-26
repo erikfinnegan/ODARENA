@@ -1,0 +1,9 @@
+name: "Vassals: Limited Self-Governance"
+cooldown: 0
+description: Grant your annexed dominions a modicum of self-governance, allowing them to attack freely while this decree is enabled.
+exclusive_races:
+  - Legion
+states:
+  - name: Enabled
+    perks:
+      autonomous_barbarians: 1

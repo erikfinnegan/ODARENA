@@ -1,0 +1,9 @@
+name: "Vassals: Show of Force"
+cooldown: 0
+description: Extend annexations by invading annexed Barbarians. No casualties are incurred by either side. If you fail the invasion, the annexation is immediately lost and normal casualties are incurred.
+exclusive_races:
+  - Legion
+states:
+  - name: Enabled
+    perks:
+      show_of_force_invading_annexed_barbarian: 1

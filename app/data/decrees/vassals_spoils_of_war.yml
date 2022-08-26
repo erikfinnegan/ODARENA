@@ -1,0 +1,9 @@
+name: "Vassals: Spoils of War"
+cooldown: 0
+description: Distribute land discovered on invasions to annexed Barbarians. You only keep conquered land.
+exclusive_races:
+  - Legion
+states:
+  - name: Enabled
+    perks:
+      distribute_discovered_land_to_annexed_dominions: 1

@@ -77,6 +77,7 @@ class RangeCalculator
             return true;
         }
 
+        # Otherwise, use range modifier.
         return (
             
               ($targetLand >= ($selfLand * $selfModifier)) &&
