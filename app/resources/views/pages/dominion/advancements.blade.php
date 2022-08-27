@@ -151,13 +151,13 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>Advancements are levelled up spending XP.</p>
+                <p>Advancements are levelled up by spending XP.</p>
                 <p>The higher the level, the higher the perk becomes.</p>
                 <ul>
                     <li>Levels up to and including 6:<br><code>[Base Perk]*[Level]</code></li>
                     <li>Levels 7 through 10:<br><code>[Base Perk]*(((6-[Level])/2)+6)</code></li>
                 </ul>
-                <table class="table">
+                <table class="table table-striped">
                     <colgroup>
                         <col width="20%">
                         <col width="40%">
@@ -181,6 +181,9 @@
                     </tbody>
                 </table>
                 <p>You have <b>{{ number_format($selectedDominion->xp) }} XP</b>, which is increasing your ruler title bonus by {{ number_format(($selectedDominion->getTitlePerkMultiplier()-1)*100,2) }}%.</p>
+            </div>
+            <div class="box-footer">
+                <p><small class="text-muted"><em>The XP cost shown is the amount of XP required for levelling to the next level when an advancement is that level. For example, the cost for level 4 is the cost of levelling up from 4 to 5.</em></small><p>
             </div>
         </div>
     </div>
