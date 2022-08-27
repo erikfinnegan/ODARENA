@@ -228,8 +228,8 @@ class SpellHelper
 
             'defensive_power_from_peasants' => '%s raw defensive power per peasant',
 
-            'offensive_power_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
-            'defense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
+            'offensive_power_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max %3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
+            'defense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max %3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 
             // Improvements
             'invest_bonus' => '%s%% improvement points from investments made while spell is active',

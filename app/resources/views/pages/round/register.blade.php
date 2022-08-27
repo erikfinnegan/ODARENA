@@ -212,7 +212,7 @@
             }
 
             maxPerRoundStatus = ''
-            if (maxPerRound == 1) {
+            if (maxPerRound > 0) {
                 maxPerRoundStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-warning">Max ' + maxPerRound + ' per round</span></div>';
             }
 
