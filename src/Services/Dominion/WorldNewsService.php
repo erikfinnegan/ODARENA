@@ -99,6 +99,9 @@ class WorldNewsService
         if(
             $event->source_type == Dominion::class and $event->source_id == $dominion->id or
             $event->target_type == Dominion::class and $event->target_id == $dominion->id or
+            $event->source_type == Dominion::class and $event->realm->id == $dominion->realm->id or
+            $event->target_type == Dominion::class and $event->realm->id == $dominion->realm->id or
+
             $event->target_type == Realm::class and $event->target_id == $dominion->realm->id or
             $event->target_type == Realm::class and $event->target_id == $dominion->realm->id
         )
