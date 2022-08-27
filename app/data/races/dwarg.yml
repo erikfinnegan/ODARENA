@@ -19,7 +19,7 @@ construction_materials:
 
 improvement_resources:
   gold: 1
-  ore: 4
+  ore: 3
   gems: 12
 
 perks:

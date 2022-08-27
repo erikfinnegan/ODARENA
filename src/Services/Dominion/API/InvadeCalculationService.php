@@ -62,7 +62,7 @@ class InvadeCalculationService
     public function __construct()
     {
         $this->landCalculator = app(LandCalculator::class);
-        $this->MilitaryCalculator = app(MilitaryCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
 
         $this->protectionService = app(ProtectionService::class);
@@ -76,7 +76,7 @@ class InvadeCalculationService
      * @param array $units
      * @return array
      */
-    public function calculate(Dominion $dominion, ?Dominion $target, ?array $units, ?array $calc): array
+    public function calculate(Dominion $dominion, Dominion $target = null, ?array $units, ?array $calc): array
     {
         if ($dominion->isLocked() || $dominion->round->hasEnded())
         {
@@ -133,7 +133,15 @@ class InvadeCalculationService
         $this->calculationResult['op_multiplier'] = $this->militaryCalculator->getOffensivePowerMultiplier($dominion);
 
         $this->calculationResult['away_defense'] = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $this->calculationResult['away_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true); #$this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, $calc);
+
+        if($target)
+        {
+            $this->calculationResult['away_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true); #
+        }
+        else
+        {
+            $this->calculationResult['away_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, $calc);
+        }
 
         $unitsHome = [
             0 => $dominion->military_draftees,
