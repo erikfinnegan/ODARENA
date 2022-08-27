@@ -223,7 +223,9 @@
 
             <div class="box-body">
                 <p>Gain land by sending units out on expeditions and claim lands. The amount of land gained is calculated based on your current land size and the amount of Offensive Power you send.</p>
-                <p>
+                <p>Offensive Power per 1 land required: <code>[Land Size] ** 1.25 / 3 to [Land Size] ** 1.25 / 5</code>
+                <p>You also gain 25 XP per land discovered.</p>
+                <p>Prestige gain: <code>([Land Discovered] / [Land Size]) * 200)</code></p>
             </div>
         </div>
     </div>
