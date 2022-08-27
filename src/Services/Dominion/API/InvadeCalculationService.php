@@ -151,7 +151,7 @@ class InvadeCalculationService
         $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * (4/3);
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
 
-        if(isset($target) and $dominion->round->hasStarted())
+        if(isset($target) and $dominion->round->hasStarted() and !$this->protectionService->isUnderProtection($target))
         {
             $this->calculationResult['land_conquered'] = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio*100);
 
