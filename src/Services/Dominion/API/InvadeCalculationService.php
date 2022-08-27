@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Services\Dominion\ProtectionService;
 
 class InvadeCalculationService
 {
@@ -58,15 +59,13 @@ class InvadeCalculationService
      * @param MilitaryCalculator $militaryCalculator
      * @param RangeCalculator $rangeCalculator
      */
-    public function __construct(
-        LandCalculator $landCalculator,
-        MilitaryCalculator $militaryCalculator,
-        RangeCalculator $rangeCalculator
-    )
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->militaryCalculator = $militaryCalculator;
-        $this->rangeCalculator = $rangeCalculator;
+        $this->landCalculator = app(LandCalculator::class);
+        $this->MilitaryCalculator = app(MilitaryCalculator::class);
+        $this->rangeCalculator = app(RangeCalculator::class);
+
+        $this->protectionService = app(ProtectionService::class);
     }
 
     /**
@@ -152,7 +151,7 @@ class InvadeCalculationService
         $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * (4/3);
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
 
-        if(isset($target))
+        if(isset($target) and $dominion->round->hasStarted())
         {
             $this->calculationResult['land_conquered'] = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio*100);
 
