@@ -6,6 +6,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\AdvancementActionRequest;
 
 use OpenDominion\Calculators\Dominion\AdvancementCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
 
 use OpenDominion\Helpers\AdvancementHelper;
 
@@ -25,6 +26,7 @@ class AdvancementController extends AbstractDominionController
             'advancements' => $advancementHelper->getAdvancementsByRace($dominion->race), #Advancement::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'advancementHelper' => app(AdvancementHelper::class),
             'advancementCalculator' => $advancementCalculator,
+            'productionCalculator' => app(ProductionCalculator::class),
         ]);
     }
 

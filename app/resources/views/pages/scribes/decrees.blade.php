@@ -10,7 +10,7 @@
         <div class="box-body">
             <p>As the ruler of a dominion, you can issue decrees. Each decree has one or more states you can select from. Only one decree state can be active at a time. You must revoke an active state in order to change to a different state.</p>
             <p>Once issued, the decree state perks are immediately active.</p>
-            <p>Each decree has a cooldown period, during which you cannot revoke it.</p>
+            <p>Each decree has a cooldown period, during which you cannot revoke it. The cooldown is not affected by protection ticks. Only round ticks count.</p>
         </div>
     </div>
 

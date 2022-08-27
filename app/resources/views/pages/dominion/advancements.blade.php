@@ -157,12 +157,29 @@
                     <li>Levels up to and including 6:<br><code>[Base Perk]*[Level]</code></li>
                     <li>Levels 7 through 10:<br><code>[Base Perk]*(((6-[Level])/2)+6)</code></li>
                 </ul>
-                <h4>Level Up Cost</h4>
-                <ul>
-                @for ($level = 1; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
-                    <li>Level {{ $level }}: {{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</li>
-                @endfor
-                </ul>
+                <table class="table">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="40%">
+                        <col width="40%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">Level</th>
+                            <th class="text-center">XP Cost</th>
+                            <th class="text-center">Ticks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ($level = 1; $level <= $advancementCalculator->getDominionMaxLevel($selectedDominion); $level++)
+                            <tr>
+                                <td class="text-center">{{ $level }}</td>
+                                <td class="text-center">{{ number_format($advancementCalculator->getLevelUpCost($selectedDominion, null, $level)) }}</td>
+                                <td class="text-center">{{ ceil(($advancementCalculator->getLevelUpCost($selectedDominion, null, $level) - $selectedDominion->xp) / $productionCalculator->getXpGeneration($selectedDominion)) }}</td>
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
                 <p>You have <b>{{ number_format($selectedDominion->xp) }} XP</b>, which is increasing your ruler title bonus by {{ number_format(($selectedDominion->getTitlePerkMultiplier()-1)*100,2) }}%.</p>
             </div>
         </div>
