@@ -20,7 +20,13 @@
           @endif
 
       @elseif (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
-          Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong><span data-toggle="tooltip" data-placement="top" title="The round starts at {{ $selectedDominion->round->start_date }}">{{ number_format($selectedDominion->round->hoursUntilStart()) . ' ' . str_plural('hour', $selectedDominion->round->hoursUntilStart()) }}</span></strong>.
+        <span data-toggle="tooltip" data-placement="top" title="The round starts at {{ $selectedDominion->round->start_date }}">
+            @if($selectedDominion->round->hoursUntilStart() > 0)
+                Round {{ $selectedDominion->round->number }} starts in <strong>{{ number_format($selectedDominion->round->hoursUntilStart()) . ' ' . str_plural('hour', $selectedDominion->round->hoursUntilStart()) }}</strong>.
+            @else
+                Round {{ $selectedDominion->round->number }} starts in <strong>{{ number_format($selectedDominion->round->minutesUntilStart()) . ' ' . str_plural('minutes', $selectedDominion->round->minutesUntilStart()) }}</strong>.
+            @endif
+        </span>
       @endif
 
       <br>

@@ -236,6 +236,16 @@ class Round extends AbstractModel
     }
 
     /**
+     * Returns the amount in days until the round starts.
+     *
+     * @return int
+     */
+    public function minutesUntilStart()
+    {
+        return $this->start_date->diffInMinutes(now());
+    }
+
+    /**
      * Returns the amount in days until the round ends.
      *
      * @return int

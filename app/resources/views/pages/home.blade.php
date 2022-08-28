@@ -45,7 +45,11 @@
                     <div class="box-body text-center">
                         <p>
                             <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $currentRound->start_date }}">
-                                Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
+                                @if($currentRound->hoursUntilStart() > 0)
+                                    Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
+                                @else
+                                    Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->minutesUntilStart()) . ' ' . str_plural('minutes', $currentRound->minutesUntilStart()) }}</strong>.
+                                @endif
                             </span>
                         </p>
 
