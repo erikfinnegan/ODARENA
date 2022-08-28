@@ -286,6 +286,7 @@ mining:
     - Undead
     - Void
     - Wood Elf
+    - Weres
   perks:
     ore_production_mod: 25,4000
 
