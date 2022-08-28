@@ -154,7 +154,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit1']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit1']['defense']) }}">
                                       {{ $dominion->race->units->get(0)->name }}:
                                   </span>
                                 </td>
@@ -162,7 +162,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit2']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit2']['defense']) }}">
                                       {{ $dominion->race->units->get(1)->name }}:
                                   </span>
                                 </td>
@@ -170,7 +170,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit3']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit3']['defense']) }}">
                                       {{ $dominion->race->units->get(2)->name }}:
                                   </span>
                                 </td>
@@ -178,7 +178,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit4']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit4']['defense']) }}">
                                       {{ $dominion->race->units->get(3)->name }}:
                                   </span>
                                 </td>

@@ -376,7 +376,7 @@ class PopulationCalculator
                       $slotUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
                   }
 
-                  $units += min($slotUnits, $unitSpecificBuildingHousing);
+                  $units += min($slotUnits, $this->getAvailableHousingFromUnitSpecificBuildings($dominion));
               }
           }
 
