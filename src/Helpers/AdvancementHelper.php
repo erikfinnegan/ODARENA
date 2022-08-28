@@ -25,7 +25,7 @@ class AdvancementHelper
             'mana_production_mod' => 'mana production',
             'food_production_mod' => 'food production',
             'horse_production_mod' => 'horse taming',
-            'blood_production_mod' => 'horse taming',
+            'blood_production_mod' => 'blood gathering',
             'pearls_production_mod' => 'pearl production',
             'marshling_production_mod' => 'marshling spawning',
             'miasma_production_mod' => 'miasma extraction',

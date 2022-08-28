@@ -243,7 +243,7 @@ class TrainingCalculator
                     }
                     elseif($type == 'crypt_body')
                     {
-                        $trainableByCost[$type] = (int)floor($dominion->realm->crypt / $value);
+                        $trainableByCost[$type] = (int)floor($this->resourceCalculator->getRealmAmount($dominion->realm, 'body'));
                     }
                     else
                     {

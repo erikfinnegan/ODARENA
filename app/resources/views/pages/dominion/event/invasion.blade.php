@@ -205,7 +205,7 @@
                             @endif
 
                             @if (
-                                      (($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration') and $event->source->realm->id === $selectedDominion->realm->id) or
+                                      (($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration' or $selectedDominion->round->mode == 'artefacts') and $event->source->realm->id === $selectedDominion->realm->id) or
                                       (($selectedDominion->round->mode == 'deathmatch' or $selectedDominion->round->mode == 'deathmatch-duration') and $event->source->id === $selectedDominion->id)
                                 )
                             <table class="table">
@@ -493,22 +493,21 @@
                                     <tr>
                                         <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
                                     </tr>
-                                    @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
-                                        @php
-                                            $resourceName = str_replace('resource_','',$resource);
-                                        @endphp
-                                        @if($amount > 0)
-                                            <tr>
-                                                <td>{{ ucwords($resourceName) }}:</td>
-                                                <td><span class="text-green">+{{ number_format($amount) }}</span></td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
+                                        @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
+                                            @php
+                                                $resourceName = str_replace('resource_','',$resource);
+                                            @endphp
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resourceName) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                     @endif
                                 </tbody>
                             </table>
                             @endif
-
                         </div>
 
                         <div class="col-xs-12 col-sm-4">

@@ -195,13 +195,6 @@ class SorceryActionService
                 'damage' => [],
             ];
 
-            // Surreal Perception
-            $sourceDominionId = null;
-            if ($this->sorcery['target']['reveal_ops'])
-            {
-                $sourceDominionId = $caster->id;
-            }
-
             if($spell->class == 'passive')
             {
                 $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount);

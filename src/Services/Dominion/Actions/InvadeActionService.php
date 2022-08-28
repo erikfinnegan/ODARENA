@@ -564,7 +564,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -2413,7 +2413,6 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
                               $dpKilledFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slotKilled => $amountKilled], 0, false, $this->isAmbush, true, [$this->invasionResult['attacker']['units_sent']], true);
-                              #$dpKilledByThisSlot =  * ($opFromSlot / $rawOp);
                               $killsAttributableToThisSlot = $dpKilledFromSlot * ($opFromSlot / $rawOp);
                               $resourceAmount = round($killsAttributableToThisSlot * $amountPerPoint);
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
