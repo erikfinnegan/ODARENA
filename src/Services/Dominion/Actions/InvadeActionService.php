@@ -2897,6 +2897,7 @@ class InvadeActionService
             }
         }
 
+        /*
         foreach($defenderWatchers as $defenderWatcher)
         {
             if($defenderWatcher->id !== $attacker->id and $defenderWatcher->id !== $defender->id)
@@ -2910,6 +2911,7 @@ class InvadeActionService
                 ]);
             }
         }
+        */
     }
 
     /**
