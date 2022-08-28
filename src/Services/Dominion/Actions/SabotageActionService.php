@@ -315,7 +315,7 @@ class SabotageActionService
 
                     $moraleBefore = $target->morale;
                     $target->morale -= $damageDealt;
-                    $moraleAfter = $wizardStrengthBefore - $damageDealt;
+                    $moraleAfter = $moraleBefore - $damageDealt;
 
                     $this->statsService->updateStat($saboteur, 'sabotage_morale_damage_dealt', $damageDealt);
                     $this->statsService->updateStat($target, 'sabotage_morale_damage_suffered', $damageDealt);

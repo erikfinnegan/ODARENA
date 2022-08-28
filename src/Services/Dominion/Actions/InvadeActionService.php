@@ -2880,6 +2880,8 @@ class InvadeActionService
 
     protected function handleWatchedDominions(Dominion $attacker, Dominion $defender): void
     {
+
+        /*
         $attackerWatchers = WatchedDominion::where('dominion_id', $attacker->id)->get();
         $defenderWatchers = WatchedDominion::where('dominion_id', $defender->id)->get();
 
@@ -2897,7 +2899,6 @@ class InvadeActionService
             }
         }
 
-        /*
         foreach($defenderWatchers as $defenderWatcher)
         {
             if($defenderWatcher->id !== $attacker->id and $defenderWatcher->id !== $defender->id)
