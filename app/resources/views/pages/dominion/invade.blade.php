@@ -703,8 +703,8 @@
                                 $('#unit\\['+slot+'\\]').data('dp', stats.dp);
                                 $('#unit\\['+slot+'\\]').data('op', stats.op);
                                 // Update unit stats display
-                                $('#unit'+slot+'_dp').text(stats.dp.toLocaleString(undefined, {maximumFractionDigits: 5}));
-                                $('#unit'+slot+'_op').text(stats.op.toLocaleString(undefined, {maximumFractionDigits: 5}));
+                                $('#unit'+slot+'_dp').text(stats.dp.toLocaleString(undefined, {maximumFractionDigits: 3}));
+                                $('#unit'+slot+'_op').text(stats.op.toLocaleString(undefined, {maximumFractionDigits: 3}));
                             });
 
                             // Update OP / DP data attributes
