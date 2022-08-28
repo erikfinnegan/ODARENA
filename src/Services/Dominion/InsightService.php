@@ -21,6 +21,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
@@ -50,6 +51,7 @@ class InsightService
         $this->landImprovementHelper = app(LandImprovementHelper::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->titleHelper = app(TitleHelper::class);
+        $this->unitHelper = app(UnitHelper::class);
 
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
@@ -187,6 +189,15 @@ class InsightService
                 'unit3' => $target->military_unit3,
                 'unit4' => $target->military_unit4,
           ];
+
+        $data['units']['power'] =
+        [
+            'draftees' => ['offense' => 0, 'defense' => $target->race->getPerkValue('draftee_dp') ?: 1],
+            'unit1' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'defense')],
+            'unit2' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'defense')],
+            'unit3' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'defense')],
+            'unit4' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'defense')],
+        ];
 
         foreach($target->race->resources as $resourceKey)
         {
