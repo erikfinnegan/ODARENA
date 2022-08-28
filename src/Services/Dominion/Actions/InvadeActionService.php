@@ -322,6 +322,7 @@ class InvadeActionService
             $this->invasionResult['log']['initiated_at'] = $now;
             $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
 
+            $this->invasionResult['attacker']['show_of_force'] = false;
             if($dominion->race->name == 'Legion' and $dominion->getDecreePerkValue('show_of_force_invading_annexed_barbarian') and $target->race->name == 'Barbarian' and $this->spellCalculator->isAnnexed($target))
             {
                 $this->invasionResult['attacker']['show_of_force'] = true;
