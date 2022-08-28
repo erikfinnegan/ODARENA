@@ -61,13 +61,13 @@
                                                   @if ($offensivePower === 0)
                                                       <span class="text-muted">0</span>
                                                   @else
-                                                      {{ floatval($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
+                                                      {{ display_number_format($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
                                                   @endif
                                                   &nbsp;/&nbsp;
                                                   @if ($defensivePower === 0)
                                                       <span class="text-muted">0</span>
                                                   @else
-                                                      {{ floatval($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
+                                                      {{ display_number_format($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
                                                   @endif
                                               </td>
                                               <td class="text-center">  <!-- Trained -->

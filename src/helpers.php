@@ -76,9 +76,14 @@ if (!function_exists('display_number_format')) {
      * @param string $lastDelimiter
      * @return string
      */
-    function display_number_format(float $number, int $decimals = 2): string
+    function display_number_format(float $number, int $decimals = 0): string
     {
-        return (strpos($number, '.') !== false) ? number_format($number, $decimals) : number_format($number);
+        if(strpos($number, '.'))
+        {
+            $decimals = min(strpos(strrev($number), '.'), 3);
+        }
+
+        return number_format($number, $decimals);
     }
 }
 

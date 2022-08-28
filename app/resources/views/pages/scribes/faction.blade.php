@@ -96,9 +96,9 @@
                               </td>
                                 @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
                                     <td class="text-center">  <!-- OP / DP -->
-                                        {{ (strpos($unit->power_offense, '.') !== false) ? number_format($unit->power_offense, 2) : number_format($unit->power_offense) }}
+                                        {{ display_number_format($unit->power_offense) }}
                                         /
-                                        {{ (strpos($unit->power_defense, '.') !== false) ? number_format($unit->power_defense, 2) : number_format($unit->power_defense) }}
+                                        {{ display_number_format($unit->power_defense) }}
                                     </td>
                                 @else
                                     <td class="text-center">&mdash;</td>
