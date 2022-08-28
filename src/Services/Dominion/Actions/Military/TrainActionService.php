@@ -300,7 +300,7 @@ class TrainActionService
             throw new GameException('Training failed due to insufficient wizard strength.');
           }
 
-          if($totalCosts['crypt_body'] > $dominion->realm->crypt)
+          if($totalCosts['crypt_body'] > $this->resourceCalculator->getRealmAmount($dominion->realm, 'body'))
           {
               throw new GameException('Insufficient bodies in the crypt to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
           }
