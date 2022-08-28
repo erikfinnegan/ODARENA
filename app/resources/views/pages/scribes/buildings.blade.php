@@ -8,8 +8,7 @@
             <h3 class="box-title">Buildings</h3>
         </div>
         <div class="box-body">
-            <div class="row">
-            </div>
+            <p>It takes 12 ticks to construct a building.</p>
         </div>
     </div>
 

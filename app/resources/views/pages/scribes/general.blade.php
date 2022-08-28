@@ -431,20 +431,20 @@
                             <td>Indefinite</td>
                         </tr>
                         <tr>
-                            <td><i class="fas fa-users fa-fw text-green"></i> Standard (duration)</td>
+                            <td><i class="fas fa-users fa-fw text-green"></i> Standard (Duration)</td>
                             <td>Four realms: one per alignment.</td>
                             <td>The round lasts a certain number of ticks.</td>
                             <td>Fixed</td>
                         </tr>
 
                         <tr>
-                            <td><i class="ra ra-daggers ra-fw text-red"></i> Deathamtch</td>
+                            <td><i class="ra ra-daggers ra-fw text-red"></i> Deathmatch</td>
                             <td>Two realms: Barbarians and Players. In-realm invasions and other operations are enabled.</td>
                             <td>The first dominion to a certain land size triggers a 48-tick countdown.</td>
                             <td>Indefinite</td>
                         </tr>
                         <tr>
-                            <td><i class="ra ra-daggers ra-fw text-red"></i> Deathmatch (duration)</td>
+                            <td><i class="ra ra-daggers ra-fw text-red"></i> Deathmatch (Duration)</td>
                             <td>Two realms: Barbarians and Players. In-realm invasions and other operations are enabled.</td>
                             <td>The round lasts a certain number of ticks.</td>
                             <td>Fixed</td>
