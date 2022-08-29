@@ -2336,21 +2336,21 @@ class MilitaryCalculator
 
         if($power == 'offense')
         {
-            $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
+            $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');
 
             # Retaliation spells (only vs. self in deathmatches)
             if($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration' or $dominion->round->mode == 'artefacts')
             {
                 if ($this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
                 {
-                    $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+                    $multiplier += $dominion->getSpellPerkMultiplier('offensive_power_on_retaliation');
                 }
             }
             elseif($dominion->round->mode == 'deathmatch' or $dominion->round->mode == 'deathmatch-duration')
             {
                 if ($this->isSelfRecentlyInvadedByTarget($dominion, $target))
                 {
-                    $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+                    $multiplier += $dominion->getSpellPerkMultiplier('offensive_power_on_retaliation');
                 }
             }
 
@@ -2644,5 +2644,6 @@ class MilitaryCalculator
         return $strength;
 
     }
+
 
 }
