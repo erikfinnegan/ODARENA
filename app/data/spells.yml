@@ -1559,6 +1559,7 @@ curse_of_kinthys:
 
 disband_spies:
   name: Disband Spies
+  enabled: 0
   scope: hostile
   class: active
   cost: 0.5 # 2/4

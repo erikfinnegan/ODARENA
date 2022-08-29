@@ -535,7 +535,7 @@
                         @endphp
                         <tr>
                             <td>
-                              <span data-toggle="tooltip" data-placement="top" title="{{ $toolTip }}">
+                              <span data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}">
                                   {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
                               </span>
                             </td>
