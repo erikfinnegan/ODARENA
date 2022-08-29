@@ -2713,10 +2713,12 @@ class InvadeActionService
         {
             if($amount > 0)
             {
+                $this->statsService->updateStat($attacker, ($resourceKey . '_plundered'), $amount);
                 # If the resource is ore, lumber, or gems, also check for salvaged resources.
                 if(in_array($resourceKey, ['ore', 'lumber', 'gems']))
                 {
                     $amount += $result['attacker']['salvage'][$resourceKey];
+                    $this->statsService->updateStat($attacker, ($resourceKey . '_salvaged'), $result['attacker']['salvage'][$resourceKey]);
                 }
 
                 $this->queueService->queueResources(
@@ -2727,7 +2729,7 @@ class InvadeActionService
                     ]
                 );
 
-                $this->statsService->updateStat($attacker, ($resourceKey . '_plundered'), $amount);
+                
             }
         }
 

@@ -514,6 +514,7 @@
                 <tbody>
                     @foreach ([1,2,3,4,'spies','wizards','archmages'] as $slot)
                         @php
+                            $tooltip = '';
                             if($slot == 'spies')
                             {
                                 $unitType = 'spies';
@@ -529,11 +530,12 @@
                             else
                             {
                                 $unitType = 'unit' . $slot;
+                                $tooltip = 'OP: ' . display_number_format($data['units']['power']['unit2']['offense']) . '/ DP: '. display_number_format($data['units']['power']['unit2']['defense']);
                             }
                         @endphp
                         <tr>
                             <td>
-                              <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                              <span data-toggle="tooltip" data-placement="top" title="{{ $toolTip }}">
                                   {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
                               </span>
                             </td>
