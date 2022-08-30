@@ -2337,7 +2337,7 @@ class MilitaryCalculator
         if($power == 'offense')
         {
             $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');
-
+            
             # Retaliation spells (only vs. self in deathmatches)
             if($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration' or $dominion->round->mode == 'artefacts')
             {
@@ -2645,5 +2645,41 @@ class MilitaryCalculator
 
     }
 
+    public function estimateMaxSendable(array $units, float $opMod, float $dpMod)
+    {
+        /* Expected $units array format:
+
+            $units = [
+                $slot => [$amount, $unitOp, $unitDp],
+                1 => [1000, 5, 3]
+            ];
+
+        */
+
+        $unitRatio = [];
+
+        foreach($units as $slot)
+        {
+            $unitAmount = $slot[0];
+            $unitOp = (float)$slot[1] * $opMod;
+            $unitDp = (float)$slot[2] * $dpMod;
+
+            if($unitDp > 0 and $unitOp > 0)
+            {
+                $ratio = $unitOp / $unitDp;
+            }
+            elseif($unitDp == 0 and $unitOp)
+            {
+                $ratio = $unitOp;
+            }
+            else
+            {
+                $ratio = 0;
+            }
+            
+            $unitRatio[$slot] = $ratio;
+
+        }
+    }
 
 }
