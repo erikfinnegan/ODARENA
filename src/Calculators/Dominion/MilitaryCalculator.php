@@ -2726,7 +2726,8 @@ class MilitaryCalculator
             'defensive_power' => $dp,
             'ratio' => $ratio,
             'units_sent' => $unitsSent,
-            'units_defending' => $unitsDefending];
+            'units_defending' => $unitsDefending
+        ];
 
     }
 
