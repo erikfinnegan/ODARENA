@@ -2708,8 +2708,13 @@ class MilitaryCalculator
 
                 $x++;
             }
+
+            if($ratio >= $maxRatio)
+            {
+                break;
+            }
         }
-        
+
         return [$op, $dp, $unitsSent, $unitsDefending];
 
     }
