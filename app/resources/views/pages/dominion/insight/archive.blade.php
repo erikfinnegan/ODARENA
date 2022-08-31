@@ -461,7 +461,7 @@
                     @foreach ($unitHelper->getUnitTypes() as $unitType)
                         @php
                             $unitType = '';
-                            if($slot == 'spies')
+                            if($unitType == 'spies')
                             {
                                 $unitType = 'spies';
                             }
