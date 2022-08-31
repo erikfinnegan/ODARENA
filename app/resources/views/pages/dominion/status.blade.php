@@ -163,7 +163,7 @@
                                             {{ $selectedDominion->race->units->get(3)->name }}:
                                         </span>
                                     </td>
-                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 5)) }}</td>
+                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 4)) }}</td>
                                 </tr>
 
                                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_spies'))
