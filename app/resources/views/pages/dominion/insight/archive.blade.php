@@ -460,7 +460,7 @@
                 <tbody>
                     @foreach ($unitHelper->getUnitTypes() as $unitType)
                         @php
-                            $unitType = '';
+                            $tooltip = '';
                             if($unitType == 'spies')
                             {
                                 $unitType = 'spies';
@@ -475,7 +475,7 @@
                             }
                             else
                             {
-                                $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . '/ DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
+                                $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . ' / DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
                             }
                         @endphp
                         <tr>
@@ -549,7 +549,7 @@
                             else
                             {
                                 $unitType = 'unit' . $slot;
-                                $tooltip = 'OP: ' . display_number_format($data['units']['power']['unit2']['offense']) . '/ DP: '. display_number_format($data['units']['power']['unit2']['defense']);
+                                $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . ' / DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
                             }
                         @endphp
                         <tr>
