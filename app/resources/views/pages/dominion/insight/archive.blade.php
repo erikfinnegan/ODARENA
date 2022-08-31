@@ -460,23 +460,22 @@
                 <tbody>
                     @foreach ($unitHelper->getUnitTypes() as $unitType)
                         @php
-                            $tooltip = '';
+                            $unitType = '';
                             if($slot == 'spies')
                             {
                                 $unitType = 'spies';
                             }
-                            elseif($slot == 'wizards')
+                            elseif($unitType == 'wizards')
                             {
                                 $unitType = 'wizards';
                             }
-                            elseif($slot == 'archmages')
+                            elseif($unitType == 'archmages')
                             {
                                 $unitType = 'archmages';
                             }
                             else
                             {
-                                $unitType = 'unit' . $slot;
-                                $tooltip = 'OP: ' . display_number_format($data['units']['power']['unit2']['offense']) . '/ DP: '. display_number_format($data['units']['power']['unit2']['defense']);
+                                $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . '/ DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
                             }
                         @endphp
                         <tr>
