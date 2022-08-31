@@ -2689,7 +2689,7 @@ class MilitaryCalculator
         $maxRatio = 4/3;
         $x = 0;
 
-        foreach($units as $unitSlot => $unitData)
+        foreach($sortedUnits as $unitSlot => $unitData)
         {
             # Exhaust all of this unit
             while($unitsDefending[$unitSlot] > 0)
