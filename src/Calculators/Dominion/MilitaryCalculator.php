@@ -2715,7 +2715,12 @@ class MilitaryCalculator
             }
         }
 
-        return [$op, $dp, $unitsSent, $unitsDefending];
+        return [
+            'offensive_power' => $op,
+            'defensive_power' => $dp,
+            'ratio' => $ratio,
+            'units_sent' => $unitsSent,
+            'units_defending' => $unitsDefending];
 
     }
 
