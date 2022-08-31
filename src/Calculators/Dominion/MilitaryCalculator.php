@@ -315,14 +315,7 @@ class MilitaryCalculator
         }
         else
         {
-            if($defender->race->getPerkValue('draftee_dp'))
-            {
-                $dpPerDraftee = $defender->race->getPerkValue('draftee_dp');
-            }
-            else
-            {
-                $dpPerDraftee = 1;
-            }
+            $dpPerDraftee = $defender->race->getPerkValue('draftee_dp') ?: 1;
         }
 
         # If DP per draftee is 0, ignore them (no casualties).
@@ -2645,41 +2638,80 @@ class MilitaryCalculator
 
     }
 
-    public function estimateMaxSendable(array $units, float $opMod, float $dpMod)
+    public function estimateMaxSendable(Dominion $dominion, Dominion $enemy = null): array
     {
-        /* Expected $units array format:
+        $ratios = [];
+        $sortedUnits = [];
+        $units = [];
+        $unitsDefending = array_fill(1, 4, 0);
+        $unitsSent = array_fill(1, 4, 0);
+        
+        if($enemy)
+        {
+            $landRatio = $this->landCalculator->getTotalLand($dominion) / $this->landCalculator->getTotalLand($enemy);
+        }
+        else
+        {
+            $landRatio = 1;
+        }        
 
-            $units = [
-                $slot => [$amount, $unitOp, $unitDp],
-                1 => [1000, 5, 3]
+        foreach($dominion->race->units as $unit)
+        {
+            $units[$unit->slot] = [
+                    'amount' => $dominion->{'military_unit' . $unit->slot},
+                    'op' => $this->getUnitPowerWithPerks($dominion, $enemy, $landRatio, $unit, 'offense', [], []) * $this->getOffensivePowerMultiplier($dominion, $enemy),
+                    'dp' => $this->getUnitPowerWithPerks($dominion, $enemy, $landRatio, $unit, 'defense', null, [], []) * $this->getDefensivePowerMultiplier($dominion, $enemy),
             ];
 
-        */
-
-        $unitRatio = [];
-
-        foreach($units as $slot)
-        {
-            $unitAmount = $slot[0];
-            $unitOp = (float)$slot[1] * $opMod;
-            $unitDp = (float)$slot[2] * $dpMod;
-
-            if($unitDp > 0 and $unitOp > 0)
+            if($units[$unit->slot]['dp'] > 0 and $units[$unit->slot]['op'] > 0)
             {
-                $ratio = $unitOp / $unitDp;
+                $ratios[$unit->slot] = $units[$unit->slot]['op'] / $units[$unit->slot]['dp'];
             }
-            elseif($unitDp == 0 and $unitOp)
+            elseif($units[$unit->slot]['dp'] == 0 and $units[$unit->slot]['op'] > 0)
             {
-                $ratio = $unitOp;
+                $ratios[$unit->slot] = $units[$unit->slot]['op'];
             }
             else
             {
-                $ratio = 0;
+                $ratios[$unit->slot] = 0;
             }
-            
-            $unitRatio[$slot] = $ratio;
 
+            $unitsDefending[$unit->slot] = $this->getTotalUnitsForSlot($dominion, $unit->slot);
         }
+
+        arsort($ratios);
+
+        foreach($ratios as $slot => $ratio)
+        {
+            $sortedUnits[$slot] = $units[$slot];
+        }
+        
+        $maxRatio = 4/3;
+        $x = 0;
+
+        foreach($units as $unitSlot => $unitData)
+        {
+            # Exhaust all of this unit
+            while($unitsDefending[$unitSlot] > 0)
+            {
+                $unitsSent[$unitSlot] = min($unitsSent[$unitSlot] + 1, $units[$unitSlot]['amount']);
+                $unitsDefending[$unitSlot] = max($unitsDefending[$unitSlot] - 1, 0);
+            
+                $op = $this->getOffensivePower($dominion, $enemy, null, $unitsSent);
+                $dp = $this->getDefensivePower($dominion, $enemy, null, $unitsDefending);
+                $ratio = $op / $dp;
+
+                if($ratio >= $maxRatio)
+                {
+                    break;
+                }
+
+                $x++;
+            }
+        }
+        
+        return [$op, $dp, $unitsSent, $unitsDefending];
+
     }
 
 }

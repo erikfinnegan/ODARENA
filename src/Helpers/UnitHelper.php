@@ -84,6 +84,7 @@ class UnitHelper
             'unit2' => ' ',
             'unit3' => ' ',
             'unit4' => ' ',
+            'unit5' => ' ',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
             'archmages' => 'Used for casting offensive spells. Twice as strong as regular wizards.',

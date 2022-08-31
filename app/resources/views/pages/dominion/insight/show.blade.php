@@ -272,6 +272,8 @@
 
     <div class="col-sm-12 col-md-3">
         <div class="box">
+
+        {{ dd($militaryCalculator->estimateMaxSendable($dominion)) }}
             <div class="box-body text-center">
                 @if($selectedDominion->isWatchingDominion($dominion))
                     <form action="{{ route('dominion.insight.unwatch-dominion', $dominion) }}" method="post">
