@@ -35,7 +35,7 @@
                         <tbody>
                             @foreach ($selectedDominion->watchedDominions()->get() as $dominion)
                             @php
-                                $dpMultiplierReduction = $militaryCalculator->getDefensiveMultiplierReduction($dominion);
+                                $dpMultiplierReduction = $militaryCalculator->getDefensiveMultiplierReduction($selectedDominion);
 
                                 $dominionDP = $militaryCalculator->getDefensivePower(
                                     $dominion,

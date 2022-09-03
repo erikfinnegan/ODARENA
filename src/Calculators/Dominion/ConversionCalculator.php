@@ -75,7 +75,7 @@ class ConversionCalculator
                 return ($unit->slot === $slot);
             })->first();
 
-            if($this->isSlotConvertible($slot, $attacker))
+            if($this->conversionHelper->isSlotConvertible($slot, $attacker))
             {
                 $rawOpLost += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
             }
@@ -123,7 +123,7 @@ class ConversionCalculator
                     return ($unit->slot === $slot);
                 })->first();
 
-                if($this->isSlotConvertible($slot, $defender))
+                if($this->conversionHelper->isSlotConvertible($slot, $defender))
                 {
                   $rawDpLost += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $amount;
                 }
@@ -420,7 +420,7 @@ class ConversionCalculator
             $defensiveCasualties = 0;
             foreach($invasion['defender']['units_lost'] as $slot => $amount)
             {
-                if($this->isSlotConvertible($slot, $defender))
+                if($this->conversionHelper->isSlotConvertible($slot, $defender))
                 {
                     $defensiveCasualties += $amount;
                 }
@@ -486,7 +486,7 @@ class ConversionCalculator
             $offensiveCasualties = 0;
             foreach($invasion['attacker']['units_lost'] as $slot => $amount)
             {
-                if($this->isSlotConvertible($slot, $attacker))
+                if($this->conversionHelper->isSlotConvertible($slot, $attacker))
                 {
                     $offensiveCasualties += $amount;
                     #echo '<pre>[ATTACKER] Slot ' . $slot . ' is convertible.</pre>';
@@ -622,7 +622,7 @@ class ConversionCalculator
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if($this->isSlotConvertible($slot, $defender))
+                    if($this->conversionHelper->isSlotConvertible($slot, $defender))
                     {
                         $availableCasualties[$slot]['amount'] = $amount;
                         $availableCasualties[$slot]['dp'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
@@ -729,7 +729,7 @@ class ConversionCalculator
                         return ($unit->slot == $slot);
                     })->first();
 
-                if($this->isSlotConvertible($slot, $attacker))
+                if($this->conversionHelper->isSlotConvertible($slot, $attacker))
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
                     $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
@@ -862,7 +862,7 @@ class ConversionCalculator
                              return ($unit->slot == $slot);
                          })->first();
 
-                     if($this->isSlotConvertible($slot, $defender))
+                     if($this->conversionHelper->isSlotConvertible($slot, $defender))
                      {
                          $availableCasualties[$slot]['amount'] = $amount;
                          $availableCasualties[$slot]['dp'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
@@ -964,7 +964,7 @@ class ConversionCalculator
                         return ($unit->slot == $slot);
                     })->first();
 
-                if($this->isSlotConvertible($slot, $attacker))
+                if($this->conversionHelper->isSlotConvertible($slot, $attacker))
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
                     $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
@@ -1079,7 +1079,7 @@ class ConversionCalculator
 
             foreach($invasion['defender']['surviving_units'] as $slot => $amount)
             {
-                if($this->isSlotConvertible($slot, $enemy, [], [], true, $cult, $invasion, $mode))
+                if($this->conversionHelper->isSlotConvertible($slot, $enemy, [], [], true, $cult, $invasion, $mode))
                 {
                     # Lazy because they all become Unit1/Thrall for now.
                     $amountConverted = intval(min($invasion['defender']['units_lost'][$slot], $amount, $amount * $ratio));
@@ -1182,72 +1182,6 @@ class ConversionCalculator
         }
 
         return ['units_converted' => $convertedUnits, 'units_removed' => $removedUnits];
-
-    }
-
-    public function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = [], array $unconvertiblePerks = [], bool $isPsionic = false, Dominion $enemy = null, array $invasion = [], $mode = 'offense'): bool
-    {
-        if(empty($unconvertibleAttributes))
-        {
-            $unconvertibleAttributes = $this->conversionHelper->getUnconvertibleAttributes($isPsionic);
-        }
-
-        if(empty($unconvertiblePerks))
-        {
-            $unconvertiblePerks = $this->conversionHelper->getUnconvertiblePerks($isPsionic);
-        }
-
-        if($isPsionic)
-        {   
-            $unit = $slot;
-            if(!in_array($slot, ['draftees',' peasants']))
-            {
-                $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot == $slot);
-                })->first();
-            }
-    
-            if($this->casualtiesCalculator->isUnitImmortal($dominion, $enemy, $unit, $invasion, $mode))
-            {
-                return false;
-            }
-        }
-
-        $isConvertible = false;
-
-        if($slot === 'draftees' or $slot === 'peasants')
-        {
-            $isConvertible = true;
-        }
-        else
-        {
-            # Get the $unit
-            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot == $slot);
-                })->first();
-
-            # Get the unit attributes
-            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-            # Check the unit perks
-            $hasBadPerk = false;
-            foreach($unconvertiblePerks as $perk)
-            {
-                if($dominion->race->getUnitPerkValueForUnitSlot($slot, $perk))
-                {
-                    $hasBadPerk = true;
-                }
-            }
-
-            #echo '<pre>Slot ' . $slot . ' for ' . $dominion->name . ': '; print_r(array_intersect($unconvertibleAttributes, $unitAttributes)); echo '</pre>';
-
-            if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0 and !$hasBadPerk)
-            {
-                $isConvertible = true;
-            }
-        }
-
-        return $isConvertible;
 
     }
 

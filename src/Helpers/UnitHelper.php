@@ -8,7 +8,6 @@ use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Resource;
-use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
@@ -1375,7 +1374,14 @@ class UnitHelper
         return $costString;
     }
 
-    public function unitHasPerk(Dominion $dominion, Unit $unit, array $perkKeys): bool
+    public function getRaceUnitFromSlot(Race $race, int $slot): Unit
+    {
+        return $race->units->filter(function ($unit) use ($slot) {
+            return ($unit->slot === $slot);
+        })->first();
+    }
+
+    public function checkUnitHasPerks(Dominion $dominion, Unit $unit, array $perkKeys): bool
     {
         foreach($perkKeys as $perkKey)
         {
