@@ -2697,6 +2697,7 @@ class MilitaryCalculator
 
         foreach($sortedUnits as $unitSlot => $unitData)
         {
+            /*
             # Exhaust all of this unit
             while($unitsDefending[$unitSlot] > 0)
             {
@@ -2718,6 +2719,33 @@ class MilitaryCalculator
             if($ratio >= $maxRatio)
             {
                 break;
+            }
+            */
+            $nextGuess = $units[$unitSlot]['amount'];
+
+            while($unitsDefending[$unitSlot] > 0 && $nextGuess > 0 && $unitsSent[$unitSlot] < $units[$unitSlot]['amount'])
+            {
+                $unitsSent[$unitSlot] = min($unitsSent[$unitSlot] + $nextGuess, $units[$unitSlot]['amount']);
+                $unitsDefending[$unitSlot] = max($unitsDefending[$unitSlot] - $nextGuess, 0);
+            
+                $op = $this->getOffensivePower($dominion, $enemy, null, $unitsSent);
+                $dp = $this->getDefensivePower($dominion, $enemy, null, $unitsDefending);
+                $ratio = $op / $dp;
+                
+            
+                if($ratio >= $maxRatio || $unitsSent[$unitSlot] > $units[$unitSlot]['amount'])
+                {
+                    $unitsSent[$unitSlot] = $unitsSent[$unitSlot] - $nextGuess;
+                    $unitsDefending[$unitSlot] = $unitsDefending[$unitSlot] + $nextGuess;
+                    if($nextGuess == 1)
+                    {
+                        $nextGuess = 0;
+                    }
+                    else
+                    {
+                        $nextGuess = min(floor($nextGuess / 2), 1);
+                    }
+                }
             }
         }
 

@@ -1375,4 +1375,17 @@ class UnitHelper
         return $costString;
     }
 
+    public function unitHasPerk(Dominion $dominion, Unit $unit, array $perkKeys): bool
+    {
+        foreach($perkKeys as $perkKey)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $perkKey))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

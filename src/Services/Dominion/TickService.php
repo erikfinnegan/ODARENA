@@ -489,7 +489,7 @@ class TickService
                     $cryptLogString = '[CRYPT] ';
                     $cryptLogString .= "Current: " . number_format($this->resourceCalculator->getRealmAmount($realm, 'body')) . ". ";
                     $cryptLogString .= "Decayed: " . number_format($bodiesDecayed) . ". ";
-                    $cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
+                    #$cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
                     $cryptLogString .= "Removed: " . number_format($bodiesToRemove) . ". ";
 
                     $this->resourceService->updateRealmResources($realm, ['body' => (-$bodiesToRemove)]);
