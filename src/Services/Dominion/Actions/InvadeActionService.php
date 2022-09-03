@@ -30,6 +30,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\ResourceConversionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 
@@ -101,6 +102,7 @@ class InvadeActionService
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
+        $this->resourceConversionCalculator = app(ResourceConversionCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->spellActionService = app(SpellActionService::class);
         $this->spellCalculator = app(SpellCalculator::class);
@@ -402,6 +404,8 @@ class InvadeActionService
             $defensiveConversions = array_fill(1, 4, 0);
 
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
+            $resourceConversions['attacker'] = $this->resourceConversionCalculator->getResourceConversions($dominion, $target, $this->invasionResult, 'offense');
+            $resourceConversions['defender'] = $this->resourceConversionCalculator->getResourceConversions($dominion, $target, $this->invasionResult, 'defense');
 
             if(array_sum($conversions['attacker']) > 0)
             {
@@ -564,7 +568,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
