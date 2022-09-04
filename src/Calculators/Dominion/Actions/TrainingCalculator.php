@@ -303,8 +303,7 @@ class TrainingCalculator
         }
 
         // Units
-        $reducingUnits = 0;
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             if($reducesUnitCosts = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_unit_costs'))
             {
