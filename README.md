@@ -8,7 +8,6 @@
   <a href="https://twitter.com/ODARENA_Game"><img src="https://img.shields.io/twitter/follow/ODARENA_Game?style=for-the-badge" alt="ODARENA_Game @ Twitter"></a>
 </p>
 
-
 ## Introduction
 
 ODARENA is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.
@@ -22,13 +21,6 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 ## Links
 
 - [Discord](https://discord.gg/HpzetmR)
-- [Issue tracker](https://github.com/Dr-Eki/ODArena/issues)
-
-## Support
-
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P526XK1)
-
-[Patreon](https://www.patreon.com/ODArena)
 
 ## License
 
