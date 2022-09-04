@@ -393,7 +393,7 @@ class ExpeditionActionService
               #'peasants' => array_fill(1, 12, 0),
             ];
 
-            $someWinIntoUnits = array_fill(1, 4, 0);
+            $someWinIntoUnits = array_fill(1, $dominion->race->units->count(), 0);
             $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
 
             foreach($returningUnits as $unitKey => $values)
