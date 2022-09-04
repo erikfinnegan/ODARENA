@@ -867,7 +867,7 @@ class TickService
             $attritionMultiplier = -1;
         }
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             // Myconid: Land generation
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
@@ -1035,7 +1035,7 @@ class TickService
         }
 
         
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             $unitsToSummon = 0;
             $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
