@@ -175,7 +175,7 @@ class ArtefactActionService
             $landRatio /= 100;
 
             # Populate units defending
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $target->race->units->count(); $slot++)
             {
                 $unit = $target->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
@@ -338,8 +338,8 @@ class ArtefactActionService
             #$this->handleStun($dominion, $target, $units, $landRatio);
 
             # Conversions
-            $offensiveConversions = array_fill(1, 4, 0);
-            $defensiveConversions = array_fill(1, 4, 0);
+            $offensiveConversions = array_fill(1, $dominion->race->units->count(), 0);
+            $defensiveConversions = array_fill(1, $target->race->units->count(), 0);
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
 
             if(array_sum($conversions['attacker']) > 0)
@@ -713,7 +713,7 @@ class ArtefactActionService
             }
         }
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
         {
           # Snow Elf: Hailstorm Cannon exhausts all mana
            if($exhaustingPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
@@ -744,7 +744,7 @@ class ArtefactActionService
         # Ignore if attacker is overwhelmed.
         if(!$this->invasionResult['result']['overwhelmed'])
         {
-            for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+            for ($unitSlot = 1; $unitSlot <= $attacker->race->units->count(); $unitSlot++)
             {
                 // burns_peasants
                 if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
@@ -861,7 +861,7 @@ class ArtefactActionService
             ];
 
             # Check for instant_return
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
             {
                 if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'instant_return'))
                 {
@@ -870,7 +870,7 @@ class ArtefactActionService
                 }
             }
 
-            $someWinIntoUnits = array_fill(1, 4, 0);
+            $someWinIntoUnits = array_fill(1, $attacker->race->units->count(), 0);
             $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
 
             foreach($returningUnits as $unitKey => $values)
