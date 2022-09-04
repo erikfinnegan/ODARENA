@@ -84,7 +84,7 @@ class TheftCalculator
         $theftProtection += $target->getBuildingPerkValue($resourceKey . '_theft_protection');
 
         // Unit theft protection
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $target->race->units->count(); $slot++)
         {
             if($theftProtectionPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
