@@ -42,7 +42,7 @@ class MoraleCalculator
         $baseModifier = 0;
 
         # Look for increases_morale
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             if($increasesMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_by_population') * 100)
             {

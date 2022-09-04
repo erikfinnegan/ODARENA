@@ -342,7 +342,7 @@
             </div>
         </div>
     @endif
-    
+
     @if ($dominionProtectionService->canTick($selectedDominion))
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">

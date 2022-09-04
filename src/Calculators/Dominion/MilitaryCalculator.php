@@ -1072,7 +1072,7 @@ class MilitaryCalculator
         $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_wizards');
         $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_archmages');
 
-        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        for ($unitSlot = 1; $unitSlot <= $dominion->race->units->count(); $unitSlot++)
         {
             $military += $this->getTotalUnitsForSlot($dominion, $unitSlot);
             $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unitSlot}");
@@ -2404,7 +2404,7 @@ class MilitaryCalculator
     public function hasReturningUnits(Dominion $dominion): bool
     {
         $hasReturningUnits = 0;
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             $hasReturningUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
             $hasReturningUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}");
@@ -2535,7 +2535,7 @@ class MilitaryCalculator
     public function getRawMilitaryPowerFromAnnexedDominion(Dominion $dominion): int
     {
         $militaryPower = 0;
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                 return ($unit->slot == $slot);
@@ -2649,8 +2649,8 @@ class MilitaryCalculator
         $ratios = [];
         $sortedUnits = [];
         $units = [];
-        $unitsDefending = array_fill(1, 4, 0);
-        $unitsSent = array_fill(1, 4, 0);
+        $unitsDefending = array_fill(1, $dominion->race->units->count(), 0);
+        $unitsSent = array_fill(1, $dominion->race->units->count(), 0);
         
         if($enemy)
         {
