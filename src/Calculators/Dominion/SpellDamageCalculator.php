@@ -61,7 +61,7 @@ class SpellDamageCalculator
           // Advancement — unused
           $modifier += $target->getAdvancementPerkMultiplier('damage_from_spells');
 
-          for ($slot = 1; $slot <= 4; $slot++)
+          for ($slot = 1; $slot <= $target->race->units->count(); $slot++)
           {
               if($reducesSpellDamagePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'reduces_spell_damage'))
               {
