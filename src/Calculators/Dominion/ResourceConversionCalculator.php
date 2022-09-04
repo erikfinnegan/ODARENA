@@ -46,7 +46,7 @@ class ResourceConversionCalculator
             'converts_displaced_peasants_into_resources',
         ];
 
-        $convertingUnits = array_fill(1, 4, 0);
+        $convertingUnits = array_fill(1, $converter->race->units->count(), 0);
 
         foreach($converter->race->resources as $resourceKey)
         {
@@ -98,7 +98,9 @@ class ResourceConversionCalculator
                     $this->unitHelper->checkUnitHasPerks($converter, $unit, ['kills_into_resource_per_casualty']) or 
                     ($invasion['result']['success'] and $mode == 'offense' and $this->unitHelper->checkUnitHasPerks($converter, $unit, ['kills_into_resource_per_casualty_on_success'])) or
                     (!$invasion['result']['success'] and $mode == 'defense' and $this->unitHelper->checkUnitHasPerks($converter, $unit, ['kills_into_resource_per_casualty_on_success'])) or 
-                    $this->unitHelper->checkUnitHasPerks($converter, $unit, ['converts_displaced_peasants_into_resource']) or
+                    $this->unitHelper->checkUnitHasPerks($converter, $unit, ['converts_displaced_peasants_into_resource'])
+
+                    
 
                     # Multi
                     $this->unitHelper->checkUnitHasPerks($converter, $unit, ['kills_into_resources_per_casualty']) or
