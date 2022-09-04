@@ -11,7 +11,7 @@ class ExpeditionActionRequest extends AbstractDominionRequest
      */
     public function rules()
     {
-        for ($i = 1; $i <= 4; $i++)
+        for ($i = 1; $i <= 10; $i++)
         {
             $rules['unit.' . $i] = 'integer|nullable|min:0';
         }
