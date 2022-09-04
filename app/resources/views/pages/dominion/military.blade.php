@@ -41,7 +41,7 @@
                                                 {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                             </span>
                                         </td>
-                                          @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+                                          @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6', 'unit7', 'unit8', 'unit9', 'unit10']))
                                               @php
                                                   $unit = $selectedDominion->race->units->filter(function ($unit) use ($unitType) {
                                                       return ($unit->slot == (int)str_replace('unit', '', $unitType));
