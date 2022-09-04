@@ -92,7 +92,7 @@
                             <th>Casualties</th>
                     </thead>
                     <tbody>
-                    @for ($slot = 1; $slot <= 4; $slot++)
+                    @for ($slot = 1; $slot <= $race->units->count(); $slot++)
                         @php
                             $unitType = 'unit'.$slot;
                         @endphp

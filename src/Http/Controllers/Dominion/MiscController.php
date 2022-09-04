@@ -182,7 +182,7 @@ class MiscController extends AbstractDominionController
 
         # Cannot release if units returning from invasion.
         $totalUnitsReturning = 0;
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }

@@ -184,7 +184,7 @@ class InvadeActionService
             $landRatio /= 100;
 
             # Populate units defending
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $target->race->units->count(); $slot++)
             {
                 $unit = $target->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
@@ -320,8 +320,8 @@ class InvadeActionService
             $this->invasionResult['attacker']['fog'] = $dominion->getSpellPerkValue('fog_of_war') ? true : false;
             $this->invasionResult['defender']['fog'] = $target->getSpellPerkValue('fog_of_war') ? true : false;
 
-            $this->invasionResult['attacker']['conversions'] = array_fill(1,4,0);
-            $this->invasionResult['defender']['conversions'] = array_fill(1,4,0);
+            $this->invasionResult['attacker']['conversions'] = array_fill(1, $dominion->race->units->count(), 0);
+            $this->invasionResult['defender']['conversions'] = array_fill(1, $target->race->units->count(), 0);
 
             $this->invasionResult['log']['initiated_at'] = $now;
             $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
@@ -402,8 +402,8 @@ class InvadeActionService
             $this->handleStrengthGain($dominion, $target, $units, $landRatio);
 
             # Conversions
-            $offensiveConversions = array_fill(1, 4, 0);
-            $defensiveConversions = array_fill(1, 4, 0);
+            $offensiveConversions = array_fill(1, $dominion->race->units->count(), 0);
+            $defensiveConversions = array_fill(1, $target->race->units->count(), 0);
 
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
             $resourceConversions['attacker'] = $this->resourceConversionCalculator->getResourceConversions($dominion, $target, $this->invasionResult, 'offense');
@@ -826,8 +826,8 @@ class InvadeActionService
     public function handleDefensiveDiesIntoPerks(Dominion $dominion)
     {
         # Look for dies_into amongst the dead.
-        $diesIntoNewUnits = array_fill(1,4,0);
-        $diesIntoNewUnitsInstantly = array_fill(1,4,0);
+        $diesIntoNewUnits = array_fill(1, $dominion->race->units->count(), 0);
+        $diesIntoNewUnitsInstantly = array_fill(1, $dominion->race->units->count(), 0);
 
         $diesIntoNewUnits['spies'] = 0;
         $diesIntoNewUnits['wizards'] = 0;
@@ -1125,7 +1125,7 @@ class InvadeActionService
             $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $attacker->getTitlePerkMultiplier();
 
             # Look for lowers_target_morale_on_successful_invasion
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
             {
                 if(
                     $increasesMoraleGainsPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
@@ -1145,7 +1145,7 @@ class InvadeActionService
             $defenderMoraleChange *= $defenderMoraleChangeMultiplier;
 
             # Look for lowers_target_morale_on_successful_invasion
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
             {
                 if(
                     $lowersTargetMoralePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
@@ -1318,7 +1318,7 @@ class InvadeActionService
             }
         }
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
         {
           # Snow Elf: Hailstorm Cannon exhausts all mana
            if($exhaustingPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
@@ -1362,7 +1362,7 @@ class InvadeActionService
         # Ignore if attacker is overwhelmed.
         if(!$this->invasionResult['result']['overwhelmed'])
         {
-            for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+            for ($unitSlot = 1; $unitSlot <= $attacker->race->units->count(); $unitSlot++)
             {
                 // burns_peasants
                 if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
@@ -1489,7 +1489,7 @@ class InvadeActionService
             $stunRatio = min((static::STUN_RATIO / 100) * $opDpRatio * min($stunningOpRatio, 1), 2.5);
 
             # Collect the stunnable units
-            $stunnableUnits = array_fill(1, 4, 0);
+            $stunnableUnits = array_fill(1, $defender->race->units->count(), 0);
 
             # Exclude certain attributes
             $unconvertibleAttributes = [
@@ -1748,7 +1748,7 @@ class InvadeActionService
         {
             if(!isset($this->invasionResult['attacker']['conversions']))
             {
-                $this->invasionResult['attacker']['conversions'] = array_fill(1, 4, 0);
+                $this->invasionResult['attacker']['conversions'] = array_fill(1, $cult->race->units->count(), 0);
             }
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
@@ -1779,7 +1779,7 @@ class InvadeActionService
         {
             if(!isset($this->invasionResult['defender']['conversions']))
             {
-                $this->invasionResult['defender']['conversions'] = array_fill(1, 4, 0);
+                $this->invasionResult['defender']['conversions'] = array_fill(1, $cult->race->units->count(), 0);
             }
 
             foreach($psionicConversions['psionic_losses'] as $slot => $amount)
@@ -1834,7 +1834,7 @@ class InvadeActionService
             ];
 
             # Check for instant_return
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
             {
                 if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'instant_return'))
                 {
@@ -1843,8 +1843,7 @@ class InvadeActionService
                 }
             }
 
-            $someWinIntoUnits = array_fill(1, 4, 0);
-            $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
+            $someWinIntoUnits = array_fill(1, $attacker->race->units->count(), 0);
 
             foreach($returningUnits as $unitKey => $values)
             {

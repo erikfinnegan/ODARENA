@@ -42,7 +42,7 @@ class DominionCalculator
 
         if(!$dominion->race->getPerkValue('no_population'))
         {
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
             {
                 $unitStrength = 0;
                 $unit = $dominion->race->units->filter(function ($unit) use ($slot)

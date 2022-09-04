@@ -500,10 +500,10 @@ class SpellActionService
                     $resourceAmountOwned = $this->resourceService->updateResources($caster, [$resourceKey => ($resourceAmountConverted * -1)]);
 
                     $unitSlots = (array)$spellPerkValues[2];
-                    $newUnitSlots = array_fill(1,4,0);
+                    $newUnitSlots = array_fill(1, $caster->race->units->count(), 0);
                     $randomNumbers = [];
 
-                    for ($randomNumber = 1; $randomNumber <= 4; $randomNumber++)
+                    for ($randomNumber = 1; $randomNumber <= $caster->race->units->count(); $randomNumber++)
                     {
                         $randomNumbers[$randomNumber] = mt_rand(0, 100);
                     }

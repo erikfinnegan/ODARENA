@@ -46,7 +46,7 @@ class ResourceConversionCalculator
             'converts_displaced_peasants_into_resources',
         ];
 
-        $convertingUnits = array_fill(1, 4, 0);
+        $convertingUnits = array_fill(1, $converter->race->units->count(), 0);
 
         foreach($converter->race->resources as $resourceKey)
         {

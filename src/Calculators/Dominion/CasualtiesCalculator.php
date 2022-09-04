@@ -538,7 +538,7 @@ class CasualtiesCalculator
         # Look for reduces enemy casualties
         # On offense, look for perk among defending units
         # On defense, look for perk aming invading units
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             if($mode == 'offense')
             {

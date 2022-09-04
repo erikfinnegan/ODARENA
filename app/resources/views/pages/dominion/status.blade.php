@@ -133,6 +133,16 @@
                                     <td>{{ number_format($selectedDominion->military_draftees) }}</td>
                                 </tr>
                                 @endif
+                                @foreach($selectedDominion->race->units as $unit)
+                                <tr>
+                                    <td>
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString(('unit' . $unit->slot), $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense'), ]) }}">
+                                            {{ $unit->name }}:
+                                        </span>
+                                    </td>
+                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}</td>
+                                </tr>
+                                @endforeach
                                 <tr>
                                     <td>
                                         <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(0), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(0), 'defense'), ]) }}">

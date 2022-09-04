@@ -222,7 +222,7 @@ class ResourceCalculator
         }
 
         # Unit specific perks
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             # Get the $unit
             $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
@@ -396,7 +396,7 @@ class ResourceCalculator
             $consumers = $dominion->peasants;
 
             # Check each Unit for does_not_count_as_population perk.
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
             {
                   # Get the $unit
                   $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
@@ -430,7 +430,7 @@ class ResourceCalculator
 
             // Unit Perk: food_consumption
             $extraFoodEaten = 0;
-            for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+            for ($unitSlot = 1; $unitSlot <= $dominion->race->units->count(); $unitSlot++)
             {
                 if ($extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption_raw'))
                 {
@@ -528,7 +528,7 @@ class ResourceCalculator
 
         $jobs += $dominion->getBuildingPerkValue('jobs');
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs') and $dominion->{'military_unit' . $slot} > 0)
             {

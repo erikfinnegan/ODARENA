@@ -99,7 +99,7 @@ class ImprovementCalculator
             }
 
             # Check units
-            for ($slot = 1; $slot <= 4; $slot++)
+            for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
             {
                 if($dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_improvements')))
                 {

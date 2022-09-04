@@ -101,7 +101,7 @@ class OpsHelper
           $totalUnitsAtHome = $dominion->military_unit1 + $dominion->military_unit2 + $dominion->military_unit3 + $dominion->military_unit4;
           $inaccuracy = 0;
 
-          for ($slot = 1; $slot <= 4; $slot++)
+          for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
           {
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'decreases_info_ops_accuracy'))
               {

@@ -82,7 +82,7 @@ class PopulationCalculator
       $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_archmages');
 
       # Check each Unit for does_not_count_as_population perk.
-      for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+      for ($unitSlot = 1; $unitSlot <= $dominion->race->units->count(); $unitSlot++)
       {
           if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
           {
@@ -231,7 +231,7 @@ class PopulationCalculator
 
         $unitSpecificBuildingHousing = 0;
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             $unitSpecificBuildingHousing += $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_housing');
         }
@@ -295,14 +295,14 @@ class PopulationCalculator
         $housingFromUnits = 0;
         $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++)
         {
             if($housesMilitaryUnitsPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
             {
                 $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $housesMilitaryUnitsPerk;
             }
 
-            for ($housingPerkSlot = 1; $housingPerkSlot <= 4; $housingPerkSlot++)
+            for ($housingPerkSlot = 1; $housingPerkSlot <= $dominion->race->units->count(); $housingPerkSlot++)
             {
                 # Unit cannot house itself (e.g. norse_unit1_housing)
                 if($housingPerkSlot !== $slot)
@@ -338,7 +338,7 @@ class PopulationCalculator
         $units += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_wizards");
         $units += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_archmages");
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $dominion->race->units->count(); $slot++)
         {
             if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
             {
@@ -365,7 +365,7 @@ class PopulationCalculator
 
           $units = 0;
 
-          for ($slot = 1; $slot <= 4; $slot++)
+          for ($slot = 1; $dominion->race->units->count(); $slot++)
           {
               $slotUnits = 0;
               if($unitSpecificBuildingHousing = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_housing'))
@@ -403,7 +403,7 @@ class PopulationCalculator
         $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies');
         $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_spies");
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $dominion->race->units->count(); $slot++)
         {
             if(
                 (
@@ -439,7 +439,7 @@ class PopulationCalculator
         $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_wizards");
         $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_archmages");
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $dominion->race->units->count(); $slot++)
         {
             if(
                 (
@@ -531,7 +531,7 @@ class PopulationCalculator
         $multiplier += $dominion->getDecreePerkMultiplier('population_growth');
 
         # Look for population_growth in units
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $dominion->race->units->count(); $slot++)
         {
             if($unitPopulationGrowthPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth'))
             {
@@ -664,7 +664,7 @@ class PopulationCalculator
 
         $jobs += $dominion->getBuildingPerkValue('jobs');
 
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $dominion->race->units->count(); $slot++)
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs'))
             {

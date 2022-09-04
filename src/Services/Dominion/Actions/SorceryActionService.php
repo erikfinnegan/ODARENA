@@ -658,7 +658,7 @@ class SorceryActionService
         }
 
         // Unit theft protection
-        for ($slot = 1; $slot <= 4; $slot++)
+        for ($slot = 1; $slot <= $target->race->units->count(); $slot++)
         {
             if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
