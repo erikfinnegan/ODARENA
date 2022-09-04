@@ -39,14 +39,11 @@
                                     <tr>
                                         <th>Unit</th>
                                         <th>Sent</th>
-                                        {{--
-                                        <th>Lost</th>
-                                        --}}
                                         <th>Returning</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for ($slot = 1; $slot <= 4; $slot++)
+                                    @for ($slot = 1; $slot <= $event->source->race->units->count(); $slot++)
                                     @if((isset($event->data['units_sent'][$slot]) and $event->data['units_sent'][$slot] > 0) or
                                         (isset($event->data['units_lost'][$slot]) and $event->data['units_lost'][$slot] > 0) or
                                         (isset($event->data['units_returning'][$slot]) and $event->data['units_returning'][$slot] > 0)
@@ -57,7 +54,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $event->source->race, [$militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get(0), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get(0), 'defense'), ]) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race, [$militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get($slot-1), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get($slot-1), 'defense'), ]) }}">
                                                     {{ $event->source->race->units->where('slot', $slot)->first()->name }}
                                                 </span>
                                             </td>

@@ -94,7 +94,7 @@
                                       {{ $unitHelper->getUnitName($unitType, $race) }}
                                   </span>
                               </td>
-                                @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+                                @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6', 'unit7', 'unit8', 'unit9', 'unit10']))
                                     <td class="text-center">  <!-- OP / DP -->
                                         {{ display_number_format($unit->power_offense) }}
                                         /

@@ -126,7 +126,7 @@ class CasualtiesCalculator
         {
             $casualties[$slot] = 0;
 
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
@@ -520,7 +520,7 @@ class CasualtiesCalculator
 
         foreach($units as $slot => $amount)
         {
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, ('reduces_casualties_on_' . $mode)))
                 {

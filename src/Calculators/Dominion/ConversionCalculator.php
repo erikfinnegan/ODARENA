@@ -891,7 +891,7 @@ class ConversionCalculator
             $psionicStrengthRatio = $psionicStrengthRatio > 2 ? 2 : $psionicStrengthRatio;
             
             # Look for reduces enemy casualties
-            $totalUnitsAtHome = $cult->military_draftees + $cult->military_unit1 + $cult->military_unit2 + $cult->military_unit3 + $cult->military_unit4;
+            $totalUnitsAtHome = $this->militaryCalculator->getTotalUnitsAtHome($cult);
             for ($slot = 1; $slot <= $cult->race->units->count(); $slot++)
             {
                 if($cult->race->getUnitPerkValueForUnitSlot($slot, 'reduces_enemy_casualties'))
@@ -922,13 +922,11 @@ class ConversionCalculator
 
     public function getPassiveConversions(Dominion $dominion): array
     {
-        $convertedUnits =
-            [
-                '1' => 0,
-                '2' => 0,
-                '3' => 0,
-                '4' => 0,
-            ];
+        $convertedUnits = [];
+        foreach($dominion->race->units as $unit)
+        {
+            $convertedUnits[$unit->slot] = 0;
+        }
 
         $removedUnits = $convertedUnits;
 

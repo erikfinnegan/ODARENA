@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($unitHelper->getUnitTypes() as $unitType)
+                            @foreach ($unitHelper->getUnitTypes($selectedDominion->race) as $unitType)
                                 @if(($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies') or ($selectedDominion->race->getPerkValue('cannot_train_wizards') and $unitType == 'wizards') or ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages'))
                                     {{-- Do nothing --}}
                                 @else
@@ -158,104 +158,6 @@
             </form>
         </div>
 
-        {{--
-        
-        <div class="col-sm-12 col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-sword"></i> Units Overview</h3>
-                </div>
-                <div class="box-body table-responsive no-padding">
-                    <table class="table">
-                        <colgroup>
-                            <col>
-                            @for ($i = 1; $i <= 12; $i++)
-                                <col width="100">
-                            @endfor
-                            <col width="100">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Unit</th>
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <th class="text-center">{{ $i }}</th>
-                                @endfor
-                                <th class="text-center">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($unitHelper->getUnitTypes() as $unitType)
-                                <tr>
-                                    <td>
-                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
-                                            {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
-                                        </span>
-                                    </td>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <td class="text-center">
-                                            @php
-                                                $trainingAmount = $queueService->getTrainingQueueAmount($selectedDominion, "military_{$unitType}", $i);
-                                                $invasionAmount = $queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i);
-                                                $expeditionAmount = $queueService->getExpeditionQueueAmount($selectedDominion, "military_{$unitType}", $i);
-                                            @endphp
-
-                                            @if($trainingAmount)
-                                                <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-up ra-fw'></i> Units in training">
-                                                    <i class="ra ra-muscle-up ra-fw"></i>&nbsp;{{ number_format($trainingAmount) }}
-                                                </span>
-
-                                                @if($invasionAmount + $expeditionAmount)
-                                                    <br>
-                                                @endif
-                                            @endif
-
-                                            @if($invasionAmount)
-                                                <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> Units returning from invasion">
-                                                    <i class="ra ra-crossed-swords fa-fw"></i>&nbsp;{{ number_format($invasionAmount) }}
-                                                </span>
-
-                                                @if($invasionAmount + $expeditionAmount)
-                                                    <br>
-                                                @endif
-                                            @endif
-
-                                            @if($expeditionAmount)
-                                                <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> Units returning from expedition">
-                                                    <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($expeditionAmount) }}
-                                                </span>
-                                            @endif
-
-                                            @if(($trainingAmount + $invasionAmount + $expeditionAmount) == 0)
-                                                -
-                                            @endif
-                                        </td>
-                                    @endfor
-                                    <td class="text-left">
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-home fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} at home">
-                                            <i class="fas fa-home fa-fw"></i>&nbsp;{{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
-                                        </span>
-
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-muscle-up ra-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} in training">
-                                            <i class="ra ra-muscle-up ra-fw"></i>&nbsp;{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
-                                        </span>
-
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='ra ra-crossed-swords fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} returning from invasion">
-                                            <i class="ra ra-crossed-swords ra-fw"></i>&nbsp;{{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}<br>
-                                        </span>
-
-                                        <span data-toggle="tooltip" data-placement="top" title="<i class='fas fa-drafting-compass fa-fw'></i> {{ str_plural($unitHelper->getUnitName($unitType, $selectedDominion->race)) }} returning from expedition">
-                                            <i class="fas fa-drafting-compass fa-fw"></i>&nbsp;{{ number_format($queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        --}}
-
         <!-- Stacked boxes -->
         <div class="col-sm-12 col-md-12">
             <div class="box box-primary">
@@ -281,7 +183,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($unitHelper->getUnitTypes() as $unitType)
+                            @foreach ($unitHelper->getUnitTypes($selectedDominion->race) as $unitType)
                                 <tr>
                                     <td>
 
@@ -506,10 +408,6 @@
                     <form action="{{ route('dominion.military.release-draftees') }}" method="post" role="form" class="pull-right">
                         @csrf
                         <input type="hidden" style="display:none;" name="release[draftees]" value={{ intval($selectedDominion->military_draftees) }}>
-                        <input type="hidden" style="display:none;" name="release[unit1]" value=0>
-                        <input type="hidden" style="display:none;" name="release[unit2]" value=0>
-                        <input type="hidden" style="display:none;" name="release[unit3]" value=0>
-                        <input type="hidden" style="display:none;" name="release[unit4]" value=0>
                         <button type="submit" class="btn btn-warning btn-small" {{ ($selectedDominion->isLocked() or $selectedDominion->military_draftees == 0) ? 'disabled' : null }}>Release {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race)) }}</button>
                     </form>
                 </div>

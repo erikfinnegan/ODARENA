@@ -91,7 +91,7 @@ class TrainingCalculator
         # Generally, do not mess with this one.
         $archmageCost['trainedFrom'] = 'wizards';
 
-        foreach ($this->unitHelper->getUnitTypes() as $unitType) {
+        foreach ($this->unitHelper->getUnitTypes($dominion->race) as $unitType) {
             $cost = [];
 
             switch ($unitType) {
@@ -240,6 +240,30 @@ class TrainingCalculator
                     elseif($type == 'unit4')
                     {
                         $trainableByCost[$type] = (int)floor($dominion->military_unit4 / $value);
+                    }
+                    elseif($type == 'unit5')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit5 / $value);
+                    }
+                    elseif($type == 'unit6')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit6 / $value);
+                    }
+                    elseif($type == 'unit7')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit7 / $value);
+                    }
+                    elseif($type == 'unit8')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit8 / $value);
+                    }
+                    elseif($type == 'unit9')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit9 / $value);
+                    }
+                    elseif($type == 'unit10')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit10 / $value);
                     }
                     elseif($type == 'crypt_body')
                     {

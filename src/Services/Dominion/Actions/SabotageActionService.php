@@ -647,11 +647,13 @@ class SabotageActionService
     {
         $unitsHome = [
             0 => $saboteur->military_draftees,
-            1 => $saboteur->military_unit1 - (isset($units[1]) ? $units[1] : 0),
-            2 => $saboteur->military_unit2 - (isset($units[2]) ? $units[2] : 0),
-            3 => $saboteur->military_unit3 - (isset($units[3]) ? $units[3] : 0),
-            4 => $saboteur->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
+
+        foreach($saboteur->race->units as $unit)
+        {
+            $unitsHome[] = $saboteur->{'military_unit'.$unit->slot} - (isset($units[$unit->slot]) ? $units[$unit->slot] : 0);
+        }
+
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($saboteur, $target, $landRatio, $units);
         $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($saboteur, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 

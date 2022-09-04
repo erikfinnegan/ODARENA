@@ -117,14 +117,9 @@ class InsightService
             # CS: Military
             'morale' => $target->morale,
             'military_draftees' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'draftees'),
-            'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1),
-            'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2),
-            'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3),
-            'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4),
             'military_spies' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'spies'),
             'military_wizards' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'wizards'),
             'military_archmages' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'archmages'),
-
 
             # Deity
             'deity' => $target->hasDeity() ? $target->deity->name : NULL,
@@ -137,6 +132,11 @@ class InsightService
             'has_annexed' => $this->spellCalculator->hasAnnexedDominions($target),
             'military_power_from_annexed_dominions' => $this->militaryCalculator->getRawMilitaryPowerFromAnnexedDominions($target),
         ];
+
+        foreach($target->race->units as $unit)
+        {
+            $data['military_unit' . $unit->slot] = $this->militaryCalculator->getTotalUnitsForSlot($target, $unit->slot);
+        }
 
         # Military mods
         $data['mods'] = [];
@@ -155,12 +155,9 @@ class InsightService
 
         # Units
         $data['units'] = [];
+
         $data['units']['training'] =
             [
-                'unit1' => array_fill(1, 12, 0),
-                'unit2' => array_fill(1, 12, 0),
-                'unit3' => array_fill(1, 12, 0),
-                'unit4' => array_fill(1, 12, 0),
                 'spies' => array_fill(1, 12, 0),
                 'wizards' => array_fill(1, 12, 0),
                 'archmages' => array_fill(1, 12, 0),
@@ -168,15 +165,17 @@ class InsightService
 
         $data['units']['returning'] =
             [
-                'unit1' => array_fill(1, 12, 0),
-                'unit2' => array_fill(1, 12, 0),
-                'unit3' => array_fill(1, 12, 0),
-                'unit4' => array_fill(1, 12, 0),
                 'spies' => array_fill(1, 12, 0),
                 'wizards' => array_fill(1, 12, 0),
                 'archmages' => array_fill(1, 12, 0),
                 'draftees' => array_fill(1, 12, 0),
             ];
+
+        foreach($target->race->units as $unit)
+        {
+            $data['units']['training']['unit'. $unit->slot] = array_fill(1, 12, 0);
+            $data['units']['returning']['unit'. $unit->slot] = array_fill(1, 12, 0);
+        }
 
         $data['units']['home'] =
             [
@@ -184,20 +183,25 @@ class InsightService
                 'spies' => $target->military_spies,
                 'wizards' => $target->military_wizards,
                 'archmages' => $target->military_archmages,
-                'unit1' => $target->military_unit1,
-                'unit2' => $target->military_unit2,
-                'unit3' => $target->military_unit3,
-                'unit4' => $target->military_unit4,
           ];
 
         $data['units']['power'] =
         [
             'draftees' => ['offense' => 0, 'defense' => $target->race->getPerkValue('draftee_dp') ?: 1],
-            'unit1' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'defense')],
-            'unit2' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'defense')],
-            'unit3' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'defense')],
-            'unit4' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'defense')],
+        #    'unit1' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'defense')],
+        #    'unit2' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'defense')],
+        #    'unit3' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit3'), 'defense')],
+        #    'unit4' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit4'), 'defense')],
         ];
+
+        foreach($target->race->units as $unit)
+        {
+            $data['units']['home']['unit' . $unit->slot] = $target->{'military_unit'. $unit->slot};
+            $data['units']['power']['unit' . $unit->slot] = [
+                'offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $unit, 'offense'),
+                'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $unit, 'defense')
+            ];
+        }
 
         foreach($target->race->resources as $resourceKey)
         {

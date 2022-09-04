@@ -88,7 +88,7 @@ class NetworthCalculatorTest extends AbstractBrowserKitTestCase
         $this->landCalculator->shouldReceive('setDominion')->with($dominion);
 
         $units = [];
-        for ($slot = 1; $slot <= 4; $slot++) {
+        for ($slot = 1; $slot <= $dominion->race->units->count(); $slot++) {
             $this->militaryCalculator->shouldReceive('getTotalUnitsForSlot')->with($dominion, $slot)->andReturn(100);
 
             /** @var Mock|Unit $unit */

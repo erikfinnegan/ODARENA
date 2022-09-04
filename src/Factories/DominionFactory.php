@@ -86,6 +86,10 @@ class DominionFactory
         $startingParameters['npc_modifier'] = 0;
         $startingParameters['protection_ticks'] = 96;
 
+        foreach($race->units as $unit)
+        {
+            $startingParameters['unit' . $unit->slot] = 0;
+        }
 
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
@@ -115,10 +119,12 @@ class DominionFactory
         $lateJoinMultiplier = 1 + $realm->round->ticks * 0.004;
 
         $startingParameters['draftees'] = 0;
-        $startingParameters['unit1'] = 0;
-        $startingParameters['unit2'] = 0;
-        $startingParameters['unit3'] = 0;
-        $startingParameters['unit4'] = 0;
+
+        foreach($race->units as $unit)
+        {
+            $startingParameters['unit' . $unit->slot] = 0;
+        }
+        
         $startingParameters['spies'] = 0;
         $startingParameters['wizards'] = 0;
         $startingParameters['archmages'] = 0;
@@ -280,14 +286,20 @@ class DominionFactory
             'resource_blood' => 0,
             'resource_tech' => 0,
 
-            'military_draftees' => intval($startingParameters['draftees']),
-            'military_unit1' => intval($startingParameters['unit1']),
-            'military_unit2' => intval($startingParameters['unit2']),
-            'military_unit3' => intval($startingParameters['unit3']),
-            'military_unit4' => intval($startingParameters['unit4']),
-            'military_spies' => intval($startingParameters['spies']),
-            'military_wizards' => intval($startingParameters['wizards']),
-            'military_archmages' => intval($startingParameters['archmages']),
+            'military_draftees' => $startingParameters['draftees'],
+            'military_unit1' => $startingParameters['unit1'] ?? 0,
+            'military_unit2' => $startingParameters['unit2'] ?? 0,
+            'military_unit3' => $startingParameters['unit3'] ?? 0,
+            'military_unit4' => $startingParameters['unit4'] ?? 0,
+            'military_unit5' => $startingParameters['unit5'] ?? 0,
+            'military_unit6' => $startingParameters['unit6'] ?? 0,
+            'military_unit7' => $startingParameters['unit7'] ?? 0,
+            'military_unit8' => $startingParameters['unit8'] ?? 0,
+            'military_unit9' => $startingParameters['unit9'] ?? 0,
+            'military_unit10' => $startingParameters['unit10'] ?? 0,
+            'military_spies' => $startingParameters['spies'],
+            'military_wizards' => $startingParameters['wizards'],
+            'military_archmages' => $startingParameters['archmages'],
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
@@ -706,10 +718,16 @@ class DominionFactory
             'wizard_strength' => $quickstart->wizard_strength,
 
             'military_draftees' => $quickstart->units['draftees'],
-            'military_unit1' => $quickstart->units['unit1'],
-            'military_unit2' => $quickstart->units['unit2'],
-            'military_unit3' => $quickstart->units['unit3'],
-            'military_unit4' => $quickstart->units['unit4'],
+            'military_unit1' => $quickstart->units['unit1'] ?? 0,
+            'military_unit2' => $quickstart->units['unit2'] ?? 0,
+            'military_unit3' => $quickstart->units['unit3'] ?? 0,
+            'military_unit4' => $quickstart->units['unit4'] ?? 0,
+            'military_unit5' => $quickstart->units['unit5'] ?? 0,
+            'military_unit6' => $quickstart->units['unit6'] ?? 0,
+            'military_unit7' => $quickstart->units['unit7'] ?? 0,
+            'military_unit8' => $quickstart->units['unit8'] ?? 0,
+            'military_unit9' => $quickstart->units['unit9'] ?? 0,
+            'military_unit10' => $quickstart->units['unit10'] ?? 0,
             'military_spies' => $quickstart->units['spies'],
             'military_wizards' => $quickstart->units['wizards'],
             'military_archmages' => $quickstart->units['archmages'],

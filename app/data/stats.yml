@@ -707,6 +707,84 @@ unit4_released:
 unit4_converted:
   name: Unit4 converted
 
+unit5_trained:
+  name: Total unit5 trained
+unit5_killed:
+  name: Total unit5 killed
+unit5_lost:
+  name: Total unit5 lost
+unit5_training:
+  name: Unit5 training
+unit5_released:
+  name: Unit5 released
+unit5_converted:
+  name: Unit5 converted
+
+unit6_trained:
+  name: Total unit6 trained
+unit6_killed:
+  name: Total unit6 killed
+unit6_lost:
+  name: Total unit6 lost
+unit6_training:
+  name: Unit6 training
+unit6_released:
+  name: Unit6 released
+unit6_converted:
+  name: Unit6 converted
+
+unit7_trained:
+  name: Total unit7 trained
+unit7_killed:
+  name: Total unit7 killed
+unit7_lost:
+  name: Total unit7 lost
+unit7_training:
+  name: Unit7 training
+unit7_released:
+  name: Unit7 released
+unit7_converted:
+  name: Unit7 converted
+
+unit8_trained:
+  name: Total unit8 trained
+unit8_killed:
+  name: Total unit8 killed
+unit8_lost:
+  name: Total unit8 lost
+unit8_training:
+  name: Unit8 training
+unit8_released:
+  name: Unit8 released
+unit8_converted:
+  name: Unit8 converted
+
+unit9_trained:
+  name: Total unit9 trained
+unit9_killed:
+  name: Total unit9 killed
+unit9_lost:
+  name: Total unit9 lost
+unit9_training:
+  name: Unit9 training
+unit9_released:
+  name: Unit9 released
+unit9_converted:
+  name: Unit9 converted
+
+unit10_trained:
+  name: Total unit10 trained
+unit10_killed:
+  name: Total unit10 killed
+unit10_lost:
+  name: Total unit10 lost
+unit10_training:
+  name: Unit10 training
+unit10_released:
+  name: Unit10 released
+unit10_converted:
+  name: Unit10 converted
+
 spies_trained:
   name: Total spies trained
 magic_spies_killed:

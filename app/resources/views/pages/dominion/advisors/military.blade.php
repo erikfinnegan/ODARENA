@@ -248,54 +248,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }}</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_trained')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_lost')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_training')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit2', $selectedDominion->race)) }}</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_trained')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_lost')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_training')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }}</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_trained')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_lost')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_training')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }}</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_trained')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_lost')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_training')) }}</strong>
-                                    </td>
-                                </tr>
+                                @foreach($selectedDominion->race->units as $unit)
+                                    <tr>
+                                        <td>{{ str_plural($unit->name) }}</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, ('unit' .$unit->slot . '_trained'))) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, ('unit' .$unit->slot . '_lost'))) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, ('unit' .$unit->slot . '_training'))) }}</strong>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                {{--
                                 <tr>
                                     <td>Total</td>
                                     <td>
@@ -308,6 +275,7 @@
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_training') + $statsService->getStat($selectedDominion, 'unit2_training') + $statsService->getStat($selectedDominion, 'unit3_training') + $statsService->getStat($selectedDominion, 'unit4_training')) }}</strong>
                                     </td>
                                 </tr>
+                                --}}
                             </tbody>
                         </table>
                     </div>

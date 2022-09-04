@@ -382,16 +382,15 @@ class ExpeditionActionService
         else
         {
             $returningUnits = [
-              'military_unit1' => array_fill(1, 12, 0),
-              'military_unit2' => array_fill(1, 12, 0),
-              'military_unit3' => array_fill(1, 12, 0),
-              'military_unit4' => array_fill(1, 12, 0),
-              #'military_spies' => array_fill(1, 12, 0),
-              #'military_wizards' => array_fill(1, 12, 0),
-              #'military_archmages' => array_fill(1, 12, 0),
-              #'military_draftees' => array_fill(1, 12, 0),
-              #'peasants' => array_fill(1, 12, 0),
+                'military_spies' => array_fill(1, 12, 0),
+                'military_wizards' => array_fill(1, 12, 0),
+                'military_archmages' => array_fill(1, 12, 0),
             ];
+
+            foreach($dominion->race->units as $unit)
+            {
+                $returningUnits['military_unit' . $unit->slot] = array_fill(1, 12, 0);
+            }
 
             $someWinIntoUnits = array_fill(1, $dominion->race->units->count(), 0);
             $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
@@ -636,11 +635,12 @@ class ExpeditionActionService
     {
         $unitsHome = [
             0 => $dominion->military_draftees,
-            1 => $dominion->military_unit1 - (isset($units[1]) ? $units[1] : 0),
-            2 => $dominion->military_unit2 - (isset($units[2]) ? $units[2] : 0),
-            3 => $dominion->military_unit3 - (isset($units[3]) ? $units[3] : 0),
-            4 => $dominion->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
+
+        foreach($dominion->race->units as $unit)
+        {
+            $unitsHome[] = $dominion->{'military_unit'.$unit->slot} - (isset($units[$unit->slot]) ? $units[$unit->slot] : 0);
+        }
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, null, null, $units);
         $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 

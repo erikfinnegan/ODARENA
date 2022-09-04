@@ -37,7 +37,7 @@
                                         <input type="number" name="release[draftees]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->military_draftees }}" value="{{ old('release.draftees') }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </td>
                                 </tr>
-                                @foreach ($unitHelper->getUnitTypes() as $unitType)
+                                @foreach ($unitHelper->getUnitTypes($selectedDominion->race) as $unitType)
                                     @if(
                                           ($unitType == 'spies' and $selectedDominion->race->getPerkValue('cannot_train_spies')) or
                                           ($unitType == 'wizards' and $selectedDominion->race->getPerkValue('cannot_train_wizards')) or

@@ -70,3 +70,15 @@ units:
     power:
       offense: 3
       defense: 1.5
+
+  - name: Fire Ant
+    training_time: 12
+    type:
+      - living
+    cost:
+      gold: 640
+    power:
+      offense: 4
+      defense: 1
+    perks:
+      burns_peasants_on_attack: 0.05

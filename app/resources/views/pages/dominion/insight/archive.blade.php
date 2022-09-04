@@ -7,6 +7,7 @@
 @foreach($dominionInsights as $dominionInsight)
     @php
         $data = json_decode($dominionInsight->data, TRUE);
+
     @endphp
 @endforeach
 
@@ -152,38 +153,16 @@
                                 </td>
                                 <td>{{ number_format($data['military_draftees']) }}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit1']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit1']['defense']) }}">
-                                      {{ $dominion->race->units->get(0)->name }}:
-                                  </span>
-                                </td>
-                                <td>{{ number_format($data['military_unit1']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit2']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit2']['defense']) }}">
-                                      {{ $dominion->race->units->get(1)->name }}:
-                                  </span>
-                                </td>
-                                <td>{{ number_format($data['military_unit2']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit3']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit3']['defense']) }}">
-                                      {{ $dominion->race->units->get(2)->name }}:
-                                  </span>
-                                </td>
-                                <td>{{ number_format($data['military_unit3']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit4']['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit4']['defense']) }}">
-                                      {{ $dominion->race->units->get(3)->name }}:
-                                  </span>
-                                </td>
-                                <td>{{ number_format($data['military_unit4']) }}</td>
-                            </tr>
+                            @foreach($dominion->race->units as $unit)
+                                <tr>
+                                    <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="OP: {{ display_number_format($data['units']['power']['unit' . $unit->slot]['offense']) }} / DP: {{ display_number_format($data['units']['power']['unit' . $unit->slot]['defense']) }}">
+                                        {{ $unit->name }}:
+                                    </span>
+                                    </td>
+                                    <td>{{ number_format($data['military_unit' . $unit->slot]) }}</td>
+                                </tr>
+                            @endforeach
                             <tr>
                                 <td>Spies:</td>
                                 <td>{{ number_format($data['military_spies']) }}</td>
@@ -458,22 +437,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($unitHelper->getUnitTypes() as $unitType)
+                    @foreach ($unitHelper->getUnitTypes($dominion->race) as $unitType)
                         @php
                             $tooltip = '';
-                            if($unitType == 'spies')
-                            {
-                                $unitType = 'spies';
-                            }
-                            elseif($unitType == 'wizards')
-                            {
-                                $unitType = 'wizards';
-                            }
-                            elseif($unitType == 'archmages')
-                            {
-                                $unitType = 'archmages';
-                            }
-                            else
+                            if(!in_array($unitType, ['spies','wizards','archmages','draftees']))
                             {
                                 $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . ' / DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
                             }
@@ -531,24 +498,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ([1,2,3,4,'spies','wizards','archmages'] as $slot)
+                    @foreach ($unitHelper->getUnitTypes($dominion->race) as $unitType)
                         @php
                             $tooltip = '';
-                            if($slot == 'spies')
+                            if(!in_array($unitType, ['spies','wizards','archmages','draftees']))
                             {
-                                $unitType = 'spies';
-                            }
-                            elseif($slot == 'wizards')
-                            {
-                                $unitType = 'wizards';
-                            }
-                            elseif($slot == 'archmages')
-                            {
-                                $unitType = 'archmages';
-                            }
-                            else
-                            {
-                                $unitType = 'unit' . $slot;
                                 $tooltip = 'OP: ' . display_number_format($data['units']['power'][$unitType]['offense']) . ' / DP: '. display_number_format($data['units']['power'][$unitType]['defense']);
                             }
                         @endphp

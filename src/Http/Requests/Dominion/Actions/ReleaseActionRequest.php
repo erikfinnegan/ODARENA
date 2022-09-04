@@ -27,9 +27,19 @@ class ReleaseActionRequest extends AbstractDominionRequest
     {
         $rules = [];
 
-        foreach ($this->unitHelper->getUnitTypes() as $unitType) {
-            $rules['release.' . $unitType] = 'integer|nullable|min:0';
-        }
+        $rules['train.unit1'] = 'integer|nullable|min:0';
+        $rules['train.unit2'] = 'integer|nullable|min:0';
+        $rules['train.unit3'] = 'integer|nullable|min:0';
+        $rules['train.unit4'] = 'integer|nullable|min:0';
+        $rules['train.unit5'] = 'integer|nullable|min:0';
+        $rules['train.unit6'] = 'integer|nullable|min:0';
+        $rules['train.unit7'] = 'integer|nullable|min:0';
+        $rules['train.unit8'] = 'integer|nullable|min:0';
+        $rules['train.unit9'] = 'integer|nullable|min:0';
+        $rules['train.unit10'] = 'integer|nullable|min:0';
+        $rules['train.spies'] = 'integer|nullable|min:0';
+        $rules['train.wizards'] = 'integer|nullable|min:0';
+        $rules['train.archmages'] = 'integer|nullable|min:0';
 
         return $rules;
     }

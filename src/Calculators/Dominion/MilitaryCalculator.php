@@ -1281,12 +1281,14 @@ class MilitaryCalculator
               # mob_on_offense: Do we ($units) outnumber the defenders ($target)?
               if($powerType == 'offense')
               {
-                  $targetUnits = 0;
+                  $targetUnits = $this->getTotalUnitsAtHome($target, true, true);
+                  /*
                   $targetUnits += $target->military_draftees;
                   $targetUnits += $target->military_unit1;
                   $targetUnits += $target->military_unit2;
                   $targetUnits += $target->military_unit3;
                   $targetUnits += $target->military_unit4;
+                  */
 
                   if(isset($units))
                   {
@@ -1300,12 +1302,15 @@ class MilitaryCalculator
               # mob_on_offense: Do we ($dominion) outnumber the attackers ($units)?
               if($powerType == 'defense')
               {
+                    $mobUnits = $this->getTotalUnitsAtHome($target, true, true);
+                    /*
                   $mobUnits = 0;
                   $mobUnits += $dominion->military_draftees;
                   $mobUnits += $dominion->military_unit1;
                   $mobUnits += $dominion->military_unit2;
                   $mobUnits += $dominion->military_unit3;
                   $mobUnits += $dominion->military_unit4;
+                  */
 
                   if(isset($invadingUnits) and $mobUnits > array_sum($invadingUnits))
                   {
@@ -1353,12 +1358,15 @@ class MilitaryCalculator
               {
                   $targetUnitsString = '';
 
+                  $targetUnits = $this->getTotalUnitsAtHome($target, true, true);
+                  /*
                   $targetUnits = 0;
                   $targetUnits += $target->military_draftees;
                   $targetUnits += $target->military_unit1;
                   $targetUnits += $target->military_unit2;
                   $targetUnits += $target->military_unit3;
                   $targetUnits += $target->military_unit4;
+                  */
 
                   if(isset($units))
                   {
@@ -1372,12 +1380,15 @@ class MilitaryCalculator
               # mob_on_offense: Do we ($dominion) outnumber the attackers ($units)?
               if($powerType == 'defense')
               {
+                  $mobUnits = $this->getTotalUnitsAtHome($dominion, true, true);
+                  /*
                   $mobUnits = 0;
                   $mobUnits += $dominion->military_draftees;
                   $mobUnits += $dominion->military_unit1;
                   $mobUnits += $dominion->military_unit2;
                   $mobUnits += $dominion->military_unit3;
                   $mobUnits += $dominion->military_unit4;
+                  */
 
                   if(isset($invadingUnits) and $mobUnits < array_sum($invadingUnits))
                   {
@@ -2756,6 +2767,31 @@ class MilitaryCalculator
             'units_sent' => $unitsSent,
             'units_defending' => $unitsDefending
         ];
+
+    }
+
+    public function getTotalUnitsAtHome(Dominion $dominion, bool $includeDraftees = true, bool $excludeSpiesAndWizards = true): int
+    {
+        $units = 0;
+
+        foreach($dominion->race->units as $unit)
+        {
+            $units += $dominion->{'military_unit' . $unit->slot};
+        }
+        
+        if($includeDraftees)
+        {
+            $units += $dominion->military_draftees;
+        }
+
+        if(!$excludeSpiesAndWizards)
+        {
+            $units += $dominion->military_spies;
+            $units += $dominion->military_wizards;
+            $units += $dominion->military_archmages;
+        }
+
+        return $units;
 
     }
 

@@ -93,27 +93,19 @@ class ReleaseActionService
 
         $totalTroopsToRelease = array_sum($data);
 
-        $totalDrafteesToRelease = isset($data['draftees']) ? $data['draftees'] : 0;
-        $totalSpiesToRelease = isset($data['spies']) ? $data['spies'] : 0;
-        $totalWizardsToRelease = isset($data['wizards']) ? $data['wizards'] : 0;
-        $totalArchmagesToRelease = isset($data['archmages']) ? $data['archmages'] : 0;
-        $totalMilitaryUnitsToRelease = $data['unit1'] + $data['unit2'] + $data['unit3'] + $data['unit4'];
-
         # Must be releasing something.
         if ($totalTroopsToRelease <= 0)
         {
             throw new GameException('Military release aborted due to bad input.');
         }
 
-        $units = [
-            1 => $data['unit1'],
-            2 => $data['unit2'],
-            3 => $data['unit3'],
-            4 => $data['unit4']
-        ];
+        $units = [];
+        foreach($dominion->race->units as $unit)
+        {
+            $units[$unit->slot] = $data['unit' . $unit->slot] ?? 0;
+        }
 
         $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false, true, null, true, true);
-
 
         # Special considerations for releasing military units.
         if($rawDpRelease > 0)
@@ -125,9 +117,9 @@ class ReleaseActionService
             }
 
             # Cannot release if recently invaded.
-            if ($this->militaryCalculator->getRecentlyInvadedCount($dominion, 3))
+            if ($this->militaryCalculator->getRecentlyInvadedCount($dominion, 6))
             {
-                throw new GameException('You cannot release military units with defensive power if you have been invaded in the last three hours.');
+                throw new GameException('You cannot release military units with defensive power if you have been invaded in the last six ticks.');
             }
 
             # Cannot release if units returning from invasion.

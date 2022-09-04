@@ -86,7 +86,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @for ($slot = 1; $slot <= 4; $slot++)
+                                    @for ($slot = 1; $slot <= $event->source->race->units->count(); $slot++)
                                     @if((isset($event->data['attacker']['units_sent'][$slot]) and $event->data['attacker']['units_sent'][$slot] > 0) or
                                         (isset($event->data['attacker']['units_lost'][$slot]) and $event->data['attacker']['units_lost'][$slot] > 0) or
                                         (isset($event->data['attacker']['units_returning'][$slot]) and $event->data['attacker']['units_returning'][$slot] > 0)
@@ -156,7 +156,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @for ($slot = 1; $slot <= 4; $slot++)
+                                            @for ($slot = 1; $slot <= $annexedDominion->race->units->count(); $slot++)
                                             @if((isset($annexedDominionData['units_sent'][$slot]) and $annexedDominionData['units_sent'][$slot] > 0) or
                                                 (isset($annexedDominionData['units_lost'][$slot]) and $annexedDominionData['units_lost'][$slot] > 0) or
                                                 (isset($annexedDominionData['units_returning'][$slot]) and $annexedDominionData['units_returning'][$slot] > 0)
@@ -381,7 +381,7 @@
                                         <th colspan="2">Population Burned</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">The charred bodies of burned {{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }} emit a foul odour across the battlefield.</small></td>
+                                        <td colspan="2"><small class="text-muted">The charred bodies of burned {{ strtolower(str_plural($raceHelper->getPeasantsTerm($event->target->race))) }} emit a foul odour across the battlefield.</small></td>
                                     </tr>
                                     <tr>
                                         <td>{{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }}:</td>
@@ -581,7 +581,7 @@
                                         </tr>
 
                                     @endif
-                                    @for ($slot = 1; $slot <= 4; $slot++)
+                                    @for ($slot = 1; $slot <= $event->target->race->units->count(); $slot++)
                                     @if((isset($event->data['defender']['units_defending'][$slot]) and $event->data['defender']['units_defending'][$slot] > 0) or
                                         (isset($event->data['defender']['units_lost'][$slot]) and $event->data['defender']['units_lost'][$slot] > 0)
                                         )
@@ -643,7 +643,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @for ($slot = 1; $slot <= 4; $slot++)
+                                            @for ($slot = 1; $slot <= $annexedDominion->race->units->count(); $slot++)
                                             @if((isset($annexedDominionData['units_sent'][$slot]) and $annexedDominionData['units_sent'][$slot] > 0) or
                                                 (isset($annexedDominionData['units_lost'][$slot]) and $annexedDominionData['units_lost'][$slot] > 0) or
                                                 (isset($annexedDominionData['units_returning'][$slot]) and $annexedDominionData['units_returning'][$slot] > 0)

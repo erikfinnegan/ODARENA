@@ -406,8 +406,6 @@ class InvadeActionService
             $defensiveConversions = array_fill(1, $target->race->units->count(), 0);
 
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
-            $resourceConversions['attacker'] = $this->resourceConversionCalculator->getResourceConversions($dominion, $target, $this->invasionResult, 'offense');
-            $resourceConversions['defender'] = $this->resourceConversionCalculator->getResourceConversions($target, $dominion, $this->invasionResult, 'defense');
 
             if(array_sum($conversions['attacker']) > 0)
             {
@@ -429,6 +427,22 @@ class InvadeActionService
             elseif($target->race->name == 'Cult')
             {
                 $this->handlePsionicConversions($target, $dominion, 'defense');
+            }
+
+            # Resource conversions
+            $resourceConversions['attacker'] = $this->resourceConversionCalculator->getResourceConversions($dominion, $target, $this->invasionResult, 'offense');
+            $resourceConversions['defender'] = $this->resourceConversionCalculator->getResourceConversions($target, $dominion, $this->invasionResult, 'defense');
+
+            if(array_sum($resourceConversions['attacker']) > 0)
+            {
+                $this->invasionResult['attacker']['resource_conversions'] = $resourceConversions['attacker'];
+                $this->handleResourceConversions($dominion, 'offense');
+            }
+
+            if(array_sum($resourceConversions['defender']) > 0)
+            {
+                $this->invasionResult['defender']['resource_conversions'] = $resourceConversions['defender'];
+                $this->handleResourceConversions($target, 'defense');
             }
 
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['surviving_units'], $this->invasionResult['attacker']['conversions'], $this->invasionResult['defender']['conversions']);
@@ -788,7 +802,7 @@ class InvadeActionService
                 $dominion->{"military_unit{$slot}"} -= $amount;
                 $this->invasionResult['attacker']['surviving_units'][$slot] = $this->invasionResult['attacker']['units_sent'][$slot] - $this->invasionResult['attacker']['units_lost'][$slot];
 
-                if(in_array($slot,[1,2,3,4]))
+                if(in_array($slot,[1,2,3,4,5,6,7,8,9,10]))
                 {
                     $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
                 }
@@ -806,7 +820,7 @@ class InvadeActionService
 
                 $this->invasionResult['defender']['surviving_units'][$slot] = $this->invasionResult['defender']['units_defending'][$slot] - $this->invasionResult['defender']['units_lost'][$slot];
 
-                if(in_array($slot,[1,2,3,4]))
+                if(in_array($slot,[1,2,3,4,5,6,7,8,9,10]))
                 {
                     $dominion->{"military_unit{$slot}"} -= $amount;
                     $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
@@ -1417,7 +1431,6 @@ class InvadeActionService
                     $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damage;
                 }
 
-
                 if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
                 {
                     $eatingUnits = $units[$unitSlot];
@@ -1824,14 +1837,15 @@ class InvadeActionService
         else
         {
             $returningUnits = [
-                'military_unit1' => array_fill(1, 12, 0),
-                'military_unit2' => array_fill(1, 12, 0),
-                'military_unit3' => array_fill(1, 12, 0),
-                'military_unit4' => array_fill(1, 12, 0),
                 'military_spies' => array_fill(1, 12, 0),
                 'military_wizards' => array_fill(1, 12, 0),
                 'military_archmages' => array_fill(1, 12, 0),
             ];
+
+            foreach($attacker->race->units as $unit)
+            {
+                $returningUnits['military_unit' . $unit->slot] = array_fill(1, 12, 0);
+            }
 
             # Check for instant_return
             for ($slot = 1; $slot <= $attacker->race->units->count(); $slot++)
@@ -2242,12 +2256,30 @@ class InvadeActionService
         }
     }
 
-    protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void
+    protected function handleResourceConversions(Dominion $converter, string $mode = 'offense'): void
     {
-        # Instantly add for defender
-
         # Queue up for attacker
+        if($mode == 'offense')
+        {
+            foreach($this->invasionResult['attacker']['resource_conversions'] as $resourceKey => $resourceAmount)
+            {
+                $this->queueService->queueResources(
+                    'invasion',
+                    $converter,
+                    [$resourceKey => max(0, $resourceAmount)],
+                    12
+                );
+            }
+        }
 
+        # Instantly add for defender
+        if($mode == 'defense')
+        {
+            foreach($this->invasionResult['defender']['resource_conversions'] as $resourceKey => $resourceAmount)
+            {
+                $this->resourceService->updateResources($converter, [$resourceKey => max(0, $resourceAmount)]);
+            }
+        }
     }
 
     /**
@@ -2838,11 +2870,12 @@ class InvadeActionService
     {
         $unitsHome = [
             0 => $dominion->military_draftees,
-            1 => $dominion->military_unit1 - (isset($units[1]) ? $units[1] : 0),
-            2 => $dominion->military_unit2 - (isset($units[2]) ? $units[2] : 0),
-            3 => $dominion->military_unit3 - (isset($units[3]) ? $units[3] : 0),
-            4 => $dominion->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
+
+        foreach($dominion->race->units as $unit)
+        {
+            $unitsHome[] = $dominion->{'military_unit'.$unit->slot} - (isset($units[$unit->slot]) ? $units[$unit->slot] : 0);
+        }
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
         $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 

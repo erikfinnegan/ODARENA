@@ -28,29 +28,36 @@ class UnitHelper
         $this->statsService = app(StatsService::class);
     }
 
-      public function getUnitTypes(bool $hideSpecialUnits = false): array
-      {
-          $data = [
-              'unit1',
-              'unit2',
-              'unit3',
-              'unit4',
-          ];
+    public function getUnitTypes(Race $race /*bool $hideSpecialUnits = false*/): array
+    {
+        foreach($race->units as $unit)
+        {
+            $data[] = 'unit' . $unit->slot;
+        }
 
-          if (!$hideSpecialUnits) {
-              $data = array_merge($data, [
-                  'spies',
-                  'wizards',
-                  'archmages',
-              ]);
-          }
+        if(!$race->getPerkValue('cannot_train_spies'))
+        {
+            $data[] = 'spies';
+        }
 
-          return $data;
-      }
+        if(!$race->getPerkValue('cannot_train_wizards'))
+        {
+            $data[] = 'wizards';
+        }
+
+        if(!$race->getPerkValue('cannot_train_archmages'))
+        {
+            $data[] = 'archmages';
+        }
+
+        return $data;
+
+    }
 
     public function getUnitName(string $unitType, Race $race): string
     {
-        if (in_array($unitType, ['spies', 'wizards', 'archmages'], true)) {
+        if (in_array($unitType, ['spies', 'wizards', 'archmages'], true))
+        {
             return ucfirst($unitType);
         }
 
@@ -79,11 +86,6 @@ class UnitHelper
 
         $helpStrings = [
             'draftees' => 'Used for exploring and training other units.',
-            'unit1' => ' ',
-            'unit2' => ' ',
-            'unit3' => ' ',
-            'unit4' => ' ',
-            'unit5' => ' ',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
             'archmages' => 'Used for casting offensive spells. Twice as strong as regular wizards.',
@@ -450,13 +452,11 @@ class UnitHelper
         ];
 
         // Get unit - same logic as military page
-        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6', 'unit7', 'unit8', 'unit9', 'unit10']))
         {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
-
-            list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
             if($unitPowerWithPerk)
             {
@@ -469,7 +469,7 @@ class UnitHelper
                 $unitDp = $unit->power_defense;
             }
 
-            $helpStrings[$unitType] .= '<li><span data-toggle="tooltip" data-placement="top" title="Offensive power">OP: '. display_number_format($unitOp) . '</span>';
+            $helpStrings[$unitType] = '<li><span data-toggle="tooltip" data-placement="top" title="Offensive power">OP: '. display_number_format($unitOp) . '</span>';
             $helpStrings[$unitType] .= ' / <span data-toggle="tooltip" data-placement="top" title="Defensive power">DP: ' . display_number_format($unitDp) . '</span>';
 
             if(!$race->getUnitPerkValueForUnitSlot($unit->slot,'cannot_be_trained'))
@@ -1316,6 +1316,12 @@ class UnitHelper
                     case 'unit2':
                     case 'unit3':
                     case 'unit4':
+                    case 'unit5':
+                    case 'unit6':
+                    case 'unit7':
+                    case 'unit8':
+                    case 'unit9':
+                    case 'unit10':
                         $costs[] = number_format($value) . ' ' . str_plural($this->getUnitName($costType, $race), $value);
                         break;
 

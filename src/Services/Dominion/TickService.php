@@ -257,10 +257,16 @@ class TickService
                 }
 
                 $this->queueService->setForTick(false);
+                foreach($stasisDominion->race->units as $unit)
+                {
+                    $units['unit' . $unit->slot] = $this->queueService->getInvasionQueueAmount($stasisDominion, ('military_unit'. $unit->slot), $tick);
+                }
+                /*
                 $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
-                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
-                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
-                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
+                $units['unit2'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units['unit3'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units['unit4'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
+                */
                 $units['spies'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_spies", $tick);
                 $units['wizards'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_wizards", $tick);
                 $units['archmages'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_archmages", $tick);
@@ -277,10 +283,16 @@ class TickService
                       #echo "\nUnits requeued";
                 }
 
+                foreach($stasisDominion->race->units as $unit)
+                {
+                    $units['unit' . $unit->slot] = $this->queueService->getExpeditionQueueAmount($stasisDominion, ('military_unit'. $unit->slot), $tick);
+                }
+                /*
                 $units['unit1'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit1", $tick);
                 $units['unit2'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit2", $tick);
                 $units['unit3'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit3", $tick);
                 $units['unit4'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit4", $tick);
+                */
 
                 foreach($units as $slot => $amount)
                 {
@@ -294,10 +306,16 @@ class TickService
                       #echo "\nUnits requeued";
                 }
 
+                foreach($stasisDominion->race->units as $unit)
+                {
+                    $units['unit' . $unit->slot] = $this->queueService->getTheftQueueAmount($stasisDominion, ('military_unit'. $unit->slot), $tick);
+                }
+                /*
                 $units['unit1'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit1", $tick);
                 $units['unit2'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit2", $tick);
                 $units['unit3'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit3", $tick);
                 $units['unit4'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit4", $tick);
+                */
                 $units['spies'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_spies", $tick);
 
                 foreach($units as $slot => $amount)
@@ -312,10 +330,17 @@ class TickService
                       #echo "\nUnits requeued";
                 }
 
+                foreach($stasisDominion->race->units as $unit)
+                {
+                    $units['unit' . $unit->slot] = $this->queueService->getSabotageQueueAmount($stasisDominion, ('military_unit'. $unit->slot), $tick);
+                }
+                /*
+
                 $units['unit1'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit1", $tick);
                 $units['unit2'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit2", $tick);
                 $units['unit3'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit3", $tick);
                 $units['unit4'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit4", $tick);
+                */
                 $units['spies'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_spies", $tick);
 
                 foreach($units as $slot => $amount)
@@ -406,6 +431,16 @@ class TickService
 
                 if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit generation'); }
                 // Unit generation
+
+                foreach($dominion->race->units as $unit)
+                {
+                    if(!empty($dominion->tick->{'generated_unit' . $unit->slot}) and $dominion->protection_ticks == 0)
+                    {
+                        $this->queueService->queueResources('training', $dominion, [('military_unit' . $unit->slot) => $dominion->tick->{'generated_unit' . $unit->slot}], 12);
+                    }
+                }
+
+                /*
                 if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks == 0)
                 {
                     $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
@@ -422,7 +457,7 @@ class TickService
                 {
                     $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
                 }
-
+                */
 
                 DB::transaction(function () use ($dominion)
                 {
@@ -435,19 +470,17 @@ class TickService
                     }
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit attrition for ' . $dominion->name); }
-                    if(
-                        (
-                          isset($dominion->tick->attrition_unit1) or
-                          isset($dominion->tick->attrition_unit2) or
-                          isset($dominion->tick->attrition_unit3) or
-                          isset($dominion->tick->attrition_unit4)
-                        )
-                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
-                        and !$dominion->isAbandoned()
-                      )
-                    #if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
+
+                    $attritionUnits = [];
+                    foreach($dominion->race->units as $unit)
                     {
-                        $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
+                        $attritionUnits[] = $dominion->tick->{'attrition_unit'.$unit->slot};
+                    }
+
+                    if(array_sum($attritionUnits) > 0 and !$dominion->isAbandoned())
+                    {
+                        $this->notificationService->queueNotification('attrition_occurred', $attritionUnits);
+                        #$this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
                     }
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Cleaning up active spells'); }
@@ -645,14 +678,53 @@ class TickService
             $dominionHistoryService->record($dominion, $changes, HistoryService::EVENT_TICK);
         }
 
-        // Reset tick values
+        // Reset tick values — I don't understand this. WaveHack magic. Leave (mostly) intact, only adapt, don't refactor.
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
+            # Values that become 0
+            $zeroArray = [
+                'id',
+                'dominion_id',
+                'updated_at',
+                'pestilence_units',
+                'generated_land',
+                'generated_unit1',
+                'generated_unit2',
+                'generated_unit3',
+                'generated_unit4',
+                'generated_unit5',
+                'generated_unit6',
+                'generated_unit7',
+                'generated_unit8',
+                'generated_unit9',
+                'generated_unit10',
+            ];
+
+            # Values that become []
+            $emptyArray = [
+                'starvation_casualties',
+                'pestilence_units',
+                'generated_land',
+                'generated_unit1',
+                'generated_unit2',
+                'generated_unit3',
+                'generated_unit4',
+                'generated_unit5',
+                'generated_unit6',
+                'generated_unit4',
+                'generated_unit7',
+                'generated_unit8',
+                'generated_unit9',
+                'generated_unit10',
+            ];
+
+            #if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
+            if (!in_array($attr, $zeroArray, true))
             {
                   $tick->{$attr} = 0;
             }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'/*, 'attrition_unit1', 'attrition_unit2', 'attrition_unit3', 'attrition_unit4'*/], true))
+            #elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
+            elseif (in_array($attr, $emptyArray, true))
             {
                   $tick->{$attr} = [];
             }
@@ -833,6 +905,12 @@ class TickService
         # Tickly unit perks
         $generatedLand = 0;
 
+        foreach($dominion->race->units as $unit)
+        {
+            ${'generatedUnit' . $unit->slot} = 0;
+            ${'attritionUnit' . $unit->slot} = 0;
+        }
+        /*
         $generatedUnit1 = 0;
         $generatedUnit2 = 0;
         $generatedUnit3 = 0;
@@ -842,6 +920,7 @@ class TickService
         $attritionUnit2 = 0;
         $attritionUnit3 = 0;
         $attritionUnit4 = 0;
+        */
 
         # Cult unit attrition reduction
         $attritionMultiplier = 0;
@@ -904,6 +983,9 @@ class TickService
 
                 #echo "\tAmount generated: " . $unitAmountToGenerate . "\n\n";
 
+                ${'generatedUnit' . $unitToGenerateSlot} += $unitAmountToGenerate;
+
+                /*
                 if($unitToGenerateSlot == 1)
                 {
                     $generatedUnit1 += $unitAmountToGenerate;
@@ -920,6 +1002,7 @@ class TickService
                 {
                     $generatedUnit4 += $unitAmountToGenerate;
                 }
+                */
 
                 $availablePopulation -= $unitAmountToGenerate;
             }
@@ -931,8 +1014,8 @@ class TickService
 
                 if($attritionProtection = $dominion->getBuildingPerkValue('attrition_protection'))
                 {
-                    $slot = $attritionProtection[0];
-                    $amountProtected = $attritionProtection[1];
+                    $amountProtected = $attritionProtection[0];
+                    $slot = $attritionProtection[1];
                     $amountProtected *= 1 + $dominion->getImprovementPerkMultiplier('attrition_protection');
 
                     if($slot == $attritionProtection[0])
@@ -945,6 +1028,9 @@ class TickService
 
                 # Look for static attrition protection.
 
+                ${'attritionUnit' . $slot} += $unitAttritionAmount;
+
+                /*
                 if($slot == 1)
                 {
                     $attritionUnit1 += $unitAttritionAmount;
@@ -961,6 +1047,7 @@ class TickService
                 {
                     $attritionUnit4 += $unitAttritionAmount;
                 }
+                */
             }
         }
 
@@ -1133,7 +1220,14 @@ class TickService
         {
             $unitsConverted = $passiveConversions['units_converted'];
             $unitsRemoved = $passiveConversions['units_removed'];
+
+            foreach($dominion->race->units as $unit)
+            {
+                ${'generatedUnit' . $unit->slot} += $unitsConverted[$unit->slot];
+                $tick->{'attrition_unit' . $unit->slot} += $unitsRemoved[$unit->slot];
+            }
     
+            /*
             $generatedUnit1 += $unitsConverted[1];
             $generatedUnit2 += $unitsConverted[2];
             $generatedUnit3 += $unitsConverted[3];
@@ -1143,21 +1237,41 @@ class TickService
             $tick->attrition_unit2 += $unitsRemoved[2];
             $tick->attrition_unit3 += $unitsRemoved[3];
             $tick->attrition_unit4 += $unitsRemoved[4];
+            */
         }
         
 
         # Use decimals as probability to round up
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
 
+        foreach($dominion->race->units as $unit)
+        {
+            $tick->{'generated_unit' . $unit->slot} += intval(${'generatedUnit' . $unit->slot}) + (rand()/getrandmax() < fmod(${'generatedUnit' . $unit->slot}, 1) ? 1 : 0);
+            $tick->{'attrition_unit' . $unit->slot} += intval(${'attritionUnit' . $unit->slot});
+        }
+        /*
         $tick->generated_unit1 += intval($generatedUnit1) + (rand()/getrandmax() < fmod($generatedUnit1, 1) ? 1 : 0);
         $tick->generated_unit2 += intval($generatedUnit2) + (rand()/getrandmax() < fmod($generatedUnit2, 1) ? 1 : 0);
         $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
         $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
+        $tick->generated_unit5 += intval($generatedUnit5) + (rand()/getrandmax() < fmod($generatedUnit5, 1) ? 1 : 0);
+        $tick->generated_unit6 += intval($generatedUnit6) + (rand()/getrandmax() < fmod($generatedUnit6, 1) ? 1 : 0);
+        $tick->generated_unit7 += intval($generatedUnit7) + (rand()/getrandmax() < fmod($generatedUnit7, 1) ? 1 : 0);
+        $tick->generated_unit8 += intval($generatedUnit8) + (rand()/getrandmax() < fmod($generatedUnit8, 1) ? 1 : 0);
+        $tick->generated_unit9 += intval($generatedUnit9) + (rand()/getrandmax() < fmod($generatedUnit9, 1) ? 1 : 0);
+        $tick->generated_unit10 += intval($generatedUnit10) + (rand()/getrandmax() < fmod($generatedUnit10, 1) ? 1 : 0);
 
         $tick->attrition_unit1 += intval($attritionUnit1);
         $tick->attrition_unit2 += intval($attritionUnit2);
         $tick->attrition_unit3 += intval($attritionUnit3);
         $tick->attrition_unit4 += intval($attritionUnit4);
+        $tick->attrition_unit5 += intval($attritionUnit5);
+        $tick->attrition_unit6 += intval($attritionUnit6);
+        $tick->attrition_unit7 += intval($attritionUnit7);
+        $tick->attrition_unit8 += intval($attritionUnit8);
+        $tick->attrition_unit9 += intval($attritionUnit9);
+        $tick->attrition_unit10 += intval($attritionUnit10);
+        */
 
         foreach ($incomingQueue as $row)
         {
@@ -1213,9 +1327,14 @@ class TickService
                 $this->notificationService->queueNotification('starvation_occurred');
             }
 
-            if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
+            $attritionUnits = [];
+            foreach($dominion->race->units as $unit)
             {
-                $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
+                $attritionUnits[] = $dominion->tick->{'attrition_unit'.$unit->slot};
+            }
+            if(array_sum($attritionUnits) > 0 and !$dominion->isAbandoned())
+            {
+                $this->notificationService->queueNotification('attrition_occurred',[$attritionUnits]);
             }
 
             # Clean up
@@ -1236,21 +1355,15 @@ class TickService
         }
 
         // Myconid and Cult: Unit generation
-        if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks > 0)
+        if($dominion->protection_ticks > 0)
         {
-            $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
-        }
-        if(!empty($dominion->tick->generated_unit2) and $dominion->protection_ticks > 0)
-        {
-            $this->queueService->queueResources('training', $dominion, ['military_unit2' => $dominion->tick->generated_unit2], 12);
-        }
-        if(!empty($dominion->tick->generated_unit3) and $dominion->protection_ticks > 0)
-        {
-            $this->queueService->queueResources('training', $dominion, ['military_unit3' => $dominion->tick->generated_unit3], 12);
-        }
-        if(!empty($dominion->tick->generated_unit4) and $dominion->protection_ticks > 0)
-        {
-            $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
+            foreach($dominion->race->units as $unit)
+            {
+                if(!empty($dominion->tick->{'generated_unit' . $unit->slot}) and $dominion->protection_ticks > 0)
+                {
+                    $this->queueService->queueResources('training', $dominion, [('military_unit' . $unit->slot) => $dominion->tick->{'generated_unit' . $unit->slot}], 12);
+                }
+            }
         }
 
         Log::info(sprintf(
@@ -1287,6 +1400,12 @@ class TickService
                 'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 - dominion_tick.attrition_unit2'),
                 'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 - dominion_tick.attrition_unit3'),
                 'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 - dominion_tick.attrition_unit4'),
+                'dominions.military_unit5' => DB::raw('dominions.military_unit5 + dominion_tick.military_unit5 - dominion_tick.attrition_unit5'),
+                'dominions.military_unit6' => DB::raw('dominions.military_unit6 + dominion_tick.military_unit6 - dominion_tick.attrition_unit6'),
+                'dominions.military_unit7' => DB::raw('dominions.military_unit7 + dominion_tick.military_unit7 - dominion_tick.attrition_unit7'),
+                'dominions.military_unit8' => DB::raw('dominions.military_unit8 + dominion_tick.military_unit8 - dominion_tick.attrition_unit8'),
+                'dominions.military_unit9' => DB::raw('dominions.military_unit9 + dominion_tick.military_unit9 - dominion_tick.attrition_unit9'),
+                'dominions.military_unit10' => DB::raw('dominions.military_unit10 + dominion_tick.military_unit10 - dominion_tick.attrition_unit10'),
                 'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                 'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                 'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
@@ -1328,6 +1447,12 @@ class TickService
                 'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 - dominion_tick.attrition_unit2'),
                 'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 - dominion_tick.attrition_unit3'),
                 'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 - dominion_tick.attrition_unit4'),
+                'dominions.military_unit5' => DB::raw('dominions.military_unit5 + dominion_tick.military_unit5 - dominion_tick.attrition_unit5'),
+                'dominions.military_unit6' => DB::raw('dominions.military_unit6 + dominion_tick.military_unit6 - dominion_tick.attrition_unit6'),
+                'dominions.military_unit7' => DB::raw('dominions.military_unit7 + dominion_tick.military_unit7 - dominion_tick.attrition_unit7'),
+                'dominions.military_unit8' => DB::raw('dominions.military_unit8 + dominion_tick.military_unit8 - dominion_tick.attrition_unit8'),
+                'dominions.military_unit9' => DB::raw('dominions.military_unit9 + dominion_tick.military_unit9 - dominion_tick.attrition_unit9'),
+                'dominions.military_unit10' => DB::raw('dominions.military_unit10 + dominion_tick.military_unit10 - dominion_tick.attrition_unit10'),
                 'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                 'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                 'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),

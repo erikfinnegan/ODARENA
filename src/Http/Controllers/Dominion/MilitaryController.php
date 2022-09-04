@@ -155,15 +155,6 @@ class MilitaryController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'military.train',
-            '',
-            null //$result['totalUnits']
-        ));
-
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.military');
     }
