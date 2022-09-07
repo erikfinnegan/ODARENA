@@ -449,7 +449,7 @@ class TrainActionService
                     $this->statsService->updateStat($dominion, ($unitStatsName . '_trained'), $amountToTrain);
 
                     // Look for instant training.
-                    if($ticks === 0 and $amountToTrain > 0)
+                    if(($ticks === 0 and $dominion->race->getUnitPerkValueForUnitSlot($slot, 'instant_training')) and $amountToTrain > 0)
                     {
                         $dominion->{"$unitType"} += $amountToTrain;
                         $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
