@@ -510,7 +510,7 @@
 
     <script type="text/javascript">
         (function ($) {
-            const resources = JSON.parse('{!! json_encode([1,2,3,4]) !!}');
+            const resources = JSON.parse('{!! json_encode([1,2,3,4,5,6,7,8,9,10]) !!}');
 
             // todo: let/const aka ES6 this
             var sourceElement = $('#source'),

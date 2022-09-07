@@ -220,6 +220,11 @@ class RaceHelper
                 $description = 'Cannot invade';
                 $booleanValue = true;
                 break;
+            case 'cannot_issue_decrees':
+                $negativeBenefit = true;
+                $description = 'Cannot issue decrees';
+                $booleanValue = true;
+                break;
             case 'cannot_perform_sorcery':
                 $negativeBenefit = true;
                 $description = 'Cannot perform sorcery';

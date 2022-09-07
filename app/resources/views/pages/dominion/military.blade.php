@@ -486,3 +486,12 @@
         })(jQuery);
     </script>
 @endpush
+
+@push('page-scripts')
+    <script type="text/javascript">
+    $("form").submit(function () {
+        // prevent duplicate form submissions
+        $(this).find(":submit").attr('disabled', 'disabled');
+    });
+    </script>
+@endpush

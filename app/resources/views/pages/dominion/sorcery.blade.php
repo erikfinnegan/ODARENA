@@ -353,25 +353,6 @@
     <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
 @endpush
 
-@push('page-scripts')
-{{--
-<script>
-    $(document).ready(function()
-    {
-        $('#cast-button').click(function()
-        {
-            var submit = $(this);
-            submit.prop('disabled', true);
-            setTimeout(function()
-            {
-                submit.prop('disabled', false);
-            },6000);
-        });
-    });
-</script>
---}}
-@endpush
-
 @push('inline-scripts')
     <script type="text/javascript">
         $(document).keypress(
@@ -468,7 +449,7 @@
                 difficultyClass = 'text-red';
             } else if (percentage >= 75) {
                 difficultyClass = 'text-green';
-            } else if (percentage >= 66) {
+            } else if (percentage >= 60) {
                 difficultyClass = 'text-muted';
             } else {
                 difficultyClass = 'text-gray';
@@ -491,7 +472,7 @@
 
     <script type="text/javascript">
         (function ($) {
-            const resources = JSON.parse('{!! json_encode([1,2,3,4]) !!}');
+            const resources = JSON.parse('{!! json_encode([1,2,3,4,5,6,7,8,9,10]) !!}');
 
             // todo: let/const aka ES6 this
             var sourceElement = $('#source'),
@@ -542,5 +523,14 @@
 
             updateResources();
         })(jQuery);
+    </script>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript">
+    $("form").submit(function () {
+        // prevent duplicate form submissions
+        $(this).find(":submit").attr('disabled', 'disabled');
+    });
     </script>
 @endpush

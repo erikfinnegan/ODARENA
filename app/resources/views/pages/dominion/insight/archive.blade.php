@@ -223,7 +223,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Power:</strong></td>
+                            <td><strong>Military:</strong></td>
                             <td><strong>{{ number_format(($data['mods']['offense']['power'] - 1) * 100, 2) }}%</strong></td>
                             <td><strong>{{ number_format(($data['mods']['defense']['power'] - 1) * 100, 2) }}%</strong></td>
                         </tr>
@@ -239,6 +239,16 @@
                         </tr>
                         <tr>
                             <td colspan="3"><p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p></td>
+                        </tr>
+                        <tr>
+                            <td>Spy ratio:</td>
+                            <td>{{ number_format(($data['mods']['offense']['spy_ratio'])*100, 2) }}%</td>
+                            <td>{{ number_format(($data['mods']['defense']['spy_ratio'])*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Wizard ratio:</td>
+                            <td>{{ number_format(($data['mods']['offense']['wizard_ratio'])*100, 2) }}%</td>
+                            <td>{{ number_format(($data['mods']['defense']['wizard_ratio'])*100, 2) }}%</td>
                         </tr>
                     </tbody>
                 </table>

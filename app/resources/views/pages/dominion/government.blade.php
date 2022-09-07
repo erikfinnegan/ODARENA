@@ -346,7 +346,7 @@
                 difficultyClass = 'text-red';
             } else if (percentage >= 75) {
                 difficultyClass = 'text-green';
-            } else if (percentage >= 66) {
+            } else if (percentage >= 60) {
                 difficultyClass = 'text-muted';
             } else {
                 difficultyClass = 'text-gray';
@@ -358,5 +358,13 @@
                 <div style="clear: both;"></div>
             `);
         }
+    </script>
+@endpush
+@push('page-scripts')
+    <script type="text/javascript">
+    $("form").submit(function () {
+        // prevent duplicate form submissions
+        $(this).find(":submit").attr('disabled', 'disabled');
+    });
     </script>
 @endpush

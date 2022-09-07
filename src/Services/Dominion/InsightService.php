@@ -145,12 +145,16 @@ class InsightService
                 'power' => $this->militaryCalculator->getOffensivePowerMultiplier($target),
                 'enemy_modifiers' => $this->militaryCalculator->getOffensiveMultiplierReduction($target),
                 'own_casualties' => $this->casualtiesCalculator->getBasicCasualtiesPerkMultipliers($target, 'offense'),
+                'spy_ratio' => $this->militaryCalculator->getSpyRatio($target, 'offense'),
+                'wizard_ratio' => $this->militaryCalculator->getWizardRatio($target, 'offense'),
             ];
         $data['mods']['defense'] =
             [
                 'power' => $this->militaryCalculator->getDefensivePowerMultiplier($target),
                 'enemy_modifiers' => $this->militaryCalculator->getDefensiveMultiplierReduction($target),
                 'own_casualties' => $this->casualtiesCalculator->getBasicCasualtiesPerkMultipliers($target, 'defense'),
+                'spy_ratio' => $this->militaryCalculator->getSpyRatio($target, 'defense'),
+                'wizard_ratio' => $this->militaryCalculator->getWizardRatio($target, 'defense'),
             ];
 
         # Units

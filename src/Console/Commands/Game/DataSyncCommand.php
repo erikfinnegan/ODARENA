@@ -201,9 +201,14 @@ class DataSyncCommand extends Command implements CommandInterface
 
             $race->perks()->sync($racePerksToSync);
 
+            $currentSlots = range(1, $race->units->count());
+            $toSyncSlots = range(1, count(object_get($data, 'units', [])));
+            $slotsToDelete = array_diff($currentSlots, $toSyncSlots);
+
             // Units
             foreach (object_get($data, 'units', []) as $slot => $unitData)
             {
+
                 $slot++; # Because arrays start at 0
 
                 $unitName = object_get($unitData, 'name');
@@ -289,6 +294,22 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
 
                 $unit->perks()->sync($unitPerksToSync);
+            }
+
+            foreach($slotsToDelete as $slotToDelete)
+            {
+                $unitToDelete = Unit::where('race_id', $race->id)->where('slot', $slotToDelete)->first();
+                $unitPerksToDelete = UnitPerk::where('unit_id', $unitToDelete->id)->get();
+
+                $this->info("[Delete Unit] {$unit->name}");
+
+                foreach($unitPerksToDelete as $unitPerkToDelete)
+                {
+                    $this->info("[Deleting Unit Perks] ...");
+                    $unitPerkToDelete->delete();
+                }
+
+                $unitToDelete->delete();
             }
         }
 

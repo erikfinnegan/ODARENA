@@ -4,6 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use DB;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
 
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;

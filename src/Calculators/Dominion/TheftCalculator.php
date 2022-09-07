@@ -166,7 +166,7 @@ class TheftCalculator
 
         foreach($units as $slot => $amount)
         {
-            if(in_array($slot, [1,2,3,4]) and $thief->race->getUnitPerkValueForUnitSlot($slot,'immortal_spy'))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]) and $thief->race->getUnitPerkValueForUnitSlot($slot,'immortal_spy'))
             {
                 $killedUnits[$slot] = 0;
             }

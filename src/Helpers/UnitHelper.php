@@ -862,31 +862,6 @@ class UnitHelper
                     }
                 }
 
-/*
-                // Special case for vampiric_conversion
-                if($perk->key === 'vampiric_conversion')
-                {
-                    foreach ($perkValue as $unitKilledStrength => $conversion)
-                    {
-                        $slot = 1;
-                        [$unitKilledStrength, $i] = $conversion;
-
-                        #dd($conversion);
-
-                        $unitSlotsToConvertTo = $slot;
-                        $unitNamesToConvertTo = [];
-
-                        $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
-                            return ($unit->slot === $slot);
-                        })->first();
-                        $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
-
-                        $perkValue[$unitKilledStrength][1] = generate_sentence_from_array($unitNamesToConvertTo);
-
-                        $slot++;
-                    }
-                }
-*/
                 // Special case for unit_production
                 if ($perk->key === 'unit_production')
                 {
@@ -961,7 +936,7 @@ class UnitHelper
 
         $attributeString = '<ul>';
 
-        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4', 'unit5', 'unit6', 'unit7', 'unit8',  'unit9', 'unit10']))
         {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));

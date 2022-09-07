@@ -882,7 +882,7 @@ class ArtefactActionService
 
                 $returningUnitKey = $unitKey;
 
-                if(in_array($slot, [1,2,3,4]))
+                if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                 {
                     # See if slot $slot has wins_into perk.
                     if($this->invasionResult['result']['success'])

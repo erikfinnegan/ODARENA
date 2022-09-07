@@ -411,7 +411,7 @@ class TrainActionService
                         $amountToTrain = floor($amountToTrain * (1 + $amountToTrainMultiplier));
                     }
 
-                    if(in_array($slot, [1,2,3,4]))
+                    if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                     {
                         $amountToTrain *= (1 + $dominion->getBuildingPerkMultiplier('extra_units_trained'));
                     }
@@ -427,7 +427,7 @@ class TrainActionService
                     $this->statsService->updateStat($dominion, ($unitStatsName . '_trained'), $amountToTrain);
 
                     // Look for instant training.
-                    if($ticks === 0 and $amountToTrain > 0)
+                    if(($ticks === 0 and $dominion->race->getUnitPerkValueForUnitSlot($slot, 'instant_training')) and $amountToTrain > 0)
                     {
                         $dominion->{"$unitType"} += $amountToTrain;
                         $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
@@ -528,7 +528,7 @@ class TrainActionService
 
             #$costType = str_singular($costType);
 
-            if(in_array($costType, ['unit1','unit2','unit3','unit4']))
+            if(in_array($costType, ['unit1','unit2','unit3','unit4','unit5','unit6','unit7','unit8','unit9','unit10']))
             {
                 $slot = (int)str_replace('unit', '', $costType);
 

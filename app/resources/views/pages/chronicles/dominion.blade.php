@@ -477,7 +477,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ([1,2,3,4,'spies','wizards'] as $slot)
+                    @foreach ([1,2,3,4,5,6,7,8,9,10,'spies','wizards'] as $slot)
                         @php
                             if($slot == 'spies')
                             {

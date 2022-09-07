@@ -854,7 +854,7 @@ class InvadeActionService
 
         foreach($this->invasionResult['defender']['units_lost'] as $slot => $casualties)
         {
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                 {
@@ -930,7 +930,7 @@ class InvadeActionService
         # Dies into units take 1 tick to appear
         foreach($diesIntoNewUnits as $slot => $amount)
         {
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 $unitKey = 'military_unit'.$slot;
             }
@@ -950,7 +950,7 @@ class InvadeActionService
         # Dies into units take 1 tick to appear
         foreach($diesIntoNewUnitsInstantly as $slot => $amount)
         {
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 $unitKey = 'military_unit'.$slot;
             }
@@ -1653,7 +1653,7 @@ class InvadeActionService
                 {
                     $rawDpFromSlot = 1;
                 }
-                elseif(in_array($slot, [1,2,3,4]))
+                elseif(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                 {
                     $unit = $defender->race->units->filter(function ($unit) use ($slot) {
                         return ($unit->slot === $slot);
@@ -1673,7 +1673,7 @@ class InvadeActionService
 
         foreach($this->invasionResult['defender']['units_defending'] as $slot => $amount)
         {
-            if(in_array($slot, [1,2,3,4]))
+            if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
             {
                 if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
                 {
@@ -1768,7 +1768,7 @@ class InvadeActionService
             {
                 isset($this->invasionResult['defender']['units_lost'][$slot]) ? $this->invasionResult['defender']['units_lost'][$slot] += $amount : $this->invasionResult['defender']['units_lost'][$slot] = $amount;
 
-                if(in_array($slot, [1,2,3,4]))
+                if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                 {
                     $enemy->{'military_unit'.$slot} -= $amount;
                 }
@@ -1801,7 +1801,7 @@ class InvadeActionService
 
                 if(isset($this->invasionResult['attacker']['units_sent'][$slot]))
                 {
-                    if(in_array($slot, [1,2,3,4]))
+                    if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                     {
                         $this->invasionResult['attacker']['units_lost'][$slot] += $amount;
                     }
@@ -1867,7 +1867,7 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                if(in_array($slot, [1,2,3,4]))
+                if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                 {
                     # See if slot $slot has wins_into perk.
                     if($this->invasionResult['result']['success'])
@@ -2083,7 +2083,7 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                if(in_array($slot, [1,2,3,4]))
+                if(in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
                 {
                     $amountReturning = array_sum($returningUnits[$unitKey]);
 

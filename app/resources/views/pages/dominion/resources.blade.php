@@ -318,25 +318,6 @@
     <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
 @endpush
 
-@push('page-scripts')
-{{--
-<script>
-    $(document).ready(function()
-    {
-        $('#submit').click(function()
-        {
-            var submit = $(this);
-            submit.prop('disabled', true);
-            setTimeout(function()
-            {
-                submit.prop('disabled', false);
-            },6000);
-        });
-    });
-</script>
---}}
-@endpush
-
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {
@@ -391,5 +372,14 @@
 
             updateResources();
         })(jQuery);
+    </script>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript">
+    $("form").submit(function () {
+        // prevent duplicate form submissions
+        $(this).find(":submit").attr('disabled', 'disabled');
+    });
     </script>
 @endpush

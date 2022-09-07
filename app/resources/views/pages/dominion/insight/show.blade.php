@@ -300,7 +300,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Power:</strong></td>
+                            <td><strong>Military:</strong></td>
                             <td><strong>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($dominion) - 1) * 100, 2) }}%</strong></td>
                             <td><strong>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($dominion) - 1) * 100, 2) }}%</strong></td>
                         </tr>
@@ -316,6 +316,16 @@
                         </tr>
                         <tr>
                             <td colspan="3"><p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p></td>
+                        </tr>
+                        <tr>
+                            <td>Spy Ratio:</td>
+                            <td>{{ number_format(($militaryCalculator->getSpyRatio($dominion, 'offense'))*100, 2) }}%</td>
+                            <td>{{ number_format(($militaryCalculator->getSpyRatio($dominion, 'defense'))*100, 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Wizard Ratio:</td>
+                            <td>{{ number_format(($militaryCalculator->getWizardRatio($dominion, 'offense'))*100, 2) }}%</td>
+                            <td>{{ number_format(($militaryCalculator->getWizardRatio($dominion, 'defense'))*100, 2) }}%</td>
                         </tr>
                     </tbody>
                 </table>

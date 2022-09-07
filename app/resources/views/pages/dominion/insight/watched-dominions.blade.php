@@ -102,7 +102,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $dominion->race->name }}</td>
-                                    <td># {{ $dominion->realm->number }}</td>
+                                    <td><a href="{{ route('dominion.realm', [$watchedDominion->realm->number]) }}"># {{ $watchedDominion->realm->number }}</a></td>
                                     <td>{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
                                     <td>{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>
                                     <td>{!! $dominionFogged ? '<span class="label label-default">Fog</span>' : number_format($dominionDP) . ' *' !!}</td>
