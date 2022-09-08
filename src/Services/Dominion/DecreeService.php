@@ -32,12 +32,18 @@ class DecreeService
 
         if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
         {
-            throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or when after a round has ended.');
+            throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or after a round has ended.');
         }
 
         if(!$this->decreeCalculator->isDecreeAvailableToDominion($dominion, $decree))
         {
             throw new GameException('The decree ' . $decree->name . ' is not available to you.');
+        }
+
+        if($dominion->race->getPerkValue('cannot_issue_decrees'))
+        {
+
+            throw new GameException($dominion->race->name . ' cannot issue decrees.');
         }
 
         # Create the dominion decree state
@@ -84,7 +90,7 @@ class DecreeService
 
         if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
         {
-            throw new GameException('You cannot revoke a decree for a dominion that is locked or abandoned, or when after a round has ended.');
+            throw new GameException('You cannot revoke a decree for a dominion that is locked or abandoned, or after a round has ended.');
         }
 
         $dominionDecreeState = $this->decreeHelper->getDominionDecreeState($dominion, $decree);

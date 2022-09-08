@@ -20,6 +20,7 @@ perks:
     extra_barren_max_population: 5
     starts_devoted_to_elskas: 1
     cannot_renounce_deity: 1
+    prayer_production_raw_from_population: 0.10
 units:
   - name: Horned One
     training_time: 3
@@ -80,7 +81,22 @@ units:
       offense: 600
       defense: 800
     perks:
-      building_limit: temple,1 # building, buildings per unit, imp to increased
+      building_limit: temple,0.5 # building, buildings per unit, imp to increased
       casualties: -90
       no_draftee: 1
       housing_count: 2
+
+  - name: Eternal One
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - massive
+    cost:
+      prayer: 30000
+    power:
+      offense: 0
+      defense: 2200
+    perks:
+      immortal: 1
+      offensive_power_mod: 0.10

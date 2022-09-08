@@ -94,11 +94,11 @@
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
-                <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
+                @if (!$selectedDominion->race->getPerkValue('cannot_issue_decrees'))
+                    <li class="{{ Route::is('dominion.decrees') ? 'active' : null }}"><a href="{{ route('dominion.decrees') }}"><i class="fas fa-gavel fw-fw"></i> <span>Decrees</span></a></li>
+                @endif
 
-                @if($selectedDominion->race->getPerkValue('cannot_submit_to_deity') and $selectedDominion->race->getPerkValue('cannot_vote'))
-                    <!-- Nothing -->
-                @else
+                @if(!$selectedDominion->race->getPerkValue('cannot_submit_to_deity') and !$selectedDominion->race->getPerkValue('cannot_vote'))
                     <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
                 @endif
 

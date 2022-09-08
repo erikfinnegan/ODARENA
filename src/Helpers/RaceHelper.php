@@ -55,6 +55,11 @@ class RaceHelper
                 $description = 'Extra housing from barren land';
                 $valueType = '';
                 break;
+            case 'extra_barren_housing_per_victory':
+                $negativeBenefit = false;
+                $description = 'Extra housing from barren land per victory';
+                $valueType = '';
+                break;
             case 'extra_barren_forest_max_population':
                 $negativeBenefit = false;
                 $description = 'Population from barren forest';

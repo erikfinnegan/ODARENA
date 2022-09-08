@@ -220,6 +220,12 @@ class MilitaryCalculator
         // Land improvements
         $multiplier += $attacker->getLandImprovementPerkMultiplier('offensive_power_mod');
 
+        // Units
+        foreach($attacker->race->units as $unit)
+        {
+            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($unit->slot, 'offensive_power_mod') * $this->getTotalUnitsForSlot($attacker, $unit->slot);
+        }
+
         return $multiplier;
     }
 

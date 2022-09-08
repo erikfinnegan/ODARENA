@@ -83,12 +83,6 @@ lumber:
   buy: 1
   sell: 0.5
 
-ore:
-  name: Ore
-  description: An encompassing term for various stones and metals.
-  buy: 1
-  sell: 0.5
-
 mana:
   name: Mana
   description: Cosmic energy used to weave spells and — by some — conjure magical warriors.
@@ -118,6 +112,18 @@ mud:
   sell: 0.5
   exclusive_races:
     - Marshling
+
+ore:
+  name: Ore
+  description: An encompassing term for various stones and metals.
+  buy: 1
+  sell: 0.5
+
+prayer:
+  name: Prayer
+  description: Elskas appreciates the devotion from her Chosen Ones and listens to their prayers.
+  buy: null
+  sell: null
 
 soul:
   name: Souls

@@ -128,7 +128,8 @@ class ResourceCalculator
               $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or
               $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or
               $dominion->getSpellPerkValue('stasis') or
-              $dominion->isAbandoned()
+              $dominion->isAbandoned() or
+              $dominion->isLocked()
           )
         {
             return 0;
@@ -236,14 +237,6 @@ class ResourceCalculator
                 $productionPerPair = (float)$productionFromPairingPerk[1];
 
                 $availablePairingUnits = $dominion->{'military_unit' . $slotPairedWith};
-                /*
-                # Only units at home count
-                $availablePairingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
-                */
 
                 $availableProducingUnit = $dominion->{'military_unit' . $slot};
 
@@ -303,10 +296,31 @@ class ResourceCalculator
             #dump($randomProductionPerkValue);
         }
 
-        # Check for RESOURCE__production_raw_from_land (spell)
+        # Check for RESOURCE_production_raw_from_land (spell)
         if($productionFromLand = $dominion->getSpellPerkValue($resourceKey . '_production_raw_from_land'))
         {
             $production += $productionFromLand;
+        }
+
+        # Check for RESOURCE_production_raw_from_population
+        if($productionFromPopulation = $dominion->race->getPerkValue($resourceKey . '_production_raw_from_population'))
+        {
+            $population = $dominion->peasants;
+            $population += $dominion->military_draftees;
+            $population += $dominion->military_spies;
+            $population += $dominion->military_wizards;
+            $population += $dominion->military_archmages;
+
+            foreach($dominion->race->units as $unit)
+            {
+                $population += $dominion->{'military_unit' . $unit->slot};
+                $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+            }
+
+            $production += $population * $productionFromPopulation;
         }
 
         // raw_mod perks

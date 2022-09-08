@@ -146,10 +146,8 @@ class ConstructionCalculator
             return $barrenLand;
         }
 
-        #if(isset($constructionMaterials[0]))
-        #{
-            $primaryResource = $constructionMaterials[0];
-        #}
+        $primaryResource = $constructionMaterials[0];
+
         if(isset($constructionMaterials[1]))
         {
             $secondaryResource = $constructionMaterials[1];
@@ -174,6 +172,12 @@ class ConstructionCalculator
                 $barrenLand,
                 floor($this->resourceCalculator->getAmount($dominion, $primaryResource) / $primaryCost),
             );
+        }
+
+        # Simian hack
+        if($dominion->race->getPerkValue('forest_construction_cost'))
+        {
+            return max($this->landCalculator->getTotalBarrenLandByLandType($dominion, 'forest'), $maxAfford);
         }
 
         return $maxAfford;
@@ -239,6 +243,5 @@ class ConstructionCalculator
         $ticks *= $multiplier;
 
         return max(1, ceil($ticks));
-
     }
 }

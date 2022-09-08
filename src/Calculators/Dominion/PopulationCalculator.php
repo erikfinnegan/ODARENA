@@ -7,6 +7,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatService;
 
 class PopulationCalculator
 {
@@ -28,6 +29,7 @@ class PopulationCalculator
           $this->queueService = app(QueueService::class);
           $this->spellCalculator = app(SpellCalculator::class);
           $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+          $this->statService = app(StatService::class);
           $this->unitHelper = app(UnitHelper::class);
     }
 
@@ -153,6 +155,7 @@ class PopulationCalculator
         // Barren land
         $housingPerBarrenAcre = 5;
         $housingPerBarrenAcre += $dominion->race->getPerkValue('extra_barren_max_population');
+        $housingPerBarrenAcre += $dominion->race->getPerkValue('extra_barren_housing_per_victory') * $this->statsService->getStat($dominion, 'invasion_victories');
 
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
