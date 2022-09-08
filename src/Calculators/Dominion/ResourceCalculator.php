@@ -314,10 +314,10 @@ class ResourceCalculator
             foreach($dominion->race->units as $unit)
             {
                 $population += $dominion->{'military_unit' . $unit->slot};
-                $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
-                $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
-                $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$unit->slot}");
-                $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $population += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $population += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $population += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                $population += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$unit->slot}");
             }
 
             $production += $population * $productionFromPopulation;

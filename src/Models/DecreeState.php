@@ -25,6 +25,7 @@ namespace OpenDominion\Models;
 class DecreeState extends AbstractModel
 {
     protected $casts = [
+        'key' => 'text',
     ];
 
     public function perks()

@@ -7,7 +7,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Services\Dominion\StatService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class PopulationCalculator
 {
@@ -29,7 +29,7 @@ class PopulationCalculator
           $this->queueService = app(QueueService::class);
           $this->spellCalculator = app(SpellCalculator::class);
           $this->spellDamageCalculator = app(SpellDamageCalculator::class);
-          $this->statService = app(StatService::class);
+          $this->statsService = app(StatsService::class);
           $this->unitHelper = app(UnitHelper::class);
     }
 

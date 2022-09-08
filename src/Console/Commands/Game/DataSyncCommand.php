@@ -78,6 +78,7 @@ class DataSyncCommand extends Command implements CommandInterface
      */
     public function handle(): void
     {
+        $start = now();
         DB::transaction(function () {
             
             $this->syncDeities();
@@ -96,7 +97,9 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncQuickstarts();
         });
 
-        $this->info('Game data synced');
+        $finish = now();
+
+        $this->info('Game data synced in ' . $finish->diffInSeconds($start) . ' seconds');
     }
 
     /**
@@ -128,6 +131,7 @@ class DataSyncCommand extends Command implements CommandInterface
             // Race
             $race = Race::firstOrNew(['name' => $data->name])
                 ->fill([
+                    'key' => $this->generateKeyFromNameString(object_get($data, 'name')),
                     'alignment' => object_get($data, 'alignment'),
                     'description' => object_get($data, 'description'),
                     'home_land_type' => object_get($data, 'home_land_type'),
@@ -1194,6 +1198,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $decree = Decree::firstOrNew(['name' => $data->name])
                 ->fill([
                     'name' => object_get($data, 'name'),
+                    'key' => $this->generateKeyFromNameString(object_get($data, 'name')),
                     'enabled' => object_get($data, 'enabled', 1),
                     'cooldown' => object_get($data, 'cooldown', 96),
                     'deity' => $deityId,
@@ -1243,13 +1248,15 @@ class DataSyncCommand extends Command implements CommandInterface
                 ];
 
                 $decreeState = DecreeState::where($where)->first();
+                $decree = Decree::findOrFail($decreeState->decree_id);
 
                 if ($decreeState === null) {
                     $decreeState = DecreeState::make($where);
                 }
 
                 $decreeState->fill([
-                    'name' => $stateName
+                    'name' => $stateName,
+                    'key' => $this->generateKeyFromNameString($decree->name . '_' . $stateName),
                 ]);
 
                 if ($decreeState->exists)
@@ -1383,6 +1390,11 @@ class DataSyncCommand extends Command implements CommandInterface
         }
 
         $this->info('Advancements synced.');
+    }
+
+    protected function generateKeyFromNameString(string $name): string
+    {
+        return preg_replace("/[^a-zA-Z0-9\_]+/", "",str_replace(' ', '_', strtolower($name)));
     }
 
 }

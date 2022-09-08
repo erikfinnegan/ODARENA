@@ -111,6 +111,9 @@ class UnitHelper
             'kills_displaced_peasants' => 'Kills own displaced peasants.',
 
             // OP/DP related
+            'offensive_power_mod' => 'Offensive power increased by %s%% for each unit trained.',
+            'defensive_power_mod' => 'Defensive power increased by %s%% for each unit trained.',
+
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
@@ -138,6 +141,7 @@ class UnitHelper
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
             'offense_from_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio (offensive).',
+            'defense_from_wizard_ratio' => 'Defense increased by %1$s * Wizard Ratio (offensive).',
 
             'fixed_offense_from_wizard_ratio' => 'Offense increased by %1$s if Wizard Ratio on offense is at least %2$s.',
             'fixed_defense_from_wizard_ratio' => 'Defense increased by %1$s if Wizard Ratio on defense is at least %2$s.',
@@ -1273,6 +1277,7 @@ class UnitHelper
 
                     case 'elk':
                     case 'horse':
+                    case 'prayer':
                     case 'prisoner':
                     case 'sapling':
                     case 'yak':

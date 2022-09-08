@@ -24,6 +24,7 @@ class Race extends AbstractModel
 {
 
       protected $casts = [
+          'key' => 'text',
           'resources' => 'array',
           'improvement_resources' => 'array',
           'land_improvements' => 'array',
