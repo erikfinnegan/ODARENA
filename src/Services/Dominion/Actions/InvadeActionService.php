@@ -1499,6 +1499,9 @@ class InvadeActionService
         {
             $stunningOpRatio = $stunningOp / $rawOp;
 
+            $stunBaseDamage = 1;
+            $stunMaxDamage = 2.5;
+
             $stunRatio = min((static::STUN_RATIO / 100) * $opDpRatio * min($stunningOpRatio, 1), 2.5);
 
             # Collect the stunnable units

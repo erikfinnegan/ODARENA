@@ -14,7 +14,7 @@ class AddKeyToDecreeStates extends Migration
     public function up()
     {
         Schema::table('decree_states', function (Blueprint $table) {
-            $table->string('key');
+            $table->string('key')->after('name');
         });
     }
 

@@ -61,6 +61,8 @@ class MagicController extends AbstractDominionController
             $spellActionService = app(SpellActionService::class);
 
             $spell = Spell::where('key', $request->get('spell'))->first();
+            
+            dd($spell, $request->get('spell'), $request);
 
             $target = null;
 

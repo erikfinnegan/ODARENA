@@ -13,7 +13,7 @@ class MagicRequest extends AbstractDominionRequest
     {
         return [
             'type' => 'required',
-            'spell' => 'required',
+            #'spell' => 'required|integer|exists:spells,key',
             'friendly_dominion' => 'integer|exists:dominions,id',
         ];
     }
