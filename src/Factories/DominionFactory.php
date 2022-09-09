@@ -7,6 +7,8 @@ namespace OpenDominion\Factories;
 use Auth;
 use DB;
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionAdvancement;
 use OpenDominion\Models\DominionDecreeState;
@@ -796,14 +798,17 @@ class DominionFactory
 
         foreach($quickstart->decree_states as $decreeState)
         {
-            $decreeState = explode(',', $decreeState);
+            $decreeStateKeys = explode(',', $decreeState);
 
-            DB::transaction(function () use ($dominion, $decreeState)
+            $decree = Decree::where('key', $decreeStateKeys[0])->first();
+            $decreeState = DecreeState::where('key', $decreeStateKeys[1])->first();
+
+            DB::transaction(function () use ($dominion, $decree, $decreeState)
             {
                 DominionDecreeState::create([
                     'dominion_id' => $dominion->id,
-                    'decree_id' => (int)$decreeState[0],
-                    'decree_state_id' => (int)$decreeState[1],
+                    'decree_id' => $decree->id,
+                    'decree_state_id' => $decreeState->id,
                     'tick' => $dominion->round->ticks,
                 ]);
             });

@@ -91,6 +91,12 @@ class RaceHelper
                 $booleanValue = 'static';
                 $valueType = '';
                 break;
+            case 'prayer_production_raw_from_population':
+                $negativeBenefit = false;
+                $description = 'All population produces';
+                $valueType = ' prayers per tick';
+                $booleanValue = 'static';
+                break;
             case 'cosmic_alignment_decay':
                 $negativeBenefit = false;
                 $description = 'Cosmic alignments decay per tick';

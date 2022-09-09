@@ -144,7 +144,7 @@ xp: %s\n",
             $decree = Decree::find($dominionDecreeState->decree_id);
             $decreeState = DecreeState::findOrFail($dominionDecreeState->decree_state_id);
 
-            $decreeStates .= "    - {$decree->id},{$decreeState->id},0\n";
+            $decreeStates .= "    - {$decree->key},{$decreeState->key},0\n";
         }
 
         $units = "\nunits:\n";
