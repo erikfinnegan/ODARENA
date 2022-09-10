@@ -32,12 +32,10 @@ units:
       - intelligent
     cost:
       gold: 900
-      ore: 100
+      ore: 50
     power:
       offense: 7
       defense: 9
-    perks:
-      gunpowder_production_raw_from_building_pairing: 0.25,powder_mill,0.25
 
   - name: Cannon
     training_time: 12
@@ -45,9 +43,9 @@ units:
       - machine
       - immobile
     cost:
-      gold: 400
+      gold: 1300
       ore: 400
-      lumber: 80
+      lumber: 100
     power:
       offense: 0
       defense: 0
@@ -61,40 +59,40 @@ units:
     type:
       - ammunition
     cost:
-      ore: 50
+      ore: 100
     power:
-      offense: 6
+      offense: 60
       defense: 0
     perks:
       spends_resource_on_offense: gunpowder,1
       fixed_casualties: 100
       no_draftee: 1
-      damages_improvements_on_attack: 15
+      damages_improvements_on_attack: 150
 
   - name: Burning Cannonball
     training_time: 12
     type:
       - ammunition
     cost:
-      ore: 50
+      ore: 100
     power:
-      offense: 6
+      offense: 60
       defense: 0
     perks:
       spends_resource_on_offense: gunpowder,1
       fixed_casualties: 100
       no_draftee: 1
-      burns_peasants_on_attack: 0.10
-      destroy_resource: food,2
+      burns_peasants_on_attack: 1
+      destroy_resource: food,20
 
   - name: Cluster Cannonball
     training_time: 12
     type:
       - ammunition
     cost:
-      ore: 50
+      ore: 100
     power:
-      offense: 6
+      offense: 60
       defense: 0
     perks:
       spends_resource_on_offense: gunpowder,1
@@ -107,9 +105,9 @@ units:
     type:
       - ammunition
     cost:
-      ore: 50
+      ore: 100
     power:
-      offense: 6
+      offense: 60
       defense: 0
     perks:
       spends_resource_on_offense: gunpowder,1

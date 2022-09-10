@@ -336,10 +336,11 @@ class ResourceCalculator
         $production *= $rawModPerks;
 
         // Check for max storage
-        if($maxStorage = $this->getMaxStorage($dominion, $resourceKey))
+        if($this->hasMaxStorage($dominion, $resourceKey))
         {
+            $maxStorage = $this->getMaxStorage($dominion, $resourceKey);
             $availableStorage = max(0, $maxStorage - $this->getAmount($dominion, $resourceKey));
-            $production = max($production, $availableStorage);
+            $production = min($production, $availableStorage);
         }
 
         return max(0, $production);
@@ -623,36 +624,42 @@ class ResourceCalculator
         return $perk;
     }
 
-    public function getMaxStorage(Dominion $dominion, string $resourceKey)
+    public function getMaxStorage(Dominion $dominion, string $resourceKey): int
     {
-        $maxStorage = false;
+        if(!$this->hasMaxStorage($dominion, $resourceKey))
+        {
+            return 0;
+        }
 
         if($resourceKey == 'gunpowder')
         {
             $maxStorage = $dominion->military_unit2 * $dominion->race->getPerkValue('max_gunpowder_per_cannon');
         }
 
-        if($maxStorage)
+        $multiplier = 1;
+
+        // Improvements
+        $multiplier += $dominion->getImprovementPerkMultiplier('max_storage');
+        $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_max_storage');
+
+        // Advancements
+        $multiplier += $dominion->getAdvancementPerkMultiplier('max_storage');
+        $multiplier += $dominion->getAdvancementPerkMultiplier($resourceKey . '_max_storage');
+
+        $maxStorage *= $multiplier;
+
+        return round($maxStorage);
+    }
+
+    # To be fixed later
+    public function hasMaxStorage(Dominion $dominion, string $resourceKey): bool
+    {
+        if($resourceKey == 'gunpowder')
         {
-            $multiplier = 1;
-
-            // Improvements
-            $multiplier += $dominion->getImprovementPerkMultiplier('max_storage');
-            $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_max_storage');
-
-            // Advancements
-            $multiplier += $dominion->getAdvancementPerkMultiplier('max_storage');
-            $multiplier += $dominion->getAdvancementPerkMultiplier($resourceKey . '_max_storage');
-
-            $maxStorage *= $multiplier;
-
-
-            return round($maxStorage);
-    
+            return true;
         }
 
-        return $maxStorage;
-
+        return false;
     }
 
 }

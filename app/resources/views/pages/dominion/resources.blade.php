@@ -64,10 +64,15 @@
 
 
 
-                                            @if ($maxStorage = $resourceCalculator->getMaxStorage($selectedDominion, $resourceKey))
+                                            @if ($resourceCalculator->hasMaxStorage($selectedDominion, $resourceKey))
+                                                @php
+                                                    $maxStorage = $resourceCalculator->getMaxStorage($selectedDominion, $resourceKey);
+                                                    $spanClass = ($resourceCalculator->getAmount($selectedDominion, $resourceKey) >= $maxStorage ? 'text-red' : 'text-green');
+
+                                                @endphp
                                                 <span class="text-muted">
                                                     <br>
-                                                    Max storage: <span class="text-red">{{ number_format($maxStorage) }}
+                                                    Max storage: <span class="{{ $spanClass }}">{{ number_format($maxStorage) }}
                                                 </span>
                                             @endif
                                         </td>

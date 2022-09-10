@@ -771,8 +771,6 @@ yak_breeder:
   perks:
     yak_production_raw: 1
     food_upkeep_raw: 800
-
-
     
 
 # END ONE-OFF/FEW-OFF FACTION BUILDINGS
@@ -781,11 +779,12 @@ yak_breeder:
 
 powder_mill:
   name: Powder Mill
+  enabled: 0
   exclusive_races:
-    - Artillery
+    - Human
   land_type: hill
   perks:
-    artillery_unit1_housing: 4
+    gunpowder_production_raw: 10
 
 armoury:
   name: Armoury
@@ -793,7 +792,8 @@ armoury:
     - Artillery
   land_type: plain
   perks:
-    ammunition_units_housing: 1000
+    ammunition_units_housing: 100
+    gunpowder_production_raw: 75
 
 # END ARTILLERY BUILDINGS
 

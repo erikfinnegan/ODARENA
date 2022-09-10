@@ -739,7 +739,7 @@ class InvadeActionService
             $attackerPrestigeChange = 0;
         }
 
-        if($attacker->race->getPerkValue('no_prestige_loss_on_failed_invasions') and !$$this->invasionResult['result']['success'])
+        if($attacker->race->getPerkValue('no_prestige_loss_on_failed_invasions') and !$this->invasionResult['result']['success'])
         {
             $attackerPrestigeChange = 0;
         }
@@ -1370,7 +1370,7 @@ class InvadeActionService
            }
 
            # Imperial Gnome: brimmer to fuel the Airships
-           if($spendsResourcesOnOffensePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'spends_resource_on_offense'))
+           if($spendsResourcesOnOffensePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'spends_resource_on_offense') and isset($units[$slot]))
            {
                $resourceKey = (string)$spendsResourcesOnOffensePerk[0];
                $resourceAmountPerUnit = (float)$spendsResourcesOnOffensePerk[1];
