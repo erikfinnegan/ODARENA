@@ -30,7 +30,6 @@ units:
       housing_count: 0.25
       cannot_be_trained: 1
       destroy_resource_on_victory: soul,4
-      offensive_power_from_unit2: sacred_order,
 
   - name: Cleric
     training_time: 1

@@ -367,8 +367,11 @@ class UnitHelper
             'plunders' => 'Plunders up to %2$s %1$s on attack.', # Multiple resources
             'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
-            'destroy_resources_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Multiple resources
-            'destroy_resource_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Single resource
+            'destroy_resources_on_victory' => 'Destroys up to %2$s %1$s on victory.', # Multiple resources
+            'destroy_resource_on_victory' => 'Destroys up to %2$s %1$s on victory.', # Single resource
+
+            'destroy_resources' => 'Destroys up to %2$s %1$s on attack.', # Multiple resources
+            'destroy_resource' => 'Destroys up to %2$s %1$s on attack.', # Single resource
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'gold_upkeep_raw' => 'Costs %s gold per tick.',
@@ -929,7 +932,7 @@ class UnitHelper
         return $helpStrings[$unitType] ?: null;
     }
 
-    public function getUnitAttributes(Unit $unit)
+    public function getUnitAttributes(Unit $unit): array
     {
         foreach($unit->type as $attribute)
         {

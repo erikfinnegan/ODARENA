@@ -171,6 +171,16 @@ class RaceHelper
                 $description = 'No prestige';
                 $booleanValue = true;
                 break;
+            case 'no_prestige_loss_on_failed_invasions':
+                $negativeBenefit = false;
+                $description = 'No prestige change on failed invasions';
+                $booleanValue = true;
+                break;
+            case 'no_morale_loss_on_failed_invasions':
+                $negativeBenefit = false;
+                $description = 'No morale change on failed invasions';
+                $booleanValue = true;
+                break;
             case 'ore_production_mod':
                 $negativeBenefit = false;
                 $description = 'Ore production';
@@ -533,6 +543,12 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Max dominions of this faction per round';
                 $valueType = '';
+                $booleanValue = 'static';
+                break;
+            case 'max_gunpowder_per_cannon':
+                $negativeBenefit = false;
+                $description = 'Max gunpowder storage';
+                $valueType = ' per Cannon';
                 $booleanValue = 'static';
                 break;
             case 'title_bonus':

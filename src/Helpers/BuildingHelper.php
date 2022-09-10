@@ -37,6 +37,7 @@ class BuildingHelper
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
 
+            'artillery_unit1_housing' => 'Houses %s Sappers.',
             'afflicted_unit1_housing' => 'Houses %s Abominations.',
             'aurei_unit1_housing' => 'Houses %s Alchemists.',
             'dwarg_unit1_housing' => 'Houses %s Miners.',
@@ -53,6 +54,9 @@ class BuildingHelper
             'revenants_unit1_housing' => 'Houses %s Lesser Zombies.',
             'revenants_unit2_housing' => 'Houses %s Zombies.',
             'revenants_unit3_housing' => 'Houses %s Greater Zombies.',
+
+
+            'ammunition_units_housing' => 'Houses %s ammunition units.',
 
             'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',

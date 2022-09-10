@@ -8,7 +8,20 @@ skill_level: 2
 perks:
   max_population: -20
   cannot_send_expeditions: 1
+  cannot_perform_sorcery: 1
+  cannot_sabotage: 1
   no_prestige_loss_on_failed_invasions: 1
+  no_morale_loss_on_failed_invasions: 1
+  max_gunpowder_per_cannon: 3
+
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - gunpowder
 
 peasants_production:
   gold: 2
@@ -25,13 +38,13 @@ units:
       gold: 900
       ore: 100
     power:
-      offense: 8
+      offense: 7
       defense: 9
     perks:
       gunpowder_production_raw_from_building_pairing: 0.25,powder_mill,0.25
 
   - name: Cannon
-    training_time: 9
+    training_time: 12
     type:
       - machine
       - immobile
@@ -41,49 +54,68 @@ units:
       lumber: 80
     power:
       offense: 0
-      defense: 1
+      defense: 0
     perks:
-      instant_return: 1
       provides_jobs: 15
       does_not_count_as_population: 1
-      immortal_on_fending_off: 1
-      immortal_on_victory: 1
-      sendable_with_zero_op: 1
-      defense_from_pairing: 1,3 # slot, amount
 
-  - name: Cannonball
+  - name: Shattering Cannonball
     training_time: 12
     type:
       - ammunition
     cost:
-      gold: 50
-      ore: 100
+      ore: 50
     power:
-      offense: 1
+      offense: 6
       defense: 0
     perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
+      spends_resource_on_offense: gunpowder,1
       fixed_casualties: 100
-      offense_from_pairing: 2,5 # slot, amount
-      damages_improvements_on_attack: 25
-      pairing_limit: 2,3 # Unit slot, amount
+      no_draftee: 1
+      damages_improvements_on_attack: 15
 
   - name: Burning Cannonball
     training_time: 12
     type:
       - ammunition
     cost:
-      gold: 100
-      ore: 200
-      mana: 50
+      ore: 50
     power:
-      offense: 1
+      offense: 6
       defense: 0
     perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
+      spends_resource_on_offense: gunpowder,1
       fixed_casualties: 100
-      offense_from_pairing: 2,9 # slot, amount
-      burns_peasants_on_attack: 0.333
-      pairing_limit: 2,3 # Unit slot, amount
+      no_draftee: 1
+      burns_peasants_on_attack: 0.10
+      destroy_resource: food,2
+
+  - name: Cluster Cannonball
+    training_time: 12
+    type:
+      - ammunition
+    cost:
+      ore: 50
+    power:
+      offense: 6
+      defense: 0
+    perks:
+      spends_resource_on_offense: gunpowder,1
+      fixed_casualties: 100
+      no_draftee: 1
+      increases_enemy_casualties_on_offense: 1
+
+  - name: Shockwave Cannonball
+    training_time: 12
+    type:
+      - ammunition
+    cost:
+      ore: 50
+    power:
+      offense: 6
+      defense: 0
+    perks:
+      spends_resource_on_offense: gunpowder,1
+      fixed_casualties: 100
+      no_draftee: 1
+      stuns_units: 15,2 # Stuns units up to 10 DP for 2 ticks

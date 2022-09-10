@@ -335,6 +335,13 @@ class ResourceCalculator
 
         $production *= $rawModPerks;
 
+        // Check for max storage
+        if($maxStorage = $this->getMaxStorage($dominion, $resourceKey))
+        {
+            $availableStorage = max(0, $maxStorage - $this->getAmount($dominion, $resourceKey));
+            $production = max($production, $availableStorage);
+        }
+
         return max(0, $production);
     }
 
@@ -614,6 +621,34 @@ class ResourceCalculator
         $perk = min($perk, 2);
 
         return $perk;
+    }
+
+    public function getMaxStorage(Dominion $dominion, string $resourceKey): int
+    {
+        $maxStorage = 0;
+
+        if($resourceKey == 'gunpowder')
+        {
+            $maxStorage = $dominion->military_unit2 * $dominion->race->getPerkValue('max_gunpowder_per_cannon');
+        }
+
+        if($maxStorage)
+        {
+            $multiplier = 1;
+
+            // Improvements
+            $multiplier += $dominion->getImprovementPerkMultiplier('max_storage');
+            $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_max_storage');
+
+            // Advancements
+            $multiplier += $dominion->getAdvancementPerkMultiplier('max_storage');
+            $multiplier += $dominion->getAdvancementPerkMultiplier($resourceKey . '_max_storage');
+
+            $maxStorage *= $multiplier;
+    
+        }
+
+        return round($maxStorage);
     }
 
 }

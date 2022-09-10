@@ -698,6 +698,7 @@ class Dominion extends AbstractModel
                         or $perkKey == 'xp_generation_raw'
 
                         # Building-specific housing
+                        or $perkKey == 'artillery_unit1_housing'
                         or $perkKey == 'afflicted_unit1_housing'
                         or $perkKey == 'aurei_unit1_housing'
                         or $perkKey == 'dwarg_unit1_housing'
@@ -719,6 +720,8 @@ class Dominion extends AbstractModel
                         or $perkKey == 'wizard_housing'
                         or $perkKey == 'military_housing'
                         or $perkKey == 'draftee_housing'
+
+                        or $perkKey == 'ammunition_units_housing'
 
                         # Military
                         or $perkKey == 'raw_defense'

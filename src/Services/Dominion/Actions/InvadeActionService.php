@@ -739,6 +739,11 @@ class InvadeActionService
             $attackerPrestigeChange = 0;
         }
 
+        if($attacker->race->getPerkValue('no_prestige_loss_on_failed_invasions') and !$$this->invasionResult['result']['success'])
+        {
+            $attackerPrestigeChange = 0;
+        }
+
         if($defender->race->getPerkValue('no_prestige'))
         {
             $defenderPrestigeChange = 0;
@@ -1198,6 +1203,12 @@ class InvadeActionService
         {
             $attackerMoraleChange = 0;
         }
+
+        if($attacker->race->getPerkValue('no_morale_loss_on_failed_invasions') and !$this->invasionResult['result']['success'])
+        {
+            $attackerMoraleChange = 0;
+        }
+
         
         if($defender->race->getPerkValue('no_morale_changes'))
         {
@@ -1464,6 +1475,29 @@ class InvadeActionService
                     $target->military_draftees -= $eatenDraftees;
                     $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenDraftees;
                     $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenDraftees;
+                }
+
+
+                # destroy_resource
+                if ($destroysResourcePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroy_resource') and isset($units[$unitSlot]))
+                {
+                    $resourceKey = (string)$destroysResourcePerk[0];
+                    $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];
+                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['units_sent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
+
+                    if($maxDestroyedBySlot > 0)
+                    {
+                        if(isset($this->invasionResult['attacker']['resources_destroyed'][$resourceKey]))
+                        {
+                            $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] += $maxDestroyedBySlot;
+                        }
+                        else
+                        {
+                            $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] = $maxDestroyedBySlot;
+                        }
+
+                        $this->resourceService->updateResources($target, [$resourceKey => ($maxDestroyedBySlot * -1)]);
+                    }
                 }
             }
         }

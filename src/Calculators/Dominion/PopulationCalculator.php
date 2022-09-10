@@ -120,6 +120,7 @@ class PopulationCalculator
          }
 
          $maxPopulation += $this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion);
+         $maxPopulation += $this->getUnitsHousedInUnitAttributeSpecificBuildings($dominion);
          $maxPopulation += $this->getUnitsHousedInUnitSpecificBuildings($dominion);
          $maxPopulation += $this->getUnitsHousedInSpyHousing($dominion);
          $maxPopulation += $this->getUnitsHousedInWizardHousing($dominion);
@@ -241,10 +242,30 @@ class PopulationCalculator
 
         $multiplier = 1;
         $multiplier += $dominion->getImprovementPerkMultiplier('unit_specific_housing');
+        $multiplier += $dominion->getDeityPerkMultiplier('unit_specific_housing');
 
         $unitSpecificBuildingHousing *= $multiplier;
 
         return $unitSpecificBuildingHousing;
+    }
+
+    /*
+    *   Calculate how many units can be fit in this Dominion's Barracks.
+    */
+    public function getAvailableHousingFromUnitAttributeSpecificBuildings(Dominion $dominion): int
+    {
+        $unitAttributeSpecificBuildingHousing = 0;
+
+        foreach($dominion->race->units as $unit)
+        {
+            foreach($unit->type as $attribute)
+            {
+                $unitAttributeSpecificBuildingHousing += $dominion->getBuildingPerkValue($attribute . '_units_housing');
+            }
+
+        }
+
+        return $unitAttributeSpecificBuildingHousing;
     }
 
     /*
@@ -331,6 +352,7 @@ class PopulationCalculator
         $units = 0;
         #$units -= $this->getUnitsHousedInUnits($dominion);
         $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
+        $units -= $this->getUnitsHousedInUnitAttributeSpecificBuildings($dominion);
         $units -= $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion);
         $units -= $this->getUnitsHousedInSpyHousing($dominion);
         $units -= $this->getUnitsHousedInWizardHousing($dominion);
@@ -385,6 +407,37 @@ class PopulationCalculator
 
           return min($units, $this->getAvailableHousingFromUnitSpecificBuildings($dominion));
       }
+
+        /*
+        *   Calculate how many units live in Barracks.
+        *   Units start to live in barracks as soon as their military training begins.
+        *   Spy and wiz units prefer to live in FHs or WGs, and will only live in Barracks if FH/WG are full or unavailable.
+        */
+        public function getUnitsHousedInUnitAttributeSpecificBuildings(Dominion $dominion): int
+        {
+            $units = 0;
+
+            foreach($dominion->race->units as $unit)
+            {
+                $slotUnits = 0;
+                foreach($unit->type as $attribute)
+                {
+                    if($unitAttributeSpecificBuildingHousing = $dominion->getBuildingPerkValue($attribute . '_units_housing'))
+                    {
+                        if(!$dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'does_not_count_as_population'))
+                        {
+                            $slotUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unit->slot);
+                            $slotUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+                        }
+    
+                        $units += min($slotUnits, $this->getAvailableHousingFromUnitAttributeSpecificBuildings($dominion));
+                    }
+                }
+            }
+
+            return min($units, $this->getAvailableHousingFromUnitAttributeSpecificBuildings($dominion));
+        }
+
 
 
     /*
