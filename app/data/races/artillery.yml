@@ -49,7 +49,6 @@ units:
       immortal_on_fending_off: 1
       immortal_on_victory: 1
       sendable_with_zero_op: 1
-      instant_return: 1
       defense_from_pairing: 1,3 # slot, amount
 
   - name: Cannonball
