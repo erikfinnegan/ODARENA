@@ -39,6 +39,8 @@ class ProductionCalculator
         // Unit Perk: production_from_title
         $xp += $dominion->getUnitPerkProductionBonusFromTitle('xp');
 
+        $xp += $dominion->race->getPerkValue('xp_generation_raw_from_draftees') * $dominion->military_draftees;
+
         return max(0, $xp);
     }
 

@@ -114,6 +114,9 @@ class UnitHelper
             'offensive_power_mod' => 'Offensive power increased by %s%% for each unit trained.',
             'defensive_power_mod' => 'Defensive power increased by %s%% for each unit trained.',
 
+            'offensive_power_vs_no_deity' => '+%s offensive power vs dominions with no deity.',
+            'defensive_power_vs_no_deity' => '+%s defensive power vs dominions with no deity.',
+
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
@@ -353,6 +356,7 @@ class UnitHelper
             'gems_production_raw_per_victory' => 'Mines %s gems/tick per victory.',         
 
             'gold_production_raw_from_building_pairing' => 'Produces %3$s gold/tick if paired %2$s (up to %1$s units per %2$s).',
+            'gunpowder_production_raw_from_building_pairing' => 'Produces %3$s gunpowder/tick if paired %2$s (up to %1$s units per %2$s).',
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
@@ -784,7 +788,7 @@ class UnitHelper
                     $perkValue[1] = str_plural($unitToConvertTo->name);
                 }
 
-                if($perk->key === 'gold_production_raw_from_building_pairing')
+                if($perk->key === 'gold_production_raw_from_building_pairing' or $perk->key === 'gunpowder_production_raw_from_building_pairing')
                 {
                     $unitsPerBuilding = (float)$perkValue[0];
                     $buildingKey = (string)$perkValue[1];
@@ -969,7 +973,19 @@ class UnitHelper
         */
     }
 
-    public function getDrafteeHelpString(Race $race): ?string
+    public function getPeasantHelpString(Race $race): string
+    {
+        $helpString = '';
+        if($drafteeDp = $race->getPerkValue('peasant_dp'))
+        {
+            $helpString .= '<ul><li>DP: ' . $drafteeDp . '</li></ul>';
+        }
+
+        return $helpString;
+
+    }
+
+    public function getDrafteeHelpString(Race $race): string
     {
         $drafteeDp = $race->getPerkValue('draftee_dp') ?: 1;
 

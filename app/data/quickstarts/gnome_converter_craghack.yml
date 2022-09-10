@@ -83,11 +83,6 @@ advancements:
     drills: 6
     gemcutting: 6
 
-decree_states:
-    - 1,1,0
-    - 4,35,0
-    - 5,14,0
-
 units:
     draftees: 0
     unit1: 0

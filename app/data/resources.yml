@@ -60,6 +60,12 @@ gold:
   buy: 1
   sell: 0.5
 
+gunpowder:
+  name: Gunpowder
+  description: Made from carefully following a Gnomish recipe, used to launch projectiles across vast distances at fantastic speed. Handle with care.
+  buy: null
+  sell: 10
+
 horse:
   name: Horse
   description: A fourlegged animal equally strong and loyal.

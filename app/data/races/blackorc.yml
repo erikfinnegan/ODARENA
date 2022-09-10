@@ -5,69 +5,80 @@ home_land_type: forest
 playable: 1
 skill_level: 3
 
+peasants_alias: peon
+draftees_alias: guard
+
+peasants_production:
+  gold: 2.5
+  ore: 0.5
+  ash: 0.2
+
 perks:
   food_consumption_mod: 20
   lumber_production_mod: 50
   starts_devoted_to_urugdakh: 1
   cannot_renounce_deity: 1
+  peasant_dp: 1
+  draftee_dp: 3
+  gold_production_raw_from_draftees: 1
+  ore_production_raw_from_draftees: 0.2
+  ash_production_raw_from_draftees: 0.1
 
 units:
+  - name: Ashmarked
+    training_time: 9
+    type:
+      - living
+      - sentient
+    cost:
+      gold: 400
+      ore: 60
+      ash: 5
+    power:
+      offense: 5
+      defense: 5
+
   - name: Bone Breaker
     training_time: 9
     type:
       - living
       - sentient
+      - intelligent
     cost:
-      gold: 750
-      ore: 100
+      gold: 800
+      ore: 250
+      ash: 75
     power:
-      offense: 6
+      offense: 8
+      defense: 7
+
+  - name: Ashen Knight
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 950
+      ore: 400
+      ash: 150
+    power:
+      offense: 11
+      defense: 11
+    perks:
+      casualties: -50
+
+  - name: Urugdakh's Chosen
+    training_time: 0
+    type:
+      - living
+      - sentient
+      - intelligent
+      - legendary
+    power:
+      offense: 12
       defense: 0
-
-  - name: Sootshield
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 600
-      ore: 100
-    power:
-      offense: 0
-      defense: 6
-
-  - name: War Priest
-    training_time: 12
-    static_networth: 8
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 900
-      ore: 80
-    power:
-      offense: 1
-      defense: 2
     perks:
-      defense_from_devotion: urugdakh,0.008,8 # deity_key, perk tick, max
-      offense_from_devotion: urugdakh,0.006,6 # deity_key, perk tick, max
-      increases_morale_by_population: 1 # Morale increased by 1% for every 1% of population made up of Immortal Guards.
-
-  - name: Skull Crusher
-    training_time: 12
-    static_networth: 12
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 1000
-      ore: 120
-    power:
-      offense: 4
-      defense: 4
-    perks:
-      offense_from_net_victories: 0.5,6 # +0.3 OP per Victory, max +6 (at 12 Victories)
-      defense_from_net_victories: 0.15,2 # +0.15 DP per Victory, max +2 (at 13.33 Victories)
+      cannot_be_trained: 1
+      casualties: -65
+      offensive_power_mod: 0.20

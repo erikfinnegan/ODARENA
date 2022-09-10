@@ -17,6 +17,7 @@ barathu_bint:
     name: Barathu Bint
     excluded_races:
       - Afflicted
+      - Myconid
       - Nox
       - Void
     range_multiplier: 0.40
@@ -31,6 +32,7 @@ bregon:
   range_multiplier: 0.75
   excluded_races:
     - Nox
+    - Myconid
     - Void
   perks:
     offensive_power: 5
@@ -84,15 +86,15 @@ ib_tham:
     xp_generation_mod: -5
 
 ix:
-    name: Ix
-    excluded_races:
-      - Void
-    range_multiplier: 0.75
-    perks:
-      xp_generation_mod: 5
-      xp_gains: 50
-      construction_cost: 5
-      rezone_cost: 5
+  name: Ix
+  excluded_races:
+    - Void
+  range_multiplier: 0.75
+  perks:
+    xp_generation_mod: 5
+    xp_gains: 50
+    construction_cost: 5
+    rezone_cost: 5
 
 kinthys:
   name: Kinthys
@@ -112,6 +114,7 @@ mirnon:
   range_multiplier: 0.75
   excluded_races:
     - Afflicted
+    - Myconid
     - Nox
     - Void
   perks:
@@ -123,6 +126,7 @@ sazal:
   name: Sazal
   range_multiplier: 0.75
   excluded_races:
+    - Myconid
     - Dwarg
   perks:
     wizard_strength: 10
@@ -135,8 +139,11 @@ tiranthael:
   exclusive_races:
     - Sacred Order
   perks:
-    offensive_power_on_retaliation: 10
-    mana_production_mod: -25
+    offensive_power_on_retaliation: 5
+    offensive_power_vs_no_deity: 2.5
+    mana_production_mod: -10
+    casualties: -20
+    unit_specific_housing: 10
 
 urugdakh:
   name: Urugdakh

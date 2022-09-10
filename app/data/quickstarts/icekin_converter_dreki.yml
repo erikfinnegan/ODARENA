@@ -68,10 +68,6 @@ advancements:
     gemcutting: 1
     wizardry_tradition: 5
 
-decree_states:
-    - 4,11,0
-    - 5,13,0
-
 units:
     draftees: 0
     unit1: 0

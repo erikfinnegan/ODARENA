@@ -270,7 +270,7 @@ class ResourceCalculator
                 $production += $dominion->{'military_unit' . $slot} * $amountProduced * $victories;
             }
 
-            # Check for gold_production_raw_from_building_pairing
+            # Check for RESOURCE_production_raw_from_building_pairing
             if ($buildingPairingProductionPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_building_pairing')))
             {
                 $unitsPerBuilding = (float)$buildingPairingProductionPerkData[0];
@@ -322,6 +322,9 @@ class ResourceCalculator
 
             $production += $population * $productionFromPopulation;
         }
+
+        # Check for RESOURCE_production_raw_from_draftees
+        $production += $dominion->military_draftees * $dominion->race->getPerkValue($resourceKey . '_production_raw_from_draftees');
 
         // raw_mod perks
         $rawModPerks = 1;

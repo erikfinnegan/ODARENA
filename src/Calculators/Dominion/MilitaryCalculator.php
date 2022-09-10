@@ -163,6 +163,12 @@ class MilitaryCalculator
 
         // Deity
         $multiplier += $attacker->getDeityPerkMultiplier('offensive_power');
+        
+        // vs. No Deity
+        if(isset($defender) and !$defender->hasDeity())
+        {
+            $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_vs_no_deity');
+        }
 
         # Retaliation perk
         if($attacker->round->mode == 'standard' or $attacker->round->mode == 'standard-duration' or $attacker->round->mode == 'artefacts')
@@ -332,6 +338,7 @@ class MilitaryCalculator
 
         // Peasants
         $dp += $defender->peasants * $defender->getSpellPerkValue('defensive_power_from_peasants');
+        $dp += $defender->peasants * $defender->race->getPerkValue('peasant_dp');
 
         // Military
         foreach ($defender->race->units as $unit)
@@ -530,12 +537,16 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusOtherDeityPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusNoDeity($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusMilitaryPercentagePerk($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
+            $unitPower += $this->getUnitPowerFromVersusFixedMilitaryPercentagePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
             $unitPower += $this->getUnitPowerFromBeingOutnumbered($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
             $unitPower += $this->getUnitPowerFromVersusSpellPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetRecentlyInvadedPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromTargetRecentlyVictoriousPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetIsLargerPerk($dominion, $target, $unit, $powerType, $calc);
 
 
@@ -996,6 +1007,18 @@ class MilitaryCalculator
         return $amount;
     }
 
+    protected function getUnitPowerFromTargetRecentlyVictoriousPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
+    {
+        $amount = 0;
+
+        if(isset($target) and $this->getRecentlyVictoriousCount($target) > 0)
+        {
+            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_target_recently_victorious");
+        }
+
+        return $amount;
+    }
+
     protected function getUnitPowerFromTargetIsLargerPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
     {
         $amount = 0;
@@ -1021,6 +1044,24 @@ class MilitaryCalculator
         $powerFromTicks = $powerPerHour * $dominion->round->ticks;
 
         $powerFromPerk = $powerFromTicks;
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromVersusNoDeity(Dominion $dominion, Dominion $attacker = null, Unit $unit, string $powerType): float
+    {
+        $powerFromPerk = 0;
+        $vsNoDeityPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_power_vs_no_deity", null);
+
+        if(!$vsNoDeityPerkData or !isset($attacker))
+        {
+            return 0;
+        }
+
+        if($attacker->hasDeity())
+        {
+            $powerFromPerk = (float)$vsNoDeityPerkData;
+        }
 
         return $powerFromPerk;
     }
@@ -1327,6 +1368,86 @@ class MilitaryCalculator
 
           return $powerFromPerk;
       }
+
+
+        protected function getUnitPowerFromVersusMilitaryPercentagePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null, array $invadingUnits = null): float
+        {
+            $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_vs_military_percentage");
+
+            if (!$militaryPercentagePerk or !isset($target))
+            {
+                return 0;
+            }
+
+            $perPercentage = (float)$militaryPercentagePerk[0];
+            $max = (int)$militaryPercentagePerk[1];
+
+            $military = 0;
+
+            # Draftees, Spies, Wizards, and Arch Mages always count.
+            $military += $target->military_draftees;
+            $military += $target->military_spies;
+            $military += $target->military_wizards;
+            $military += $target->military_archmages;
+
+            # Units in training
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_spies');
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_wizards');
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_archmages');
+
+            foreach($target->race->units as $unit)
+            {
+                $military += $this->getTotalUnitsForSlot($dominion, $unit->slot);
+                $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+            }
+
+            $militaryPercentage = min(1, $military / ($military + $dominion->peasants));
+
+            $powerFromPerk = min($perPercentage * $militaryPercentage, $max);
+
+            return $powerFromPerk;
+        }
+
+        protected function getUnitPowerFromVersusFixedMilitaryPercentagePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null, array $invadingUnits = null): float
+        {
+            $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_vs_fixed_military_percentage");
+
+            if (!$militaryPercentagePerk or !isset($target))
+            {
+                return 0;
+            }
+
+            $power = (float)$militaryPercentagePerk[0];
+            $cutoff = (int)$militaryPercentagePerk[1];
+
+            $military = 0;
+
+            # Draftees, Spies, Wizards, and Arch Mages always count.
+            $military += $target->military_draftees;
+            $military += $target->military_spies;
+            $military += $target->military_wizards;
+            $military += $target->military_archmages;
+
+            # Units in training
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_spies');
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_wizards');
+            $military += $this->queueService->getTrainingQueueTotalByResource($target, 'military_archmages');
+
+            foreach($target->race->units as $unit)
+            {
+                $military += $this->getTotalUnitsForSlot($dominion, $unit->slot);
+                $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unit->slot}");
+            }
+
+            $militaryPercentage = min(1, $military / ($military + $dominion->peasants));
+
+            if($militaryPercentage >= $cutoff)
+            {
+                $powerFromPerk = $power;
+            }
+
+            return $powerFromPerk;
+        }
 
       protected function getUnitPowerFromBeingOutnumbered(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null, array $invadingUnits = null): float
       {

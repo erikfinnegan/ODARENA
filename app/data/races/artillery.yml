@@ -8,23 +8,27 @@ skill_level: 2
 perks:
   max_population: -20
   cannot_send_expeditions: 1
+  no_prestige_loss_on_failed_invasions: 1
 
 peasants_production:
   gold: 2
   ore: 0.35
 
 units:
-  - name: Bombardier
-    training_time: 9
+  - name: Sapper
+    training_time: 12
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 900
+      ore: 100
     power:
-      offense: 0
+      offense: 8
       defense: 9
+    perks:
+      gunpowder_production_raw_from_building_pairing: 0.25,powder_mill,0.25
 
   - name: Cannon
     training_time: 9
@@ -39,7 +43,8 @@ units:
       offense: 0
       defense: 1
     perks:
-      no_draftee: 1
+      instant_return: 1
+      provides_jobs: 15
       does_not_count_as_population: 1
       immortal_on_fending_off: 1
       immortal_on_victory: 1

@@ -15,42 +15,42 @@
                                 Mana: {{ number_format($resourceCalculator->getAmount($selectedDominion, 'mana')) }}
                             </small>
                         </div>
-                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
-                            @csrf
-                            <input type="hidden" name="type" value="self_spell">
                             <div class="box-body">
-                                <table class="table table-striped">
-                                    <colgroup>
-                                        <col width="180">
-                                    </colgroup>
+                            <table class="table table-striped">
+                                <colgroup>
+                                    <col width="180">
+                                </colgroup>
                                 @foreach($selfSpells as $spell)
-                                    @php
-                                        $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
-                                        $isActive = $spellCalculator->isSpellActive($selectedDominion, $spell->key);
-                                        $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
-                                    @endphp
-                                    @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                        <tr>
-                                            <td>
-                                                <input type="hidden" name="spell" value="{{ $spell->key }}">
-                                                <button type="submit" class="btn {{ $buttonStyle }} btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                    {{ $spell->name }}
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    @foreach($spellHelper->getSpellEffectsString($spell, $selectedDominion->race) as $effect)
-                                                        <li>{{ $effect }}</li>
-                                                    @endforeach
-                                                        @include('partials.dominion.spell-basics')
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    @endif
+                                        @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                            @php
+                                                $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
+                                                $isActive = $spellCalculator->isSpellActive($selectedDominion, $spell->key);
+                                                $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
+                                            @endphp
+                                            <tr>
+                                                <td>
+                                                    <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                                                        @csrf
+                                                        <input type="hidden" name="type" value="self_spell">
+                                                        <input type="hidden" name="spell" value="{{ $spell->key }}">
+                                                        <button type="submit" class="btn {{ $buttonStyle }} btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                            {{ $spell->name }}
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach($spellHelper->getSpellEffectsString($spell, $selectedDominion->race) as $effect)
+                                                            <li>{{ $effect }}</li>
+                                                        @endforeach
+                                                            @include('partials.dominion.spell-basics')
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        @endif
                                 @endforeach
-                                </table>
-                            </div>
-                        </form>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

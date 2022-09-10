@@ -619,11 +619,18 @@ class ConversionCalculator
                 # Round it down
                 #$amount = round($amount); -- Moved to later in the code
 
-                if($slot === 'draftees' or $slot === 'peasants')
+                if($slot === 'draftees')
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
 
                     $availableCasualties[$slot]['dp'] = $defender->race->getPerkValue('draftee_dp') ?: 1;
+
+                }
+                elseif($slot === 'peasants')
+                {
+                    $availableCasualties[$slot]['amount'] = $amount;
+
+                    $availableCasualties[$slot]['dp'] = $defender->race->getPerkValue('peasant_dp') ?: 0;
 
                 }
                 else

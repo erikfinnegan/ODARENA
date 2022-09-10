@@ -86,12 +86,6 @@ advancements:
     anvils: 4
     commerce: 5
 
-decree_states:
-    - 10,17,0
-    - 11,20,0
-    - 13,24,0
-    - 14,31,0
-
 units:
     draftees: 0
     unit1: 0

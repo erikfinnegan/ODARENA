@@ -80,14 +80,6 @@ advancements:
     housing: 2
     minting: 6
 
-decree_states:
-    - 4,5,0
-    - 5,14,0
-    - 12,30,0
-    - 13,31,0
-    - 15,40,0
-    - 16,41,0
-
 units:
     draftees: 0
     unit1: 171

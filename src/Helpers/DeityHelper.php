@@ -67,6 +67,7 @@ class DeityHelper
             // Population
             'population_growth' => '%s%% population growth rate',
             'max_population' => '%s%% population',
+            'unit_specific_housing' => '%s%% unit specific housing',
 
             // Magic
             'damage_from_spells' => '%s%% damage from spells',
@@ -109,6 +110,9 @@ class DeityHelper
             'defensive_power' => '%s%% defensive power',
 
             'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
+
+            'offensive_power_vs_no_deity' => '%s%% offensive power vs dominions without a deity',
+            'defensive_power_vs_no_deity' => '%s%% defensive power vs dominions without a deity',
 
             'target_defensive_power_mod' => '%s%% defensive modifier for target',
 

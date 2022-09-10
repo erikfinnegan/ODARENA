@@ -84,11 +84,6 @@ advancements:
     anvils: 4
     minting: 6
 
-decree_states:
-    - 4,8,0
-    - 5,14,0
-    - 12,30,0
-
 units:
     draftees: 2119
     unit1: 8920

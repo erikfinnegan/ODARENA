@@ -226,9 +226,13 @@ class SabotageActionService
 
                     $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
 
+                    # Factor in peasant DP to increase/decrease peasant killed
+                    $damage /= ($target->race->getPerkValue('peasant_dp') ?: 1);
+
                     $damage = floor($damage);
 
                     $damageDealt = min($damage, $target->peasants);
+                    
 
                     $peasantsBefore = $target->peasants;
                     $target->peasants -= $damageDealt;

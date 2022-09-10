@@ -6,6 +6,8 @@ playable: 1
 skill_level: 2
 experimental: 1
 
+draftees_alias: monk
+
 perks:
   starts_devoted_to_tiranthael: 1
   cannot_renounce_deity: 1
@@ -13,6 +15,7 @@ perks:
   prestige_gains: 10
   salvaging: 15
   improvements_per_net_victory: 2
+  xp_generation_raw_from_draftees: 0.03
 
 units:
   - name: Martyr
@@ -27,19 +30,23 @@ units:
       housing_count: 0.25
       cannot_be_trained: 1
       destroy_resource_on_victory: soul,4
+      offensive_power_from_unit2: sacred_order,
 
-  - name: Monk
+  - name: Cleric
     training_time: 1
     type:
       - living
       - sentient
       - intelligent
+    cost:
+      gold: 700
+      ore: 50
     power:
       offense: 0
-      defense: 1
+      defense: 7
     perks:
-        reduces_casualties: 1
-        xp_generation_raw: 0.03
+      defensive_power_vs_no_deity: 0.50
+      reduces_conversions: 1
 
   - name: Fanatic
     training_time: 10
@@ -50,9 +57,8 @@ units:
     cost:
       gold: 800
       ore: 75
-      unit2: 1
     power:
-      offense: 4
+      offense: 5
       defense: 7
     perks:
       no_draftee: 1
@@ -70,7 +76,6 @@ units:
     cost:
       gold: 1250
       ore: 80
-      unit2: 1
     power:
       offense: 8
       defense: 4

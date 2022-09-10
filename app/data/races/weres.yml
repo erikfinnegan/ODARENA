@@ -9,13 +9,12 @@ resources:
   - gold
   - food
   - lumber
-  - gems
   - mana
 
 perks:
   population_growth: 25
   extra_barren_max_population: 5
-  converts_executed_spies: 4 # into slot 4
+  converts_executed_spies: 4
   construction_cost: -10
   increased_construction_speed: 2
 
@@ -29,15 +28,11 @@ units:
       - living
       - sentient
       - wild
-    cost:
-      gold: 300
-      food: 0
     power:
       offense: 4
-      defense: 0
+      defense: 2
     perks:
       no_draftee: 1
-      housing_count: 0.10
       increases_enemy_casualties_on_offense: 1
       cannot_be_trained: 1
       conversion: 4
@@ -49,12 +44,9 @@ units:
       - living
       - sentient
       - wild
-    cost:
-      gold: 300
-      food: 0
     power:
       offense: 0
-      defense: 4
+      defense: 6
     perks:
       no_draftee: 1
       housing_count: 0.10
@@ -91,4 +83,4 @@ units:
       defense: 4
     perks:
       strength_conversion: 5,4,3 # threshold,under,over
-      displaced_peasants_random_split_conversion: 40,60,4,3
+      displaced_peasants_random_split_conversion: 30,60,4,3

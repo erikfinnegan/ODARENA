@@ -191,6 +191,7 @@ class InsightService
 
         $data['units']['power'] =
         [
+            'peasants' => ['offense' => 0, 'defense' => $target->race->getPerkValue('peasant_dp') ?: 0],
             'draftees' => ['offense' => 0, 'defense' => $target->race->getPerkValue('draftee_dp') ?: 1],
         #    'unit1' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit1'), 'defense')],
         #    'unit2' => ['offense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'offense'), 'defense' => $this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $this->unitHelper->getUnitFromRaceUnitType($target->race, 'unit2'), 'defense')],

@@ -62,7 +62,7 @@
                                             }
                                         @endphp
                                         <tr>
-                                            <td>{{ ucwords($improvementHelper->getImprovementPerkDescription($perk->key)) }}</td>
+                                            <td>{{ ucfirst($improvementHelper->getImprovementPerkDescription($perk->key)) }}</td>
                                             <td>{{ $improvementPerkMax }}%</td>
                                             <td>{{ $improvementPerkCoefficient }}</td>
                                         <tr>

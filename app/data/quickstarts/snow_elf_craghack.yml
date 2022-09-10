@@ -82,10 +82,6 @@ advancements:
     anvils: 6
     gemcutting: 4
 
-decree_states:
-    - 4,35,0
-    - 5,15,0
-
 units:
     draftees: 0
     unit1: 0

@@ -115,6 +115,30 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'XP generation';
                 break;
+            case 'xp_generation_raw_from_draftees':
+                $negativeBenefit = false;
+                $description = 'XP generated per draftee';
+                $booleanValue = 'static';
+                $valueType = ' / tick';
+                break;
+            case 'gold_production_raw_from_draftees':
+                $negativeBenefit = false;
+                $description = 'Gold produced per draftee';
+                $booleanValue = 'static';
+                $valueType = ' / tick';
+                break;
+            case 'ore_production_raw_from_draftees':
+                $negativeBenefit = false;
+                $description = 'Ore produced per draftee';
+                $booleanValue = 'static';
+                $valueType = ' / tick';
+                break;
+            case 'ash_production_raw_from_draftees':
+                $negativeBenefit = false;
+                $description = 'Ash gathered per draftee';
+                $booleanValue = 'static';
+                $valueType = ' / tick';
+                break;
             case 'immortal_wizards':
                 $negativeBenefit = false;
                 $description = 'Immortal wizards';
@@ -332,6 +356,12 @@ class RaceHelper
             case 'draftee_dp':
                 $negativeBenefit = true;
                 $description = 'DP per draftee';
+                $valueType = '';
+                $booleanValue = 'static';
+                break;
+            case 'peasant_dp':
+                $negativeBenefit = true;
+                $description = 'DP per peasant';
                 $valueType = '';
                 $booleanValue = 'static';
                 break;
@@ -816,7 +846,7 @@ class RaceHelper
         return $this->getRaceDominions($race)->count();
     }
 
-    public function getRaceDominions(Race $race, bool $inclueActiveRounds = false)
+    public function getRaceDominions(Race $race, bool $inclueActiveRounds = false, int $maxRoundsAgo = 20)
     {
           $dominions = Dominion::where('race_id', $race->id)
                         ->where('is_locked','=',0)

@@ -41,7 +41,7 @@ units:
     perks:
       ore_production_raw: 2
 
-  - name: Cleric
+  - name: Keeper
     training_time: 9
     type:
       - living
