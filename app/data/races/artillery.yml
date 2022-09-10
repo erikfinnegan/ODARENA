@@ -23,10 +23,6 @@ resources:
   - gems
   - gunpowder
 
-peasants_production:
-  gold: 2
-  ore: 0.35
-
 units:
   - name: Sapper
     training_time: 12
@@ -56,6 +52,7 @@ units:
       offense: 0
       defense: 0
     perks:
+      no_draftee: 1
       provides_jobs: 15
       does_not_count_as_population: 1
 

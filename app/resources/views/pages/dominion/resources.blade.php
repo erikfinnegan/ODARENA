@@ -60,6 +60,16 @@
                                                     @endif
                                                 </span>
                                             @endif
+
+
+
+
+                                            @if ($maxStorage = $resourceCalculator->getMaxStorage($selectedDominion, $resourceKey))
+                                                <span class="text-muted">
+                                                    <br>
+                                                    Max storage: <span class="text-red">{{ number_format($maxStorage) }}
+                                                </span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

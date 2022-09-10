@@ -623,9 +623,9 @@ class ResourceCalculator
         return $perk;
     }
 
-    public function getMaxStorage(Dominion $dominion, string $resourceKey): int
+    public function getMaxStorage(Dominion $dominion, string $resourceKey)
     {
-        $maxStorage = 0;
+        $maxStorage = false;
 
         if($resourceKey == 'gunpowder')
         {
@@ -645,10 +645,14 @@ class ResourceCalculator
             $multiplier += $dominion->getAdvancementPerkMultiplier($resourceKey . '_max_storage');
 
             $maxStorage *= $multiplier;
+
+
+            return round($maxStorage);
     
         }
 
-        return round($maxStorage);
+        return $maxStorage;
+
     }
 
 }
