@@ -99,7 +99,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
         $finish = now();
 
-        $this->info('Game data synced in ' . $finish->diffInSeconds($start) . ' seconds');
+        $this->info('Game data synced in ' . number_format($finish->diffInMilliseconds($start)) . ' ms');
     }
 
     /**
