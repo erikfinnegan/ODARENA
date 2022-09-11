@@ -389,11 +389,8 @@ class MilitaryCalculator
         }
 
         // Crest: Remove DP from units without sufficient gunpowder.
-        if(1==1)
-        {
-            $dp -= $this->dpFromUnitWithoutSufficientResources($defender, $attacker, $landRatio, $units, $invadingUnits);
-        }
-
+        $dp -= $this->dpFromUnitWithoutSufficientResources($defender, $attacker, $landRatio, $units, $invadingUnits);
+        
         // Attacking Forces skip land-based defenses
         if ($units !== null)
         {
@@ -2936,6 +2933,7 @@ class MilitaryCalculator
     public function dpFromUnitWithoutSufficientResources(Dominion $defender, Dominion $attacker = null, ?float $landRatio = null, ?array $units = [], ?array $invadingUnits = []): float
     {
         $dpFromUnitsWithoutSufficientResources = 0;
+
         foreach($defender->race->units as $unit)
         {
             $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
@@ -2946,6 +2944,12 @@ class MilitaryCalculator
                 $amountRequiredPerUnit = $spendsResourceOnDefensePerk[1];
                 $unitsDefending = $defender->{'military_unit' . $unit->slot};
 
+                # Remove units sent from units defending
+                if(isset($units[$unit->slot]))
+                {
+                    $unitsDefending -= $units[$unit->slot];
+                }
+
                 $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
 
                 $resourceCapacity = $resourceAmountOwned / $amountRequiredPerUnit;
@@ -2953,6 +2957,7 @@ class MilitaryCalculator
                 $unitsIncapableOfDefending = $unitsDefending - $unitsCapableOfDefending;
 
                 $dpFromUnitsWithoutSufficientResources += $unitsIncapableOfDefending * $powerDefense;
+                #dump($dpFromUnitsWithoutSufficientResources);
             }
         }
     

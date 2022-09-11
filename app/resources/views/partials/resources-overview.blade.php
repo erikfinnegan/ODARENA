@@ -22,9 +22,18 @@
                   </div>
                 </div>
                 <div class="col-xs-2">
-                    <div class="row" data-toggle="tooltip" data-placement="top" title="Raw: {{ number_format($militaryCalculator->getDefensivePowerRaw($selectedDominion)) }}<br>Mod: {{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion)-1)*100,2) }}%">
+                    @php
+                        $dpFromUnitsWithoutSufficientResources = $militaryCalculator->dpFromUnitWithoutSufficientResources($selectedDominion);
+                    @endphp
+                    <div class="row" data-toggle="tooltip" data-placement="top" title="Raw: {{ number_format($militaryCalculator->getDefensivePowerRaw($selectedDominion)) }}<br>Mod: {{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion)-1)*100,2) }}%<br> @if($dpFromUnitsWithoutSufficientResources)<span class='text-red'><b>{{ number_format($dpFromUnitsWithoutSufficientResources) }} raw DP</b> unavailable due to insufficient resources!</span> @endif">
                         <div class="col-lg-6"><b>DP:</b></div>
-                        <div class="col-lg-6">{{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}</div>
+                        <div class="col-lg-6">
+                            @if($dpFromUnitsWithoutSufficientResources)
+                                <b class="text-red">{{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}</b>
+                            @else
+                                {{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}
+                            @endif
+                        </div>
                     </div>
                 </div>
 

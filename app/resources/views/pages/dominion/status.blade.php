@@ -204,9 +204,22 @@
                         <tr>
                             <td><span data-toggle="tooltip" data-placement="top" title="Your current Defensive Power (DP)">Defensive Power:</span></td>
                             <td>
-                                {{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}
-                                @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
-                                    <small class="text-muted">({{ number_format(($militaryCalculator->getDefensivePowerRaw($selectedDominion))) }} raw)</small>
+                                @php
+                                    $dpFromUnitsWithoutSufficientResources = $militaryCalculator->dpFromUnitWithoutSufficientResources($selectedDominion);
+                                @endphp
+
+                                @if($dpFromUnitsWithoutSufficientResources)
+                                    <span class="text-red" data-toggle="tooltip" data-placement="top" title="{{ number_format($dpFromUnitsWithoutSufficientResources) }} raw DP</b> unavailable due to insufficient resources!">
+                                        <b>{{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}</b>
+                                        @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
+                                            <small class="text-red">({{ number_format(($militaryCalculator->getDefensivePowerRaw($selectedDominion))) }} raw)</small>
+                                        @endif
+                                    </span>
+                                @else
+                                    {{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}
+                                    @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format(($militaryCalculator->getDefensivePowerRaw($selectedDominion))) }} raw)</small>
+                                    @endif
                                 @endif
                             </td>
                         </tr>
