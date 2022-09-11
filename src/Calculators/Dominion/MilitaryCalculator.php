@@ -1875,6 +1875,9 @@ class MilitaryCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('spy_strength');
 
+        // Deity
+        $multiplier += $dominion->getDecreePerkMultiplier('spy_strength');
+
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
@@ -2020,6 +2023,9 @@ class MilitaryCalculator
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('wizard_strength');
+
+        // Decree
+        $multiplier += $dominion->getDecreePerkMultiplier('wizard_strength');
 
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('wizard_strength');
