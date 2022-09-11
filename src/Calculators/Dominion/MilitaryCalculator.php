@@ -2959,7 +2959,7 @@ class MilitaryCalculator
                 }
 
                 $resourceAmountRequiredByThisUnit = $unitsDefending * $amountRequiredPerUnit;
-                $resourceAmountRemaining[$resourceKey] -= $resourceAmountRequiredByThisUnit;
+
             }
         }
     
