@@ -785,6 +785,7 @@ powder_mill:
   land_type: hill
   perks:
     gunpowder_production_raw: 10
+    gunpowder_storage_raw: 2000
 
 armoury:
   name: Armoury
@@ -793,7 +794,6 @@ armoury:
   land_type: plain
   perks:
     ammunition_units_housing: 100
-    gunpowder_production_raw: 75
 
 # END ARTILLERY BUILDINGS
 
