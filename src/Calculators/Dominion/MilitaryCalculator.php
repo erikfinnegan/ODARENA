@@ -2934,12 +2934,20 @@ class MilitaryCalculator
     {
         $dpFromUnitsWithoutSufficientResources = 0;
 
-        foreach($defender->race->units as $unit)
+        foreach($defender->race->resources as $resourceKey)
         {
-            $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
+            $resourceAmountReserved[$resourceKey] = 0;
+            $resourceAmountOwned[$resourceKey] = $this->resourceCalculator->getAmount($defender, $resourceKey);
+            $resourceAmountRemaining[$resourceKey] = $this->resourceCalculator->getAmount($defender, $resourceKey);
+        }
 
+        foreach($defender->race->units->sortByDesc('power_defense') as $unit)
+        {
             if($spendsResourceOnDefensePerk = $defender->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense'))
             {
+                #$powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
+                $powerDefense = $unit->power_defense;
+
                 $resourceKey = $spendsResourceOnDefensePerk[0];
                 $amountRequiredPerUnit = $spendsResourceOnDefensePerk[1];
                 $unitsDefending = $defender->{'military_unit' . $unit->slot};
@@ -2950,14 +2958,8 @@ class MilitaryCalculator
                     $unitsDefending -= $units[$unit->slot];
                 }
 
-                $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
-
-                $resourceCapacity = $resourceAmountOwned / $amountRequiredPerUnit;
-                $unitsCapableOfDefending = min($unitsDefending, $resourceCapacity);
-                $unitsIncapableOfDefending = $unitsDefending - $unitsCapableOfDefending;
-
-                $dpFromUnitsWithoutSufficientResources += $unitsIncapableOfDefending * $powerDefense;
-                #dump($dpFromUnitsWithoutSufficientResources);
+                $resourceAmountRequiredByThisUnit = $unitsDefending * $amountRequiredPerUnit;
+                $resourceAmountRemaining[$resourceKey] -= $resourceAmountRequiredByThisUnit;
             }
         }
     
