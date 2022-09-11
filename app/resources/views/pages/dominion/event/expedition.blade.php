@@ -109,6 +109,11 @@
                                         <td>XP:</td>
                                         <td>{{ number_format($event->data['xp']) }}</td>
                                     </tr>
+                                    @if(isset($event->data['ash_found']) and $event->data['ash_found'] > 0)
+                                    <tr>
+                                        <td>Ash found:</td>
+                                        <td>{{ number_format($event->data['ash_found']) }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                             @endif

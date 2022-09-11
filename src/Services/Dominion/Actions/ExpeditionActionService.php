@@ -232,6 +232,7 @@ class ExpeditionActionService
             $this->expeditionResult['land_size'] = $this->landCalculator->getTotalLand($dominion);
 
             $this->expeditionResult['op_sent'] = $this->militaryCalculator->getOffensivePower($dominion, null, null, $units);
+            $this->expeditionResult['op_raw'] = $this->militaryCalculator->getOffensivePowerRaw($dominion, null, null, $units, [], true);
 
             if($this->expeditionResult['op_sent'] < $this->expeditionCalculator->getOpPerLand($dominion))
             {
@@ -250,6 +251,7 @@ class ExpeditionActionService
             $this->handlePrestigeChanges($dominion, $this->expeditionResult['land_discovered_amount'], $this->expeditionResult['land_size'], $units);
             $this->handleXp($dominion, $this->expeditionResult['land_discovered_amount']);
             #$this->handleDuringExpeditionUnitPerks($dominion, $units);
+            $this->handleAshFindings($dominion);
             if($dominion->round->mode == 'artefacts')
             {
                 $this->handleArtefactsDiscovery($dominion);
@@ -346,6 +348,25 @@ class ExpeditionActionService
         );
 
         $this->expeditionResult['xp'] = $xpGained;
+
+    }
+    protected function handleAshFindings(Dominion $dominion): void
+    {
+        if($dominion->race->name !== 'Blorc')
+        {
+            return;
+        }
+
+        $ashFound = $this->expeditionResult['op_raw'];
+
+        $this->queueService->queueResources(
+            'expedition',
+            $dominion,
+            ['resource_ash' => $ashFound],
+            12
+        );
+
+        $this->expeditionResult['ash_found'] = $ashFound;
 
     }
 
