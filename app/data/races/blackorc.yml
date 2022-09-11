@@ -31,12 +31,12 @@ units:
       - living
       - sentient
     cost:
-      gold: 400
+      gold: 700
       ore: 60
-      ash: 5
+      ash: 1
     power:
-      offense: 5
-      defense: 5
+      offense: 8
+      defense: 7
 
   - name: Bone Breaker
     training_time: 9
@@ -45,12 +45,12 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 800
+      gold: 700
       ore: 250
-      ash: 75
+      ash: 10
     power:
-      offense: 8
-      defense: 7
+      offense: 10
+      defense: 9
 
   - name: Ashen Knight
     training_time: 12
@@ -61,7 +61,7 @@ units:
     cost:
       gold: 950
       ore: 400
-      ash: 150
+      ash: 30
     power:
       offense: 11
       defense: 11

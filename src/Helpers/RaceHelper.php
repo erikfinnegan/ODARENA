@@ -181,6 +181,11 @@ class RaceHelper
                 $description = 'No morale change on failed invasions';
                 $booleanValue = true;
                 break;
+            case 'no_morale_changes':
+                $negativeBenefit = false;
+                $description = 'No morale changes';
+                $booleanValue = true;
+                break;
             case 'ore_production_mod':
                 $negativeBenefit = false;
                 $description = 'Ore production';
