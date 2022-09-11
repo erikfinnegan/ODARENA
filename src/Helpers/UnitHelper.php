@@ -384,6 +384,8 @@ class UnitHelper
 
             'spends_resource_on_offense' => 'Requires and uses up %2$s %1$s on attack.',
 
+            'gunpowder_max_storage' => 'Max %s gunpowder stored per Cannon.',
+
             // Return time
             'faster_return' => 'Returns %s ticks faster from battle.',
             'land_per_tick' => 'Discovers land each tick:<br><code>(%1$s * (1 - ([Land Size]/12,000)))</code>',

@@ -1,3 +1,9 @@
+ash:
+  name: Ash
+  description: Called moon soot by some Orcs, this special type of ash which comes from the volcanoes on the Cloven Moon and reaches the world 
+  buy: null
+  sell: null
+
 blood:
   name: Blood
   description: Flowing in the veins of most living creatures, and collected by the most brutal to be used to fashion gruesome improvements and warriors.

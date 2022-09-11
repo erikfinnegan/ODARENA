@@ -36,6 +36,8 @@ units:
     power:
       offense: 7
       defense: 9
+    perks:
+      gunpowder_production_raw_from_pairing: 2,0.05
 
   - name: Cannon
     training_time: 12
@@ -43,9 +45,9 @@ units:
       - machine
       - immobile
     cost:
-      gold: 1300
-      ore: 400
-      lumber: 100
+      gold: 3900
+      ore: 1200
+      lumber: 300
     power:
       offense: 0
       defense: 0
@@ -53,6 +55,7 @@ units:
       no_draftee: 1
       provides_jobs: 15
       does_not_count_as_population: 1
+      gunpowder_max_storage: 3
 
   - name: Shattering Cannonball
     training_time: 12
