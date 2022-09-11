@@ -13,6 +13,15 @@ peasants_production:
   ore: 0.5
   ash: 0.2
 
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - ash
+
 perks:
   food_consumption_mod: 20
   lumber_production_mod: 50
@@ -23,6 +32,7 @@ perks:
   gold_production_raw_from_draftees: 1
   ore_production_raw_from_draftees: 0.2
   ash_production_raw_from_draftees: 0.1
+  ash_per_raw_op_on_expeditions: 1
 
 units:
   - name: Ashmarked

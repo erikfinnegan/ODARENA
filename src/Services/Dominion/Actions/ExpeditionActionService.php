@@ -352,12 +352,12 @@ class ExpeditionActionService
     }
     protected function handleAshFindings(Dominion $dominion): void
     {
-        if($dominion->race->name !== 'Blorc')
+        if($dominion->race->name !== 'Black Orc')
         {
             return;
         }
 
-        $ashFound = $this->expeditionResult['op_raw'];
+        $ashFound = $this->expeditionResult['op_raw'] * $dominion->race->getPerkValue('ash_per_raw_op_on_expeditions');
 
         $this->queueService->queueResources(
             'expedition',
@@ -418,7 +418,7 @@ class ExpeditionActionService
 
             foreach($returningUnits as $unitKey => $values)
             {
-                $slot = str_replace('military_unit', '', $unitKey);
+                $slot = (int)str_replace('military_unit', '', $unitKey);
                 $amountReturning = 0;
 
                 $returningUnitKey = $unitKey;
@@ -429,7 +429,7 @@ class ExpeditionActionService
                     $dominion->{$unitKey} -= $units[$slot];
                     $amountReturning += $units[$slot];
                 }
-
+                
                 # Default return time is 12 ticks.
                 $ticks = $this->getUnitReturnTicksForSlot($dominion, $slot);
 
@@ -672,7 +672,13 @@ class ExpeditionActionService
 
     protected function getUnitReturnTicksForSlot(Dominion $dominion, int $slot): int
     {
+
         $ticks = 12;
+
+        if(!in_array($slot, [1,2,3,4,5,6,7,8,9,10]))
+        {
+            return $ticks;
+        }
 
         $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
             return ($unit->slot === $slot);

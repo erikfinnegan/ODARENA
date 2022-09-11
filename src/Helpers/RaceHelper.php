@@ -598,6 +598,12 @@ class RaceHelper
                 $description = 'Expedition land gains';
                 $valueType = '%';
                 break;
+            case 'ash_per_raw_op_on_expeditions':
+                $negativeBenefit = false;
+                $description = 'Ash gained on expeditions';
+                $valueType = ' per raw OP';
+                $booleanValue = 'static';
+                break;
             case 'cannot_renounce_deity':
                 $negativeBenefit = true;
                 $description = 'Cannot renounce deity';

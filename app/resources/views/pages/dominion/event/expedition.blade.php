@@ -114,6 +114,7 @@
                                         <td>Ash found:</td>
                                         <td>{{ number_format($event->data['ash_found']) }}</td>
                                     </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
