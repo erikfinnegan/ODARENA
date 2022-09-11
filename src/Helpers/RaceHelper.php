@@ -19,6 +19,7 @@ class RaceHelper
     public function __construct()
     {
         $this->landCalculator = app(LandCalculator::class);
+        $this->unitHelper = app(UnitHelper::class);
         $this->statsService = app(StatsService::class);
     }
 
@@ -738,13 +739,13 @@ class RaceHelper
             'Ants' => 'Ant',
             'Aurei' => 'Aureis',
             'Black Orc' => 'Black Orcish',
+            'Cires' => 'Ciresine',
             'Cult' => 'Cultist',
             'Dark Elf' => 'Dark Elven',
             'Demon' => 'Demonic',
             'Dimensionalists' => 'Dimensionalist',
             'Dwarg' => 'Dwargen',
             'Elementals' => 'Elemental',
-            'Firewalker' => 'Firewalking',
             'Gnome' => 'Gnomish',
             'Imperial Gnome' => 'Imperial Gnomish',
             'Kerranad' => 'city-state',
@@ -963,6 +964,19 @@ class RaceHelper
     public function getBasePsionicStrength(Race $race): float
     {
         return $race->psionic_strength ?: 1;
+    }
+
+    public function getAllUnitsAttributes(Race $race): array
+    {
+        $attributes = [];
+        foreach($race->units as $unit)
+        {
+            foreach($unit->type as $attribute)
+            {
+                $attributes[] = $attribute;
+            }
+        }
+        return array_unique($attributes);
     }
 
 }

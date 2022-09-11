@@ -388,7 +388,7 @@ class MilitaryCalculator
             $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
         }
 
-        // Crest: Remove DP from units without sufficient gunpowder.
+        // Sires: Remove DP from units without sufficient gunpowder.
         $dp -= $this->dpFromUnitWithoutSufficientResources($defender, $attacker, $landRatio, $units, $invadingUnits);
         
         // Attacking Forces skip land-based defenses
@@ -2945,11 +2945,11 @@ class MilitaryCalculator
         {
             if($spendsResourceOnDefensePerk = $defender->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense'))
             {
-                #$powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
-                $powerDefense = $unit->power_defense;
+                $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
 
                 $resourceKey = $spendsResourceOnDefensePerk[0];
                 $amountRequiredPerUnit = $spendsResourceOnDefensePerk[1];
+
                 $unitsDefending = $defender->{'military_unit' . $unit->slot};
 
                 # Remove units sent from units defending
@@ -2958,8 +2958,15 @@ class MilitaryCalculator
                     $unitsDefending -= $units[$unit->slot];
                 }
 
-                $resourceAmountRequiredByThisUnit = $unitsDefending * $amountRequiredPerUnit;
+                $unitsWithEnoughResources = max(min($unitsDefending, $resourceAmountRemaining[$resourceKey] / $amountRequiredPerUnit), 0);
 
+                $resourceAmountRequiredByThisUnit = $unitsDefending * $amountRequiredPerUnit;
+                $resourceAmountRemaining[$resourceKey] = max($resourceAmountRemaining[$resourceKey] - $resourceAmountRequiredByThisUnit, 0);
+
+                if($unitsDefending > $unitsWithEnoughResources)
+                {
+                    $dpFromUnitsWithoutSufficientResources += $powerDefense * ($unitsDefending - $unitsWithEnoughResources);
+                }
             }
         }
     

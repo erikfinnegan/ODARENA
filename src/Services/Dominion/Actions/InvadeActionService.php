@@ -1502,6 +1502,23 @@ class InvadeActionService
             }
         }
 
+        foreach($target->race->units as $unit)
+        {
+           # Imperial Gnome: brimmer to fuel the Airships
+           if($spendsResourcesOnDefensePerk = $attacker->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense') and isset($this->invasionResult['defender']['units_defending']))
+           {
+               $resourceKey = (string)$spendsResourcesOnDefensePerk[0];
+               $resourceAmountPerUnit = (float)$spendsResourcesOnDefensePerk[1];
+               $resourceAmountOwned = $this->resourceCalculator->getAmount($target, $resourceKey);
+
+               $resourceAmountSpent = min($units[$unit->slot] * $resourceAmountPerUnit, $resourceAmountOwned);
+
+               isset($this->invasionResult['defender'][$resourceKey . '_exhausted']) ? $this->invasionResult['defender'][$resourceKey . '_exhausted'] += $resourceAmountSpent : $this->invasionResult['defender'][$resourceKey . '_exhausted'] = $resourceAmountSpent;
+
+               $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmountSpent * -1)]);
+           }
+        }
+
     }
 
     protected function handleStun(Dominion $attacker, Dominion $defender, array $units, float $landRatio)

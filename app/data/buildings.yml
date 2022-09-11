@@ -386,6 +386,7 @@ watermill:
     - Swarm
     - Sylvan
     - Void
+    - Weres
     - Wood Elf
   land_type: water
   perks:

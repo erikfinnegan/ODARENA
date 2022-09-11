@@ -3,8 +3,9 @@
 namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Helpers\BuildingHelper;
-use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
@@ -27,6 +28,7 @@ class PopulationCalculator
           $this->militaryCalculator = app(MilitaryCalculator::class);
           $this->prestigeCalculator = app(PrestigeCalculator::class);
           $this->queueService = app(QueueService::class);
+          $this->raceHelper = app(RaceHelper::class);
           $this->spellCalculator = app(SpellCalculator::class);
           $this->spellDamageCalculator = app(SpellDamageCalculator::class);
           $this->statsService = app(StatsService::class);
@@ -256,14 +258,11 @@ class PopulationCalculator
     {
         $unitAttributeSpecificBuildingHousing = 0;
 
-        foreach($dominion->race->units as $unit)
+        foreach($this->raceHelper->getAllUnitsAttributes($dominion->race) as $attribute)
         {
-            foreach($unit->type as $attribute)
-            {
-                $unitAttributeSpecificBuildingHousing += $dominion->getBuildingPerkValue($attribute . '_units_housing');
-            }
-
+            $unitAttributeSpecificBuildingHousing += $dominion->getBuildingPerkValue($attribute . '_units_housing');
         }
+
 
         return $unitAttributeSpecificBuildingHousing;
     }
