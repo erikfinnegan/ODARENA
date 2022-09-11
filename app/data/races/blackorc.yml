@@ -72,7 +72,7 @@ units:
     cost:
       gold: 950
       ore: 400
-      ash: 30
+      ash: 75
     power:
       offense: 11
       defense: 11
@@ -93,5 +93,5 @@ units:
     perks:
       cannot_be_trained: 1
       casualties: -65
-      offensive_power_mod: 0.20
+      offensive_power_mod: 0.005
       cannot_be_released: 1

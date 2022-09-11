@@ -2,24 +2,17 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
-use Log;
-
-use Illuminate\Support\Carbon;
-
 use OpenDominion\Helpers\ImprovementHelper;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
-use OpenDominion\Models\Race;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Unit;
 
-use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
-use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -398,7 +391,7 @@ class MilitaryCalculator
         // Crest: Remove DP from units without sufficient gunpowder.
         if(1==1)
         {
-            $dp -= $this->dpFromUnitWithoutSufficientResources($defender);
+            $dp -= $this->dpFromUnitWithoutSufficientResources($defender, $attacker, $landRatio, $units, $invadingUnits);
         }
 
         // Attacking Forces skip land-based defenses
@@ -2940,9 +2933,31 @@ class MilitaryCalculator
 
     }
 
-    public function dpFromUnitWithoutSufficientResources(): int
+    public function dpFromUnitWithoutSufficientResources(Dominion $defender, Dominion $attacker = null, ?float $landRatio = null, ?array $units = [], ?array $invadingUnits = []): float
     {
-        return 0;
+        $dpFromUnitsWithoutSufficientResources = 0;
+        foreach($defender->race->units as $unit)
+        {
+            $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
+
+            if($spendsResourceOnDefensePerk = $defender->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense'))
+            {
+                $resourceKey = $spendsResourceOnDefensePerk[0];
+                $amountRequiredPerUnit = $spendsResourceOnDefensePerk[1];
+                $unitsDefending = $defender->{'military_unit' . $unit->slot};
+
+                $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
+
+                $resourceCapacity = $resourceAmountOwned / $amountRequiredPerUnit;
+                $unitsCapableOfDefending = min($unitsDefending, $resourceCapacity);
+                $unitsIncapableOfDefending = $unitsDefending - $unitsCapableOfDefending;
+
+                $dpFromUnitsWithoutSufficientResources += $unitsIncapableOfDefending * $powerDefense;
+            }
+        }
+    
+        return $dpFromUnitsWithoutSufficientResources;
+
     }
 
 }
