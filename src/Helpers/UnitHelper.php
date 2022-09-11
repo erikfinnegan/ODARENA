@@ -384,6 +384,7 @@ class UnitHelper
             'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
             'spends_resource_on_offense' => 'Requires and uses up %2$s %1$s on attack.',
+            'spends_resource_on_defense' => 'Requires and uses up %2$s %1$s to defend.',
 
             'gunpowder_max_storage' => 'Max %s gunpowder stored per Cannon.',
 
@@ -729,14 +730,14 @@ class UnitHelper
                     }
                 }
 
-                if($perk->key === 'destroy_resource_on_victory' or $perk->key === 'spends_resource_on_offense')
+                if($perk->key === 'destroy_resource_on_victory' or $perk->key === 'spends_resource_on_offense' or $perk->key === 'spends_resource_on_defense')
                 {
                     $resourceKey = (string)$perkValue[0];
                     $amount = (float)$perkValue[1];
                     $resource = Resource::where('key', $resourceKey)->firstOrFail();
 
                     # Don't pluralise some resources
-                    if($resourceKey == 'brimmer')
+                    if(in_array($resourceKey, ['brimmer','gunpowder']))
                     {
                         $perkValue = [$resource->name, $amount];
                     }

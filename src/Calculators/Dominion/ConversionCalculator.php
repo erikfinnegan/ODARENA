@@ -966,17 +966,27 @@ class ConversionCalculator
 
     public function getConversionReductionMultiplier(Dominion $dominion): float
     {
+        if($dominion->getSpellPerkValue('cannot_be_converted'))
+        {
+            $multiplier = 0;
+        }
+
         $multiplier = 1;
 
         # Faction perk
         $multiplier -= $dominion->race->getPerkMultiplier('reduced_conversions');
         $multiplier -= $dominion->realm->getArtefactPerkMultiplier('reduced_conversions');
 
-        if($dominion->getSpellPerkValue('cannot_be_converted'))
+        foreach($dominion->race->units as $unit)
         {
-            $multiplier = 0;
+            if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'reduces_conversions'))
+            {
+                $multiplier += ($dominion->{'military_unit' . $unit->slot} / $this->militaryCalculator->getTotalUnitsAtHome($dominion, true, true, true)) / 2; # true = draftees; true = spies, wizards, archmages; true = peasants
+            }
         }
 
+
+        
         return max(0, $multiplier);
 
     }

@@ -4,6 +4,7 @@ description:
 home_land_type: forest
 playable: 1
 skill_level: 3
+experimental: 1
 
 peasants_alias: peon
 draftees_alias: guard
@@ -77,6 +78,7 @@ units:
       defense: 11
     perks:
       casualties: -50
+      some_win_into: 0.5,4 # ratio, slot
 
   - name: Urugdakh's Chosen
     training_time: 0
@@ -92,3 +94,4 @@ units:
       cannot_be_trained: 1
       casualties: -65
       offensive_power_mod: 0.20
+      cannot_be_released: 1

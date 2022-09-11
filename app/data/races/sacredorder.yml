@@ -32,7 +32,7 @@ units:
       destroy_resource_on_victory: soul,4
 
   - name: Cleric
-    training_time: 1
+    training_time: 7
     type:
       - living
       - sentient

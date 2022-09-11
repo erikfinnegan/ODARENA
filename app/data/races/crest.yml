@@ -1,0 +1,138 @@
+name: Crest
+alignment: good
+description: 
+home_land_type: plain
+playable: 0
+skill_level: 1
+experimental: 1
+
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - horse
+  - gunpowder
+
+perks:
+  food_production_mod: 15
+  xp_gains: 100
+  salvaging: 75
+  construction_cost: -20
+  rezone_cost: -20
+  increased_construction_speed: 4
+  prestige_gains: 20
+
+units:
+  - name: Standard Bearer
+    training_time: 4
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 340
+      lumber: 15
+    power:
+      offense: 0
+      defense: 2
+    perks:
+      increases_land_discovered: 1
+      increases_morale_gains: 5
+
+  - name: Archer
+    training_time: 8
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 340
+      lumber: 15
+    power:
+      offense: 0
+      defense: 4
+
+  - name: Spearguard
+    training_time: 8
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 680
+      ore: 100
+    power:
+      offense: 0
+      defense: 7
+
+  - name: Arquebusier
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 800
+      ore: 200
+    power:
+      offense: 12
+      defense: 7
+    perks:
+      spends_resource_on_offense: gunpowder,1
+      spends_resource_on_defense: gunpowder,1
+
+  - name: Field Cannon
+    training_time: 12
+    type:
+      - machine
+    cost:
+      gold: 300
+      ore: 250
+      lumber: 250
+    power:
+      offense: 20
+      defense: 4
+    perks:
+      spends_resource_on_offense: gunpowder,1
+      spends_resource_on_defense: gunpowder,1
+
+  - name: Cavalry
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 780
+      ore: 25
+      horse: 1
+    power:
+      offense: 10
+      defense: 6
+    perks:
+      casualties_on_offense: -50
+      faster_return: 3
+      plunders: gold;4,ore;2,gems;1
+
+  - name: Scythed Chariot
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 300
+      ore: 250
+      lumber: 250
+      horse: 3
+    power:
+      offense: 12
+      defense: 0
+    perks:
+      casualties_on_offense: -50
+      increases_enemy_casualties_on_offense: 1
+      faster_return: 3
+      plunders: gold;4,ore;2,gems;1

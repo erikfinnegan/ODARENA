@@ -2467,7 +2467,6 @@ class InvadeActionService
             }
         }
 
-
         $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
         $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];

@@ -2897,13 +2897,18 @@ class MilitaryCalculator
 
     }
 
-    public function getTotalUnitsAtHome(Dominion $dominion, bool $includeDraftees = true, bool $excludeSpiesAndWizards = true): int
+    public function getTotalUnitsAtHome(Dominion $dominion, bool $includeDraftees = true, bool $includeSpiesAndWizards = false, bool $includePeasants = false, bool $includeUnitsInTraining = false): int
     {
         $units = 0;
 
         foreach($dominion->race->units as $unit)
         {
             $units += $dominion->{'military_unit' . $unit->slot};
+
+            if($includeUnitsInTraining)
+            {
+                $units += $this->queueService->getTrainingQueueTotalByResource($dominion, ('military_unit' . $unit->slot));
+            }
         }
         
         if($includeDraftees)
@@ -2911,11 +2916,23 @@ class MilitaryCalculator
             $units += $dominion->military_draftees;
         }
 
-        if(!$excludeSpiesAndWizards)
+        if($includeSpiesAndWizards)
         {
             $units += $dominion->military_spies;
             $units += $dominion->military_wizards;
             $units += $dominion->military_archmages;
+
+            if($includeUnitsInTraining)
+            {
+                $units += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_spies');
+                $units += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_wizards');
+                $units += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_archmages');
+            }
+        }
+        
+        if($includePeasants)
+        {
+            $units += $dominion->peasants;
         }
 
         return $units;

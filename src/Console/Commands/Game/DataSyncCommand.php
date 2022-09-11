@@ -154,9 +154,12 @@ class DataSyncCommand extends Command implements CommandInterface
                     'archmages_cost' => object_get($data, 'archmages_cost', '1000,gold'),
                 ]);
 
-            if (!$race->exists) {
+            if (!$race->exists)
+            {
                 $this->info("Adding race {$data->name}");
-            } else {
+            }
+            else
+            {
                 $this->info("Processing race {$data->name}");
 
                 $newValues = $race->getDirty();
@@ -300,20 +303,27 @@ class DataSyncCommand extends Command implements CommandInterface
                 $unit->perks()->sync($unitPerksToSync);
             }
 
-            foreach($slotsToDelete as $slotToDelete)
+            // Delete units, unless this is a new race
+            if($race->exists)
             {
-                $unitToDelete = Unit::where('race_id', $race->id)->where('slot', $slotToDelete)->first();
-                $unitPerksToDelete = UnitPerk::where('unit_id', $unitToDelete->id)->get();
-
-                $this->info("[Delete Unit] {$unit->name}");
-
-                foreach($unitPerksToDelete as $unitPerkToDelete)
+                foreach($slotsToDelete as $slotToDelete)
                 {
-                    $this->info("[Deleting Unit Perks] ...");
-                    $unitPerkToDelete->delete();
+                    $unitToDelete = Unit::where('race_id', $race->id)->where('slot', $slotToDelete)->first();
+                    if($unitToDelete)
+                    {
+                        $unitPerksToDelete = UnitPerk::where('unit_id', $unitToDelete->id)->get();
+    
+                        $this->info("[Delete Unit] {$unit->name}");
+        
+                        foreach($unitPerksToDelete as $unitPerkToDelete)
+                        {
+                            $this->info("[Deleting Unit Perks] ...");
+                            $unitPerkToDelete->delete();
+                        }
+        
+                        $unitToDelete->delete();
+                    }
                 }
-
-                $unitToDelete->delete();
             }
         }
 

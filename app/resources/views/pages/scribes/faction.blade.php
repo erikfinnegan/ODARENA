@@ -147,14 +147,14 @@
                                       <td>
                                           <span data-toggle="tooltip" data-placement="top" title="Term used for workers in this faction (<em>peasants</em> by default)">Workers:</span>
                                       </td>
-                                      <td>{{ $raceHelper->getPeasantsTerm($race) }} {{ $race->getPerkValue('peasant_dp') ? '(DP: ' . $race->getPerkValue('peasant_dp') . ')' : '' }} </td>
+                                      <td>{{ $raceHelper->getPeasantsTerm($race) }} {!! $race->getPerkValue('peasant_dp') ? '<small class="text-muted">(DP:&nbsp;' . $race->getPerkValue('peasant_dp') . ')</small>' : '' !!} </td>
                                   </tr>
                                   @if(!$race->getPerkValue('no_drafting'))
                                       <tr>
                                           <td>
                                               <span data-toggle="tooltip" data-placement="top" title="Term used for draftees in this faction (<em>draftees</em> by default)">Draftees:</span>
                                           </td>
-                                          <td>{{ $raceHelper->getDrafteesTerm($race) }} (DP: {{$race->getPerkValue('draftee_dp') ?: 1}})</td>
+                                          <td>{{ $raceHelper->getDrafteesTerm($race) }} <small class="text-muted">(DP:&nbsp;{{$race->getPerkValue('draftee_dp') ?: 1}})</small></td>
                                       </tr>
                                   @endif
                               @endif
