@@ -351,6 +351,7 @@ class UnitHelper
             'mana_production_raw_from_pairing' => 'Gathers %2$s mana/tick if paired with %1$s at home.',
             'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s at home.',
             'blood_production_raw_from_pairing' => 'Gathers %2$s blood/tick if paired with %1$s at home.',
+            'gunpowder_production_raw_from_pairing' => 'Prepares %2$s gunpowder/tick if paired with %1$s at home.',
 
             'mana_production_raw_per_victory' => 'Gathers %s mana/tick per victory.',
             'gems_production_raw_per_victory' => 'Mines %s gems/tick per victory.',         
@@ -538,7 +539,8 @@ class UnitHelper
                     $perk->key === 'ore_production_raw_from_pairing' or
                     $perk->key === 'gems_production_raw_from_pairing' or
                     $perk->key === 'food_production_raw_from_pairing' or
-                    $perk->key === 'blood_production_raw_from_pairing'
+                    $perk->key === 'blood_production_raw_from_pairing' or
+                    $perk->key === 'gunpowder_production_raw_from_pairing'
                     )
                 {
                     $slot = (int)$perkValue[0];
