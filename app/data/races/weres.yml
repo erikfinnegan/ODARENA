@@ -32,7 +32,7 @@ units:
       offense: 4
       defense: 2
     perks:
-      no_draftee: 1
+      does_not_count_as_population: 1
       increases_enemy_casualties_on_offense: 1
       cannot_be_trained: 1
       conversion: 4
@@ -48,8 +48,7 @@ units:
       offense: 0
       defense: 6
     perks:
-      no_draftee: 1
-      housing_count: 0.10
+      does_not_count_as_population: 1
       increases_enemy_casualties_on_defense: 1
       cannot_be_trained: 1
       conversion: 3

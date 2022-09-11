@@ -43,7 +43,7 @@ class BuildingHelper
             'dwarg_unit1_housing' => 'Houses %s Miners.',
             'human_unit1_housing' => 'Houses %s Archers.',
             'human_unit2_housing' => 'Houses %s Spearguards.',
-            'sacred_order_unit2_housing' => 'Houses %s Monks.',
+            'sacred_order_unit2_housing' => 'Houses %s Clerics.',
             'sacred_order_unit3_housing' => 'Houses %s Fanatics.',
             'sacred_order_unit4_housing' => 'Houses %s Paladins.',
             'snow_elf_unit1_housing' => 'Houses %s Arbalists.',
