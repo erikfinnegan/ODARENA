@@ -2913,7 +2913,7 @@ class InvadeActionService
             $unitsHome[] = $dominion->{'military_unit'.$unit->slot} - (isset($units[$unit->slot]) ? $units[$unit->slot] : 0);
         }
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
@@ -3027,7 +3027,6 @@ class InvadeActionService
                                                             $landRatio,
                                                             null,
                                                             $dpMultiplierReduction,
-                                                            false, # ignoreDraftees
                                                             $this->isAmbush,
                                                             false,
                                                             $units, # Becomes $invadingUnits

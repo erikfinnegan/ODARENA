@@ -31,8 +31,7 @@
                                 $selectedDominion,
                                 $landRatio,
                                 null,
-                                $dpMultiplierReduction, 
-                                false, # ignoreDraftees
+                                $dpMultiplierReduction,
                                 false, # Ignore ambush
                                 false,
                                 [], # No $invadingUnits  

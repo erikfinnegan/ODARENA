@@ -76,7 +76,6 @@ class BuildingHelper
 
             'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
             'snow_elf_unit4_production_raw_capped' => 'Summons %1$s Gryphons per tick (up to %2$s%% of your land).',
-            
             'snow_elf_unit4_production_mod' => '%2$s%% Gryphon arrival rate for every %1$s%% (max %3$s%%).',
 
             'jobs' => 'Provides %s jobs.',
@@ -101,6 +100,7 @@ class BuildingHelper
             'marshling_production_raw' => 'Produces %s marshlings per tick.',
             'yak_production_raw' => 'Breeds %s yak per tick.',
             'kelp_production_raw' => 'Grows %s kelp per tick.',
+            'gunpowder_production_raw' => 'Produces %s gunpowder per tick.',
 
             'xp_generation_raw' => 'Generates %s XP per tick.',
 
@@ -146,6 +146,8 @@ class BuildingHelper
             'mana_production_increasing_raw' => 'Produces %1$s mana per tick (increased by %2$s per tick of the round).',
 
             'thunderstone_production_raw_random' => '%1$s%% chance to discover a thunderstone.',
+
+            'gunpowder_storage_raw' => '%s gunpowder storage.',
 
             'ore_production_raw_from_prisoner' => 'Produces %1$s ore per tick per prisoner up to a maximum of %2$s prisoners.',
             'gold_production_raw_from_prisoner' => 'Produces %1$s gold per tick per prisoner up to a maximum of %2$s prisoners.',

@@ -189,10 +189,10 @@ class InvadeCalculationService
                     $landRatio,
                     null,
                     $dpMultiplierReduction,
-                    false, # ignoreDraftees
                     $this->calculationResult['is_ambush'],
                     false,
                     $units, # Becomes $invadingUnits
+                    false
                   );
     
                 # Round up.

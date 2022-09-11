@@ -500,6 +500,56 @@ kelp_plundered:
   name: Kelp plundered
 
 
+
+ash_production:
+  name: Ash production
+ash_sold:
+  name: Ash sold
+ash_bought:
+  name: Ash bought
+ash_building:
+  name: Ash building
+ash_rezoning:
+  name: Ash rezoning
+ash_training:
+  name: Ash training
+ash_improvements:
+  name: Ash improvements
+ash_exploring:
+  name: Ash exploring
+ash_lost:
+  name: Ash lost
+ash_salvaged:
+  name: Ash salvaged
+ash_plundered:
+  name: Ash plundered
+
+
+
+gunpowder_production:
+  name: Gunpowder production
+gunpowder_sold:
+  name: Gunpowder sold
+gunpowder_bought:
+  name: Gunpowder bought
+gunpowder_building:
+  name: Gunpowder building
+gunpowder_rezoning:
+  name: Gunpowder rezoning
+gunpowder_training:
+  name: Gunpowder training
+gunpowder_improvements:
+  name: Gunpowder improvements
+gunpowder_exploring:
+  name: Gunpowder exploring
+gunpowder_lost:
+  name: Gunpowder lost
+gunpowder_salvaged:
+  name: Gunpowder salvaged
+gunpowder_plundered:
+  name: Gunpowder plundered
+
+
 crypt_body_training:
   name: Crypt bodies training
 

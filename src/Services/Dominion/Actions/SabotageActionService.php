@@ -659,7 +659,7 @@ class SabotageActionService
         }
 
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($saboteur, $target, $landRatio, $units);
-        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($saboteur, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($saboteur, null, null, $unitsHome, 0, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 

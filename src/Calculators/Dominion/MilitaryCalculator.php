@@ -265,7 +265,6 @@ class MilitaryCalculator
      * @param float|null $landRatio
      * @param array|null $units
      * @param float $multiplierReduction
-     * @param bool $ignoreDraftees
      * @param bool $isAmbush
      * @param bool $ignoreRawDpFromBuildings
      * @param array $invadingUnits
@@ -277,14 +276,13 @@ class MilitaryCalculator
         float $landRatio = null,                # 3
         array $units = null,                    # 4
         float $multiplierReduction = 0,         # 5
-        bool $ignoreDraftees = false,           # 6
-        bool $isAmbush = false,                 # 7
-        bool $ignoreRawDpFromBuildings = false, # 8
-        array $invadingUnits = null,            # 9
-        bool $ignoreRawDpFromAnnexedDominions = false # 10
+        bool $isAmbush = false,                 # 6
+        bool $ignoreRawDpFromBuildings = false, # 7
+        array $invadingUnits = null,            # 8
+        bool $ignoreRawDpFromAnnexedDominions = false # 9
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $ignoreRawDpFromAnnexedDominions);
+        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $ignoreRawDpFromAnnexedDominions);
         $dp *= $this->getDefensivePowerMultiplier($defender, $attacker, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($defender));
@@ -307,33 +305,24 @@ class MilitaryCalculator
         float $landRatio = null,                        # 3
         array $units = null,                            # 4
         float $multiplierReduction = 0,                 # 5
-        bool $ignoreDraftees = false,                   # 6
-        bool $isAmbush = false,                         # 7
-        bool $ignoreRawDpFromBuildings = false,         # 8
-        array $invadingUnits = null,                    # 9
-        bool $ignoreRawDpFromAnnexedDominions = false,  # 10
-        bool $ignoreRawDpFromSpells = false             # 11
+        bool $isAmbush = false,                         # 6
+        bool $ignoreRawDpFromBuildings = false,         # 7
+        array $invadingUnits = null,                    # 8
+        bool $ignoreRawDpFromAnnexedDominions = false,  # 9
+        bool $ignoreRawDpFromSpells = false             # 10
     ): float
     {
         $dp = 0;
 
         // Values
         $minDPPerAcre = 10; # LandDP
-        $dpPerDraftee = 1;
-
-        if($ignoreDraftees)
-        {
-            $dpPerDraftee = 0;
-        }
-        else
-        {
-            $dpPerDraftee = $defender->race->getPerkValue('draftee_dp') ?: 1;
-        }
+        $dpPerDraftee = $defender->race->getPerkValue('draftee_dp') ?: 1;
 
         # If DP per draftee is 0, ignore them (no casualties).
+        $ignoreDraftees = false;
         if($dpPerDraftee === 0)
         {
-            $ignoreDraftees = True;
+            $ignoreDraftees = true;
         }
 
         // Peasants
@@ -404,6 +393,12 @@ class MilitaryCalculator
         if($isAmbush)
         {
             $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
+        }
+
+        // Crest: Remove DP from units without sufficient gunpowder.
+        if(1==1)
+        {
+            $dp -= $this->dpFromUnitWithoutSufficientResources($defender);
         }
 
         // Attacking Forces skip land-based defenses
@@ -2943,6 +2938,11 @@ class MilitaryCalculator
 
         return $units;
 
+    }
+
+    public function dpFromUnitWithoutSufficientResources(): int
+    {
+        return 0;
     }
 
 }

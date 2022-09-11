@@ -634,6 +634,8 @@ class ResourceCalculator
         if($resourceKey == 'gunpowder')
         {
             $maxStorage = $dominion->military_unit2 * $dominion->race->getPerkValue('max_gunpowder_per_cannon');
+
+            $maxStorage += $dominion->getBuildingPerkValue('gunpowder_storage_raw');
         }
 
         $multiplier = 1;

@@ -42,8 +42,7 @@
                                     $selectedDominion,
                                     $landCalculator->getTotalLand($dominion) / $landCalculator->getTotalLand($selectedDominion),
                                     null,
-                                    $dpMultiplierReduction, 
-                                    false, # ignoreDraftees
+                                    $dpMultiplierReduction
                                     false, # Ignore ambush
                                     false,
                                     [], # No $invadingUnits  
