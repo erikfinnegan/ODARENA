@@ -140,7 +140,7 @@ class ResourceConversionCalculator
                             if($this->conversionHelper->isSlotConvertible($enemyUnitKilledSlot, $enemy))
                             {
                                 $resourceConversions[$resourceKey] += $enemyUnitKilledAmount * $resourceAmount * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                                $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                                #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                                 $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                             }
                         }
@@ -162,7 +162,7 @@ class ResourceConversionCalculator
                                 if($this->conversionHelper->isSlotConvertible($enemyUnitKilledSlot, $enemy))
                                 {
                                     $resourceConversions[$resourceKey] += $enemyUnitKilledAmount * $resourceAmount * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                                    $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                                    #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                                     $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                                 }
                             }
@@ -192,7 +192,7 @@ class ResourceConversionCalculator
                                 }
 
                                 $resourceConversions[$resourceKey] += $killedUnitsRawPower * $resourceAmountPerValue * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                                $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                                #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                                 $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                             }
                         }
@@ -214,7 +214,7 @@ class ResourceConversionCalculator
                                 if($this->conversionHelper->isSlotConvertible($enemyUnitKilledSlot, $enemy))
                                 {
                                     $resourceConversions[$resourceKey] += $enemyUnitKilledAmount * $resourceAmount * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                                    $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                                    #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                                     $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                                 }
                             }
@@ -233,7 +233,7 @@ class ResourceConversionCalculator
                         $displacedPeasants = intval(($enemy->peasants / $invasion['defender']['land_size']) * $landConquered);
     
                         $resourceConversions[$resourceKey] += $displacedPeasants * $resourceAmountPerDisplacedPeasant * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                        $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                        #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                         $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                     }
 
@@ -251,7 +251,7 @@ class ResourceConversionCalculator
                             $displacedPeasants = intval(($enemy->peasants / $invasion['defender']['land_size']) * $landConquered);
         
                             $resourceConversions[$resourceKey] += $displacedPeasants * $resourceAmount * $convertingUnits[$converterUnitSlot]['power_proportion'];
-                            $resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
+                            #$resourceConversions[$resourceKey] *= $this->conversionCalculator->getConversionReductionMultiplier($enemy);
                             $resourceConversions[$resourceKey] *= $this->getInvasionResultMultiplier($invasion, $mode);
                                 
                         }
