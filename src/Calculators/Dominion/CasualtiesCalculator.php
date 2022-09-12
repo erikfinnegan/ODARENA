@@ -572,7 +572,7 @@ class CasualtiesCalculator
 
         if($mode == 'offense')
         {
-            $rawDp = $this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $invasionData['land_ratio'], $defendingUnits, 0, false, false, false, $attackingUnits, true);
+            $rawDp = $invasionData['defender']['dp_raw']; #$this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $invasionData['land_ratio'], $defendingUnits, 0, false, false, false, $attackingUnits, true);
 
             if($minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'only_dies_vs_raw_power'))
             {

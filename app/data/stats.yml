@@ -499,8 +499,6 @@ kelp_salvaged:
 kelp_plundered:
   name: Kelp plundered
 
-
-
 ash_production:
   name: Ash production
 ash_sold:
@@ -523,8 +521,6 @@ ash_salvaged:
   name: Ash salvaged
 ash_plundered:
   name: Ash plundered
-
-
 
 gunpowder_production:
   name: Gunpowder production
@@ -549,6 +545,28 @@ gunpowder_salvaged:
 gunpowder_plundered:
   name: Gunpowder plundered
 
+prayer_production:
+  name: Prayer production
+prayer_sold:
+  name: Prayer sold
+prayer_bought:
+  name: Prayer bought
+prayer_building:
+  name: Prayer building
+prayer_rezoning:
+  name: Prayer rezoning
+prayer_training:
+  name: Prayer training
+prayer_improvements:
+  name: Prayer improvements
+prayer_exploring:
+  name: Prayer exploring
+prayer_lost:
+  name: Prayer lost
+prayer_salvaged:
+  name: Prayer salvaged
+prayer_plundered:
+  name: Prayer plundered
 
 crypt_body_training:
   name: Crypt bodies training

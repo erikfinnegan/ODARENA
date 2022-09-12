@@ -1504,14 +1504,14 @@ class InvadeActionService
 
         foreach($target->race->units as $unit)
         {
-           # Imperial Gnome: brimmer to fuel the Airships
-           if($spendsResourcesOnDefensePerk = $attacker->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense') and isset($this->invasionResult['defender']['units_defending']))
+           # Cires: gunpowder on defense (if attacker is not overwhelmed)
+           if($spendsResourcesOnDefensePerk = $target->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense') and isset($this->invasionResult['defender']['units_defending'][$unit->slot]) and !$this->invasionResult['result']['overwhelmed'])
            {
                $resourceKey = (string)$spendsResourcesOnDefensePerk[0];
                $resourceAmountPerUnit = (float)$spendsResourcesOnDefensePerk[1];
                $resourceAmountOwned = $this->resourceCalculator->getAmount($target, $resourceKey);
 
-               $resourceAmountSpent = min($units[$unit->slot] * $resourceAmountPerUnit, $resourceAmountOwned);
+               $resourceAmountSpent = min($this->invasionResult['defender']['units_defending'][$unit->slot] * $resourceAmountPerUnit, $resourceAmountOwned);
 
                isset($this->invasionResult['defender'][$resourceKey . '_exhausted']) ? $this->invasionResult['defender'][$resourceKey . '_exhausted'] += $resourceAmountSpent : $this->invasionResult['defender'][$resourceKey . '_exhausted'] = $resourceAmountSpent;
 
@@ -2704,7 +2704,7 @@ class InvadeActionService
         $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
         
         $attackingForceRawOP = $this->militaryCalculator->getOffensivePowerRaw($dominion, $target, $landRatio, $units, [], true);
-        $targetRawDP = $this->militaryCalculator->getDefensivePowerRaw($target, $dominion, $landRatio, null, 0, false, $this->isAmbush, true, $this->invasionResult['attacker']['units_sent'], false, false);
+        $targetRawDP = $this->militaryCalculator->getDefensivePowerRaw($target, $dominion, $landRatio, null, 0, $this->isAmbush, true, $this->invasionResult['attacker']['units_sent'], false, false);
 
         $this->invasionResult['attacker']['psionic_strength'] = $this->dominionCalculator->getPsionicStrength($dominion);
         $this->invasionResult['defender']['psionic_strength'] = $this->dominionCalculator->getPsionicStrength($target);
