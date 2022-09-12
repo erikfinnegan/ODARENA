@@ -1,0 +1,10 @@
+name: Load The Cannons
+cooldown: 12
+description: Prepare for firing the cannons. 
+exclusive_races:
+  - Artillery
+states:
+  - name: Enabled
+    perks:
+      defensive_power: -30
+      can_send_cannonballs: 1

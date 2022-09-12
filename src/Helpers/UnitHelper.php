@@ -4,6 +4,8 @@ namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Advancement;
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreeState;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
@@ -453,6 +455,9 @@ class UnitHelper
 
             'gold_improvements' => 'Increases improvement points from gold by (([Units]/[Land])/100)%%.',
 
+            // Decree
+            'decree_state_required_to_send' => '%1$s decree must be issued in %2$s state to send this unit.',
+
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on invasion.',
             'damages_improvements_on_attack' => 'Damages target\'s improvements by %s improvement points.',
@@ -893,6 +898,18 @@ class UnitHelper
                     $perkValue[0] = generate_sentence_from_array($unitNameToProduce);
                     $perkValue[1] = $amountToProduce;
                 }
+
+                // Special case for unit_production
+                if ($perk->key === 'decree_state_required_to_send')
+                {
+                    $decreeStateKey = (string)$perkValue;
+                    $decreeState = DecreeState::where('key', $decreeStateKey)->first();
+                    $decree = Decree::where('id', $decreeState->decree_id)->first();
+
+                    $perkValue = [$decree->name, $decreeState->name];
+                }
+
+                
 
 
                 if (is_array($perkValue))

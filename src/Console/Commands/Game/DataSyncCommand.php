@@ -80,7 +80,6 @@ class DataSyncCommand extends Command implements CommandInterface
     {
         $start = now();
         DB::transaction(function () {
-            
             $this->syncDeities();
             $this->syncRaces();
             $this->syncAdvancements();
@@ -1258,7 +1257,6 @@ class DataSyncCommand extends Command implements CommandInterface
                 ];
 
                 $decreeState = DecreeState::where($where)->first();
-                $decree = Decree::findOrFail($decreeState->decree_id);
 
                 if ($decreeState === null) {
                     $decreeState = DecreeState::make($where);

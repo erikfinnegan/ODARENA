@@ -94,6 +94,8 @@ class DecreeHelper
             'offensive_power' => '%s%% offensive power.',
             'defensive_power' => '%s%% defensive power.',
 
+            'can_send_cannonballs' => 'Can fire cannonballs.',
+
             # Improvements
             'improvements' => '%s%% improvements.',
             'improvement_points' => '%s%% improvement points when investing.',

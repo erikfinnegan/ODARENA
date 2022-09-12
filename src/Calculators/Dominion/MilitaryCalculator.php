@@ -437,6 +437,9 @@ class MilitaryCalculator
         // Land improvements
         $multiplier += $dominion->getLandImprovementPerkMultiplier('defensive_power_mod');
 
+        // Deity
+        $multiplier += $dominion->race->getPerkMultiplier('defensive_power');
+
         // Multiplier reduction when we want to factor in temples from another dominion
         $multiplier = max(($multiplier + $multiplierReduction), 0);
 
