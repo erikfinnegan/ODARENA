@@ -716,6 +716,7 @@ class TickService
                 'generated_unit8',
                 'generated_unit9',
                 'generated_unit10',
+                'buildings_destroyed',
             ];
 
             #if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
@@ -1240,7 +1241,6 @@ class TickService
             */
         }
         
-
         # Use decimals as probability to round up
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
 
@@ -1272,6 +1272,20 @@ class TickService
         $tick->attrition_unit9 += intval($attritionUnit9);
         $tick->attrition_unit10 += intval($attritionUnit10);
         */
+
+        # Handle building self-destruct
+        if($selfDestruction = $dominion->getBuildingPerkValue('destroys_itself_and_land'))
+        {
+            $buildingKey = (string)$selfDestruction['building_key'];
+            $amountToDestroy = (int)$selfDestruction['amount'];
+            $landType = (string)$selfDestruction['land_type'];
+
+            if($amountToDestroy > 0)
+            {
+                $tick->{'land_'.$landType} -= min($amountToDestroy, $dominion->{'land_'.$landType});
+                $tick->buildings_destroyed = [$buildingKey => ['builtBuildingsToDestroy' => $amountToDestroy]];
+            }
+        }
 
         foreach ($incomingQueue as $row)
         {
@@ -1592,12 +1606,16 @@ class TickService
                     $buildingKeyToGenerate = $dominion->getDecreePerkValue('generate_building_' . $landType);
                     if($buildingKeyToGenerate)
                     {
-                        #$this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKeyToGenerate => $barrenLand]);
                         $this->queueService->queueResources('construction', $dominion, [('building_' . $buildingKeyToGenerate) => $barrenLand], 12);
                     }
-                    #dd($buildingKeyToGenerate);
                 }
             }
+        }
+
+        # Handle self-destruct
+        if($buildingsDestroyed = $dominion->tick->buildings_destroyed)
+        {
+            $this->buildingCalculator->removeBuildings($dominion, $buildingsDestroyed);
         }
     }
 

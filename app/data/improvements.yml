@@ -412,7 +412,7 @@ armoury:
 husbandry:
   name: Husbandry
   exclusive_races:
-    - Human
+    - Cires
     - Nomad
   perks:
     horse_production_mod: 45,5000

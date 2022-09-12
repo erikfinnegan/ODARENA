@@ -41,8 +41,8 @@ class BuildingHelper
             'afflicted_unit1_housing' => 'Houses %s Abominations.',
             'aurei_unit1_housing' => 'Houses %s Alchemists.',
             'dwarg_unit1_housing' => 'Houses %s Miners.',
-            'human_unit1_housing' => 'Houses %s Archers.',
-            'human_unit2_housing' => 'Houses %s Spearguards.',
+            'cires_unit1_housing' => 'Houses %s Archers.',
+            'cires_unit2_housing' => 'Houses %s Spearguards.',
             'sacred_order_unit2_housing' => 'Houses %s Clerics.',
             'sacred_order_unit3_housing' => 'Houses %s Fanatics.',
             'sacred_order_unit4_housing' => 'Houses %s Paladins.',
@@ -50,7 +50,6 @@ class BuildingHelper
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
             'vampires_unit1_housing' => 'Houses %s Servants.',
-            'human_unit2_housing' => 'Houses %s Spearguards.',
             'revenants_unit1_housing' => 'Houses %s Lesser Zombies.',
             'revenants_unit2_housing' => 'Houses %s Zombies.',
             'revenants_unit3_housing' => 'Houses %s Greater Zombies.',
@@ -219,6 +218,7 @@ class BuildingHelper
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'construction_time' => 'Construction time decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             
+            'destroys_itself_and_land' => 'Destroys itself and the land it is on after %s ticks.',
 
             # Espionage and Wizardry
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%%.',
@@ -326,6 +326,11 @@ class BuildingHelper
                 $perkValue = [$amount, str_plural($unit->name, $amount)];
                 $nestedArrays = false;
 
+            }
+
+            if($perk->key == 'destroys_itself_and_land')
+            {
+                $perkValue = number_format(1/$perkValue[0]);
             }
 
             # END SPECIAL DESCRIPTION PERKS

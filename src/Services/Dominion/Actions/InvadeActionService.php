@@ -584,7 +584,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local' or request()->getHost() === 'odarena.virtual')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
               $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
@@ -1311,7 +1311,7 @@ class InvadeActionService
     * @param Dominion $target
     * @param array $units
     */
-    protected function handleDuringInvasionUnitPerks(Dominion $attacker, Dominion $target, array $units): void
+    protected function handleDuringInvasionUnitPerks(Dominion $attacker, Dominion $defender, array $units): void
     {
 
         # Only if invasion is successful
@@ -1324,7 +1324,7 @@ class InvadeActionService
                 {
                     $resourceKey = (string)$destroysResourcePerk[0];
                     $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];
-                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['units_sent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
+                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['units_sent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($defender, $resourceKey)));
 
                     if($maxDestroyedBySlot > 0)
                     {
@@ -1337,7 +1337,7 @@ class InvadeActionService
                             $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] = $maxDestroyedBySlot;
                         }
 
-                        $this->resourceService->updateResources($target, [$resourceKey => ($maxDestroyedBySlot * -1)]);
+                        $this->resourceService->updateResources($defender, [$resourceKey => ($maxDestroyedBySlot * -1)]);
                     }
                 }
             }
@@ -1396,17 +1396,17 @@ class InvadeActionService
                     $peasantsBurnedPerUnit = (float)$attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
 
                     # If target has less than 1000 peasants, we don't burn any.
-                    if($target->peasants < 1000)
+                    if($defender->peasants < 1000)
                     {
                         $burnedPeasants = 0;
                     }
                     else
                     {
                         $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit * min($this->invasionResult['result']['op_dp_ratio'], 1);
-                        $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+                        $burnedPeasants = min(($defender->peasants-1000), $burnedPeasants);
                     }
 
-                    $target->peasants -= $burnedPeasants;
+                    $defender->peasants -= $burnedPeasants;
                     $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
                     $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
                 }
@@ -1415,27 +1415,27 @@ class InvadeActionService
                 if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
                 {
 
-                    $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
+                    $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($defender);
 
-                    $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
+                    $defenderImprovements = $this->improvementCalculator->getDominionImprovements($defender);
 
                     $damagingUnits = $units[$unitSlot];
                     $damagePerUnit = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
 
                     $damageMultiplier = 1;
-                    $damageMultiplier += $target->getBuildingPerkMultiplier('lightning_bolt_damage');
+                    $damageMultiplier += $defender->getBuildingPerkMultiplier('lightning_bolt_damage');
 
                     $damage = $damagingUnits * $damagePerUnit * $damageMultiplier;
                     $damage = min($damage, $totalImprovementPoints);
 
                     if($damage > 0)
                     {
-                        foreach($targetImprovements as $targetImprovement)
+                        foreach($defenderImprovements as $defenderImprovement)
                         {
-                            $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
-                            $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
+                            $improvement = Improvement::where('id', $defenderImprovement->improvement_id)->first();
+                            $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($defender, $improvement) / $totalImprovementPoints));
                         }
-                        $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
+                        $this->improvementCalculator->decreaseImprovements($defender, $improvementDamage);
                     }
 
                     $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damage;
@@ -1447,18 +1447,18 @@ class InvadeActionService
                     $eatingUnits = $units[$unitSlot];
                     $peasantsEatenPerUnit = (float)$attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
 
-                    # If target has less than 1000 peasants, we don't eat any.
-                    if($target->peasants < 1000)
+                    # If defender has less than 1000 peasants, we don't eat any.
+                    if($defender->peasants < 1000)
                     {
                         $eatenPeasants = 0;
                     }
                     else
                     {
                         $eatenPeasants = round($eatingUnits * $peasantsEatenPerUnit * min($this->invasionResult['result']['op_dp_ratio'], 1));
-                        $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
+                        $eatenPeasants = min(($defender->peasants-1000), $eatenPeasants);
                     }
 
-                    $target->peasants -= $eatenPeasants;
+                    $defender->peasants -= $eatenPeasants;
                     $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
                     $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
                 }
@@ -1470,9 +1470,9 @@ class InvadeActionService
                     $drafteesEatenPerUnit = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
 
                     $eatenDraftees = round($eatingUnits * $drafteesEatenPerUnit * min($this->invasionResult['result']['op_dp_ratio'], 1));
-                    $eatenDraftees = min($target->military_draftees, $eatenDraftees);
+                    $eatenDraftees = min($defender->military_draftees, $eatenDraftees);
 
-                    $target->military_draftees -= $eatenDraftees;
+                    $defender->military_draftees -= $eatenDraftees;
                     $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenDraftees;
                     $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenDraftees;
                 }
@@ -1483,7 +1483,7 @@ class InvadeActionService
                 {
                     $resourceKey = (string)$destroysResourcePerk[0];
                     $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];
-                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['units_sent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
+                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['units_sent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($defender, $resourceKey)));
 
                     if($maxDestroyedBySlot > 0)
                     {
@@ -1496,27 +1496,38 @@ class InvadeActionService
                             $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] = $maxDestroyedBySlot;
                         }
 
-                        $this->resourceService->updateResources($target, [$resourceKey => ($maxDestroyedBySlot * -1)]);
+                        $this->resourceService->updateResources($defender, [$resourceKey => ($maxDestroyedBySlot * -1)]);
                     }
                 }
             }
         }
 
-        foreach($target->race->units as $unit)
+        # DEFENDER
+
+        foreach($defender->race->resources as $resourceKey)
+        {
+            $defenderResourceAmountExhausted[$resourceKey] = 0;
+        }
+
+        foreach($defender->race->units as $unit)
         {
            # Cires: gunpowder on defense (if attacker is not overwhelmed)
-           if($spendsResourcesOnDefensePerk = $target->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense') and isset($this->invasionResult['defender']['units_defending'][$unit->slot]) and !$this->invasionResult['result']['overwhelmed'])
+           # This sum up to more than the available gunpowder, which is fine, because the DP provided is calculated with the help of militaryCalculator->dpFromUnitWithoutSufficientResources()
+           if($spendsResourcesOnDefensePerk = $defender->race->getUnitPerkValueForUnitSlot($unit->slot, 'spends_resource_on_defense') and isset($this->invasionResult['defender']['units_defending'][$unit->slot]) and !$this->invasionResult['result']['overwhelmed'])
            {
                $resourceKey = (string)$spendsResourcesOnDefensePerk[0];
                $resourceAmountPerUnit = (float)$spendsResourcesOnDefensePerk[1];
-               $resourceAmountOwned = $this->resourceCalculator->getAmount($target, $resourceKey);
+               $resourceUsedByThisUnit = $this->invasionResult['defender']['units_defending'][$unit->slot] * $resourceAmountPerUnit;
 
-               $resourceAmountSpent = min($this->invasionResult['defender']['units_defending'][$unit->slot] * $resourceAmountPerUnit, $resourceAmountOwned);
-
-               isset($this->invasionResult['defender'][$resourceKey . '_exhausted']) ? $this->invasionResult['defender'][$resourceKey . '_exhausted'] += $resourceAmountSpent : $this->invasionResult['defender'][$resourceKey . '_exhausted'] = $resourceAmountSpent;
-
-               $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmountSpent * -1)]);
+               $defenderResourceAmountExhausted[$resourceKey] += $resourceUsedByThisUnit;
            }
+        }
+
+        foreach($defenderResourceAmountExhausted as $resourceKey => $amount)
+        {
+            $amount = min($this->resourceCalculator->getAmount($defender, $resourceKey), $amount);
+            $this->resourceService->updateResources($defender, [$resourceKey => ($amount * -1)]);
+            $this->invasionResult['defender']['resources_spent'][$resourceKey] = $amount;
         }
 
     }

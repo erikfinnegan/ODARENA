@@ -94,29 +94,7 @@ class Tick extends AbstractModel
         'land_forest' => 'integer',
         'land_hill' => 'integer',
         'land_water' => 'integer',
-        /*
-        'building_home' => 'integer',
-        'building_alchemy' => 'integer',
-        'building_farm' => 'integer',
-        'building_smithy' => 'integer',
-        'building_masonry' => 'integer',
-        'building_ore_mine' => 'integer',
-        'building_gryphon_nest' => 'integer',
-        'building_tower' => 'integer',
-        'building_wizard_guild' => 'integer',
-        'building_temple' => 'integer',
-        'building_gem_mine' => 'integer',
-        'building_school' => 'integer',
-        'building_lumberyard' => 'integer',
-        'building_forest_haven' => 'integer',
-        'building_factory' => 'integer',
-        'building_guard_tower' => 'integer',
-        'building_shrine' => 'integer',
-        'building_barracks' => 'integer',
-        'building_dock' => 'integer',
-        */
-
-        # ODA
+        'discounted_land' => 'integer',
         'generated_land' => 'integer',
         'generated_unit1' => 'integer',
         'generated_unit2' => 'integer',
@@ -128,20 +106,22 @@ class Tick extends AbstractModel
         'generated_unit8' => 'integer',
         'generated_unit9' => 'integer',
         'generated_unit10' => 'integer',
-        'resource_champion' => 'integer',
-        'resource_soul' => 'integer',
-        'resource_blood' => 'integer',
-
-
-        'building_tissue' => 'integer',
-        'building_mycelia' => 'integer',
-        'building_ziggurat' => 'integer',
-
-        'peasants_sacrificed' => 'integer',
-        'protection_ticks' => 'integer',
-
         'starvation_casualties' => 'array',
         'pestilence_units' => 'array',
+        'protection_ticks' => 'integer',
+        'peasants_sacrificed' => 'integer',
+        'attrition_unit1' => 'integer',
+        'attrition_unit2' => 'integer',
+        'attrition_unit3' => 'integer',
+        'attrition_unit4' => 'integer',
+        'attrition_unit5' => 'integer',
+        'attrition_unit6' => 'integer',
+        'attrition_unit7' => 'integer',
+        'attrition_unit8' => 'integer',
+        'attrition_unit9' => 'integer',
+        'attrition_unit10' => 'integer',
+        'crypt_bodies_spent' => 'integer',
+        'buildings_destroyed' => 'array',
     ];
 
     protected $guarded = ['id', 'updated_at'];

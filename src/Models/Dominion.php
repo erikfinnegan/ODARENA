@@ -705,8 +705,8 @@ class Dominion extends AbstractModel
                         or $perkKey == 'afflicted_unit1_housing'
                         or $perkKey == 'aurei_unit1_housing'
                         or $perkKey == 'dwarg_unit1_housing'
-                        or $perkKey == 'human_unit1_housing'
-                        or $perkKey == 'human_unit2_housing'
+                        or $perkKey == 'cires_unit1_housing'
+                        or $perkKey == 'cires_unit2_housing'
                         or $perkKey == 'norse_unit1_housing'
                         or $perkKey == 'sacred_order_unit2_housing'
                         or $perkKey == 'sacred_order_unit3_housing'
@@ -1078,6 +1078,23 @@ class Dominion extends AbstractModel
                     {
                         return [$building->pivot->owned * $amount, $slot];
                     }
+                }
+
+                # Building self-destruction
+                elseif($perkKey == 'destroys_itself_and_land')
+                {
+                    $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                    $amountToDestroyPerBuilding = (float)$perkValues[0];
+                    $landTypeToDestroy = (string)$perkValues[1];
+                    $buildingOwned = $building->pivot->owned;
+
+                    $amountToDestroy = $buildingOwned * $amountToDestroyPerBuilding;
+                    $amountToDestroy = intval($amountToDestroy) + (rand()/getrandmax() < fmod($amountToDestroy, 1) ? 1 : 0);
+
+                    $result = ['building_key' => $building->key, 'amount' => $amountToDestroy, 'land_type' => $landTypeToDestroy];
+
+                    return $result;
                 }
 
                 elseif($perkKey !== 'jobs' and $perkKey !== 'housing')

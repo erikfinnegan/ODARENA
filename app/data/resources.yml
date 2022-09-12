@@ -78,7 +78,7 @@ horse:
   buy: null
   sell: 2
   exclusive_races:
-    - Human
+    - Cires
     - Nomad
 
 kelp:

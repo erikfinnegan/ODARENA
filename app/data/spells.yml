@@ -1099,7 +1099,7 @@ call_to_arms:
   duration: 12
   cooldown: 96
   exclusive_races:
-    - Human
+    - Cires
   perks:
     unit_gold_costs: -15
     unit_ore_costs: -15
@@ -1113,7 +1113,7 @@ bregons_call:
   duration: 12
   cooldown: 0
   exclusive_races:
-    - Human
+    - Cires
     - Nomad
   perks:
     defensive_power_from_peasants: 1

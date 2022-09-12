@@ -1,8 +1,9 @@
 name: Cires
 alignment: good
-description: Gunpowder is required for Field Cannons and Arquebusiers to fire on defense. Only units for which there is enough gunpowder are able to defend. Gunpowder is distributed to Arquebusiers first and Field Cannons second. No gunpowder is spent if the invading dominion is overwhelmed.
+description: >-
+  <p>Gunpowder is required for Field Cannons and Arquebusiers to fire on defense. Only units for which there is enough gunpowder are able to defend. Gunpowder is distributed to Arquebusiers first and Field Cannons second. No gunpowder is spent if the invading dominion is overwhelmed.</p>
+  <p>With their spell, Cires can achieve unit training cost reduction greater than 50% (up to 60%).</p>
 home_land_type: plain
-playable: 0
 skill_level: 1
 experimental: 1
 
@@ -20,10 +21,9 @@ perks:
   food_production_mod: 15
   xp_gains: 100
   salvaging: 75
-  construction_cost: -20
-  rezone_cost: -20
-  increased_construction_speed: 4
-  prestige_gains: 20
+  construction_cost: -10
+  rezone_cost: -10
+  increased_construction_speed: 2
 
 units:
   - name: Standard Bearer
@@ -33,12 +33,14 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 340
-      lumber: 15
+      gold: 10000
+      gems: 1000
+      lumber: 10
     power:
       offense: 0
       defense: 2
     perks:
+      sendable_with_zero_op: 1
       increases_land_discovered: 1
       increases_morale_gains: 5
 
@@ -78,20 +80,21 @@ units:
       gold: 800
       ore: 200
     power:
-      offense: 12
-      defense: 7
+      offense: 14
+      defense: 8
     perks:
       spends_resource_on_offense: gunpowder,1
       spends_resource_on_defense: gunpowder,1
+      plunder: gunpowder,1
 
   - name: Field Cannon
     training_time: 12
     type:
       - machine
     cost:
-      gold: 300
-      ore: 250
-      lumber: 250
+      gold: 600
+      ore: 400
+      lumber: 100
     power:
       offense: 20
       defense: 4
@@ -110,8 +113,8 @@ units:
       ore: 25
       horse: 1
     power:
-      offense: 10
-      defense: 6
+      offense: 12
+      defense: 8
     perks:
       casualties_on_offense: -50
       faster_return: 3
@@ -126,7 +129,7 @@ units:
     cost:
       gold: 300
       ore: 250
-      lumber: 250
+      lumber: 80
       horse: 3
     power:
       offense: 12
@@ -135,4 +138,4 @@ units:
       casualties_on_offense: -50
       increases_enemy_casualties_on_offense: 1
       faster_return: 3
-      plunders: gold;4,ore;2,gems;1
+      plunders: gold;12,gems;4

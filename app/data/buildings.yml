@@ -8,7 +8,7 @@ alchemy:
     - Aurei
     - Cult
     - Dark Elf
-    - Human
+    - Cires
   land_type: plain
   perks:
     gold_production_mod: 1,4,20 # Every 1% gives +4% gold production, max +20%
@@ -423,15 +423,6 @@ shipyard:
     unit_lumber_costs: 1,-2,50 # Every 1% gives 2% reduction, max 50%
     unit_ore_costs: 1,-2,50 # Every 1% gives 2% reduction, max 50%
 
-stable:
-  name: Stable
-  exclusive_races:
-    - Human
-  land_type: plain
-  perks:
-    horse_production_raw: 1
-    horse_theft_reduction: 1,8,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
-
 ## Mod Buildings
 
 masonry:
@@ -517,7 +508,7 @@ guard_tower:
   excluded_races:
     - Dragon
     - Growth
-    - Human
+    - Cires
     - Icekin
     - Marshling
     - Glimjir
@@ -556,16 +547,6 @@ gryphon_nest:
 
 # END SNOW ELF
 
-turret:
-  name: Turret
-  exclusive_races:
-    - Human
-  land_type: hill
-  perks:
-    defensive_power: 1,1.8,36 # Every 1% gives 1.5% DP, max +60% DP
-    casualties_on_defense: 1,-1.5,30 # 1% gives -2% max -20%
-    human_unit1_housing: 20
-
 temple:
   name: Temple
   excluded_races:
@@ -593,7 +574,7 @@ tavern:
     - Gnome
     - Goblin
     - Halfling
-    - Human
+    - Cires
     - Kerranad
     - Kobold
     - Norse
@@ -772,21 +753,7 @@ yak_breeder:
   perks:
     yak_production_raw: 1
     food_upkeep_raw: 800
-    
 
-# END ONE-OFF/FEW-OFF FACTION BUILDINGS
-
-# ARTILLERY BUILDINGS
-
-powder_mill:
-  name: Powder Mill
-  enabled: 0
-  exclusive_races:
-    - Human
-  land_type: hill
-  perks:
-    gunpowder_production_raw: 10
-    gunpowder_storage_raw: 2000
 
 armoury:
   name: Armoury
@@ -796,7 +763,51 @@ armoury:
   perks:
     ammunition_units_housing: 100
 
-# END ARTILLERY BUILDINGS
+# END ONE-OFF/FEW-OFF FACTION BUILDINGS
+
+# CIRES BUILDINGS
+
+
+powder_mill:
+  name: Powder Mill
+  exclusive_races:
+    - Cires
+  land_type: hill
+  perks:
+    gunpowder_production_raw: 10
+    gunpowder_storage_raw: 2000
+
+stable:
+  name: Stable
+  exclusive_races:
+    - Cires
+  land_type: plain
+  perks:
+    horse_production_raw: 1
+    horse_theft_reduction: 1,10,100  # Every 1% reduces plat stolen by 10%, max 100% reduction
+
+strip_mine:
+  name: Strip Mine
+  exclusive_races:
+    - Cires
+  land_type: mountain
+  perks:
+    ore_production_raw: 90
+    gems_production_raw: 20
+    housing: 0
+    destroys_itself_and_land: 0.01,mountain # amount per tick, land type
+
+turret:
+  name: Turret
+  exclusive_races:
+    - Cires
+  land_type: hill
+  perks:
+    defensive_power: 1,1.8,36 # Every 1% gives 1.5% DP, max +60% DP
+    casualties_on_defense: 1,-1.5,30 # 1% gives -2% max -20%
+    cires_unit1_housing: 20
+
+# END CIRES BUILDINGS
 
 # VOID BUILDINGS
 
@@ -1679,7 +1690,7 @@ mire:
 residence:
   name: Residence
   exclusive_races:
-    - Human
+    - Cires
     - Kerranad
   land_type: plain
   perks:
