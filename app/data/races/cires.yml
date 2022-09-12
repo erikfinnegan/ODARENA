@@ -5,6 +5,7 @@ description: >-
   <p>With their spell, Cires can achieve unit training cost reduction greater than 50% (up to 60%).</p>
 home_land_type: plain
 skill_level: 1
+playable: 1
 experimental: 1
 
 resources:
@@ -80,7 +81,7 @@ units:
       gold: 800
       ore: 200
     power:
-      offense: 14
+      offense: 15
       defense: 8
     perks:
       spends_resource_on_offense: gunpowder,1
