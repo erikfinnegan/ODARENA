@@ -218,7 +218,7 @@ class BuildingHelper
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'construction_time' => 'Construction time decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             
-            'destroys_itself_and_land' => 'Destroys itself and the land it is on after %s ticks.',
+            'destroys_itself_and_land' => '%s collapse per tick and the land is lost.',
 
             # Espionage and Wizardry
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%%.',
@@ -330,7 +330,8 @@ class BuildingHelper
 
             if($perk->key == 'destroys_itself_and_land')
             {
-                $perkValue = number_format(1/$perkValue[0]);
+                $perkValue = number_format($perkValue[0]);
+                #$perkValue = number_format(1/$perkValue[0]);
             }
 
             # END SPECIAL DESCRIPTION PERKS
