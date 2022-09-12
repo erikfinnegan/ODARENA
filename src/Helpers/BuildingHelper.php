@@ -330,7 +330,7 @@ class BuildingHelper
 
             if($perk->key == 'destroys_itself_and_land')
             {
-                $perkValue = number_format($perkValue[0]);
+                $perkValue = $perkValue[0];
                 #$perkValue = number_format(1/$perkValue[0]);
             }
 

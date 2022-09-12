@@ -41,6 +41,7 @@ units:
       offense: 0
       defense: 2
     perks:
+      net_victories_limit: 1,1
       sendable_with_zero_op: 1
       increases_land_discovered: 1
       increases_morale_gains: 5
@@ -78,8 +79,8 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 800
-      ore: 200
+      gold: 1500
+      ore: 300
     power:
       offense: 15
       defense: 8
@@ -93,9 +94,9 @@ units:
     type:
       - machine
     cost:
-      gold: 600
-      ore: 400
-      lumber: 100
+      gold: 1250
+      ore: 700
+      lumber: 250
     power:
       offense: 22
       defense: 4
@@ -110,8 +111,8 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 780
-      ore: 25
+      gold: 1350
+      ore: 100
       horse: 1
     power:
       offense: 12
@@ -129,7 +130,7 @@ units:
       - intelligent
     cost:
       gold: 300
-      ore: 250
+      ore: 175
       lumber: 80
       horse: 3
     power:

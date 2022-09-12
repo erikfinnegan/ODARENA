@@ -70,7 +70,7 @@ gunpowder:
   name: Gunpowder
   description: Made from carefully following a Gnomish recipe, used to launch projectiles across vast distances at fantastic speed. Handle with care.
   buy: null
-  sell: 10
+  sell: 2
 
 horse:
   name: Horse

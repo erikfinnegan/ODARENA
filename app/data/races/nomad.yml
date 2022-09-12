@@ -79,7 +79,7 @@ units:
       offense: 6
       defense: 3
 
-  - name: Heavy Cavalry
+  - name: Armoured Cavalry
     training_time: 12
     type:
       - living

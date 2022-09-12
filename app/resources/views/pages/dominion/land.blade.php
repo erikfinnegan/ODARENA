@@ -110,7 +110,7 @@
                                     <tr>
                                         <td><em>Total</em></td>
                                         <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
-                                        <td class="text-center"><em>{{ number_format(array_sum($barrenLand)) }}</em></td>
+                                        <td class="text-center"><em>{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }}</em></td>
                                         <td colspan="2">
                                             @if ((bool)$selectedDominion->race->getPerkValue('cannot_rezone'))
                                                 <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot rezone</span>
