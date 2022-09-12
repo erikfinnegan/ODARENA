@@ -29,7 +29,7 @@ class RaceHelper
         $booleanValue = false;
         switch($perkType->key) {
             case 'defensive_power':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Defensive power';
                 break;
             case 'construction_cost':
