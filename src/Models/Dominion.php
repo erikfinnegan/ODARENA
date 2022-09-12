@@ -1090,7 +1090,7 @@ class Dominion extends AbstractModel
                     $buildingOwned = $building->pivot->owned;
 
                     $amountToDestroy = $buildingOwned * $amountToDestroyPerBuilding;
-                    $amountToDestroy = intval($amountToDestroy) + (rand()/getrandmax() < fmod($amountToDestroy, 1) ? 1 : 0);
+                    $amountToDestroy = floor($amountToDestroy);# + (rand()/getrandmax() < fmod($amountToDestroy, 1) ? 1 : 0);
 
                     $result = ['building_key' => $building->key, 'amount' => $amountToDestroy, 'land_type' => $landTypeToDestroy];
 

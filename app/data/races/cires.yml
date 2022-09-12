@@ -97,7 +97,7 @@ units:
       ore: 400
       lumber: 100
     power:
-      offense: 20
+      offense: 22
       defense: 4
     perks:
       spends_resource_on_offense: gunpowder,1
