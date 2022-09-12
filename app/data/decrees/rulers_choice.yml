@@ -1,0 +1,21 @@
+name: Ruler\'s Choice
+cooldown: 96
+description: Azk\'Hurum grants you the permission to slaughter freely or limit the search to the nearest foes.
+excluded_races:
+  - Growth
+states:
+  - name: Judgement For All
+    perks:
+      range_multiplier: 0.40
+
+  - name: Culling
+    perks:
+      range_multiplier: 0.60
+
+  - name: Grandiose Dismemberments
+    perks:
+      range_multiplier: 0.75
+
+  - name: On The Prowl 
+    perks:
+      range_multiplier: 0.85

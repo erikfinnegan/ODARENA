@@ -49,6 +49,8 @@ class DecreeHelper
             # Deity
             'deity_power' => '%s%% deity perks.',
 
+            'range_multiplier' => '%s x range multiplier.',
+
             # Military
             'offensive_casualties' => '%s%% casualties on offense.',
             'defensive_casualties' => '%s%% casualties on defense.',
