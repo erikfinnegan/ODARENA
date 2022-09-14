@@ -77,10 +77,10 @@ units:
       mana: 220
     power:
       offense: 0
-      defense: 5
+      defense: 6
     perks:
       mana_production_raw: 1
-      defense_per_tick: 0.003
+      defense_per_tick: 0.0015
       counts_as_wizard_defense: 0.10
 
   - name: Distortion
@@ -94,7 +94,7 @@ units:
     cost:
       mana: 500
     power:
-      offense: 5
+      offense: 6
       defense: 4.5
     perks:
-      offense_per_tick: 0.003
+      offense_per_tick: 0.0015
